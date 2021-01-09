@@ -11,7 +11,8 @@ import com.canvus.app.vo.UserVO;
 @Repository
 public class UserDAO {
 	@Autowired
-	SqlSession session;
+	private SqlSession session;
+	
 	private static final Logger logger = LoggerFactory.getLogger(UserDAO.class);
 	
 	/**

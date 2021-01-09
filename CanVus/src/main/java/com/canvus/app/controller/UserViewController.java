@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.context.request.SessionScope;
 
 import com.canvus.app.service.social.UserService;
 import com.canvus.app.vo.UserVO;
@@ -32,7 +31,7 @@ public class UserViewController {
 	
 	@RequestMapping(value="/loginProcess", method=RequestMethod.POST)
 	public String loginProcess(UserVO vo, HttpSession session, Model model) {
-		logger.info("요오오오시 이케루");
+		logger.info("로그인 프로세스 진입");
 
 		String id = null;
 		String idToken = vo.getIdToken();
@@ -41,6 +40,7 @@ public class UserViewController {
 		id = service.login(idToken);
 		
 		if (id == null) {// 로그인 시도결과 로그인이 아닌 경우 -> 회원가입
+			logger.info("회원이 아님 회원가입 프로세스 진행");
 			model.addAttribute("idToken", idToken);
 			url = "/user/signup";
 		} else {// 로그인인 경우
@@ -58,7 +58,7 @@ public class UserViewController {
 		
 		if (vo != null) { // 회원가입 완료 validation check
 			session.setAttribute("userId", vo.getId());
-			url = "/user/main";
+			url = "main";
 		} else { // 회원가입 실패
 			session.removeAttribute("userId");
 		}

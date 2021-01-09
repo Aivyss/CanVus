@@ -12,4 +12,5 @@ public class UserVO {
 	private String idToken;
 	private String nickname;
 	private int pixel;
+	private String introduction;
 }
