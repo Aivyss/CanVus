@@ -98,14 +98,14 @@
                                             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                                                 <li role="presentation"><a role="menuitem" tabindex="-1"
                                                         href="/board">My board</a></li>
-                                                <li role="/user/bookmarks"><a role="menuitem" tabindex="-1"
-                                                        href="#">BookMarks</a></li>
-                                                <li role="/user/pixelManagement"><a role="menuitem" tabindex="-1"
-                                                        href="#">Px: 500</a></li>
-                                                <li role="/user/settings"><a role="menuitem" tabindex="-1"
-                                                        href="#">Settings</a></li>
-                                                <li role="/logout"><a role="menuitem" tabindex="-1"
-                                                        href="#">Logout</a></li>
+                                                <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                        href="/user/bookmarks">BookMarks</a></li>
+                                                <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                        href="/user/pixelManagement">Px: 500</a></li>
+                                                <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                        href="/user/settings">Settings</a></li>
+                                                <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                        href="/logout">Logout</a></li>
                                             </ul>
                                         </div>
                                     </li>
