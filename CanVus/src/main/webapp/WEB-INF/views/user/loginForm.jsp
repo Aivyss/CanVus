@@ -8,6 +8,7 @@
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
+  <a href="http://localhost:3000/auth/GOOGLE">구글 아이디로 로그인</a>
   <div id="my-signin2"></div>
   <script>
     function onSuccess(googleUser) {
@@ -21,7 +22,7 @@
     function renderButton() {
       gapi.signin2.render('my-signin2', {
         'scope': 'profile email',
-        'width': 150,
+        'width': 300,
         'height': 100,
         'longtitle': true,
         'theme': 'dark',

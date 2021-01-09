@@ -87,6 +87,6 @@ public class OauthController {
 			logger.info(userId);
 		}
 		
-		return "redirect:home";
+		return "home";
 	}
 }
