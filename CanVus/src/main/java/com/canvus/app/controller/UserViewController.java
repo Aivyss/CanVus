@@ -64,4 +64,31 @@ public class UserViewController {
 		
 		return "home";
 	}
+	
+	@RequestMapping(value="/bookmarks", method=RequestMethod.GET)
+	public String bookmarks() {
+		logger.info("bookmark로 이동");
+		
+		return "user/bookmarks";
+	}
+	
+	@RequestMapping(value="/pixelManagement", method=RequestMethod.GET)
+	public String pixelManagement() {
+		logger.info("pixel management로 이동");
+		
+		return "user/pixelManagement";
+	}
+	
+	@RequestMapping(value="/settings", method=RequestMethod.GET)
+	public String settings() {
+		logger.info("settings로 이동");
+		
+		return "user/settings";
+	}
+	
+	@RequestMapping(value="/logout", method=RequestMethod.GET)
+	public String logout() {
+		
+		return "redirect:/";
+	}
 }

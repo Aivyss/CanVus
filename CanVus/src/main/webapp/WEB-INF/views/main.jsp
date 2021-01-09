@@ -84,10 +84,10 @@
                                 <ul class="nav navbar-nav navbar-right main_menu">
                                     <li class="active"><a href="#header">Home <span class="sr-only">(current)</span></a>
                                     </li>
-                                    <li><a href="#welcome">Discovery</a></li>
-                                    <li><a href="#portfolio">Notification</a></li>
-                                    <li><a href="#counter">Share</a></li>
-                                    <li><a href="#event">Drawing</a></li>
+                                    <li><a href="/discovery">Discovery</a></li>
+                                    <li><a href="">Notification</a></li>
+                                    <li><a href="">Share</a></li>
+                                    <li><a href="">Drawing</a></li>
                                     <li>
                                         <div class="dropdown">
                                             <button class="btn btn-default dropdown-toggle" type="button"
@@ -97,14 +97,14 @@
                                             </button>
                                             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                                                 <li role="presentation"><a role="menuitem" tabindex="-1"
-                                                        href="#">My board</a></li>
-                                                <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                        href="/board">My board</a></li>
+                                                <li role="/user/bookmarks"><a role="menuitem" tabindex="-1"
                                                         href="#">BookMarks</a></li>
-                                                <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                <li role="/user/pixelManagement"><a role="menuitem" tabindex="-1"
                                                         href="#">Px: 500</a></li>
-                                                <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                <li role="/user/settings"><a role="menuitem" tabindex="-1"
                                                         href="#">Settings</a></li>
-                                                <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                <li role="/logout"><a role="menuitem" tabindex="-1"
                                                         href="#">Logout</a></li>
                                             </ul>
                                         </div>
