@@ -13,7 +13,7 @@ tmp/
 local.properties
 .settings/
 .loadpath
-.recommenders
+.recommenderss
 root-context.xml
 Servers/
 *.properties
@@ -53,6 +53,7 @@ Servers/
 
 # STS (Spring Tool Suite)
 .springBeans
+*.MF
 
 # Code Recommenders
 .recommenders/
