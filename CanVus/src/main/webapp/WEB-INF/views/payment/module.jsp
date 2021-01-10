@@ -29,15 +29,14 @@
 	 		const pay_method = 'card'; // 결제종류
 			var merchant_uid = '';
 	 		const name = productName; // 상품명
-	 		const amount = 1; // 가격(원)
+	 		var amount = '100'; // 가격(원)
 			const buyer_email = 'hklee6417@gmail.com';
 			const buyer_name = '이한결';
 			const buyer_tel = '010-6664-7104';
 			const buyer_addr = '화성시 능동 동탄숲속로96';
 			const buyer_postcode = '18430';
 			const m_redirect_url = 'main';
-			const pixel = productName.split(":")[1];
-			var date = '';
+			var merchant_uid_parsed = '';
 
 			$('input[name=pixelOption]').click(function(){
 				productName = $('input[name=pixelOption]:checked').val();
@@ -48,13 +47,13 @@
 			function requestPay() {
 				console.log('start payment');
 
-				date = new Date().format('yyyy-MM-dd HH');
-				merchant_uid = {'merchant_uid': userId + "+" + productName + "+" + date}
+				merchant_uid = {'merchant_uid': userId + "+" + productName + "+" + new Date().getTime()}
 
 				$.ajax({ // merchant_uid 파싱
 					url : '/payment/parseMerchantUid',
 					type: "POST",
 					dataType: "json",
+					async: false, // 이항목을 넣지 않으면 비동기식으로 코드 절차를 따라가지 않는다. 
 					contentType: "application/json", 
 					data : JSON.stringify(merchant_uid),
 					success : function(result) {
@@ -69,7 +68,7 @@
 				IMP.request_pay({
 					pg: "html5_inicis",
 					pay_method: pay_method,
-					merchant_uid: merchant_uid,
+					merchant_uid: merchant_uid_parsed,
 					name: productName,
 					amount: amount,
 					buyer_email: buyer_email,
@@ -79,26 +78,27 @@
 					buyer_postcode: buyer_postcode
 				}, function(rsp) {
 					if ( rsp.success ) {
-						pixel = productName.split(':')[1];
+						const pixel = productName.split(':')[1];
 						console.log(pixel);
-						console.log(merchant_uid_parsed);
 
 						const paymentData = {
-							'imp_uid': '고유아이디', // 고유 ID
-							'merchant_uid': merchant_uid_parsed, // 상점거래 ID
-							'paid_amount': amount, // 결제 금액
-							'apply_num': '카드승인번호', // 카드 승인번호
+							'imp_uid': rsp.imp_uid, // 고유 ID
+							'merchant_uid': rsp.merchant_uid, // 상점거래 ID
+							'paid_amount': rsp.paid_amount, // 결제 금액
+							'apply_num': rsp.apply_num, // 카드 승인번호
 							'user_id': userId, // 거래한 유저 아이디
 							'pixel': pixel, // 구입한 pixel 양
-							'date': date // 구매시각
+							'date': rsp.paid_at // 구매시각
 						}
 
 						$.ajax({ // 결제 내역 전송
 							url : '/payment/paymentSubmit',
 							type: "POST",
-							data : paymentData,
+							dataType: "json",
+							contentType: "application/json", 
+							data : JSON.stringify(paymentData),
 							success : function(result) {
-								console.log(result);
+								console.log(result['result']);
 							}, error: function() {
 								console.log("결제실패");
 							}

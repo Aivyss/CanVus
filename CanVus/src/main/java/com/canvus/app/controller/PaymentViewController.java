@@ -46,32 +46,36 @@ public class PaymentViewController {
 	
 	@RequestMapping(value="/parseMerchantUid")
 	@ResponseBody
-	public Map<String, String> parseMerchantUid(@RequestBody Map<String, Object> params) {
+	public Map<String, String> parseMerchantUid(@RequestBody Map<String, String> params) {
 		logger.info("파싱 과정 진입");
-		logger.info((String) params.get("merchant_uid"));
 
 		Map<String, String> output = new HashMap<String, String>();
 		output.put("merchant_uid", service.merchantUidParse(params));
+		logger.info(output.get("merchant_uid"));
 		
 		return output;
 	}
 	
 	@RequestMapping(value="/paymentSubmit")
 	@ResponseBody
-	public String paymentSubmit(HttpServletRequest request) {
+	public Map<String, String> paymentSubmit(@RequestBody Map<String, String> params) {
 		logger.info("결제 승인과정");
-		String result = "결제실패";
 		
-		boolean check = service.paymentSubmit(request);
+		String result = "결제실패";
+		Map<String, String> output = new HashMap<String, String>();
+		
+		boolean check = service.paymentSubmit(params);
 		
 		if (check) {
 			result = "결제 성공";
+			output.put("result", result);
 			logger.info(result);
 		} else {
+			output.put("result", result);
 			logger.info(result);
 		}
 		
-		return result;
+		return output;
 	}
 	
 	@RequestMapping(value="paymentBackEndTest", method=RequestMethod.GET)
