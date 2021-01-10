@@ -11,5 +11,5 @@ public class BillVO {
 	private String apply_num;
 	private String user_id;
 	private int pixel;
-	private String date;
+	private String billDate;
 }

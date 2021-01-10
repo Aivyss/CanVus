@@ -22,7 +22,7 @@
 		,#{apply_num}
 		,#{paid_amount}
 		,#{pixel}
-		,to_date(#{date}, 'yyyy-MM-dd hh24')
+		,to_date(#{billDate}, 'yyyy-MM-dd hh24')
 		,#{user_id}
 	)
 

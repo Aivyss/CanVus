@@ -167,12 +167,28 @@
 			<classifier>jdk15</classifier>
 		</dependency>
 		
-		<!-- jackson -->
+		<!-- jackson 설정시작 -->
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+		    <artifactId>jackson-core-asl</artifactId>
+		    <version>1.9.2</version>
+		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
-    		<artifactId>jackson-databind</artifactId>
-		    <version>2.1.1</version>
+			<artifactId>jackson-core</artifactId>
+		   	<version>2.5.1</version>
 		</dependency>
+		<dependency>
+		 <groupId>com.fasterxml.jackson.core</groupId>
+		   	<artifactId>jackson-annotations</artifactId>
+		   	<version>2.5.1</version>
+		</dependency>
+		   	<dependency>
+		   	<groupId>com.fasterxml.jackson.core</groupId>
+		   	<artifactId>jackson-databind</artifactId>
+		   	<version>2.5.1</version>
+		</dependency>
+		<!-- jackson 설정끝 -->
 		
 		<!-- Google Oath 2.0 API -->
 		<dependency>

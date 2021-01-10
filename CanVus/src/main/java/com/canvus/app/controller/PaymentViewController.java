@@ -46,10 +46,14 @@ public class PaymentViewController {
 	
 	@RequestMapping(value="/parseMerchantUid")
 	@ResponseBody
-	public String parseMerchantUid(HttpServletRequest request) {
+	public Map<String, String> parseMerchantUid(@RequestBody Map<String, Object> params) {
 		logger.info("파싱 과정 진입");
+		logger.info((String) params.get("merchant_uid"));
+
+		Map<String, String> output = new HashMap<String, String>();
+		output.put("merchant_uid", service.merchantUidParse(params));
 		
-		return service.merchantUidParse(request);
+		return output;
 	}
 	
 	@RequestMapping(value="/paymentSubmit")

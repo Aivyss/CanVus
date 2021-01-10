@@ -30,10 +30,10 @@ public class PaymentService {
 	 * @param request
 	 * @return ccryptonized merchant uid
 	 */
-	public String merchantUidParse(HttpServletRequest request) {
+	public String merchantUidParse(Map<String, Object> params) {
 		logger.info("서비스파트 머천트 uid 파싱");
 		// 원본데이터: 유저아이디+상품명+2020-01-10 hh:mm
-		return encoder.encode(request.getParameter("merchant_uid"));
+		return encoder.encode((String) params.get("merchant_uid"));
 	}
 	
 	/**
@@ -53,14 +53,15 @@ public class PaymentService {
 		vo.setPaid_amount(Integer.parseInt(request.getParameter("paid_amount")));
 		vo.setPixel(Integer.parseInt(request.getParameter("pixel")));
 		vo.setUser_id(request.getParameter("user_id"));
-		vo.setDate(request.getParameter("date"));
+		vo.setBillDate(request.getParameter("date"));
 		
 		logger.info(vo.getImp_uid());
 		logger.info(vo.getMerchant_uid());
+		logger.info(vo.getApply_num());
 		logger.info(String.valueOf(vo.getPaid_amount()));
 		logger.info(String.valueOf(vo.getPixel()));
 		logger.info(vo.getUser_id());
-		logger.info(vo.getDate());
+		logger.info(vo.getBillDate());
 		
 		return dao.paymentSubmit(vo);
 	}

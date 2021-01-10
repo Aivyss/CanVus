@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans:beans xmlns="http://www.springframework.org/schema/mvc"
-	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
@@ -22,13 +21,6 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<!-- start of messageConvertert -->
-	<beans:bean class="org.springframework.http.converter.StringHttpMessageConverter">
-		<beans:property name="supportedMediaTypes" value="text/html; charset=UTF-8" />
-    </beans:bean>
-    <beans:bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-		<beans:property name="supportedMediaTypes" value="application/json; charset=UTF-8" />
-	</beans:bean>
-	<!-- end of messageConvertert -->
+	<context:component-scan base-package="com.canvus.app" />
 
 </beans:beans>

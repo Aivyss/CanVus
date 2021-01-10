@@ -13,6 +13,7 @@
 	<body>
 		<h1>페이먼트 백앤드 테스트</h1>
 		<input type="button" onclick="requestPay();" value="결제하기"><br>
+		<input type="button" onclick="requestPay2();" value="결제하기2"><br>
 		pixel: 100 <input type="radio" value="pixel:100" name="pixelOption"> <br>
 		pixel: 500 <input type="radio" value="pixel:500" name="pixelOption"> <br>
 		pixel: 1k  <input type="radio" value="pixel:1000" name="pixelOption"><br>
@@ -54,9 +55,11 @@
 				$.ajax({ // merchant_uid 파싱
 					url : '/payment/parseMerchantUid',
 					type: "POST",
-					data : merchant_uid,
+					dataType: "json",
+					contentType: "application/json", 
+					data : JSON.stringify(merchant_uid),
 					success : function(result) {
-						merchant_uid_parsed = result;
+						merchant_uid_parsed = result['merchant_uid'];
 						console.log(merchant_uid_parsed);
 					},
 					error: function() {
@@ -64,6 +67,9 @@
 					}
 				});
 
+			}
+
+			function requestPay2() {
 				pixel = productName.split(':')[1];
 				console.log(pixel);
 				console.log(merchant_uid_parsed);
@@ -89,6 +95,7 @@
 					}
 				});
 			}
+
 
 		</script>		
 	</body>

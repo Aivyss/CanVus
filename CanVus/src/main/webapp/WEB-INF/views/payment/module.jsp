@@ -8,6 +8,7 @@
 		<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js" ></script>
 		<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 		<script src="/resources/js/dateFormat.js"></script>
+		<script src="/resources/js/dateFormat.js"></script>
 	</head>
 	<body>
 		<h1>결제모듈 삽입테스트</h1>
@@ -42,20 +43,23 @@
 				productName = $('input[name=pixelOption]:checked').val();
 				console.log(productName);
 			});
+			
 
 			function requestPay() {
 				console.log('start payment');
 
-				date = new Date().format('yyyy-MM-dd HH:mm');
+				date = new Date().format('yyyy-MM-dd HH');
 				merchant_uid = {'merchant_uid': userId + "+" + productName + "+" + date}
 
 				$.ajax({ // merchant_uid 파싱
 					url : '/payment/parseMerchantUid',
 					type: "POST",
-					data : merchant_uid,
+					dataType: "json",
+					contentType: "application/json", 
+					data : JSON.stringify(merchant_uid),
 					success : function(result) {
-						merchant_uid = result;
-						console.log(merchant_uid);
+						merchant_uid_parsed = result['merchant_uid'];
+						console.log(merchant_uid_parsed);
 					},
 					error: function() {
 						console.log("merhcant uid 파싱에러");
@@ -75,16 +79,20 @@
 					buyer_postcode: buyer_postcode
 				}, function(rsp) {
 					if ( rsp.success ) {
+						pixel = productName.split(':')[1];
+						console.log(pixel);
+						console.log(merchant_uid_parsed);
+
 						const paymentData = {
-							'imp_uid': rsp.imp_uid, // 고유 ID
-							'merchant_uid': rsp.merchant_uid, // 상점거래 ID
-							'paid_amount': rsp.paid_amount, // 결제 금액
-							'apply_num': rsp.apply_num, // 카드 승인번호
+							'imp_uid': '고유아이디', // 고유 ID
+							'merchant_uid': merchant_uid_parsed, // 상점거래 ID
+							'paid_amount': amount, // 결제 금액
+							'apply_num': '카드승인번호', // 카드 승인번호
 							'user_id': userId, // 거래한 유저 아이디
 							'pixel': pixel, // 구입한 pixel 양
 							'date': date // 구매시각
 						}
-						
+
 						$.ajax({ // 결제 내역 전송
 							url : '/payment/paymentSubmit',
 							type: "POST",
@@ -105,7 +113,6 @@
 					alert(msg);
 				});
 			}
-
 		</script>		
 	</body>
 </html>
