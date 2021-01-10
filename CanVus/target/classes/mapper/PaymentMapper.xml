@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.canvus.app.dao.mapper.PaymentMapper">
+
+<insert id="paymentSubmit" parameterType="bill">
+	insert into canvuspayment (
+		bill_num
+		,imp_uid
+		,merchant_uid
+		,apply_num
+		,paid_amount
+		,pixel
+		,billdate
+		,user_id
+	) values (
+		bill_seq.nextval
+		,#{imp_uid}
+		,#{merchant_uid}
+		,#{apply_num}
+		,#{paid_amount}
+		,#{pixel}
+		,to_date(#{date}, 'yyyy-MM-dd hh24')
+		,#{user_id}
+	)
+
+</insert>
+
+
+</mapper>

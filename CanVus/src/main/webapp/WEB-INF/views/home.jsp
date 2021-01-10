@@ -42,6 +42,7 @@
 			<li><a href="/user/loginForm">로그인 창으로 이동</a></li>
 			<li><a href="/search/imageSearch">이미지 서칭</a></li>
 			<li><a href="main">메인이동</a></li>
+			<li><a href="/payment/paymentBackEndTest">페이먼트 백앤드 테스트</a></li>
 		</ul>
 				
 				

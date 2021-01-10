@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.canvus.app.dao.userMapper">
+<mapper namespace="com.canvus.app.dao.mapper.userMapper">
 
 <select id="login" parameterType="string" resultType="string">
 	select

@@ -1,4 +1,4 @@
-package com.canvus.app.dao;
+package com.canvus.app.dao.mapper;
 
 import com.canvus.app.vo.UserVO;
 

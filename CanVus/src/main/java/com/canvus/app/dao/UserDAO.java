@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.canvus.app.dao.mapper.userMapper;
 import com.canvus.app.vo.UserVO;
 
 @Repository
