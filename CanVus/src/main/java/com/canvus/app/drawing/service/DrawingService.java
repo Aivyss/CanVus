@@ -27,7 +27,7 @@ public class DrawingService {
 		DrawingRoomVO dbData = drawingDAO.enterRoom(drawingRoom.getRoomId());
 		boolean check = false;
 		
-		if (dbData.getRoomId().equals(drawingRoom)) {
+		if (dbData.getRoomId().equals(drawingRoom.getRoomId())) {
 			if (dbData.getPassword().equals(drawingRoom.getPassword())) {
 				check = true;
 			}
