@@ -50,7 +50,7 @@ public class UserService {
 		vo.setFamily_name((String) payload.get("family_name"));
 		vo.setGiven_name((String) payload.get("given_name"));
 		vo.setProfile_photo((String) payload.get("picture"));
-		vo.setUser_id(payload.getSubject());
+		vo.setUser_id((String) payload.getSubject());
 		
 		boolean check = dao.signup(vo);
 		

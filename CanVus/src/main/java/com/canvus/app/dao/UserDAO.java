@@ -49,7 +49,7 @@ public class UserDAO {
 			UserMapper mapper = session.getMapper(UserMapper.class);
 			check = mapper.signup(vo);
 		} catch (Exception e) {
-			logger.info("SQL 로그인 오류");
+			logger.info("SQL 회원가입 오류");
 		}
 		
 		return check;

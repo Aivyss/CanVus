@@ -1,14 +1,20 @@
 -- 유저 테이블
+drop table users;
+drop table feeds;
+drop table tags;
+drop table tags_in_feed;
+
 create table USERS (  
-    USER_ID number not null constraint users_pk primary key,  
+    USER_ID varchar2(50) primary key,  
     NICKNAME varchar2(50) not null,  
     SIGN_IN_DATE date default sysdate,  
     PROFILE_PHOTO varchar2(1000) not null,  
     EMAIL varchar2(500) NOT NULL,  
-    LAST_NAME varchar2(50),    
-    FIRST_NAME varchar2(50),
-    PIXELS number default 0,  
-    ACCUMULATEDPIXELS varchar2(4000) default 0
+    FAMILY_NAME varchar2(50),    
+    GIVEN_NAME varchar2(50),
+    PIXELS number default 0,
+    ACCUMULATEDPIXELS number default 0,
+    INTRODUCTION varchar2(4000)
 );
 alter table USERS add constraint users_nickname_uq unique (NICKNAME);
 alter table USERS add constraint users_profile_photo_uq unique (PROFILE_PHOTO);
@@ -17,10 +23,10 @@ alter table USERS add constraint users_email_uq unique (EMAIL);
 -- 피드 테이블
 CREATE TABLE FEEDS(
 	FEED_ID NUMBER PRIMARY KEY 
-	,USER_ID1 NUMBER NOT NULL
-	,USER_ID2 NUMBER
-	,USER_ID3 NUMBER
-	,USER_ID4 NUMBER
+	,USER_ID1 VARCHAR2(50) NOT NULL
+	,USER_ID2 VARCHAR2(50)
+	,USER_ID3 VARCHAR2(50)
+	,USER_ID4 VARCHAR2(50)
 	,CONTEXT VARCHAR2(4000) NOT NULL
 	,INPUTDATE DATE DEFAULT SYSDATE
 );
