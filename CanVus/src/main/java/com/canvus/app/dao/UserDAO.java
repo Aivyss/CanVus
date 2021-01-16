@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.canvus.app.dao.mapper.userMapper;
+import com.canvus.app.dao.mapper.UserMapper;
 import com.canvus.app.vo.UserVO;
 
 @Repository
@@ -27,7 +27,7 @@ public class UserDAO {
 		String dbId = null;
 		
 		try {
-			userMapper mapper = session.getMapper(userMapper.class);
+			UserMapper mapper = session.getMapper(UserMapper.class);
 			dbId = mapper.login(id);
 		} catch (Exception e) {
 			logger.info("SQL 로그인 오류");
@@ -46,7 +46,7 @@ public class UserDAO {
 		boolean check = false;
 		
 		try {
-			userMapper mapper = session.getMapper(userMapper.class);
+			UserMapper mapper = session.getMapper(UserMapper.class);
 			check = mapper.signup(vo);
 		} catch (Exception e) {
 			logger.info("SQL 로그인 오류");

@@ -11,7 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.canvus.app.service.social.UserService;
+import com.canvus.app.service.UserService;
 import com.canvus.app.vo.UserVO;
 
 @Controller
@@ -45,7 +45,7 @@ public class UserViewController {
 			url = "/user/signup";
 		} else {// 로그인인 경우
 			session.setAttribute("userId", id);
-			url = "main";
+			url = "redirect:/main";
 		}
 		
 		return url;
@@ -54,11 +54,11 @@ public class UserViewController {
 	@RequestMapping(value="/signupSubmit", method=RequestMethod.POST)
 	public String signupSubmit(UserVO vo, HttpSession session) {
 		vo = service.signup(vo);
-		String url = "/user/signupFail";
+		String url = "redirect:/";
 		
 		if (vo != null) { // 회원가입 완료 validation check
-			session.setAttribute("userId", vo.getId());
-			url = "main";
+			session.setAttribute("userId", vo.getUser_id());
+			url = "redirect:/main";
 		} else { // 회원가입 실패
 			session.removeAttribute("userId");
 		}

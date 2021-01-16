@@ -1,4 +1,4 @@
-package com.canvus.app.service.payment;
+package com.canvus.app.service;
 
 import java.util.HashMap;
 import java.util.Map;

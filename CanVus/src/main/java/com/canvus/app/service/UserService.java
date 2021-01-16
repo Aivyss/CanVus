@@ -1,4 +1,4 @@
-package com.canvus.app.service.social;
+package com.canvus.app.service;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -43,15 +43,14 @@ public class UserService {
 		logger.info("회원가입 서비스 진입");
 		
 		UserVO output = null;
-		
 		Payload payload = loginSignuplogic(vo.getIdToken());
 		
 		// 정보를 payload로부터 추가, 닉네임은 프론트로부터 받아왔다.
 		vo.setEmail(payload.getEmail());
 		vo.setFamily_name((String) payload.get("family_name"));
 		vo.setGiven_name((String) payload.get("given_name"));
-		vo.setProfile_url((String) payload.get("picture"));
-		vo.setId(payload.getSubject());
+		vo.setProfile_photo((String) payload.get("picture"));
+		vo.setUser_id(payload.getSubject());
 		
 		boolean check = dao.signup(vo);
 		

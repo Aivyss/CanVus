@@ -3,27 +3,18 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.canvus.app.dao.mapper.userMapper">
-
-<select id="login" parameterType="string" resultType="string">
-	select
-		id
-	from
-		canvusUser
-	where
-		id = #{id}
-</select>
-
+<mapper namespace="com.canvus.app.dao.mapper.UserMapper">
+<!-- 회원등록을 위한 인서트문 -->
 <insert id="signup" parameterType="user">
-	insert into canvusUser(
-	    id
-	    ,given_name
-	    ,family_name
-	    ,profile_url
-	    ,email
-	    ,nickname
-	    ,pixel
-	    ,introduction
+	INSERT INTO USERS(
+	    USER_ID
+	    ,GIVEN_NAME
+	    ,FAMILY_NAME
+	    ,PROFILE_PHOTO
+	    ,EMAIL
+	    ,NICKNAME
+	    ,PIXEL
+	    ,INTRODUCTION
 	) values (
 	    #{id}
 	    ,#{given_name}
@@ -35,6 +26,31 @@
 	    ,#{introduction}
 	)
 </insert>
+
+<!-- 로그인을 수행하기 위한 셀렉트문 -->
+<select id="login" parameterType="string" resultType="string">
+	select
+		id
+	from
+		canvusUser
+	where
+		id = #{id}
+</select>
+
+<select id="userSearch" parameterType="string" resultType="user">
+	SELECT
+		ID
+		,PROFILE_URL
+		,NICKNAME
+		,INTRODUCTION
+	FROM
+		CANVUSUSER
+	WHERE
+		ID = #{string}
+	ODER BY
+		NICKNAME ASC
+
+</select>
 
 
 </mapper>

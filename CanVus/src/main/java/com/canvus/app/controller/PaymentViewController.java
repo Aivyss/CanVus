@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.canvus.app.service.payment.PaymentService;
+import com.canvus.app.service.PaymentService;
 import com.canvus.app.vo.PaymentCompleteInfo;
 
 @Controller
