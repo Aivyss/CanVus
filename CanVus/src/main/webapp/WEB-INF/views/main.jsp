@@ -4,6 +4,12 @@
 <html lang="en">
 
 <head>
+<style type="text/css">
+.navbar-default .navbar-nav>li>div>button {
+    color: #777;
+}
+
+</style>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -94,7 +100,33 @@
                                     </li>
                                     <li><a href="/discovery">Discovery</a></li>                     
                                     <li><a href="/share">Share</a></li>
-                                    <li><a href="/drawing">Drawing</a></li>
+                                    <li>
+                                    	<div class="dropdown">
+  										<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" 
+  										data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    	Drawing
+                                    	</button>
+                                    	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+										  <form class="px-4 py-3 " style ="width: 350px;" action="/drawingRoom" method="post">
+										    <div class="form-group" style ="padding: 10px 10px 0 10px;">
+										      <label for="exampleDropdownFormTitle">Title</label>
+										      <input type="text" class="form-control" id="exampleDropdownFormTitle" placeholder="write the title">
+										    </div>
+										    <div class="form-group" style ="padding: 10px 10px 0 10px;">
+										      <label for="exampleDropdownFormPassword1">Password</label>
+										      <input type="password" class="form-control" id="exampleDropdownFormPassword" placeholder="Password">
+										    </div>
+										   <div class="form-group" style ="padding: 10px 10px 0 10px;">
+										      <label for="exampleDropdownFormPassword1">No.Ppl</label>
+										      <input type="text" class="form-control" id="exampleDropdownFormNumberOfPpl" placeholder="write capacity of the room">
+										    </div>
+										    <div align = "center">   
+										    <button type="submit" class="btn btn-primary" style="width: 150px;">Create</button>
+										   	</div> 
+										   </form>
+										</div>
+                                    </div>	
+                                    </li>
                                     <li>
                                         <div class="dropdown">
                                             <button class="btn btn-default dropdown-toggle" type="button"
