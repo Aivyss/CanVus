@@ -4,9 +4,16 @@ import lombok.Data;
 
 @Data
 public class UserVO {
-	private String id;
-	private String given_name;
-	private String family_name;
-	private String profile_url;
+	private String user_id;
+	private String nickname;
+	private String profile_photo;
 	private String email;
+	private String given_name; // first name
+	private String family_name;// last name
+	private String introduction;
+
+	private String sign_in_date;
+	private int pixel;
+	private int accumulatedpixels;
+	private String idToken;
 }

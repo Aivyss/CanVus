@@ -4,9 +4,13 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		<typeAlias type="" alias="" />
+		<typeAlias type="com.canvus.app.vo.UserVO" alias="user" />
+		<typeAlias type="com.canvus.app.vo.BillVO" alias="bill" />
+		<typeAlias type="com.canvus.app.vo.TagVO" alias="tag" />
 	</typeAliases>
 	<mappers>
-		<mapper resource="" />
+		<mapper resource="mapper/UserMapper.xml" />
+		<mapper resource="mapper/PaymentMapper.xml" />
+		<mapper resource="mapper/TagMapper.xml" />
 	</mappers>
 </configuration>
