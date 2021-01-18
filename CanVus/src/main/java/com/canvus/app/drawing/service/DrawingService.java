@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import com.canvus.app.drawing.dao.DrawingDAO;
 import com.canvus.app.drawing.vo.DrawingRoomVO;
 import com.canvus.app.drawing.vo.DrawingUserVO;
-import com.canvus.app.drawing.vo.UserType;
 
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
@@ -49,10 +48,10 @@ public class DrawingService {
 		UUID one = UUID.randomUUID();
 		
 		DrawingUserVO admin = new DrawingUserVO();
-		admin.setUser_id((String)session.getAttribute("loginId"));
+		admin.setUser_id((String)session.getAttribute("userId"));
+		admin.setRoom_Id(one.toString());
 		admin.setUser_type("ADMIN");
-		log.info(UserType.ADMIN.name());
-		
+		log.info(one.toString());
 		roomInfo.setRoom_Id(one.toString());
 		
 		boolean check = drawingDAO.createRoom(roomInfo, admin);
@@ -63,8 +62,8 @@ public class DrawingService {
 		
 		return roomInfo;
 	}
-	public List<Map<String, String>> getUserList(String roomId) {
-		
+	public List<DrawingUserVO> getUserList(String roomId) {
+		log.info("방 유저리스트 반환 서비스");
 		return drawingDAO.getUserList(roomId);
 	}
 	

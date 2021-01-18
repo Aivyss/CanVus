@@ -12,10 +12,22 @@
 	    ,ROOM_ID
 	    ,USER_TYPE
 	) VALUES (
-	    JOINLIST_SEQ
+	    JOINLIST_SEQ.nextval
 	    ,#{user_id}
 	    ,#{room_Id}
 	    ,#{user_type}
 	)
 </insert>
+
+<select id="getUserList" parameterType="string" resultType="drawingUser">
+	SELECT
+	    JOINLIST_ID
+	    ,USER_ID
+	    ,ROOM_ID
+	    ,USER_TYPE
+	FROM
+    	JOIN_LIST
+	WHERE
+    	ROOM_ID = #{roomId}
+</select>
 </mapper>

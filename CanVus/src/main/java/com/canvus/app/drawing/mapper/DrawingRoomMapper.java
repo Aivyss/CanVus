@@ -6,15 +6,9 @@ import java.util.Map;
 import com.canvus.app.drawing.vo.DrawingRoomVO;
 
 public interface DrawingRoomMapper {
-	/**
-	 * 작성일: 2021.01.16
-	 * @param roomId
-	 * @return
-	 */
+
 	public boolean createRoom(DrawingRoomVO roomInfo);
 	
 	public DrawingRoomVO enterRoom(String roomId);
 
-
-	List<Map<String, String>> getUserList(String roomId);
 }

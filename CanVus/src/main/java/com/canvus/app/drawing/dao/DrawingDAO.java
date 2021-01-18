@@ -44,19 +44,22 @@ public class DrawingDAO {
 	 * @return
 	 */
 	public boolean createRoom(DrawingRoomVO roomInfo, DrawingUserVO admin) {
-		boolean check = false;
+		boolean check1 = false;
+		boolean check2 = false;
 		
 		try {
 			DrawingRoomMapper dRMapper = session.getMapper(DrawingRoomMapper.class);
 			JoinListMapper jLMapper = session.getMapper(JoinListMapper.class);
 			
-			check = dRMapper.createRoom(roomInfo);
-			check = jLMapper.addUser(admin);
+			check1 = dRMapper.createRoom(roomInfo);
+			check2 = jLMapper.addUser(admin);
 		} catch (Exception e) {
 			log.info("방생성 sql 오류");
+			System.out.println(check1);
+			System.out.println(check2);
 		}
 		
-		return check;
+		return check1 && check2;
 	}
 	
 	/**
@@ -64,16 +67,19 @@ public class DrawingDAO {
 	 * @param roomId
 	 * @return
 	 */
-	public List<Map<String, String>> getUserList(String roomId) {
-		List<Map<String, String>> userList = null;
+	public List<DrawingUserVO> getUserList(String roomId) {
+		log.info("방 유저리스트 반환 dao");
+
+		List<DrawingUserVO> userList = null;
 		
 		try {
-			DrawingRoomMapper mapper = session.getMapper(DrawingRoomMapper.class);
+			JoinListMapper mapper = session.getMapper(JoinListMapper.class);
 			userList = mapper.getUserList(roomId);
 		} catch (Exception e) {
 			log.info("방 유저리스트를 불러오는 sql문 오류");
 		}
 		
+		log.info(userList.toString());
 		return userList;
 	}
 
