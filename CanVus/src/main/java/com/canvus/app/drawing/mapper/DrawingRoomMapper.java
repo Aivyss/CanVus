@@ -11,9 +11,10 @@ public interface DrawingRoomMapper {
 	 * @param roomId
 	 * @return
 	 */
-	DrawingRoomVO enterRoom(String roomId);
+	public boolean createRoom(DrawingRoomVO roomInfo);
+	
+	public DrawingRoomVO enterRoom(String roomId);
 
-	boolean createRoom(DrawingRoomVO roomInfo);
 
 	List<Map<String, String>> getUserList(String roomId);
 }

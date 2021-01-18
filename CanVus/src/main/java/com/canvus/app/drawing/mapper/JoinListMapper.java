@@ -4,6 +4,6 @@ import com.canvus.app.drawing.vo.DrawingUserVO;
 
 public interface JoinListMapper {
 
-	boolean addUser(DrawingUserVO admin);
+	public boolean addUser(DrawingUserVO admin);
 
 }

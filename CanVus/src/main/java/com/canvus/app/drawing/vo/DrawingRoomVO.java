@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class DrawingRoomVO {
-	private String roomId;
+	private String room_Id;
 	private String admin;
 	private String title;
 	private String password;

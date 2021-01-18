@@ -41,7 +41,7 @@ public class DrawingController {
 		String url ="redirect:/main";
 		
 		if (check) {
-			List<Map<String, String>> userList = drawingService.getUserList(roomInfo.getRoomId());
+			List<Map<String, String>> userList = drawingService.getUserList(roomInfo.getRoom_Id());
 			redirectAttributes.addAttribute("roomInfo", roomInfo);
 			redirectAttributes.addAttribute("userList", userList);
 			url = "redirect:/drawing/room";
@@ -59,8 +59,13 @@ public class DrawingController {
 	 */
 	@RequestMapping(value="/createRoom", method=RequestMethod.POST)
 	public String createRoom(DrawingRoomVO roomInfo, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+		log.info("방만들기 controller 시작");
+		log.info(roomInfo.getTitle());
+		log.info(roomInfo.getPassword());
+		log.info(String.valueOf(roomInfo.getUser_no()));
+		log.info((String) session.getAttribute("userId"));
 		DrawingRoomVO result = drawingService.createRoom(roomInfo, session);
-		List<Map<String, String>> userList = drawingService.getUserList(result.getRoomId());
+		List<Map<String, String>> userList = drawingService.getUserList(result.getRoom_Id());
 		
 		redirectAttributes.addAttribute("roomInfo", result);
 		redirectAttributes.addAttribute("userList", userList);
