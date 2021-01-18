@@ -1,0 +1,86 @@
+@charset "EUC-KR";
+
+
+table {
+		border-collapse : collapse;
+		
+}
+
+.box{
+	
+	border : 1px solid black;
+}
+
+
+
+.head {
+	border : 1px solid black;
+	height : 40px;
+	
+}
+
+.A {
+	font-size : 30pt;
+}	
+
+#logo {
+	width : 370px;
+	height : 40px;
+	cursor : pointer;
+}
+#search {
+	width : 40px;
+	height : 10px;
+	
+}
+#name {
+	height : 30px;
+	width : 720px;
+	border : 0px;
+
+}
+
+
+#disco { 
+	width : 120px;
+	height : 40px;
+	border : 0px;
+}
+#menu {
+	width : 90px;
+	border : 0px;
+	height : 40px;
+}
+.tle {
+	margin :50px 150px 0px 150px;
+	border : 1px solid black;
+
+}
+.tle1 {
+	margin :0px 150px 50px 150px;
+	border : 1px solid black;
+
+}
+#plus {
+		cursor : pointer;
+		padding : 30px 0px 0px 30px;
+		
+}
+.folder {
+		width : 320px;
+		height : 70px;
+		font-size : 30pt;
+		background-color : white;
+		margin-top : 60px ;
+		
+}
+
+.buttonMargin {
+
+		padding-right : 60px;
+		padding-bottom : 120px;
+}
+.forpadding {
+	padding-right : 60px;
+}
+
