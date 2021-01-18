@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>검색결과 창</title>
 </head>
 <body>
-
+	<h1>${searchText } 검색했니? 어서오고</h1>
 </body>
 </html>

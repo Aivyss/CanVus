@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Share page</title>
 </head>
 <body>
-
+	<h1>share page 어서오고</h1>
 </body>
 </html>

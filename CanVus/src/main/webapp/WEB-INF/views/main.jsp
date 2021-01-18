@@ -38,6 +38,14 @@
           <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
+    <script type="text/javascript">
+		function searchResult(){
+			var searchText = document.getElementById("searchText").value;
+			location.href = "/searchResult";
+			return searchText;
+		}
+	
+    </script>
 </head>
 
 <body data-spy="scroll" data-target="#header">
@@ -51,9 +59,9 @@
                         <div class="col-lg-6">
                             <div class="input-group">
                                 <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button">Go!</button>
+                                    <button class="btn btn-default" type="button" onclick="searchResult();">Go!</button>
                                 </span>
-                                <input type="text" class="form-control" placeholder="Search for...">
+                                <input type="text" class="form-control" placeholder="Search for..." id="searchText">
                             </div><!-- /input-group -->
                             <!--End of col-lg-6-->
                         </div>
@@ -84,10 +92,9 @@
                                 <ul class="nav navbar-nav navbar-right main_menu">
                                     <li class="active"><a href="#header">Home <span class="sr-only">(current)</span></a>
                                     </li>
-                                    <li><a href="/discovery">Discovery</a></li>
-                                    <li><a href="">Notification</a></li>
-                                    <li><a href="">Share</a></li>
-                                    <li><a href="">Drawing</a></li>
+                                    <li><a href="/discovery">Discovery</a></li>                     
+                                    <li><a href="/share">Share</a></li>
+                                    <li><a href="/drawing">Drawing</a></li>
                                     <li>
                                         <div class="dropdown">
                                             <button class="btn btn-default dropdown-toggle" type="button"
@@ -101,7 +108,7 @@
                                                 <li role="presentation"><a role="menuitem" tabindex="-1"
                                                         href="/user/bookmarks">BookMarks</a></li>
                                                 <li role="presentation"><a role="menuitem" tabindex="-1"
-                                                        href="/user/pixelManagement">Px: 500</a></li>
+                                                        href="/user/pixelManagement">pixelManagement</a></li>
                                                 <li role="presentation"><a role="menuitem" tabindex="-1"
                                                         href="/user/settings">Settings</a></li>
                                                 <li role="presentation"><a role="menuitem" tabindex="-1"

@@ -4,9 +4,9 @@
 <html>
 	<head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>Drawing page</title>
 	</head>
 	<body>
-	
+		<h1>드로잉 페이지 어서오고</h1>
 	</body>
 </html>

@@ -51,10 +51,17 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/searchResult", method= RequestMethod.GET)
-	public String search() {
+	public String search(String searchText, Model model) {
 		logger.info("서치결과 페이지로 이동");
-		
+		model.addAttribute("searchText", searchText);
 		return "searchResult";
+	}
+	
+	@RequestMapping(value="/drawing", method= RequestMethod.GET)
+	public String drawing() {
+		logger.info("드로잉 페이지로 이동");
+		
+		return "drawWith";
 	}
 	
 	@RequestMapping(value="/board", method=RequestMethod.GET)
