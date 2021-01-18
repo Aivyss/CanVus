@@ -75,6 +75,26 @@
 	             } else {
 	                 console.log("클릭으로 로그인한 경우가 아니므로 비허용.");
 	             }
+
+                 const idToken = auth2.currentUser.get().getAuthResponse().id_token;
+
+                 console.log(idToken);
+
+                 var form = document.createElement("form");
+                 form.setAttribute("charset", "UTF-8");
+                 form.setAttribute("method", "Post"); // Get 또는 Post 입력
+                 form.setAttribute("action", "/user/loginProcess");
+
+                 var hiddenField = document.createElement("input");
+
+                 hiddenField.setAttribute("type", "hidden");
+                 hiddenField.setAttribute("name", "idToken");
+                 hiddenField.setAttribute("value", idToken);
+                 form.appendChild(hiddenField);
+
+                 document.body.appendChild(form);
+
+                 form.submit();
 	         }
 	
 	         function onFailure(error) {
