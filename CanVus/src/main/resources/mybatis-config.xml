@@ -11,7 +11,7 @@
 		<typeAlias type="com.canvus.app.drawing.vo.DrawingUserVO" alias="drawingUser" />
 	</typeAliases>
 	<mappers>
-		<mapper resource="mapper/userMapper.xml" />
+		<mapper resource="mapper/UserMapper.xml" />
 		<mapper resource="mapper/PaymentMapper.xml" />
 		<mapper resource="mapper/TagMapper.xml" />
 		<mapper resource="mapper/DrawingRoomMapper.xml" />

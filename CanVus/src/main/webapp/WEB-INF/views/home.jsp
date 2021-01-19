@@ -2,12 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <html>
-	<form action="/drawing/createRoom" method="POST">
-		<input type="text" value="가나다라" name="title">
-		<input type="text" value="1234" name="password">
-		<input type="text" value="50" name="user_no">
-		<input type="submit" value="시작">
-	</form>
 	<head>
 		<title>Home</title>
 		<meta name="google-signin-client_id" content="1073968802049-evh62jql0f6gblp8din0t6rqv0sobg17.apps.googleusercontent.com">
