@@ -4,6 +4,8 @@ import lombok.Data;
 
 @Data
 public class DrawingUserVO {
+	private int joinList_id;
+	private String user_id;
+	private String room_Id;
 	private String user_type;
-	private int user_id;
 }

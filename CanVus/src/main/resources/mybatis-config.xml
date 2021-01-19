@@ -7,10 +7,14 @@
 		<typeAlias type="com.canvus.app.vo.UserVO" alias="user" />
 		<typeAlias type="com.canvus.app.vo.BillVO" alias="bill" />
 		<typeAlias type="com.canvus.app.vo.TagVO" alias="tag" />
+		<typeAlias type="com.canvus.app.drawing.vo.DrawingRoomVO" alias="room" />
+		<typeAlias type="com.canvus.app.drawing.vo.DrawingUserVO" alias="drawingUser" />
 	</typeAliases>
 	<mappers>
 		<mapper resource="mapper/UserMapper.xml" />
 		<mapper resource="mapper/PaymentMapper.xml" />
 		<mapper resource="mapper/TagMapper.xml" />
+		<mapper resource="mapper/DrawingRoomMapper.xml" />
+		<mapper resource="mapper/JoinListMapper.xml" />
 	</mappers>
 </configuration>

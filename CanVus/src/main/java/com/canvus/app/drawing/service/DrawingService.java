@@ -12,8 +12,9 @@ import org.springframework.stereotype.Service;
 import com.canvus.app.drawing.dao.DrawingDAO;
 import com.canvus.app.drawing.vo.DrawingRoomVO;
 import com.canvus.app.drawing.vo.DrawingUserVO;
-import com.canvus.app.drawing.vo.UserType;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Service
 public class DrawingService {
 	@Autowired
@@ -24,10 +25,10 @@ public class DrawingService {
 	 * @return
 	 */
 	public boolean enterRoom(DrawingRoomVO drawingRoom) {
-		DrawingRoomVO dbData = drawingDAO.enterRoom(drawingRoom.getRoomId());
+		DrawingRoomVO dbData = drawingDAO.enterRoom(drawingRoom.getRoom_Id());
 		boolean check = false;
 		
-		if (dbData.getRoomId().equals(drawingRoom.getRoomId())) {
+		if (dbData.getRoom_Id().equals(drawingRoom.getRoom_Id())) {
 			if (dbData.getPassword().equals(drawingRoom.getPassword())) {
 				check = true;
 			}
@@ -36,20 +37,22 @@ public class DrawingService {
 		return check;
 	}
 	/**
-	 * 제작일: 2021.01.16
+	 * 제작일: 2021.01.16 / 최종수정일: 2021.01.18
 	 * @param roomInfo
 	 * @param session 
 	 * @return
 	 */
 	public DrawingRoomVO createRoom(DrawingRoomVO roomInfo, HttpSession session) {
+		log.info("방만들기 service 시작");
+
 		UUID one = UUID.randomUUID();
 		
 		DrawingUserVO admin = new DrawingUserVO();
-		admin.setUser_id(Integer.parseInt((String)session.getAttribute("loginId")));
-		admin.setUser_type(UserType.ADMIN.name());
-		
-		roomInfo.setRoomId(one.toString());
-		roomInfo.setUser_no(1);
+		admin.setUser_id((String)session.getAttribute("userId"));
+		admin.setRoom_Id(one.toString());
+		admin.setUser_type("ADMIN");
+		log.info(one.toString());
+		roomInfo.setRoom_Id(one.toString());
 		
 		boolean check = drawingDAO.createRoom(roomInfo, admin);
 		
@@ -59,8 +62,8 @@ public class DrawingService {
 		
 		return roomInfo;
 	}
-	public List<Map<String, String>> getUserList(String roomId) {
-		
+	public List<DrawingUserVO> getUserList(String roomId) {
+		log.info("방 유저리스트 반환 서비스");
 		return drawingDAO.getUserList(roomId);
 	}
 	
