@@ -4,6 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.canvus.app.drawing.mapper.PageLayerMapper">
+
 <insert id="savePage" parameterType="page">
 	INSERT INTO PAGE_LAYER(
 	    PL_ID
@@ -21,7 +22,7 @@
 </insert>
 
 
-<select id="getPgs" parameterType="string" resultType="Page">
+<select id="getPgs" parameterType="string" resultType="page">
 	SELECT
 	    PL_ID
 	    ,ROOM_ID
@@ -31,7 +32,7 @@
 	FROM
 	    PAGE_LAYER
 	WHERE
-	    ROOM_ID = #{string};
+	    ROOM_ID = #{string}
 </select>
 
 </mapper>

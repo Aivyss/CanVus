@@ -30,4 +30,13 @@
 	WHERE
     	ROOM_ID = #{roomId}
 </select>
+
+<select id="getUserCount" parameterType="string" resultType="int">
+	SELECT
+		COUNT(*)
+	FROM
+		JOIN_LIST
+	WHERE
+		ROOM_ID = #{string}
+</select>
 </mapper>

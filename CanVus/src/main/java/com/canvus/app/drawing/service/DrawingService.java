@@ -46,16 +46,14 @@ public class DrawingService {
 	public DrawingRoomVO createRoom(DrawingRoomVO roomInfo, HttpSession session) {
 		log.info("방만들기 service 시작");
 
-		UUID one = UUID.randomUUID();
-		
-		DrawingUserVO admin = new DrawingUserVO();
-		admin.setUser_id((String)session.getAttribute("userId"));
-		admin.setRoom_Id(one.toString());
-		admin.setUser_type("ADMIN");
+		// TODO 방 아이디 생성
+		UUID one = UUID.randomUUID();		
 		log.info(one.toString());
 		roomInfo.setRoom_Id(one.toString());
+		roomInfo.setAdmin((String) session.getAttribute("userId"));
 		
-		boolean check = drawingDAO.createRoom(roomInfo, admin);
+		// SQL 구문 성공여부 체크
+		boolean check = drawingDAO.createRoom(roomInfo);
 		
 		if (!check) {
 			roomInfo = null;
@@ -99,40 +97,27 @@ public class DrawingService {
 	}
 	
 	/**
-	 * 세션으로 넘어온 방 비밀번호를 체크하는 메소드
-	 * 방 아이디를 체크하는 이유는 직접 url을 기입해 들어오는 경우도 있는데 오타 등으로
-	 * 방 아이디 조차 틀린 경우를 거르기 위함.
-	 * @param password
+	 * 아이디로 해당 방의 정보를 가져오는 메소드
+	 * 작성일: 2021.01.22 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param room_Id
 	 * @return
 	 */
-	public boolean passwordCheck(String room_Id, String password) {
-		boolean check = false;
-		
-		DrawingRoomVO roomInfo = new DrawingRoomVO();
-		roomInfo.setRoom_Id(room_Id);
-		roomInfo.setPassword(password);
-		
-		DrawingRoomVO dbData = drawingDAO.passwordCheck(roomInfo);
-		
-		if (dbData != null) { // DB데이터가 제대로 불러온 경우
-			if (dbData.getPassword() == null) { // 방이 비밀번호가 필요 없는 경우
-				if (room_Id.equals(dbData.getRoom_Id())) { // 아이디만 비교
-					check = true;
-				}
-			} else { // 방이 비밀번호가 필요한 경우
-				if (room_Id.equals(dbData.getRoom_Id()) 
-						&& password.equals(dbData.getPassword())) { // 아이디- 비번 비교
-					check = true;
-				}
-			}
-		}
-		
-		return check;
-	}
-
 	public DrawingRoomVO getRoomById(String room_Id) {
 		// TODO Auto-generated method stub
 		return drawingDAO.getRoomById(room_Id);
+	}
+	
+	/**
+	 * 해당 방의 유저의 수를 산출하는 메소드
+	 * 작성일: 2021.01.22 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param room_Id
+	 * @return
+	 */
+	public int getUserCount(String room_Id) {
+		
+		return drawingDAO.getUserCount(room_Id);
 	}
 	
 }

@@ -3,6 +3,7 @@ package com.canvus.app.drawing.vo;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 
@@ -11,6 +12,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name="PAGE_LAYER")
+@IdClass(PageVO.class)
 public class PageVO {
 	@Id
 	@Column(name="PL_ID")

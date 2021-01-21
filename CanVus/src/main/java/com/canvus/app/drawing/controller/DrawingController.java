@@ -68,36 +68,51 @@ public class DrawingController {
 		return url;
 	}
 	
-	//
 	/**
-	 * 방 입장을 위한 메소드
-	 * 세션에 비밀번호를 넣은 이유: POST 방식이기 때문에.
-	 * room_Id는 포스트 방식이지만 쿼리스트링을 직접 때려넣어 노출시킬 것이다.
-	 * 
+	 * 방입장을 위한 메소드
+	 * GET방식으로 방 아이디는 노출 시킬 생각이다. 편하게 URL을 공유할 수 있도록.
+	 * 방 비밀번호가 필요한 경우에는 세션에 넣어서 전달한다.
+	 * 작성일: 2021.01.22 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
 	 * @param request
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value="/room", method=RequestMethod.POST)
-	public String room(String room_Id, DrawingRoomVO vo, HttpSession session, Model model) {
+	@RequestMapping(value="/room", method=RequestMethod.GET)
+	public String room(String room_Id, HttpSession session, Model model) {
+		/**
+		 * AJAX로 비밀번호를 검증하든 안하든 이 메소드로 들어온다.
+		 * 방찾기 페이지에서 AJAX로 검증해서 들어온 유저의 경우
+		 * 세션에 roomPassword라는 키로 방 비밀번호를 가지고 있다.
+		 * 직접 노출로 들어온 유저는 세션에 roomPassword라는 값이 없다.
+		 * (단 이 전제는 방에 들어올 시 세션에서 roomPassword키에 대한 값을 초기화한 경우이다.
+		 * 다른 방과 비밀번호가 겹칠 수 있으므로 방입장에 성공하면 매번 지워야 한다.)
+		 * 하지만 모두 이 메소드로 들어와서 MODEL을 통해 비번값을 방 JSP 로 전달하고
+		 * 방 JSP에서는 코어태그로 분기하여 구분한다.
+		 * 
+		 */
 		log.info("방 입장 컨트롤러 작동");
 		String url = null; 
 		
+		// TODO room_Id로 방정보를 받아옴
 		DrawingRoomVO roomInfo = drawingService.getRoomById(room_Id);
-
-		List<DrawingUserVO> userList = drawingService.getUserList(room_Id);
-		List<PageVO> pageList = drawingService.getPgs(room_Id);
+		// TODO room_Id로 방인원수를 산출함
+		int userCount = drawingService.getUserCount(room_Id);
 		
-		if(userList.size() <= roomInfo.getUser_no()) {
+		// TODO 입장하려는 방의 인원수가 초과했는지 안했는지 판단
+		if (roomInfo.getUser_no() <= userCount) {
 			url = "redirect:/main";
+		} else {
+			// 유저정보라든지 그림정보는 소켓연결 시 받아와야 할듯.
+			// 프론트는 비밀번호 검증이 완료 될 시 ajax로 유저 정보 요청 및 레이어 요청
+			
+			// TODO 방에 들어오려 시도한 유저에게 비밀번호 검증을 위한 값 전달
+			model.addAttribute("pwWrttenByUser", (String) session.getAttribute("roomPassword")); // 유저가 입력한 비번
+			model.addAttribute("dbPassword", roomInfo.getPassword()); // 방 비번
+			url = "drawing/room";
 		}
 		
-		model.addAttribute("roomInfo", roomInfo);
-		model.addAttribute("pwWttnByUser", vo.getPassword());
-		model.addAttribute("userList", userList);
-		model.addAttribute("pageList", pageList);
-		
-		return "drawing/room";
+		return url;
 	}
 	
 	/**

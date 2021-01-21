@@ -46,24 +46,17 @@ public class DrawingDAO {
 	 * @param admin
 	 * @return
 	 */
-	@Transactional(rollbackFor = {Exception.class})
-	public boolean createRoom(DrawingRoomVO roomInfo, DrawingUserVO admin) {
-		boolean check1 = false;
-		boolean check2 = false;
+	public boolean createRoom(DrawingRoomVO roomInfo) {
+		boolean check = false;
 		
 		try {
 			DrawingRoomMapper dRMapper = session.getMapper(DrawingRoomMapper.class);
-			JoinListMapper jLMapper = session.getMapper(JoinListMapper.class);
-			
-			check1 = dRMapper.createRoom(roomInfo);
-			check2 = jLMapper.addUser(admin);
+			check = dRMapper.createRoom(roomInfo);
 		} catch (Exception e) {
 			log.info("방생성 sql 오류");
-			System.out.println(check1);
-			System.out.println(check2);
 		}
 		
-		return check1 && check2;
+		return check;
 	}
 	
 	/**
@@ -124,15 +117,45 @@ public class DrawingDAO {
 		
 		return check;
 	}
-
-	public DrawingRoomVO passwordCheck(DrawingRoomVO roomInfo) {
-		// TODO Auto-generated method stub
-		return null;
+	
+	/**
+	 * 방 아이디로 방의 정보를 가져오는 메소드
+	 * 작성일: 2021.01.22 / 완성일: / 버그 검증일:
+	 * 작성자: 이한결
+	 * @param room_Id
+	 * @return
+	 */
+	public DrawingRoomVO getRoomById(String room_Id) {
+		DrawingRoomVO dbData = null;
+		
+		try {
+			DrawingRoomMapper mapper = session.getMapper(DrawingRoomMapper.class);
+			dbData = mapper.getRoomById(room_Id);
+		} catch (Exception e) {
+			log.info("아이디로 방정보 조회 SQL오류");
+		}
+		
+		return dbData;
 	}
 
-	public DrawingRoomVO getRoomById(String room_Id) {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * room_Id에 해당하는 그리기 방의 인원수를 산출하는 메소드
+	 * 작성일: 2021.01.22 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param room_Id
+	 * @return
+	 */
+	public int getUserCount(String room_Id) {
+		int count = 0;
+		
+		try {
+			JoinListMapper mapper = session.getMapper(JoinListMapper.class);
+			count = mapper.getUserCount(room_Id);
+		} catch (Exception e) {
+			log.info("방 인원수 산출 SQL 오류");
+		}
+		
+		return count;
 	}
 
 }
