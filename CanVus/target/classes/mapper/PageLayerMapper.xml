@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.canvus.app.drawing.mapper.PageLayerMapper">
+
+<insert id="savePage" parameterType="page">
+	INSERT INTO PAGE_LAYER(
+	    PL_ID
+	    ,ROOM_ID
+	    ,PAGE_NO
+	    ,LAYER_NO
+	    ,STRINGIFY
+	) VALUES (
+	    PL_ID_SEQ.NEXTVAL
+	    ,#{room_Id}
+	    ,#{page_no}
+	    ,#{layer_no}
+	    ,#{stringify}
+	)
+</insert>
+
+
+<select id="getPgs" parameterType="string" resultType="page">
+	SELECT
+	    PL_ID
+	    ,ROOM_ID
+	    ,PAGE_NO
+	    ,LAYER_NO
+	    ,STRINGIFY
+	FROM
+	    PAGE_LAYER
+	WHERE
+	    ROOM_ID = #{string}
+</select>
+
+</mapper>
