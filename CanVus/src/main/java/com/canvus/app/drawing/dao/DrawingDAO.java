@@ -6,11 +6,14 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.canvus.app.drawing.mapper.DrawingRoomMapper;
 import com.canvus.app.drawing.mapper.JoinListMapper;
+import com.canvus.app.drawing.mapper.PageLayerMapper;
 import com.canvus.app.drawing.vo.DrawingRoomVO;
 import com.canvus.app.drawing.vo.DrawingUserVO;
+import com.canvus.app.drawing.vo.PageVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,6 +46,7 @@ public class DrawingDAO {
 	 * @param admin
 	 * @return
 	 */
+	@Transactional(rollbackFor = {Exception.class})
 	public boolean createRoom(DrawingRoomVO roomInfo, DrawingUserVO admin) {
 		boolean check1 = false;
 		boolean check2 = false;
@@ -81,6 +85,54 @@ public class DrawingDAO {
 		
 		log.info(userList.toString());
 		return userList;
+	}
+	
+	/**
+	 * 해당 방의 그림 정보를 가져오는 메소드
+	 * 제작일: 2021.01.20 / 완성일: / 버그검증완료:
+	 * @param room_Id
+	 * @return
+	 */
+	public List<PageVO> getPgs(String room_Id) {
+		List<PageVO> dbData = null;
+		
+		try {
+			PageLayerMapper mapper = session.getMapper(PageLayerMapper.class);
+			dbData = mapper.getPgs(room_Id);
+		} catch (Exception e) {
+			log.info("getPgs SQL오류");
+		}
+		
+		return dbData;
+	}
+	
+	/**
+	 * 그려진 한 레이어를 데이터베이스에 저장하는 메소드
+	 * 제작일: 2021.01.21 / 완성일: / 버그검증완료:
+	 * @param page
+	 * @return
+	 */
+	public boolean savePage(PageVO page) {
+		boolean check = false;
+		
+		try {
+			PageLayerMapper mapper = session.getMapper(PageLayerMapper.class);
+			check = mapper.savePage(page);
+		} catch (Exception e) {
+			log.info("레이어 저장 sql오류");
+		}
+		
+		return check;
+	}
+
+	public DrawingRoomVO passwordCheck(DrawingRoomVO roomInfo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public DrawingRoomVO getRoomById(String room_Id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -11,5 +11,4 @@ public interface JoinListMapper {
 	
 	public List<DrawingUserVO> getUserList(String roomId);
 
-
 }

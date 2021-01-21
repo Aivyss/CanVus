@@ -9,12 +9,15 @@
 		<typeAlias type="com.canvus.app.vo.TagVO" alias="tag" />
 		<typeAlias type="com.canvus.app.drawing.vo.DrawingRoomVO" alias="room" />
 		<typeAlias type="com.canvus.app.drawing.vo.DrawingUserVO" alias="drawingUser" />
+		<typeAlias type="com.canvus.app.drawing.vo.PageVO" alias="page" />
 	</typeAliases>
+	
 	<mappers>
 		<mapper resource="mapper/UserMapper.xml" />
 		<mapper resource="mapper/PaymentMapper.xml" />
 		<mapper resource="mapper/TagMapper.xml" />
 		<mapper resource="mapper/DrawingRoomMapper.xml" />
 		<mapper resource="mapper/JoinListMapper.xml" />
+		<mapper resource="mapper/PageLayerMapper.xml" />
 	</mappers>
 </configuration>
