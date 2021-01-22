@@ -7,6 +7,7 @@
 		<typeAlias type="com.canvus.app.vo.UserVO" alias="user" />
 		<typeAlias type="com.canvus.app.vo.BillVO" alias="bill" />
 		<typeAlias type="com.canvus.app.vo.TagVO" alias="tag" />
+		<typeAlias type="com.canvus.app.vo.BookmarkVO" alias="bookmark" />
 		<typeAlias type="com.canvus.app.drawing.vo.DrawingRoomVO" alias="room" />
 		<typeAlias type="com.canvus.app.drawing.vo.DrawingUserVO" alias="drawingUser" />
 		<typeAlias type="com.canvus.app.drawing.vo.PageVO" alias="page" />
@@ -19,5 +20,6 @@
 		<mapper resource="mapper/DrawingRoomMapper.xml" />
 		<mapper resource="mapper/JoinListMapper.xml" />
 		<mapper resource="mapper/PageLayerMapper.xml" />
+		<mapper resource="mapper/BookmarkMapper.xml" />
 	</mappers>
 </configuration>
