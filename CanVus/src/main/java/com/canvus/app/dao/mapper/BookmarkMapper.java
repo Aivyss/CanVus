@@ -8,5 +8,7 @@ public interface BookmarkMapper {
 
 	public BookmarkVO checkDoubleNameOfBookmark(BookmarkVO inputInfo);
 
+	public boolean deleteFolder(int folder_id);
+
 
 }

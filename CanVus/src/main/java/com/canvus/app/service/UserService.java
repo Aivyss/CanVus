@@ -3,6 +3,7 @@ package com.canvus.app.service;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -139,5 +140,21 @@ public class UserService {
 		}
 		
 		return dbData;
+	}
+	
+	/**
+	 * 북마크 폴더를 제거하는 서비스 메소드
+	 * 작성일: 2021.01.22 / 완료일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param inputInfo
+	 * @param session
+	 * @return
+	 */
+	public boolean deleteFolder(Map<String, Object> params) {
+		logger.info("북마크 제거 서비스 메소드 진입");
+		
+		// TODO 세션의 아이디 정보를 inputInfo에 넣는 과정
+		
+		return userDAO.deleteFolder((Integer) params.get("folder_id"));
 	}
 }

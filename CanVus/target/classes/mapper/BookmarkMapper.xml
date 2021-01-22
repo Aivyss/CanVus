@@ -30,4 +30,12 @@
 		FOLDER_NAME = #{folder_name}
 </select>
 
+<delete id="deleteFolder" parameterType="int">
+DELETE
+	FROM
+		BOOKMARK_FOLDER
+	WHERE
+		FOLDER_ID = #{int}
+</delete>
+
 </mapper>

@@ -104,5 +104,25 @@ public class UserDAO {
 		
 		return dbData;
 	}
+	/**
+	 * db에 있는 북마크 정보를 제거하는 메소드
+	 * 작성일: 2021.01.22 / 완성일: / 버그검증:
+	 * 작성자: 이한결
+	 * @param 
+	 * @return
+	 */
+	public boolean deleteFolder(int folder_id) {
+		logger.info("북마크 폴더 제거 dao 메소드 진입");
+		boolean check = false;
+		
+		try {
+			BookmarkMapper mapper = session.getMapper(BookmarkMapper.class);
+			check = mapper.deleteFolder(folder_id);
+		} catch (Exception e) {
+			logger.info("북마크 제거 SQL오류");
+		}
+		
+		return check;
+	}
 
 }
