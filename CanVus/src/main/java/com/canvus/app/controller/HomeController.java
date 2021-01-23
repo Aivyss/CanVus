@@ -7,11 +7,14 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.canvus.app.service.UserService;
 
 /**
  * Handles requests for the application home page.
@@ -57,18 +60,6 @@ public class HomeController {
 		logger.info("서치결과 페이지로 이동");
 		model.addAttribute("searchText", searchText);
 		return "searchResult";
-	}
-	
-	@RequestMapping(value="/drawing", method= RequestMethod.GET)
-	public String drawing() {
-		logger.info("드로잉 페이지로 이동");
-		
-		return "drawWith";
-	}
-	
-	@RequestMapping(value="/board", method=RequestMethod.GET)
-	public String board() {
-		return "board";
 	}
 	
 }
