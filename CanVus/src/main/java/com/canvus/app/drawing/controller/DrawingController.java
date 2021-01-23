@@ -157,4 +157,11 @@ public class DrawingController {
 		
 		return false;
 	}
+	
+	@RequestMapping(value="/makeFeed", method=RequestMethod.POST)
+	public String makeFeed(@RequestBody Map<String, Object> params) {
+		boolean check = drawingService.makeFeed(params);
+		
+		return "redirect:/";
+	}
 }

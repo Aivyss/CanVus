@@ -27,10 +27,10 @@ public class BoardViewController {
 	 * @return
 	 */
 	@RequestMapping(value="/board", method=RequestMethod.GET)
-	public String board(String id) {
+	public String loadBoard(String id) {
 		// Query string으로 user id 를 받음.
 		log.info("홈컨트롤러 보드이동 메소드 진입");
-		Map<String, Object> fullInfo = boardService.board(id);
+		Map<String, Object> fullInfo = boardService.loadBoard(id);
 		
 		return "board";
 	}

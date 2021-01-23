@@ -17,4 +17,5 @@ public class FollowingsVO {
 	
 	// 테이블 이외에 join으로 가져온 컬럼들
 	private String profile_photo;
+	private String nickname;
 }

@@ -39,18 +39,18 @@ public class UserViewController {
 	public String loginProcess(UserVO vo, HttpSession session, Model model) {
 		logger.info("로그인 프로세스 진입");
 
-		String id = null;
+		UserVO userInfo = null;
 		String idToken = vo.getIdToken();
 		String url = null;
 		
-		id = userService.login(idToken);
+		userInfo = userService.login(idToken);
 		
-		if (id == null) {// 로그인 시도결과 로그인이 아닌 경우 -> 회원가입
+		if (userInfo == null) {// 로그인 시도결과 로그인이 아닌 경우 -> 회원가입
 			logger.info("회원이 아님 회원가입 프로세스 진행");
 			model.addAttribute("idToken", idToken);
 			url = "/user/signup";
 		} else {// 로그인인 경우
-			session.setAttribute("userId", id);
+			session.setAttribute("userId", userInfo.getUser_id());
 			url = "redirect:/main";
 		}
 		

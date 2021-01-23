@@ -21,22 +21,72 @@ public class FollowDAO {
 	SqlSession session;
 	
 	/**
-	 * BOARD의 팔로우, 팔로워 정보를 DB로부터 가져오는 메소드
+	 * 팔로우 정보를 DB로부터 가져오는 메소드
 	 * 작성일: 2021.01.23 / 완성일: / 버그검증일:
 	 * 작성자: 이한결
 	 * @param id
 	 */
-	public Map<String, UserVO> getFollowFolloer(String id) {
-		Map<String, UserVO> followList = new HashMap<String, UserVO>();
+	public List<FollowingsVO> getFollow(String user_id) {
+		List<FollowingsVO> followList = null;
 		
 		try {
 			FollowingsMapper mapper = session.getMapper(FollowingsMapper.class);
-			List<FollowingsVO> follow = mapper.getFollow(id);
+			followList = mapper.getFollow(user_id);
 		} catch (Exception e) {
-			log.info("팔로잉 팔로워 정보 셀렉트 SQL 오류");
+			log.info("팔로우 정보 셀렉트 SQL 오류");
 		}
 		
-		return null;
+		return followList;
+	}
+
+	public List<FollowingsVO> getFollower(String user_id) {
+		List<FollowingsVO> followerList = null;
+		
+		try {
+			FollowingsMapper mapper = session.getMapper(FollowingsMapper.class);
+			followerList = mapper.getFollower(user_id);
+		} catch (Exception e) {
+			log.info("팔로우 정보 셀렉트 SQL 오류");
+		}
+		
+		return followerList;
+		
+	}
+	
+	/**
+	 * 팔로우한 인원수를 카운트하는 메소드
+	 * @param id
+	 * @return
+	 */
+	public int getFollowCount(String user_id) {
+		int cnt = 0;
+		
+		try {
+			FollowingsMapper mapper = session.getMapper(FollowingsMapper.class);
+			cnt = mapper.getFollowCount(user_id);
+		} catch (Exception e) {
+			log.info("팔로우 인원수 카운트 sql 오류");
+		}
+		
+		return cnt;
+	}
+	
+	/**
+	 * 팔로워 인원수를 카운트하는 메소드
+	 * @param id
+	 * @return
+	 */
+	public int getFollowerCount(String user_id) {
+		int cnt = 0;
+		
+		try {
+			FollowingsMapper mapper = session.getMapper(FollowingsMapper.class);
+			cnt = mapper.getFollowerCount(user_id);
+		} catch (Exception e) {
+			log.info("팔로워 인원수 카운트 sql 오류");
+		}
+		
+		return cnt;
 	}
 
 }

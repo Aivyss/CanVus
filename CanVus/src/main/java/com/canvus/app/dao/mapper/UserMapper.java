@@ -6,10 +6,10 @@ import com.canvus.app.vo.UserVO;
 
 public interface UserMapper {
 	
-	public String login(String id);
-	
 	public boolean signup(UserVO vo);
 
 	public List<UserVO> userSearch(String search);
+
+	public UserVO getUserInfo(String user_id);
 
 }
