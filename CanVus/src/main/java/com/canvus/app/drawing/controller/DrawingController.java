@@ -100,7 +100,7 @@ public class DrawingController {
 		int userCount = drawingService.getUserCount(room_Id);
 		
 		// TODO 입장하려는 방의 인원수가 초과했는지 안했는지 판단
-		if (roomInfo.getUser_no() >= userCount) {
+		if (roomInfo.getUser_no() <= userCount) {
 			url = "redirect:/main";
 		} else {
 			// 유저정보라든지 그림정보는 소켓연결 시 받아와야 할듯.
