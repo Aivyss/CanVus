@@ -20,8 +20,6 @@ import com.canvus.app.service.UserService;
 import com.canvus.app.vo.BookmarkVO;
 import com.canvus.app.vo.UserVO;
 
-import jdk.internal.org.jline.utils.Log;
-
 @Controller
 @RequestMapping(value="/user")
 public class UserViewController {

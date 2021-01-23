@@ -12,8 +12,6 @@ import com.canvus.app.dao.mapper.UserMapper;
 import com.canvus.app.vo.BookmarkVO;
 import com.canvus.app.vo.UserVO;
 
-import jdk.internal.org.jline.utils.Log;
-
 @Repository
 public class UserDAO {
 	@Autowired
