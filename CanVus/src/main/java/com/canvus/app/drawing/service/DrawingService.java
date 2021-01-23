@@ -120,4 +120,24 @@ public class DrawingService {
 		return drawingDAO.getUserCount(room_Id);
 	}
 	
+	/**
+	 * 방 비밀번호를 체크하기 위한 메소드
+	 * 작성일: 2021.01.23 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param params
+	 * @return
+	 */
+	public boolean passwordCheck(Map<String, String> params) {
+		String room_Id = params.get("room_Id");
+		String password = params.get("pwWrttenByUser");
+		boolean check = false;
+		DrawingRoomVO roomInfo = drawingDAO.getRoomById(room_Id);
+		
+		if (password.equals(roomInfo.getPassword())) {
+			check = true;
+		}
+		
+		return check;
+	}
+	
 }

@@ -1,6 +1,7 @@
 package com.canvus.app.drawing.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -113,6 +114,33 @@ public class DrawingController {
 		}
 		
 		return url;
+	}
+	
+	/**
+	 * AJAX통신 방 비밀번호 체크 메소드
+	 * 작성일: 2021.01.23 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param params
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/passwordCheck", method=RequestMethod.POST)
+	public Map<String, String> passwordCheck(@RequestBody Map<String, String> params) {
+		log.info("비밀번호 검증 컨트롤러 메소드 진입");
+		String result = "";
+		boolean check = drawingService.passwordCheck(params);
+		
+		if (check) {
+			result = "success";
+		} else {
+			result = "fail";
+		}
+		
+		Map<String, String> map = new HashMap<String, String>();
+		
+		map.put("result", result);
+		
+		return map;
 	}
 	
 	/**
