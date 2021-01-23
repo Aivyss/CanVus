@@ -49,7 +49,7 @@
 					<input type="button" value= "입력" id = "submitbox" onclick="correctPw()">
 					</div>
 				</div>
-				
+				<!-- 
 					<div>
 					
 					<script type="text/javascript">
@@ -62,13 +62,14 @@
 	
 						$.ajax({
 	
-						url : "/drawing/room" + ,//RoomID
-						type : "get",
+						url : "/drawing/passwordCheck" + ,//RoomID
+						type : "POST",
 						dataType : "json",
 						contentType : "application/json",
 						data : JSON.stringify(pw),
 						success : function(result) {
 							pw_check = result['pw'];
+							location.href
 						},
 						error: function(){
 							console.log("비번 오류");
@@ -79,7 +80,8 @@
 		
 						});
 					}
-</script>
+					 
+</script> -->
 					<p>ajax로 보내고 일치하면 다시 이페이지 불러와.</p>
 					</div>
 			</c:when>

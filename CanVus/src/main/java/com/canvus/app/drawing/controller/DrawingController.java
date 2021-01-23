@@ -1,6 +1,7 @@
 package com.canvus.app.drawing.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -60,9 +61,9 @@ public class DrawingController {
 		if (result == null) {
 			url = "redirect:/main";
 		} else {
+			session.setAttribute("pwWrttenByUser", result.getPassword());
 			url = "redirect:/drawing/room/?room_Id=" + result.getRoom_Id();
 		}
-		
 		
 		log.info("방만들기 controller 종료");
 		return url;
@@ -107,12 +108,39 @@ public class DrawingController {
 			// 프론트는 비밀번호 검증이 완료 될 시 ajax로 유저 정보 요청 및 레이어 요청
 			
 			// TODO 방에 들어오려 시도한 유저에게 비밀번호 검증을 위한 값 전달
-			model.addAttribute("pwWrttenByUser", (String) session.getAttribute("roomPassword")); // 유저가 입력한 비번
+			model.addAttribute("pwWrttenByUser", (String) session.getAttribute("pwWrttenByUser")); // 유저가 입력한 비번
 			model.addAttribute("dbPassword", roomInfo.getPassword()); // 방 비번
 			url = "drawing/room";
 		}
 		
 		return url;
+	}
+	
+	/**
+	 * AJAX통신 방 비밀번호 체크 메소드
+	 * 작성일: 2021.01.23 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param params
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/passwordCheck", method=RequestMethod.POST)
+	public Map<String, String> passwordCheck(@RequestBody Map<String, String> params) {
+		log.info("비밀번호 검증 컨트롤러 메소드 진입");
+		String result = "";
+		boolean check = drawingService.passwordCheck(params);
+		
+		if (check) {
+			result = "success";
+		} else {
+			result = "fail";
+		}
+		
+		Map<String, String> map = new HashMap<String, String>();
+		
+		map.put("result", result);
+		
+		return map;
 	}
 	
 	/**

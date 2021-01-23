@@ -21,5 +21,6 @@
 		<mapper resource="mapper/JoinListMapper.xml" />
 		<mapper resource="mapper/PageLayerMapper.xml" />
 		<mapper resource="mapper/BookmarkMapper.xml" />
+		<mapper resource="mapper/FollowingsMapper.xml" />
 	</mappers>
 </configuration>
