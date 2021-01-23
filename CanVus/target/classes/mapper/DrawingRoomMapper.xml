@@ -5,18 +5,33 @@
 
 <mapper namespace="com.canvus.app.drawing.mapper.DrawingRoomMapper">
 
-<insert id="createRoom" parameterType="com.canvus.app.drawing.vo.DrawingRoomVO">
+<insert id="createRoom" parameterType="room">
 	INSERT INTO DRAWING_ROOMS(
 	    ROOM_ID
+	    ,ADMIN
 	    ,TITLE
 	    ,PASSWORD
 	    ,USER_NO
 	) VALUES (
 	    #{room_Id}
+	    ,#{admin}
 	    ,#{title}
 	    ,#{password}
 	    ,#{user_no}
 	)
 </insert>
+
+<select id="getRoomById" parameterType="string" resultType="room">
+	SELECT
+		ROOM_ID
+	    ,ADMIN
+	    ,TITLE
+	    ,PASSWORD
+	    ,USER_NO
+	FROM
+		DRAWING_ROOMS
+	WHERE
+		ROOM_ID = #{string}
+</select>
 
 </mapper>

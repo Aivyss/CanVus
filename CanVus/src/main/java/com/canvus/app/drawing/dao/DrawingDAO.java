@@ -6,11 +6,14 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.canvus.app.drawing.mapper.DrawingRoomMapper;
 import com.canvus.app.drawing.mapper.JoinListMapper;
+import com.canvus.app.drawing.mapper.PageLayerMapper;
 import com.canvus.app.drawing.vo.DrawingRoomVO;
 import com.canvus.app.drawing.vo.DrawingUserVO;
+import com.canvus.app.drawing.vo.PageVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,23 +46,17 @@ public class DrawingDAO {
 	 * @param admin
 	 * @return
 	 */
-	public boolean createRoom(DrawingRoomVO roomInfo, DrawingUserVO admin) {
-		boolean check1 = false;
-		boolean check2 = false;
+	public boolean createRoom(DrawingRoomVO roomInfo) {
+		boolean check = false;
 		
 		try {
 			DrawingRoomMapper dRMapper = session.getMapper(DrawingRoomMapper.class);
-			JoinListMapper jLMapper = session.getMapper(JoinListMapper.class);
-			
-			check1 = dRMapper.createRoom(roomInfo);
-			check2 = jLMapper.addUser(admin);
+			check = dRMapper.createRoom(roomInfo);
 		} catch (Exception e) {
 			log.info("방생성 sql 오류");
-			System.out.println(check1);
-			System.out.println(check2);
 		}
 		
-		return check1 && check2;
+		return check;
 	}
 	
 	/**
@@ -81,6 +78,84 @@ public class DrawingDAO {
 		
 		log.info(userList.toString());
 		return userList;
+	}
+	
+	/**
+	 * 해당 방의 그림 정보를 가져오는 메소드
+	 * 제작일: 2021.01.20 / 완성일: / 버그검증완료:
+	 * @param room_Id
+	 * @return
+	 */
+	public List<PageVO> getPgs(String room_Id) {
+		List<PageVO> dbData = null;
+		
+		try {
+			PageLayerMapper mapper = session.getMapper(PageLayerMapper.class);
+			dbData = mapper.getPgs(room_Id);
+		} catch (Exception e) {
+			log.info("getPgs SQL오류");
+		}
+		
+		return dbData;
+	}
+	
+	/**
+	 * 그려진 한 레이어를 데이터베이스에 저장하는 메소드
+	 * 제작일: 2021.01.21 / 완성일: / 버그검증완료:
+	 * @param page
+	 * @return
+	 */
+	public boolean savePage(PageVO page) {
+		boolean check = false;
+		
+		try {
+			PageLayerMapper mapper = session.getMapper(PageLayerMapper.class);
+			check = mapper.savePage(page);
+		} catch (Exception e) {
+			log.info("레이어 저장 sql오류");
+		}
+		
+		return check;
+	}
+	
+	/**
+	 * 방 아이디로 방의 정보를 가져오는 메소드
+	 * 작성일: 2021.01.22 / 완성일: / 버그 검증일:
+	 * 작성자: 이한결
+	 * @param room_Id
+	 * @return
+	 */
+	public DrawingRoomVO getRoomById(String room_Id) {
+		DrawingRoomVO dbData = null;
+		
+		try {
+			DrawingRoomMapper mapper = session.getMapper(DrawingRoomMapper.class);
+			dbData = mapper.getRoomById(room_Id);
+		} catch (Exception e) {
+			log.info("아이디로 방정보 조회 SQL오류");
+		}
+		
+		return dbData;
+	}
+
+	/**
+	 * room_Id에 해당하는 그리기 방의 인원수를 산출하는 메소드
+	 * 작성일: 2021.01.22 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param room_Id
+	 * @return
+	 */
+	public int getUserCount(String room_Id) {
+		int count = 0;
+		
+		try {
+			JoinListMapper mapper = session.getMapper(JoinListMapper.class);
+			count = mapper.getUserCount(room_Id);
+		} catch (Exception e) {
+			log.info("방 인원수 산출 SQL 오류");
+		}
+		
+		return count;
 	}
 
 }

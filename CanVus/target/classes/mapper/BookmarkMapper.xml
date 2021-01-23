@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.canvus.app.dao.mapper.BookmarkMapper">
+
+<insert id="makeFolder" parameterType="bookmark">
+	INSERT INTO BOOKMARK_FOLDER(
+		FOLDER_ID
+		,USER_ID
+		,FOLDER_NAME
+	) VALUES (
+		FOLDER_ID_SEQ.NEXTVAL
+		,#{user_id}
+		,#{folder_name}
+	)
+</insert>
+
+<select id="checkDoubleNameOfBookmark" parameterType="bookmark" resultType="bookmark">
+	SELECT
+		FOLDER_ID
+		,USER_ID
+		,FOLDER_NAME
+	FROM
+		BOOKMARK_FOLDER
+	WHERE
+		USER_ID = #{user_id}
+		AND
+		FOLDER_NAME = #{folder_name}
+</select>
+
+<delete id="deleteFolder" parameterType="int">
+DELETE
+	FROM
+		BOOKMARK_FOLDER
+	WHERE
+		FOLDER_ID = #{int}
+</delete>
+
+</mapper>

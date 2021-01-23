@@ -11,4 +11,6 @@ public interface DrawingRoomMapper {
 	
 	public DrawingRoomVO enterRoom(String roomId);
 
+	public DrawingRoomVO getRoomById(String room_Id);
+
 }
