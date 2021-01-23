@@ -106,6 +106,8 @@ rank{
 </style>
 </head>
 <body>
+	<jsp:include page="mainMenu.jsp"></jsp:include>
+	
    <!-- 메인로고 >> 클릭시 홈으로 -->
    <a href="/" class="mainLogo">CanVus</a>
    

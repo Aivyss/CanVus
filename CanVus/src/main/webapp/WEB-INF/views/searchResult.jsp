@@ -7,6 +7,7 @@
 <title>검색결과 창</title>
 </head>
 <body>
+	<jsp:include page="mainMenu.jsp"></jsp:include>
 	<h1>${searchText } 검색했니? 어서오고</h1>
 </body>
 </html>

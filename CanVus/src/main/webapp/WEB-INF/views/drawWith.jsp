@@ -7,6 +7,8 @@
 	<title>Drawing page</title>
 	</head>
 	<body>
+		<jsp:include page="/WEB-INF/views/mainMenu.jsp"></jsp:include>
+		
 		<h1>드로잉 페이지 어서오고</h1>
 	</body>
 </html>
