@@ -6,6 +6,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js" ></script>
 		
 <style>
 #inputPassword5 {
@@ -49,39 +50,44 @@
 					<input type="button" value= "입력" id = "submitbox" onclick="correctPw()">
 					</div>
 				</div>
-				<!-- 
+				
 					<div>
 					
 					<script type="text/javascript">
-
-					var pw = docment.geElementByName('password').value;
-					var pw_check = "";
-					function correctPw(){
 					
-						
+
+					
+					function correctPw(){
+						var data={}
+						data["pwWrttenByUser"]=$("#inputPassword5").val();		
 	
 						$.ajax({
 	
-						url : "/drawing/passwordCheck" + ,//RoomID
+						url : "/drawing/passwordCheck",
 						type : "POST",
 						dataType : "json",
 						contentType : "application/json",
-						data : JSON.stringify(pw),
+						data : JSON.stringify(data),
 						success : function(result) {
-							pw_check = result['pw'];
-							location.href
-						},
-						error: function(){
-							console.log("비번 오류");
+							if(result["result"] == "sussces") {
+								//TODO 세션스코프에 비번값넣기	
+								${sessionScope.pwWrttenByUser}							
+							location.href="/drawing/room/?room_Id=";
+							
+							}else {								
 
-							}	
-						
-	
+								alret("비밀번호가 틀렸습니다");
+								}
+						},
+						error:function(request,status,error){
+						    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+						    }					
+									
 		
 						});
 					}
 					 
-</script> -->
+</script> 
 					<p>ajax로 보내고 일치하면 다시 이페이지 불러와.</p>
 					</div>
 			</c:when>
@@ -89,6 +95,8 @@
 			<c:otherwise>
 				<div>
 					<p>본격으로 드로잉창 시작</p>
+					${pwWrttenByUser }
+					${dbPassword }
 				</div>
 			</c:otherwise>
 		</c:choose>
