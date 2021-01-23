@@ -30,6 +30,8 @@
 }
 
 </style>		
+
+
 		
 	</head>
 	
@@ -42,13 +44,42 @@
 					
 				<div class="row g-3 align-items-center" id ="passwordsetting">
 			 		<label for="inputPassword5" class="form-label">Password</label>
-					<input type="password" id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock">
+					<input type="password" id="inputPassword5" name="password" class="form-control" aria-describedby="passwordHelpBlock">
 					<div> 
-					<input type="submit" value= "입력" id = "submitbox">
+					<input type="button" value= "입력" id = "submitbox" onclick="correctPw()">
 					</div>
 				</div>
 				
 					<div>
+					
+					<script type="text/javascript">
+
+					var pw = docment.geElementByName('password').value;
+					var pw_check = "";
+					function correctPw(){
+					
+						
+	
+						$.ajax({
+	
+						url : "/drawing/room" + ,//RoomID
+						type : "get",
+						dataType : "json",
+						contentType : "application/json",
+						data : JSON.stringify(pw),
+						success : function(result) {
+							pw_check = result['pw'];
+						},
+						error: function(){
+							console.log("비번 오류");
+
+							}	
+						
+	
+		
+						});
+					}
+</script>
 					<p>ajax로 보내고 일치하면 다시 이페이지 불러와.</p>
 					</div>
 			</c:when>
