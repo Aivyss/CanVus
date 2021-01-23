@@ -13,6 +13,8 @@
 </head>
 <body>
 
+<jsp:include page="/WEB-INF/views/mainMenu.jsp"></jsp:include>
+
 <!-- 메인 상단 검색창 -->
 <table>
 			<tr class ="head">

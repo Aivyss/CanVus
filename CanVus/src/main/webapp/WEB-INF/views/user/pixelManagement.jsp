@@ -7,6 +7,16 @@
 <title>픽셀관리창</title>
 </head>
 <body>
-	<h1>픽셀관리잘하자</h1>
+	<jsp:include page="/WEB-INF/views/mainMenu.jsp"></jsp:include>
+	<div>
+		<div>Drawing Page</div>
+	</div>
+	<div>
+		<span>CanVus</span>
+		<a>올리기</a>
+		<a>저장</a>
+		<a>뒤로</a>
+		<a>앞으로</a>
+	</div>
 </body>
 </html>

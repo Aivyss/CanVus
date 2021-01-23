@@ -13,8 +13,10 @@
 
 
 <body>
+	
+	<jsp:include page="mainMenu.jsp"></jsp:include>
 
-<table>
+	<table>
 
 			<!-- 메인 최상단 검색창 및 메뉴 -->
 			<tr class ="head" >
