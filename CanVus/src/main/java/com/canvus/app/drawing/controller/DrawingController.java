@@ -97,13 +97,11 @@ public class DrawingController {
 		
 		// TODO room_Id로 방정보를 받아옴
 		DrawingRoomVO roomInfo = drawingService.getRoomById(room_Id);
-		// TODO room_Id로 방인원수를 산출함
+		// TODO room_Id로 현재 방인원수를 산출함
 		int userCount = drawingService.getUserCount(room_Id);
 		
 		// TODO 입장하려는 방의 인원수가 초과했는지 안했는지 판단
-		if (roomInfo.getUser_no() <= userCount) {
-			url = "redirect:/main";
-		} else {
+		if (roomInfo.getUser_no() > userCount) {
 			// 유저정보라든지 그림정보는 소켓연결 시 받아와야 할듯.
 			// 프론트는 비밀번호 검증이 완료 될 시 ajax로 유저 정보 요청 및 레이어 요청
 			
@@ -111,6 +109,8 @@ public class DrawingController {
 			model.addAttribute("pwWrttenByUser", (String) session.getAttribute("pwWrttenByUser")); // 유저가 입력한 비번
 			model.addAttribute("dbPassword", roomInfo.getPassword()); // 방 비번
 			url = "drawing/room";
+		} else {
+			url = "redirect:/main";
 		}
 		
 		return url;
