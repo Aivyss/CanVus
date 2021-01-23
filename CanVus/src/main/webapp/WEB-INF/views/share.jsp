@@ -8,7 +8,16 @@
 
 <link rel="stylesheet" type="text/css" href="/resources/css/share.css">
 
+<script type="text/javascript">
 
+function moveDrawingRoom(){
+
+	$(location).attr("href","/drawing/room");
+	
+}
+
+
+</script>
 </head>
 
 
@@ -66,7 +75,7 @@
 		<table >
 			<tr class ="head">
 				<td class ="head"> 
-					<img  alt="찾기" src="/resources/images/search.png" width = 60px height = 60px>
+					<img  alt="찾기" src="/resources/images/search.png" width = 60px height = 60px onclick="moveDrawingRoom()">
 				</td>
 				<td class ="head">
 					<input type = "text" id = "roomSearch" value ="방 제목 검색">

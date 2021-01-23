@@ -91,18 +91,18 @@
                                     	Drawing
                                     	</button>
                                     	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-										  <form class="px-4 py-3 " style ="width: 350px;" action="/drawingRoom" method="post">
+										  <form class="px-4 py-3 " style ="width: 350px;" action="/drawing/createRoom" method="post">
 										    <div class="form-group" style ="padding: 10px 10px 0 10px;">
 										      <label for="exampleDropdownFormTitle">Title</label>
-										      <input type="text" class="form-control" id="exampleDropdownFormTitle" placeholder="write the title">
+										      <input type="text" class="form-control" id="exampleDropdownFormTitle" name="title" placeholder="write the title">
 										    </div>
 										    <div class="form-group" style ="padding: 10px 10px 0 10px;">
 										      <label for="exampleDropdownFormPassword1">Password</label>
-										      <input type="password" class="form-control" id="exampleDropdownFormPassword" placeholder="Password">
+										      <input type="password" class="form-control" id="exampleDropdownFormPassword" name="password" placeholder="Password">
 										    </div>
 										   <div class="form-group" style ="padding: 10px 10px 0 10px;">
 										      <label for="exampleDropdownFormPassword1">No.Ppl</label>
-										      <input type="text" class="form-control" id="exampleDropdownFormNumberOfPpl" placeholder="write capacity of the room">
+										      <input type="text" class="form-control" id="exampleDropdownFormNumberOfPpl" name="user_no" placeholder="write capacity of the room">
 										    </div>
 										    <div align = "center">   
 										    <button type="submit" class="btn btn-primary" style="width: 150px;">Create</button>
