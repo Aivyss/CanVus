@@ -23,4 +23,26 @@
 	)
 </insert>
 
+<select id="selectFeed" parameterType="string" resultType="feed">
+	SELECT
+		FEED_ID
+	    ,USER_ID1
+	    ,USER_ID2
+	    ,USER_ID3
+	    ,USER_ID4
+	    ,CONTEXT
+		,TO_CHAR(INPUTDATE, 'yyyy-MM-dd')	AS	INPUTDATE
+	FROM
+		FEEDS
+	WHERE
+		FEED_ID = #{string}
+</select>
+
+<update id="updateFeed" parameterType="feed">
+	UPDATE FEEDS SET
+		CONTEXT = #{context}
+	WHERE
+		FEED_ID = #{feed_id}
+</update>
+
 </mapper>

@@ -143,4 +143,5 @@ public class UserViewController {
 		
 		return "redirect:/";
 	}
+	
 }

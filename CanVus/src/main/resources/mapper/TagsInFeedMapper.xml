@@ -25,4 +25,12 @@
 		</foreach>
 		) A
 </insert>
+
+<delete id="deleteTags" parameterType="string">
+	DELETE FROM 
+		TAGS_IN_FEED
+	WHERE
+		FEED_ID = #{string}
+</delete>
+
 </mapper>

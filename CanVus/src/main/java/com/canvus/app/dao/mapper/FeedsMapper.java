@@ -12,4 +12,8 @@ public interface FeedsMapper {
 
 	public boolean createFeedTableRow(FeedVO feedVO);
 
+	public FeedVO selectFeed(String feed_id);
+
+	public boolean updateFeed(FeedVO feed);
+
 }

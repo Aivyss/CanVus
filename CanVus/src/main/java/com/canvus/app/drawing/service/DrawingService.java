@@ -19,6 +19,7 @@ import com.canvus.app.drawing.vo.DrawingRoomVO;
 import com.canvus.app.drawing.vo.DrawingUserVO;
 import com.canvus.app.drawing.vo.PageVO;
 import com.canvus.app.util.Base64ToImgDecoder;
+import com.canvus.app.util.Helper;
 import com.canvus.app.vo.FeedDrawingsVO;
 import com.canvus.app.vo.FeedVO;
 import com.canvus.app.vo.TagsInFeedVO;
@@ -190,7 +191,8 @@ public class DrawingService {
 			
 			if (check) {
 				// TODO 만든 피드정보에 태그를 추출하여 삽입한다.
-				check = this.tagParse(room_Id, context);
+				TagsInFeedVO tif = Helper.tagParse(room_Id, context);
+				check = tagDAO.inputTags(tif);
 			}
 		}
 		

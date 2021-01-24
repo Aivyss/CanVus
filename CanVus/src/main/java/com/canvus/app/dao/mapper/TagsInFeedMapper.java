@@ -6,4 +6,6 @@ public interface TagsInFeedMapper {
 
 	public boolean inputTags(TagsInFeedVO tif);
 
+	public boolean deleteTags(String feed_id);
+
 }

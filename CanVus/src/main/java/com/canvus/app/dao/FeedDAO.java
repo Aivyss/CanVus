@@ -9,8 +9,10 @@ import org.springframework.stereotype.Repository;
 
 import com.canvus.app.dao.mapper.FeedDrawingsMapper;
 import com.canvus.app.dao.mapper.FeedsMapper;
+import com.canvus.app.dao.mapper.TagsInFeedMapper;
 import com.canvus.app.vo.FeedDrawingsVO;
 import com.canvus.app.vo.FeedVO;
+import com.canvus.app.vo.TagsInFeedVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -83,5 +85,37 @@ public class FeedDAO {
 		return check;
 	}
 	
-	
+	/**
+	 * 아이디와 일치하는 피드의 정보를 가져오는 메소드
+	 * 작성일: 2021.01.24 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param feed_id
+	 * @return
+	 */
+	public FeedVO selectFeed(String feed_id) {
+		FeedVO dbData = null;
+		
+		try {
+			FeedsMapper mapper = session.getMapper(FeedsMapper.class);
+			dbData = mapper.selectFeed(feed_id);
+		} catch (Exception e) {
+			log.info("아이디로 피드 셀렉트 sql오류");
+		}
+		
+		return dbData;
+	}
+
+	public boolean updateFeed(FeedVO feed) {
+		boolean check = false;
+		
+		try {
+			FeedsMapper mapper = session.getMapper(FeedsMapper.class);
+			check = mapper.updateFeed(feed);
+		} catch (Exception e) {
+			log.info("피드 수정 sql오류");
+		}
+		
+		return check;
+	}
+
 }
