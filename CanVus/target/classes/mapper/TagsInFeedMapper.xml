@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.canvus.app.dao.mapper.TagsInFeedMapper">
+
+<insert id="inputTags" parameterType="tagsInFeed">
+	INSERT INTO TAGS_IN_FEED(
+		TIF_ID
+		,FEED_ID
+		,TAG_NAME
+	)
+	SELECT
+		TIF_ID_SEQ.NEXTVAL	AS TIF_ID
+		, A.*
+	FROM
+		(
+		<foreach collection="tag_name" item="tag" separator="UNION ALL">
+		SELECT
+			#{feed_id}	AS FEED_ID
+			,#{tag}	AS	TAG_NAME
+		FROM
+			DUAL
+		</foreach>
+		) A
+</insert>
+</mapper>

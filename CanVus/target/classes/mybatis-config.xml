@@ -11,6 +11,7 @@
 		<typeAlias type="com.canvus.app.vo.FollowingsVO" alias="followUnit" />
 		<typeAlias type="com.canvus.app.vo.FeedVO" alias="feed" />
 		<typeAlias type="com.canvus.app.vo.FeedDrawingsVO" alias="feedDrawings" />
+		<typeAlias type="com.canvus.app.vo.TagsInFeedVO" alias="tagsInFeed" />
 		<typeAlias type="com.canvus.app.drawing.vo.DrawingRoomVO" alias="room" />
 		<typeAlias type="com.canvus.app.drawing.vo.DrawingUserVO" alias="drawingUser" />
 		<typeAlias type="com.canvus.app.drawing.vo.PageVO" alias="page" />
@@ -27,5 +28,7 @@
 		<mapper resource="mapper/FollowingsMapper.xml" />
 		<mapper resource="mapper/FeedsMapper.xml" />
 		<mapper resource="mapper/FeedDrawingsMapper.xml" />
+		<mapper resource="mapper/TagsInFeedMapper.xml" />
+		<mapper resource="mapper/TagMapper.xml" />
 	</mappers>
 </configuration>

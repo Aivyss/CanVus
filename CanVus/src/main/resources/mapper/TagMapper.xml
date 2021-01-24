@@ -5,46 +5,29 @@
 
 <mapper namespace="com.canvus.app.dao.mapper.TagMapper">
 
-<select id="tagSearch" parameterType="string" resultType="hashMap">
-	<![CDATA[
+<insert id="addTags" parameterType="tagsInFeed">
+	INSERT INTO TAGS (
+		TAG_NAME
+	)
 	SELECT
-		TIF.FEED_ID,
-		TIF.TAG_NAME,
-		F.USER_ID1,
-		F.USER_ID2,
-		F.USER_ID3,
-		F.USER_ID4,
-		(SELECT 
-			SERVER_PAGES_NAME,
-		FROM
-			FEED_DRAWINGS FD, FEEDS F, TAGS T, TAGS_IN_FEED TIF
-		WHERE
-			T.TAG_NAME = #{string}
-			AND
-			TIF.TAG_NAME = T.TAG_NAME
-			AND
-			TIF.FEED_ID
-			AND
-			F.FEED_ID = FD.FEED_ID
-			AND
-			DROWINGS_ID = MAX(DROWINGS_ID)
-			AND
-			ROWNUM <= 1
-		ORDER BY
-			TIF_ID ASC
-		)
+		A.*
 	FROM
-		TAGS_IN_FEED TIF, TAGS T, FEEDS F, FEED_DRAWINGS FD
-	WHERE
-		TAG_NAME = #{string}
-		AND
-		TIF.TAG_NAME = T.TAG_NAME
-		AND
-		TIF.FEED_ID = F.FEED_ID
-		AND
-		FD.FEED_ID = F.FEED_ID
-	]]>
-</select>
-
+		(
+		<foreach collection="tag_name" item="tag" separator="UNION ALL">
+			SELECT
+				#{tag}	AS TAG_NAME
+			FROM
+				DUAL
+			WHERE NOT EXISTS(
+				SELECT
+					TAG_NAME
+				FROM
+					TAGS
+				WHERE
+					TAG_NAME = #{tag}
+			)
+		</foreach>
+		) A
+</insert>
 
 </mapper>
