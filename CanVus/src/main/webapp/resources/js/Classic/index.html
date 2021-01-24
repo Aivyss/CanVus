@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <title>ColorJack: DHTML Color Picker</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <link href="demo.css" rel="stylesheet" type="text/css" />
+ <link href="./Color.Picker.Classic.css" rel="stylesheet" type="text/css" />
+ <script src="./Color.Picker.Classic.js" type="text/javascript"></script> 
+ <script src="./Color.Space.js" type="text/javascript"></script> 
+</head>
+<body>
+<div id="everything">
+  <fieldset id="colorspy">
+   <legend>DHTML Color Picker</legend>
+   <div id="testSwatch" style="background: #643263">
+   	<a href="http://www.nofunc.com/DHTML_Color_Picker/">DHTML Color Picker</a>
+   	<br>Free to use on your own projects!
+   </div>
+  </fieldset>
+</div>
+<script type="text/javascript">
+
+window.onload = function() {
+	var swatch = document.getElementById("testSwatch");
+	picker = new Color.Picker({
+		color: "#643263", // accepts rgba(), or #hex
+		display: true,
+		size: 200,
+		callback: function(rgba, state, type) {
+			swatch.style.background = Color.Space(rgba, "RGBA>W3");
+		}
+	});
+	picker.element.style.top = swatch.offsetTop + "px";
+	picker.element.style.left = (swatch.offsetLeft - 285) + "px";
+};
+
+</script>
+</body>
+</html>
