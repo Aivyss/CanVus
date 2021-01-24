@@ -106,6 +106,7 @@ public class DrawingController {
 			// 프론트는 비밀번호 검증이 완료 될 시 ajax로 유저 정보 요청 및 레이어 요청
 			
 			// TODO 방에 들어오려 시도한 유저에게 비밀번호 검증을 위한 값 전달
+			model.addAttribute("room_Id", room_Id);
 			model.addAttribute("pwWrttenByUser", (String) session.getAttribute("pwWrttenByUser")); // 유저가 입력한 비번
 			model.addAttribute("dbPassword", roomInfo.getPassword()); // 방 비번
 			url = "drawing/room";
@@ -141,6 +142,18 @@ public class DrawingController {
 		map.put("result", result);
 		
 		return map;
+	}
+	
+	/**
+	 * 방에 들어올시 세션에 저장된 방 비밀번호를 초기화하는 메소드
+	 * 작성일: 2021.01.24 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param session
+	 */
+	@ResponseBody
+	@RequestMapping(value="resetRoomPassword")
+	public void resetRoomPassword (HttpSession session) {
+		session.removeAttribute("pwWrttenByUser");
 	}
 	
 	/**
