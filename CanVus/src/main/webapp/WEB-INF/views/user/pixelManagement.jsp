@@ -28,9 +28,19 @@
 
 			$(this).addClass('current');
 			$("#"+tab_id).addClass('current');
-		})
+		});
 
-	})
+		$(".brush").click(function(){
+			$(".spray").css({
+				"display": "block"
+				
+			});
+			
+		});
+		
+	});
+
+	
 	</script>
 <style type="text/css">
 /* body{
@@ -44,6 +54,20 @@ line-height: 1.6
 	margin: 10px;
 }
 
+.tool{
+	
+}
+
+.brush{
+	display: inline-block;
+}
+
+.tool_brush{
+	display: none;
+	
+}
+
+
 .rangeBar{
 	display: inline-block;
 	
@@ -51,7 +75,7 @@ line-height: 1.6
 
 .range{
 	/* -webkit-appearance: slider-vertical; */
-	transform: rotate(270deg);
+	/* transform: rotate(270deg); */
 	margin: 0px;
 	
 	
@@ -97,17 +121,36 @@ ul.tabs li.current{
 <body>
 	<jsp:include page="/WEB-INF/views/mainMenu.jsp"></jsp:include>
 	
+	<!-- 툴 텝 시작 -->
 	<div class="toolBar">
 		<div>Drawing Page</div>
-	
-	
 		<span>CanVus</span>
 		<a>올리기</a>
 		<a>저장</a>
 		<a>뒤로</a>
 		<a>앞으로</a>
-		<div>
-			<button>브러쉬</button>
+		<div class="tool">
+			<div>
+			<button class="brush">브러쉬</button>
+			</div>
+			<div>
+				<button id="selection">selection</button>
+			</div>
+		</div>
+		
+		<div class="tool_brush">
+			<div>
+				<input type="button" value="스프레이" onclick="sprayBrush();">
+			</div>	
+			<div>
+				<input type="button" value="써클" onclick="circleBrush();">
+			</div>
+			<div>
+				<input type="button" value="패턴" onclick="patternBrush();">
+			</div>
+			<div>
+				<input type="button" value="연필" onclick="pencilBrush();">
+			</div>	
 		</div>
 		<div class="rangeBar">
 	      <input type="range" max="1" min="0.1" step="0.05" value="1" id="opacity" class="range">
@@ -116,8 +159,9 @@ ul.tabs li.current{
 	      <input type="range" max="30" min="1" step="1" value="5" id="thickness" class="range">
 	    </div>  
 	</div>
-
+	<!-- 툴 텝 끝 -->
 	
+	<!-- page 텝 시작-->
 	<div class="container" id="container">
 		<ul class="tabs">
 			<li class="tab-link current" data-tab="tab-1">page1</li>
@@ -128,34 +172,34 @@ ul.tabs li.current{
 		<div id="tab-1" class="tab-content current">
 			<div class="set">
 			    <div class="layers">
-			    <!-- <canvas class="background" width="400" height="400"></canvas> -->
-			    <canvas class="canvas" id="canvas" width="1000" height="600"></canvas>
+				    <!-- <canvas class="background" width="400" height="400"></canvas> -->
+				    <canvas class="canvas" id="canvas" width="1000" height="600"></canvas>
 			    </div>
 			    <div class="buttons">
 			      <button id="eraser">eraser</button>
 			      <button id="drawer">drawer</button>
-			      <button id="red">red</button>
-			      <input type="button" value="펜" onclick="baseBrush();">
+			      <button id="red">펜</button>
+			      <!-- <input type="button" value="펜" onclick="baseBrush();"> -->
 			      <input type="button" value="스프레이" onclick="sprayBrush();">
 			      <input type="button" value="써클" onclick="circleBrush();">
 			      <input type="button" value="패턴" onclick="patternBrush();">
-			      <input type="button" value="연필" onclick="pencilBrush();">
-			      <input type="button" value="히스토리" onclick="getHistory();">
+			      <input type="button" value="연필" onclick="PencilBrush();">
+			      <!-- <input type="button" value="히스토리" onclick="getHistory();"> -->
 			      <button id="selection">selection</button>
-			      <button id="stringify">stringify</button>
+			      <!-- <button id="stringify">stringify</button>
 			      <button id="removal">removal</button>
-			      <button id="recover">recover</button>
-			      
+			      <button id="recover">recover</button> -->  
 			    </div>
 			  </div>
 			  <script src="/resources/js/drawingApp.js"></script>
 		</div>
-		<div id="tab-2" class="tab-content">
-			
+		<div id="tab-2" class="tab-content">		
 		</div>
 		<div id="tab-3" class="tab-content">
 		</div>
 	</div>
+	<!-- page 텝 끝-->
+	
 	<!-- <div class="set">
     <div class="layers">
     <canvas class="background" width="400" height="400"></canvas>
