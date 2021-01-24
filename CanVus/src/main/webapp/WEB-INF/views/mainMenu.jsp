@@ -7,6 +7,13 @@
 .navbar-default .navbar-nav>li>div>button {
     color: #777;
 }
+
+#searchbar{
+	position: absolute;
+	margin-top :25px;
+	width:30%;
+	left: 200px;
+}
 </style>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -41,23 +48,7 @@
     <!--Start Hedaer Section-->
     <section id="header">
         <div class="header-area">
-            <div class="top_header">
-                <div class="container">
-                    <div class="row">
-                        <!--Start of col-lg-6-->
-                        <div class="col-lg-6">
-                            <div class="input-group">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button" onclick="searchResult();">Go!</button>
-                                </span>
-                                <input type="text" class="form-control" placeholder="Search for..." id="searchText">
-                            </div><!-- /input-group -->
-                            <!--End of col-lg-6-->
-                        </div>
-                        <!--End of row-->
-                    </div>
-                    <!--End of container-->
-                </div>
+            <div class="top_header">                                        
                 <!--End of top header-->
                 <div class="header_menu text-center" data-spy="affix" data-offset-top="50" id="nav">
                     <div class="container">
@@ -73,9 +64,16 @@
                                 </button>
                                 <a class="navbar-brand custom_navbar-brand" href="#">
                                 	<img src="/resources/mainAsset/img/CanVus.png" alt="">
-                                </a>
-                            </div>
-                            <!--End of navbar-header-->
+                                </a>                                                		                            		                       
+		                            <div class="input-group navbar-collapse" id="searchbar">
+		                                <span class="input-group-btn">
+		                                    <button class="btn btn-default" type="button" onclick="searchResult();">Go!</button>
+		                                </span>
+		                                <input type="text" class="form-control" placeholder="Search for..." id="searchText">
+		                            </div><!-- /input-group -->
+		                   </div>
+		                       
+		                   
 
                             <!-- Collect the nav links, forms, and other content for toggling -->
                             <div class="collapse navbar-collapse zero_mp" id="bs-example-navbar-collapse-1">
@@ -91,18 +89,18 @@
                                     	Drawing
                                     	</button>
                                     	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-										  <form class="px-4 py-3 " style ="width: 350px;" action="/drawingRoom" method="post">
+										  <form class="px-4 py-3 " style ="width: 350px;" action="/drawing/createRoom" method="post">
 										    <div class="form-group" style ="padding: 10px 10px 0 10px;">
 										      <label for="exampleDropdownFormTitle">Title</label>
-										      <input type="text" class="form-control" id="exampleDropdownFormTitle" placeholder="write the title">
+										      <input type="text" class="form-control" id="exampleDropdownFormTitle" name="title" placeholder="write the title">
 										    </div>
 										    <div class="form-group" style ="padding: 10px 10px 0 10px;">
 										      <label for="exampleDropdownFormPassword1">Password</label>
-										      <input type="password" class="form-control" id="exampleDropdownFormPassword" placeholder="Password">
+										      <input type="password" class="form-control" id="exampleDropdownFormPassword" name="password" placeholder="Password">
 										    </div>
 										   <div class="form-group" style ="padding: 10px 10px 0 10px;">
 										      <label for="exampleDropdownFormPassword1">No.Ppl</label>
-										      <input type="text" class="form-control" id="exampleDropdownFormNumberOfPpl" placeholder="write capacity of the room">
+										      <input type="text" class="form-control" id="exampleDropdownFormNumberOfPpl" name="user_no" placeholder="write capacity of the room">
 										    </div>
 										    <div align = "center">   
 										    <button type="submit" class="btn btn-primary" style="width: 150px;">Create</button>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +9,18 @@
 
 <link rel="stylesheet" type="text/css" href="/resources/css/share.css">
 
+<script type="text/javascript">
 
+function moveDrawingRoom(){
+
+	$(location).attr("href","/drawing/room");
+	
+}
+
+
+
+
+</script>
 </head>
 
 
@@ -66,7 +78,7 @@
 		<table >
 			<tr class ="head">
 				<td class ="head"> 
-					<img  alt="찾기" src="/resources/images/search.png" width = 60px height = 60px>
+					<img  alt="찾기" src="/resources/images/search.png" width = 60px height = 60px >
 				</td>
 				<td class ="head">
 					<input type = "text" id = "roomSearch" value ="방 제목 검색">
@@ -74,14 +86,15 @@
 			</tr>				
 		</table>
 	<!-- 생성되어 있는 방 -->	
-		<table class ="picture">
 	
+		<table class ="picture">
+			
 			<tr>
 				<td>
 					<table class ="roombox">
 						<tr class ="head">
 							<td>
-								<input type="image" width = 320px height = 200px>
+								<input type="image" width = 320px height = 200px onclick="moveDrawingRoom()">
 							</td>
 						</tr>
 						<tr>
