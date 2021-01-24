@@ -157,5 +157,4 @@ public class DrawingDAO {
 		
 		return count;
 	}
-
 }

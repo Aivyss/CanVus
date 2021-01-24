@@ -32,15 +32,17 @@ public class UserService {
 	
 	/**
 	 * login business logic
+	 * 최초작성일: 2021.01.01 (?) / 수정일: 2021.01.23 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
 	 * @param idToken
 	 * @return user id in DB
 	 */
-	public String login(String idToken) {
+	public UserVO login(String idToken) {
 		logger.info("로그인 서비스 진입");
 		
 		Payload payload = loginSignuplogic(idToken);
 		
-		return userDAO.login(payload.getSubject());
+		return userDAO.getUserInfo(payload.getSubject());
 	}
 	
 	public UserVO signup(UserVO vo) {
@@ -67,7 +69,7 @@ public class UserService {
 	
 	/**
 	 * 구글 Oath 를 이용해 받은 토큰을 파싱하는 메소드
-	 * 작성일: 2021.01 / 완성일: / 버그검증일:
+	 * 작성일: 2021.01 / 수정일: 2021.01.23 /완성일: / 버그검증일:
 	 * 작성자: 이한결
 	 * @param idToken
 	 * @return
@@ -76,7 +78,6 @@ public class UserService {
 		JacksonFactory jsonFactory = JacksonFactory.getDefaultInstance();
 		HttpTransport transport = null;
 		GoogleIdToken token = null;
-		UserVO vo = new UserVO();
 		
 		try {
 			transport = GoogleNetHttpTransport.newTrustedTransport();

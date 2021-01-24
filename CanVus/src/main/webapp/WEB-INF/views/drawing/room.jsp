@@ -34,7 +34,13 @@
 			</div>
 			
 				<div>
+<<<<<<< HEAD
 					<div>Drawing Page</div>
+=======
+					<p>비밀번호를 입력하세요</p>
+					<input type="password">
+					<p>ajax로 보내고 일치하면 다시 이페이지 불러와.</p>
+>>>>>>> main
 				</div>
 				<div>
 					<span>CanVus</span>

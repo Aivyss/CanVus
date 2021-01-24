@@ -20,23 +20,25 @@ public class UserDAO {
 	private static final Logger logger = LoggerFactory.getLogger(UserDAO.class);
 	
 	/**
-	 * 
+	 * 로그인이나 유저 정보가 필요한 경우에 사용하는 dao메소드
+	 * 최초작성일: 2021.01.01(?) / 수정일: 2021.01.23 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
 	 * @param id
 	 * @return user id in DB
 	 */
-	public String login(String id) {
-		logger.info("UserDAO 로그인 함수 진입");
+	public UserVO getUserInfo(String id) {
+		logger.info("UserDAO 유저정보 얻기 메소드 진입");
 		
-		String dbId = null;
+		UserVO dbData = null;
 		
 		try {
 			UserMapper mapper = session.getMapper(UserMapper.class);
-			dbId = mapper.login(id);
+			dbData = mapper.getUserInfo(id);
 		} catch (Exception e) {
-			logger.info("SQL 로그인 오류");
+			logger.info("유저정보 얻기 sql오류");
 		}
 		
-		return dbId;
+		return dbData;
 	}
 	
 	/**

@@ -25,14 +25,19 @@
 	)
 </insert>
 
-<!-- 로그인을 수행하기 위한 셀렉트문 -->
-<select id="login" parameterType="string" resultType="string">
+<!-- 로그인 및 유저정보를 얻기 위한 셀렉트문 -->
+<select id="getUserInfo" parameterType="string" resultType="user">
 	SELECT
 		USER_ID
+		,NICKNAME
+		,PROFILE_PHOTO
+		,PIXELS
+		,ACCUMULATEDPIXELS
+		,INTRODUCTION
 	FROM
 		USERS
 	WHERE
-		USER_ID = #{user_id}
+		USER_ID = #{string}
 </select>
 
 <select id="userSearch" parameterType="string" resultType="user">
@@ -44,7 +49,7 @@
 	FROM
 		USERS
 	WHERE
-		USER_ID = #{string}
+		USER_ID LIKE '%' || #{string} || '%'
 	ODER BY
 		NICKNAME ASC
 

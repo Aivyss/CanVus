@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.canvus.app.dao.mapper.FollowingsMapper">
+
+<select id="getFollow" parameterType="string" resultType="followUnit">
+	SELECT
+		F.F_ID	AS F_ID
+		,F.USER_ID	AS USER_ID
+		,F.FOLLOWING_ID	AS	FOLLOWING_ID
+		,U.PROFILE_PHOTO	AS	PROFILE_PHOTO
+		,U.NICKNAME	AS NICKNAME
+	FROM
+		FOLLOWINGS F, USERS U
+	WHERE
+		F.USER_ID = #{string}
+		AND
+		F.FOLLOWING_ID = U.USER_ID
+</select>
+
+<select id="getFollowCount" parameterType="string" resultType="int">
+	SELECT
+		COUNT(*)
+	FROM
+		FOLLOWINGS
+	WHERE
+		USER_ID = #{string}
+</select>
+
+<select id="getFollower" parameterType="string" resultType="followUnit">
+	SELECT
+		F.F_ID	AS F_ID
+		,F.USER_ID	AS USER_ID
+		,F.FOLLOWING_ID	AS	FOLLOWING_ID
+		,U.PROFILE_PHOTO	AS	PROFILE_PHOTO
+		,U.NICKNAME	AS NICKNAME
+	FROM
+		FOLLOWINGS F, USERS U
+	WHERE
+		F.FOLLOWING_ID = #{string}
+		AND
+		F.USER_ID = U.USER_ID
+</select>
+
+<select id="getFollowerCount" parameterType="string" resultType="int">
+	SELECT
+		COUNT(*)
+	FROM
+		FOLLOWINGS
+	WHERE
+		FOLLOWING_ID = #{string}
+</select>
+
+</mapper>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.canvus.app.dao.mapper.FeedsMapper">
+
+<insert id="createFeedTableRow" parameterType="feed">
+	INSERT INTO FEEDS(
+	    FEED_ID
+	    ,USER_ID1
+	    ,USER_ID2
+	    ,USER_ID3
+	    ,USER_ID4
+	    ,CONTEXT
+	) VALUES (
+	    #{feed_id}
+	    ,#{user_id1}
+	    ,#{user_id2}
+	    ,#{user_id3}
+	    ,#{user_id4}
+	    ,#{context}
+	)
+</insert>
+
+<select id="selectFeed" parameterType="string" resultType="feed">
+	SELECT
+		FEED_ID
+	    ,USER_ID1
+	    ,USER_ID2
+	    ,USER_ID3
+	    ,USER_ID4
+	    ,CONTEXT
+		,TO_CHAR(INPUTDATE, 'yyyy-MM-dd')	AS	INPUTDATE
+	FROM
+		FEEDS
+	WHERE
+		FEED_ID = #{string}
+</select>
+
+<update id="updateFeed" parameterType="feed">
+	UPDATE FEEDS SET
+		CONTEXT = #{context}
+	WHERE
+		FEED_ID = #{feed_id}
+</update>
+
+</mapper>
