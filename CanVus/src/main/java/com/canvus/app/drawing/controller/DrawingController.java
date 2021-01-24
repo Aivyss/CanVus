@@ -126,10 +126,10 @@ public class DrawingController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/passwordCheck", method=RequestMethod.POST)
-	public Map<String, String> passwordCheck(@RequestBody Map<String, String> params) {
+	public Map<String, String> passwordCheck(@RequestBody Map<String, String> params, HttpSession session) {
 		log.info("비밀번호 검증 컨트롤러 메소드 진입");
 		String result = "";
-		boolean check = drawingService.passwordCheck(params);
+		boolean check = drawingService.passwordCheck(params, session);
 		
 		if (check) {
 			result = "success";
@@ -175,6 +175,6 @@ public class DrawingController {
 	public String makeFeed(@RequestBody Map<String, Object> params) {
 		boolean check = drawingService.makeFeed(params);
 		
-		return "redirect:/";
+		return "redirect:/main";
 	}
 }

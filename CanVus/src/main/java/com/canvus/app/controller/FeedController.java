@@ -36,7 +36,7 @@ public class FeedController {
 	@ResponseBody
 	@RequestMapping(value="/updateFeed")
 	public Map<String, String> updateFeed (@RequestBody Map<String, String> params) {
-		log.info("getContext 컨트롤러 메소드 진입");
+		log.info("피드 수정 메소드 진입");
 		
 		return feedService.updateFeed(params);
 	}

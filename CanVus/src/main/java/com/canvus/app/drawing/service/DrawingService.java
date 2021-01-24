@@ -143,13 +143,14 @@ public class DrawingService {
 	 * @param params
 	 * @return
 	 */
-	public boolean passwordCheck(Map<String, String> params) {
+	public boolean passwordCheck(Map<String, String> params, HttpSession session) {
 		String room_Id = params.get("room_Id");
 		String password = params.get("pwWrttenByUser");
 		boolean check = false;
 		DrawingRoomVO roomInfo = drawingDAO.getRoomById(room_Id);
 
 		if (password.equals(roomInfo.getPassword())) {
+			
 			check = true;
 		}
 
