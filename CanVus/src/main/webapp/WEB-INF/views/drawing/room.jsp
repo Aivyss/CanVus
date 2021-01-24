@@ -58,9 +58,11 @@
 
 					
 					function correctPw(){
-						var data={}
-						data["pwWrttenByUser"]=$("#inputPassword5").val();		
-	
+						const data={
+						"pwWrttenByUser" : $("#inputPassword5").val(),
+						"room_Id" : ${room_Id};								
+						}
+																		
 						$.ajax({
 	
 						url : "/drawing/passwordCheck",
@@ -72,7 +74,7 @@
 							if(result["result"] == "sussces") {
 								//TODO 세션스코프에 비번값넣기	
 								${sessionScope.pwWrttenByUser}							
-							location.href="/drawing/room/?room_Id=";
+							location.href="/drawing/room/?room_Id="+${room_Id};
 							
 							}else {								
 
@@ -94,9 +96,7 @@
 			
 			<c:otherwise>
 				<div>
-					<p>본격으로 드로잉창 시작</p>
-					${pwWrttenByUser }
-					${dbPassword }
+					<p>본격으로 드로잉창 시작</p>				
 				</div>
 			</c:otherwise>
 		</c:choose>
