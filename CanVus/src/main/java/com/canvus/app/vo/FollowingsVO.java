@@ -9,7 +9,7 @@ import lombok.Data;
  *
  */
 @Data
-public class FollowingsVO {
+public class FollowingsVO implements CanVusVOs {
 	// 테이블 내 컬럼들
 	private int f_id;
 	private String user_id;

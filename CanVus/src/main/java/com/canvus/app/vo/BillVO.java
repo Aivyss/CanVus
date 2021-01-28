@@ -3,7 +3,7 @@ package com.canvus.app.vo;
 import lombok.Data;
 
 @Data
-public class BillVO {
+public class BillVO implements CanVusVOs {
 	private int bill_num;
 	private String imp_uid;
 	private String merchant_uid;

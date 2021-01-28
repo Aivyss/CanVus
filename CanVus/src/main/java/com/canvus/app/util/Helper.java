@@ -8,6 +8,8 @@ import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.canvus.app.dao.TagDAO;
+import com.canvus.app.vo.CanVusVOFactory;
+import com.canvus.app.vo.CanVusVOType;
 import com.canvus.app.vo.TagsInFeedVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +48,7 @@ public class Helper {
 		for (int i=0; i<tagList.size(); i++) {
 			tag_name[i] = tagList.get(i);
 		}
-		TagsInFeedVO tif = new TagsInFeedVO();
+		TagsInFeedVO tif = CanVusVOFactory.newInstance(CanVusVOType.TagsInFeedVO);
 		tif.setTag_name(tag_name);
 		tif.setFeed_id(feed_id);
 		

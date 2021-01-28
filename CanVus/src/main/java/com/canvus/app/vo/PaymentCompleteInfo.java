@@ -7,7 +7,7 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @ToString
-public class PaymentCompleteInfo {
+public class PaymentCompleteInfo implements CanVusVOs {
 	private String imp_uid;
 	private String merchant_uid;
 	private String paid_amount;

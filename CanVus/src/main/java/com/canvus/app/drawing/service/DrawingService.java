@@ -20,6 +20,8 @@ import com.canvus.app.drawing.vo.DrawingUserVO;
 import com.canvus.app.drawing.vo.PageVO;
 import com.canvus.app.util.Base64ToImgDecoder;
 import com.canvus.app.util.Helper;
+import com.canvus.app.vo.CanVusVOFactory;
+import com.canvus.app.vo.CanVusVOType;
 import com.canvus.app.vo.FeedDrawingsVO;
 import com.canvus.app.vo.FeedVO;
 import com.canvus.app.vo.TagsInFeedVO;
@@ -44,6 +46,7 @@ public class DrawingService {
 	 */
 	public boolean enterRoom(DrawingRoomVO drawingRoom) {
 		DrawingRoomVO dbData = drawingDAO.enterRoom(drawingRoom.getRoom_Id());
+		
 		boolean check = false;
 
 		if (dbData.getRoom_Id().equals(drawingRoom.getRoom_Id())) {
@@ -104,7 +107,8 @@ public class DrawingService {
 	 * @return
 	 */
 	public boolean savePage(Map<String, Object> params) {
-		PageVO page = new PageVO();
+		PageVO page = CanVusVOFactory.newInstance(CanVusVOType.PageVO);
+		
 		page.setRoom_Id((String) params.get("room_id"));
 		page.setPage_no((Integer) params.get("page_no"));
 		page.setLayer_no((Integer) params.get("layer_no"));
@@ -213,7 +217,7 @@ public class DrawingService {
 	 * @return
 	 */
 	public boolean createFeedTableRow(String room_Id, List<String> drawers, String context) {
-		FeedVO feedVO = new FeedVO();
+		FeedVO feedVO = CanVusVOFactory.newInstance(CanVusVOType.FeedVO);
 
 		feedVO.setFeed_id(room_Id);
 		feedVO.setUser_id1(drawers.get(0));
@@ -247,51 +251,13 @@ public class DrawingService {
 		}
 		
 		// TODO 데이터베이스로 정보를 넘기기 위해 DTO 객체 생성
-		FeedDrawingsVO feedDrawings = new FeedDrawingsVO();
+		FeedDrawingsVO feedDrawings = CanVusVOFactory.newInstance(CanVusVOType.FeedDrawingsVO);
 		feedDrawings.setFeed_id(room_Id);
 		feedDrawings.setPage_file(page_file);
 		
 		// TODO 객체를 넘겨 데이터베이스에 삽입
 		return feedDAO.createFeedDrawingsRows(feedDrawings);
 
-	}
-	
-	/**
-	 * 저장된 문자열로부터 해시태그를 파싱하여 데이터베이스에 저장하는 메소드.
-	 * 기능을 분리하였다.
-	 * 작성일: 2021.01.24 / 완성일: / 버그검증일
-	 * 작성자: 이한결
-	 * @param room_Id
-	 * @param context
-	 * @return
-	 */
-	private boolean tagParse(String room_Id, String context) {
-		List<String> tagList = new ArrayList<String>();
-		
-		// TODO 해시태그 추출
-		Pattern pattern = Pattern.compile("([#][a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣぁ-ゔァ-ヴー々〆〤一-龥]*)");
-		Matcher matcher = pattern.matcher(context);
-		while (matcher.find()) {
-			System.out.println(matcher.group(1));
-			
-		    if(matcher.group(1) ==  null) {
-		    	break;
-		    } else {
-		    	tagList.add(matcher.group(1));
-		    }
-		}
-		
-		// TODO 데이터베이스로 보내기 위해 VO 객체 생성
-		String[] tag_name = new String[tagList.size()];
-		for (int i=0; i<tagList.size(); i++) {
-			tag_name[i] = tagList.get(i);
-		}
-		TagsInFeedVO tif = new TagsInFeedVO();
-		tif.setTag_name(tag_name);
-		tif.setFeed_id(room_Id);
-		
-		// TODO 데이터베이스에 등록
-		return tagDAO.inputTags(tif);
 	}
 
 }

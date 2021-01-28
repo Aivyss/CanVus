@@ -3,7 +3,7 @@ package com.canvus.app.vo;
 import lombok.Data;
 
 @Data
-public class UserVO {
+public class UserVO implements CanVusVOs {
 	private String user_id;
 	private String nickname;
 	private String profile_photo;

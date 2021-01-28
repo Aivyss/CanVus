@@ -7,13 +7,15 @@ import javax.persistence.IdClass;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 
+import com.canvus.app.vo.CanVusVOs;
+
 import lombok.Data;
 
 @Data
 @Entity
 @Table(name="PAGE_LAYER")
 @IdClass(PageVO.class)
-public class PageVO {
+public class PageVO implements CanVusVOs {
 	@Id
 	@Column(name="PL_ID")
 	private int pl_id;

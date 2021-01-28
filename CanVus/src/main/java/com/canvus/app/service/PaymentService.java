@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.canvus.app.dao.PaymentDAO;
 import com.canvus.app.vo.BillVO;
+import com.canvus.app.vo.CanVusVOFactory;
+import com.canvus.app.vo.CanVusVOType;
 
 @Service
 public class PaymentService {
@@ -46,7 +48,7 @@ public class PaymentService {
 	public boolean paymentSubmit(Map<String, String> params) {
 		logger.info("서비스파트 결제결과 전송");
 		
-		BillVO vo = new BillVO();
+		BillVO vo = CanVusVOFactory.newInstance(CanVusVOType.BillVO);
 		
 		vo.setImp_uid(params.get("imp_uid"));
 		vo.setMerchant_uid(params.get("merchant_uid"));

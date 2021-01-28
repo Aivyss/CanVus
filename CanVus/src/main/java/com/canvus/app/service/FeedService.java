@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.canvus.app.dao.FeedDAO;
 import com.canvus.app.dao.TagDAO;
 import com.canvus.app.util.Helper;
+import com.canvus.app.vo.CanVusVOFactory;
+import com.canvus.app.vo.CanVusVOType;
 import com.canvus.app.vo.FeedVO;
 import com.canvus.app.vo.TagsInFeedVO;
 
@@ -42,7 +44,7 @@ public class FeedService {
 	 * @return
 	 */
 	public Map<String, String> updateFeed(Map<String, String> params) {
-		FeedVO feed = new FeedVO();
+		FeedVO feed = CanVusVOFactory.newInstance(CanVusVOType.FeedVO);
 		feed.setFeed_id(params.get("feed_id"));
 		feed.setContext(params.get("context"));
 		params.remove("feed_id");

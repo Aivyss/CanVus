@@ -8,7 +8,7 @@ import lombok.Data;
  *
  */
 @Data
-public class FeedVO {
+public class FeedVO implements CanVusVOs {
 	// 테이블에 있는 컬럼과 매핑되는 멤버변수
 	private String feed_id;
 	private String user_id1;
