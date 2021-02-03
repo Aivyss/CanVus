@@ -105,14 +105,15 @@ public class DrawingDAO {
 	 * @param page
 	 * @return
 	 */
-	public boolean savePage(PageVO page) {
+	public boolean createPage(PageVO page) {
 		boolean check = false;
 		
 		try {
 			PageLayerMapper mapper = session.getMapper(PageLayerMapper.class);
-			check = mapper.savePage(page);
+			check = mapper.createPage(page);
 		} catch (Exception e) {
-			log.info("레이어 저장 sql오류");
+			log.info("레이어 생성 sql오류");
+			e.printStackTrace();
 		}
 		
 		return check;
@@ -156,5 +157,27 @@ public class DrawingDAO {
 		}
 		
 		return count;
+	}
+	
+	/**
+	 * 페이지의 변동사항을 데이터베이스에 업데이트하는 메소드
+	 * 작성일: 2021.02.03 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param page
+	 * @return
+	 */
+	public boolean updatePage(PageVO page) {
+		log.info("페이지 업데이트 dao 메소드");
+		boolean check = false;
+		
+		try {
+			PageLayerMapper mapper = session.getMapper(PageLayerMapper.class);
+			check = mapper.updatePage(page);
+		} catch (Exception e) {
+			log.info("페이지 업데이트 sql오류");
+			e.printStackTrace();
+		}
+		
+		return check;
 	}
 }

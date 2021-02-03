@@ -102,21 +102,23 @@ public class DrawingService {
 
 	/**
 	 * 그려진 한 레이어를 저장하는 메소드 작성일 2021.01.21 / 완성일: / 버그검증일: 작성자: 이한결
+	 * @param room_Id 
 	 * 
 	 * @param page
 	 * @return
 	 */
-	public boolean savePage(Map<String, Object> params) {
+	public boolean createPage(Map<String, Object> params) {
 		PageVO page = CanVusVOFactory.newInstance(CanVusVOType.PageVO);
 		
-		page.setRoom_Id((String) params.get("room_id"));
+		// 페이지를 만들 당시 프론트 단에서는 페이지 넘버와 레이어 넘버를 주어야 한다.
+		page.setRoom_Id((String) params.get("room_Id"));
 		page.setPage_no((Integer) params.get("page_no"));
 		page.setLayer_no((Integer) params.get("layer_no"));
-		page.setStringify((String) params.get("stringify"));
+		page.setStringify("{\"version\":\"4.3.0\",\"objects\":[]}");
 
-		boolean check = drawingDAO.savePage(page);
+		boolean check = drawingDAO.createPage(page);
 
-		return false;
+		return check;
 	}
 
 	/**
@@ -258,6 +260,28 @@ public class DrawingService {
 		// TODO 객체를 넘겨 데이터베이스에 삽입
 		return feedDAO.createFeedDrawingsRows(feedDrawings);
 
+	}
+	
+	/**
+	 * 각 레이어의 변경 사항을 DB에 저장하는 메소드
+	 * 작성일: 2021.02.03 / 완료일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param json
+	 * @param room_Id
+	 * @return
+	 */
+	public boolean updatePage(Map<String, Object> json, String room_Id) {
+		log.info("페이지-레이어 업데이트");
+		PageVO page = CanVusVOFactory.newInstance(CanVusVOType.PageVO);
+		
+		page.setRoom_Id(room_Id);
+		page.setPage_no((Integer) json.get("page_no"));
+		page.setLayer_no((Integer) json.get("layer_no"));
+		page.setStringify((String) json.get("stringify"));
+		
+		
+		
+		return drawingDAO.updatePage(page);
 	}
 
 }

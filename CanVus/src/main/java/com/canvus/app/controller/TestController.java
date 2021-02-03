@@ -2,6 +2,7 @@ package com.canvus.app.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -43,5 +44,14 @@ public class TestController {
 	public String writeForm() {
 		log.info("테스트 피드작성으로 이동");
 		return "test/writeForm()";
+	}
+	
+	@RequestMapping(value="/room", method=RequestMethod.GET)
+	public String room(String room_Id, Model model) {
+		log.info("소켓 백엔드 테스트용 페이지 컨트롤러");
+		
+		model.addAttribute("room_Id", room_Id);
+		
+		return "test/room";
 	}
 }

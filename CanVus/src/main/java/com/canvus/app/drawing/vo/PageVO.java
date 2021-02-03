@@ -16,10 +16,6 @@ import lombok.Data;
 @Table(name="PAGE_LAYER")
 @IdClass(PageVO.class)
 public class PageVO implements CanVusVOs {
-	@Id
-	@Column(name="PL_ID")
-	private int pl_id;
-	
 	@Column(name="ROOM_ID")
 	private String room_Id;
 	

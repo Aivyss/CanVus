@@ -5,16 +5,14 @@
 
 <mapper namespace="com.canvus.app.drawing.mapper.PageLayerMapper">
 
-<insert id="savePage" parameterType="page">
+<insert id="createPage" parameterType="page">
 	INSERT INTO PAGE_LAYER(
-	    PL_ID
-	    ,ROOM_ID
+	    ROOM_ID
 	    ,PAGE_NO
 	    ,LAYER_NO
 	    ,STRINGIFY
 	) VALUES (
-	    PL_ID_SEQ.NEXTVAL
-	    ,#{room_Id}
+	    #{room_Id}
 	    ,#{page_no}
 	    ,#{layer_no}
 	    ,#{stringify}
@@ -24,8 +22,7 @@
 
 <select id="getPgs" parameterType="string" resultType="page">
 	SELECT
-	    PL_ID
-	    ,ROOM_ID
+	    ROOM_ID
 	    ,PAGE_NO
 	    ,LAYER_NO
 	    ,STRINGIFY
@@ -34,5 +31,16 @@
 	WHERE
 	    ROOM_ID = #{string}
 </select>
+
+<update id="updatePage" parameterType="page">
+	UPDATE PAGE_LAYER SET
+    	STRINGIFY = #{stringify}
+	WHERE
+    	ROOM_ID = #{room_Id}
+    	AND
+    	PAGE_NO = #{page_no}
+    	AND
+    	LAYER_NO = #{layer_no}
+</update>
 
 </mapper>
