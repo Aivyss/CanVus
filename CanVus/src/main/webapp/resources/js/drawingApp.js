@@ -9,8 +9,12 @@ var redoText ='';
 var canvas = new fabric.Canvas('canvas', {
   isDrawingMode: true,
 });
+var canvas2 = new fabric.Canvas('canvas2', {
+  isDrawingMode: true,
+});
 
 var ctx = canvas.getContext('2d');
+var ctx2 = canvas2.getContext('2d');
 
 $("#eraser").on("click", function () {
   canvas.freeDrawingBrush = new fabric.PencilBrush(canvas);
