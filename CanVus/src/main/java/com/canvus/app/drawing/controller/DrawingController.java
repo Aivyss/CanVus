@@ -177,4 +177,21 @@ public class DrawingController {
 		
 		return "redirect:/main";
 	}
+	
+	
+	/**
+	 * 불러오기 시, 모든 페이지-레이어 정보를 불러온다.
+	 * json에 방아이디를 넣어야한다.
+	 * 작성일: 2021.02.04 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="selectAllPages", method=RequestMethod.GET)
+	public List<PageVO> selectAllPages(@RequestBody Map<String, Object> params) {
+		log.info("모든 페이지-레이어 정보 불러오기 컨트롤러 메소드");
+		log.info((String) params.get("room_Id"));
+		
+		return drawingService.selectAllPages((String) params.get("room_Id"));
+	}
 }
