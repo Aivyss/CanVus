@@ -164,11 +164,11 @@ public class DrawingController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="/savePage")
+	@RequestMapping(value="/createPage")
 	public boolean savePage(@RequestBody Map<String, Object> params) {
-		boolean check = drawingService.savePage(params);
+		boolean check = drawingService.createPage(params);
 		
-		return false;
+		return check;
 	}
 	
 	@RequestMapping(value="/makeFeed", method=RequestMethod.POST)

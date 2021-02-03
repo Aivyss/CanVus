@@ -8,6 +8,8 @@ public interface PageLayerMapper {
 
 	public List<PageVO> getPgs(String room_Id);
 
-	public boolean savePage(PageVO page);
+	public boolean createPage(PageVO page);
+
+	public boolean updatePage(PageVO page);
 
 }
