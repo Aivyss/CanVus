@@ -12,4 +12,6 @@ public interface PageLayerMapper {
 
 	public boolean updatePage(PageVO page);
 
+	public List<PageVO> selectAllPages(String room_Id);
+
 }
