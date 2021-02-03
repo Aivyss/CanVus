@@ -172,8 +172,9 @@ ul.tabs li.current{
 		<div id="tab-1" class="tab-content current">
 			<div class="set">
 			    <div class="layers">
-				    <!-- <canvas class="background" width="400" height="400"></canvas> -->
 				    <canvas class="canvas" id="canvas" width="1000" height="600"></canvas>
+				    <canvas class="canvas" id="canvas2" width="1000" height="600"></canvas>
+				    <!-- <canvas class="background" width="400" height="400"></canvas> -->
 			    </div>
 			    <div class="buttons">
 			      <button id="eraser">eraser</button>
@@ -190,14 +191,14 @@ ul.tabs li.current{
 			      <button id="removal">removal</button>
 			      <button id="recover">recover</button> -->  
 			    </div>
-			  </div>
-			  <script src="/resources/js/drawingApp.js"></script>
+			</div>
 		</div>
 		<div id="tab-2" class="tab-content">		
 		</div>
 		<div id="tab-3" class="tab-content">
 		</div>
 	</div>
+  	<script src="/resources/js/drawingApp.js"></script>
 	<!-- page 텝 끝-->
 	
 	<!-- <div class="set">
