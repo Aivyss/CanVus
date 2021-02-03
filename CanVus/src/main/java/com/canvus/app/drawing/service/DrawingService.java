@@ -283,17 +283,5 @@ public class DrawingService {
 		
 		return drawingDAO.updatePage(page);
 	}
-	
-	/**
-	 * 방 아이디에 일치하는 모든 페이지 정보들을 가지고 온다
-	 * 작성일: 2021.02.24 / 완성일: / 버그검증일:
-	 * 작성자: 이한결
-	 * @param room_Id
-	 * @return
-	 */
-	public List<PageVO> selectAllPages(String room_Id) {
-		
-		return drawingDAO.selectAllPages(room_Id);
-	}
 
 }

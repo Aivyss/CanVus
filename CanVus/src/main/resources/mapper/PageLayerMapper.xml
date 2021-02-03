@@ -20,7 +20,7 @@
 </insert>
 
 
-<select id="selectAllPages" parameterType="string" resultType="page">
+<select id="getPgs" parameterType="string" resultType="page">
 	SELECT
 	    ROOM_ID
 	    ,PAGE_NO

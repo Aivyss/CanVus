@@ -33,7 +33,7 @@
 
 				// 버튼을 클릭하면 보낸다. 단 실제로 이렇게 안하고 백단테스트용
 				$('#btn').on('click', ()=> {
-					sendFabric(canvas, 1, 1, "4f8d59d6-5868-4f09-8f42-4e99ff890ef2");
+					sendFabric(canvas, 1, 2, "a");
 				});
 				
 			}); // 레디함수 엔드

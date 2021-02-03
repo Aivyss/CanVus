@@ -180,26 +180,4 @@ public class DrawingDAO {
 		
 		return check;
 	}
-	
-	/**
-	 * room_Id에 일치하는 모든 페이지 정보를 가져온다
-	 * 작성일: 2021.02.04 / 완성일: / 버그검증일:
-	 * 작성자: 이한결
-	 * @param room_Id
-	 * @return
-	 */
-	public List<PageVO> selectAllPages(String room_Id) {
-		log.info("모든 페이지 정보를 가져오는 dao메소드");
-		List<PageVO> pageList = null;
-		
-		try {
-			PageLayerMapper mapper = session.getMapper(PageLayerMapper.class);
-			pageList = mapper.selectAllPages(room_Id);
-		} catch (Exception e) {
-			log.info("모든 페이지의 정보를 가져오는 sql 오류");
-			e.printStackTrace();
-		}
-		
-		return pageList;
-	}
 }
