@@ -39,8 +39,6 @@
 		});
 		
 	});
-
-	
 	</script>
 <style type="text/css">
 /* body{
@@ -173,8 +171,12 @@ ul.tabs li.current{
 			<div class="set">
 			    <div class="layers">
 				    <canvas class="canvas" id="canvas" width="1000" height="600"></canvas>
+<<<<<<< HEAD
+				    <canvas class="canvas" id="canvas" width="1000" height="600"></canvas>
+=======
 				    <canvas class="canvas" id="canvas2" width="1000" height="600"></canvas>
 				    <!-- <canvas class="background" width="400" height="400"></canvas> -->
+>>>>>>> main
 			    </div>
 			    <div class="buttons">
 			      <button id="eraser">eraser</button>
