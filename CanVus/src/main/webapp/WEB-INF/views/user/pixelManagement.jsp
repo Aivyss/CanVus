@@ -14,8 +14,9 @@
 	<script src="/resources/js/Classic/Color.Space.js" type="text/javascript"></script> 
 	<script src="/resources/js/Classic/viewpalette.js"></script>
 	<script src="/resources/js/fabric/dist/fabric.js"></script>
-	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-	<!-- <script src="node_modules/fabric-history/src/index.js"></script> -->
+	<!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>	<!-- <script src="node_modules/fabric-history/src/index.js"></script> -->
 	
 	<script type="text/javascript">
 	$(document).ready(function(){
@@ -37,16 +38,19 @@
 			});
 			
 		}); */
-
+		var x = 1;
+		var y = 1;
 		$(".layers1").click(function(){
 			$(".layer1").css({
-				"z-index": "1",
+				"z-index": x,
 				"opacity": "1"
 			});
 
 			$(".layer2").css({
 				"opacity": "0"
 			});
+
+			y = x+1;
 		});
 
 		$(".layers2").click(function(){
@@ -59,7 +63,14 @@
 				"opacity": "0"
 			});
 		});
-		
+
+
+		console.log($('.toolBar'));
+		$('.toolBar').draggable(); 
+
+      
+
+
 	});
 	</script>
 <style type="text/css">
@@ -72,6 +83,8 @@ line-height: 1.6
 .toolBar{
 	display: inline-block;
 	margin: 10px;
+	top: 0;
+	left: 0;
 }
 
 .tool{
@@ -150,7 +163,7 @@ ul.tabs li.current{
 	<jsp:include page="/WEB-INF/views/mainMenu.jsp"></jsp:include>
 	
 	<!-- 툴 텝 시작 -->
-	<div class="toolBar">
+	<div class="toolBar" id="test">
 		<div>Drawing Page</div>
 		<span>CanVus</span>
 		<a>올리기</a>
@@ -169,6 +182,9 @@ ul.tabs li.current{
 			</div>
 			<div>
 			<button class="layers2">layer2</button>
+			</div>
+			<div>
+				<button id="moveLayer">moveLayer</button>
 			</div>
 		</div>
 		
@@ -208,20 +224,20 @@ ul.tabs li.current{
 			    <div class="layers">
 			    	<div class="layer1">
 				 	   <canvas class="canvas" id="canvas" width="1000" height="600"></canvas>
-<<<<<<< HEAD		</div>
-<<<<<<< HEAD
+		</div>
+
 					<div class="layer2">
 					    <canvas class="canvas" id="canvas2" width="1000" height="600"></canvas>
-<<<<<<< HEAD		</div>
-=======
+		</div>
+
 				   
 				    <!-- <canvas class="background" width="400" height="400"></canvas> -->
->>>>>>> main
-=======				<!-- <div>
+
+			<!-- <div>
 				    	<canvas class="canvas" id="canvas2" width="1000" height="600"></canvas>
 				    </div> -->
 				    <!-- <canvas class="background" width="400" height="400"></canvas> -->
->>>>>>> fd0dd2dbb866ca55dd711ca4649f46659d3748c1
+
 			    </div>
 			    <div class="buttons">
 			      <button id="eraser">eraser</button>
@@ -238,11 +254,11 @@ ul.tabs li.current{
 			      <button id="removal">removal</button>
 			      <button id="recover">recover</button> -->  
 			    </div>
-<<<<<<< HEAD
+
 			</div>
-=======
+
 			  </div>
->>>>>>> fd0dd2dbb866ca55dd711ca4649f46659d3748c1
+
 		</div>
 		<div id="tab-2" class="tab-content">		
 		</div>
