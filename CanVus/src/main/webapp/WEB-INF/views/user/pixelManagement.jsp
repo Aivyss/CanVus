@@ -30,12 +30,34 @@
 			$("#"+tab_id).addClass('current');
 		});
 
-		$(".brush").click(function(){
+		/* $(".brush").click(function(){
 			$(".spray").css({
 				"display": "block"
 				
 			});
 			
+		}); */
+
+		$(".layers1").click(function(){
+			$(".layer1").css({
+				"z-index": "1",
+				"opacity": "1"
+			});
+
+			$(".layer2").css({
+				"opacity": "0"
+			});
+		});
+
+		$(".layers2").click(function(){
+			$(".layer2").css({
+				"z-index": "3",
+				"opacity": "1"
+			});
+
+			$(".layer1").css({
+				"opacity": "0"
+			});
 		});
 		
 	});
@@ -62,7 +84,6 @@ line-height: 1.6
 
 .tool_brush{
 	display: none;
-	
 }
 
 
@@ -75,8 +96,17 @@ line-height: 1.6
 	/* -webkit-appearance: slider-vertical; */
 	/* transform: rotate(270deg); */
 	margin: 0px;
-	
-	
+}
+
+.layer1{
+	position: absolute;
+	z-index: 1;
+}
+
+.layer2{
+	position: absolute;
+	z-index: 0;
+	opacity: 0;
 }
 
 #container{
@@ -134,6 +164,12 @@ ul.tabs li.current{
 			<div>
 				<button id="selection">selection</button>
 			</div>
+			<div>
+			<button class="layers1">layer1</button>
+			</div>
+			<div>
+			<button class="layers2">layer2</button>
+			</div>
 		</div>
 		
 		<div class="tool_brush">
@@ -170,16 +206,20 @@ ul.tabs li.current{
 		<div id="tab-1" class="tab-content current">
 			<div class="set">
 			    <div class="layers">
-				    <canvas class="canvas" id="canvas" width="1000" height="600"></canvas>
+			    	<div class="layer1">
+				 	   <canvas class="canvas" id="canvas" width="1000" height="600"></canvas>
+<<<<<<< HEAD		</div>
 <<<<<<< HEAD
-<<<<<<< HEAD
-				    <canvas class="canvas" id="canvas" width="1000" height="600"></canvas>
+					<div class="layer2">
+					    <canvas class="canvas" id="canvas2" width="1000" height="600"></canvas>
+<<<<<<< HEAD		</div>
 =======
-				    <canvas class="canvas" id="canvas2" width="1000" height="600"></canvas>
+				   
 				    <!-- <canvas class="background" width="400" height="400"></canvas> -->
 >>>>>>> main
-=======
-				    <canvas class="canvas" id="canvas2" width="1000" height="600"></canvas>
+=======				<!-- <div>
+				    	<canvas class="canvas" id="canvas2" width="1000" height="600"></canvas>
+				    </div> -->
 				    <!-- <canvas class="background" width="400" height="400"></canvas> -->
 >>>>>>> fd0dd2dbb866ca55dd711ca4649f46659d3748c1
 			    </div>
