@@ -172,11 +172,16 @@ ul.tabs li.current{
 			    <div class="layers">
 				    <canvas class="canvas" id="canvas" width="1000" height="600"></canvas>
 <<<<<<< HEAD
+<<<<<<< HEAD
 				    <canvas class="canvas" id="canvas" width="1000" height="600"></canvas>
 =======
 				    <canvas class="canvas" id="canvas2" width="1000" height="600"></canvas>
 				    <!-- <canvas class="background" width="400" height="400"></canvas> -->
 >>>>>>> main
+=======
+				    <canvas class="canvas" id="canvas2" width="1000" height="600"></canvas>
+				    <!-- <canvas class="background" width="400" height="400"></canvas> -->
+>>>>>>> fd0dd2dbb866ca55dd711ca4649f46659d3748c1
 			    </div>
 			    <div class="buttons">
 			      <button id="eraser">eraser</button>
@@ -193,7 +198,11 @@ ul.tabs li.current{
 			      <button id="removal">removal</button>
 			      <button id="recover">recover</button> -->  
 			    </div>
+<<<<<<< HEAD
 			</div>
+=======
+			  </div>
+>>>>>>> fd0dd2dbb866ca55dd711ca4649f46659d3748c1
 		</div>
 		<div id="tab-2" class="tab-content">		
 		</div>
