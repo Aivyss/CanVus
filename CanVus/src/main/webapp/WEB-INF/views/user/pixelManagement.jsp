@@ -49,6 +49,7 @@ font-family: 'Trebuchet MS', serif;
 line-height: 1.6
 } */
 
+
 .toolBar{
 	display: inline-block;
 	margin: 10px;
@@ -193,7 +194,28 @@ ul.tabs li.current{
 			    </div>
 			</div>
 		</div>
-		<div id="tab-2" class="tab-content">		
+		<div id="tab-2" class="tab-content">
+			<div class="set">
+			    <div class="layers">
+				   <canvas class="canvas" id="canvas2" width="1000" height="600"></canvas>
+				    <!-- <canvas class="background" width="400" height="400"></canvas> -->
+			    </div>
+			    <div class="buttons">
+			      <button id="eraser">eraser</button>
+			      <button id="drawer">drawer</button>
+			      <button id="red">펜</button>
+			      <!-- <input type="button" value="펜" onclick="baseBrush();"> -->
+			      <input type="button" value="스프레이" onclick="sprayBrush();">
+			      <input type="button" value="써클" onclick="circleBrush();">
+			      <input type="button" value="패턴" onclick="patternBrush();">
+			      <input type="button" value="연필" onclick="PencilBrush();">
+			      <!-- <input type="button" value="히스토리" onclick="getHistory();"> -->
+			      <button id="selection">selection</button>
+			      <!-- <button id="stringify">stringify</button>
+			      <button id="removal">removal</button>
+			      <button id="recover">recover</button> -->  
+			    </div>
+			</div>		
 		</div>
 		<div id="tab-3" class="tab-content">
 		</div>
