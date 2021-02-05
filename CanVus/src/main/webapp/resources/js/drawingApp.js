@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-=======
+
 var brushColor = "black";
 var color = new fabric.Color(brushColor).toRgba();
 color = color.replaceAll('1)', opacity + ')'); // rgb+opacity
@@ -145,7 +144,7 @@ document.addEventListener("mouseup", function(event) {
   }
 })
 
->>>>>>> main
+
 $(function(){
 
 	var brushColor = "black";
