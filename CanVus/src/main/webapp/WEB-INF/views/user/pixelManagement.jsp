@@ -39,38 +39,97 @@
 			});
 			
 		}); */
-		var x = 1;
-		var y = 1;
-		$(".layers1").click(function(){
-			$(".layer1").css({
-				"z-index": x,
-				"opacity": "1"
-			});
+		
+		 var currlayers=1;
+		 
+         $("#makebtn").click(function(){
+             if(currlayers==5){
+                alert("레이어는 최대 5개까지 생성 가능합니다");
+                 return false;
+             }else{
+                currlayers+=1;
+             }
+             var dynamicTag = $('<div style="float:left;"><button class="layers'+currlayers+'">layer'+currlayers+'</button></div>').addClass('new');
+             var dynamicTag2 = $('<div><button class="hidelayers'+currlayers+'">hidelayer'+currlayers+'</button></div>').addClass('new');
+             $('.tool').append(dynamicTag);
+             $('.tool').append(dynamicTag2);
+            
+             if(currlayers==2){
+                 
+             $(document).on("click",".layers"+currlayers,function(){
+                $(".layers2").click(function(){
+                         $(".layer2").css({"z-index": current,"opacity": "1"});
+                      });
+               })
+               
+            $(document).on("click",".hidelayers"+currlayers,function(){
+                $(".hidelayers2").click(function(){
+                         $(".layer2").css({"z-index": "1","opacity": "0"});
+                      });
+               })
+            }
 
-			$(".layer2").css({
-				"opacity": "0"
-			});
+             if(currlayers==3){
+                 $(document).on("click",".layers"+currlayers,function(){
+                    $(".layers3").click(function(){
+                             $(".layer3").css({"z-index": current,"opacity": "1"});
+                          });
+                        
+                   })
+                   $(document).on("click",".hidelayers"+currlayers,function(){
+                $(".hidelayers3").click(function(){
+                         $(".layer3").css({"z-index": "1","opacity": "0"});
+                      });
+               })
+             }
+             
+             if(currlayers==4){
+                 $(document).on("click",".layers"+currlayers,function(){
+                    $(".layers4").click(function(){
+                             $(".layer4").css({"z-index": current,"opacity": "1"});
+                          });
+                        
+                   })
+                   $(document).on("click",".hidelayers"+currlayers,function(){
+                $(".hidelayers4").click(function(){
+                         $(".layer4").css({"z-index": "1","opacity": "0"});
+                      });
+               })
+                }
+              
+             if(currlayers==5){
+                 $(document).on("click",".layers"+currlayers,function(){
+                    $(".layers5").click(function(){
+                             $(".layer5").css({"z-index": current,"opacity": "1"});
+                          });
+                        
+                   })
+                   $(document).on("click",".hidelayers"+currlayers,function(){
+                $(".hidelayers5").click(function(){
+                         $(".layer5").css({"z-index": "1","opacity": "0"});
+                      });
+               })
+                }
 
-			y = x+1;
-		});
+          }); 
 
-		$(".layers2").click(function(){
-			$(".layer2").css({
-				"z-index": y,
-				"opacity": "1"
-			});
-
-			$(".layer1").css({
-				"opacity": "0"
-			});
-		});
-
-
+	     var current=1;
+	
+	     $(".layers1").click(function(){
+	     current+=1;
+	        $(".layer1").css({
+	           "z-index": current,
+	           "opacity": "1"
+	        });
+	
+	     });
+	
+	     $(".hidelayers1").click(function(){
+	         $(".layer1").css({"z-index": "1","opacity": "0"});
+	      });
+	
 		console.log($('.toolBar'));
 		$('.layer1').draggable(); 
-
-      
-
 
 	});
 	</script>
@@ -113,14 +172,32 @@ line-height: 1.6
 }
 
 .layer1{
-	position: absolute;
-	z-index: 1;
+   position: absolute;
+   z-index: 1;
 }
 
 .layer2{
-	position: absolute;
-	z-index: 0;
-	opacity: 0;
+   position: absolute;
+   z-index: 0;
+   opacity: 0;
+}
+
+.layer3{
+   position: absolute;
+   z-index: 0;
+   opacity: 0;
+}
+
+.layer4{
+   position: absolute;
+   z-index: 0;
+   opacity: 0;
+}
+
+.layer5{
+   position: absolute;
+   z-index: 0;
+   opacity: 0;
 }
 
 #container{
@@ -179,14 +256,12 @@ ul.tabs li.current{
 				<button id="selection">selection</button>
 			</div>
 			<div>
-			<button class="layers1">layer1</button>
-			</div>
-			<div>
-			<button class="layers2">layer2</button>
-			</div>
-			<div>
 				<button id="moveLayer">moveLayer</button>
 			</div>
+			<div>
+         		<button class="hidelayers1">hidelayer1</button>
+         	</div>
+			
 		</div>
 		
 		<div class="tool_brush">
@@ -223,21 +298,23 @@ ul.tabs li.current{
 		<div id="tab-1" class="tab-content current">
 			<div class="set">
 			    <div class="layers">
+			    	<input type="button" id="makebtn" value="레이어추가"/>
 			    	<div class="layer1">
-				 	   <canvas class="canvas" id="canvas" width="1000" height="600"></canvas>
-		</div>
-
-					<div class="layer2">
-					    <canvas class="canvas" id="canvas2" width="1000" height="600"></canvas>
-		</div>
-
-				   
-				    <!-- <canvas class="background" width="400" height="400"></canvas> -->
-
-			<!-- <div>
-				    	<canvas class="canvas" id="canvas2" width="1000" height="600"></canvas>
-				    </div> -->
-				    <!-- <canvas class="background" width="400" height="400"></canvas> -->
+                   <canvas class="canvas" id="canvas" width="1000" height="600"></canvas>
+              	</div>
+				<div class="layer2">
+                   <canvas class="canvas" id="canvas2" width="1000" height="600"></canvas>
+              	</div>
+              	<div class="layer3">
+                   <canvas class="canvas" id="canvas3" width="1000" height="600"></canvas>
+              	</div>
+              	<div class="layer4">
+                   <canvas class="canvas" id="canvas4" width="1000" height="600"></canvas>
+              	</div>
+              	<div class="layer5">
+                   <canvas class="canvas" id="canvas5" width="1000" height="600"></canvas>
+              	</div>
+              	
 
 			    </div>
 			    <div class="buttons">
@@ -265,7 +342,7 @@ ul.tabs li.current{
 		</div>
 		<div id="tab-3" class="tab-content">
 		</div>
-	</div>
+	
   	<script src="/resources/js/drawingApp.js"></script>
 	<!-- page 텝 끝-->
 	
