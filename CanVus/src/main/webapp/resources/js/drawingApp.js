@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 
+=======
+$(function(){
+
+});
+>>>>>>> woong2
 var brushColor = "black";
 var color = new fabric.Color(brushColor).toRgba();
 color = color.replaceAll('1)', opacity + ')'); // rgb+opacity

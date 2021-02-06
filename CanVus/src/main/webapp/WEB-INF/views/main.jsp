@@ -4,6 +4,7 @@
 <html lang="en">
 
 <head>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <style type="text/css">
 .navbar-default .navbar-nav>li>div>button {
     color: #777;
