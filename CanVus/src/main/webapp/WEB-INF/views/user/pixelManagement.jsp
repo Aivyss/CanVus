@@ -252,9 +252,9 @@
         
         $(".deletelayers1").click(function(){
           $(".layer1").css({"z-index": "1","opacity": "0"});
-             $(".layers1").remove();
-             $(".hidelayers1").remove();
-             $(".deletelayers1").remove();
+             $(".layers1_1").remove();
+             $(".hidelayers1_1").remove();
+             $(".deletelayers1_1").remove();
              layerstotal-=1;
           });
         
@@ -396,13 +396,13 @@ ul.tabs li.current{
             <button id="moveLayer">moveLayer</button>
          </div>
          
-        <div class="layers1">
+        <div class="layers1_1">
          <button style="float:left; border:solid red 2px; color:red;" class="layers1">layer1</button>
          </div>
-         <div class="hidelayers1">
+         <div class="hidelayers1_1">
          <button style="float:left; border:solid black 2px; color:black;" class="hidelayers1">hidelayer1</button>
          </div>
-         <div class="deletelayers1">
+         <div class="deletelayers1_1">
          <button class="deletelayers1">deletelayer1</button>
          </div>
          
