@@ -67,7 +67,7 @@
 
 
 		console.log($('.toolBar'));
-		$('.toolBar').draggable(); 
+		$('.layer1').draggable(); 
 
       
 
