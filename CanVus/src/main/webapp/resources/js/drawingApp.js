@@ -13,9 +13,21 @@ var canvas = new fabric.Canvas('canvas', {
 var canvas2 = new fabric.Canvas('canvas2', {
   isDrawingMode: true,
 });
+var canvas3 = new fabric.Canvas('canvas3', {
+  isDrawingMode: true,
+});
+var canvas4 = new fabric.Canvas('canvas4', {
+  isDrawingMode: true,
+});
+var canvas5 = new fabric.Canvas('canvas5', {
+  isDrawingMode: true,
+});
 
 var ctx = canvas.getContext('2d');
 var ctx2 = canvas2.getContext('2d');
+var ctx3 = canvas3.getContext('2d');
+var ctx4 = canvas4.getContext('2d');
+var ctx5 = canvas5.getContext('2d');
 
 $("#eraser").on("click", function () {
   canvas.freeDrawingBrush = new fabric.PencilBrush(canvas);
