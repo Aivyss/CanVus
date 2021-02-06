@@ -1,28 +1,51 @@
-var IMP = window.IMP;
-IMP.init("imp01277842"); // 가맹점 식별코드
+/*https://programmingsummaries.tistory.com/367*/
+	 	var file = document.querySelector('#getfile');
+	 	console.log(file);
+	
+	 	file.onchange = function () {
+	 	    var fileList = file.files ;
+	
+	 	    // 읽기
+	 	    var reader = new FileReader();
+	 	    reader.readAsDataURL(fileList [0]);
+	
+	 	    //로드 한 후
+	 	    reader.onload = function  () {
+	 	        //로컬 이미지를 보여주기
+	 	        document.querySelector('#preview').src = reader.result;
+	
+	 	    };
+	 	};
+	 	
+	 	
+	 	
+	 	//  ----▽ 로그인 패널과 관련된 함수세트 ▽----
+$(document).ready(function () { // 홈페이지가 동작하자마자 작동하도록 해준다.
 
-IMP.request_pay({
-    pg : 'inicis', // version 1.1.0부터 지원.
-    pay_method : 'card',
-    merchant_uid : 'canvas' + new Date().getTime(),
-    name : '주문명:결제테스트',
-    amount : 14000,
-    buyer_email : 'iamport@siot.do',
-    buyer_name : '구매자이름',
-    buyer_tel : '010-1234-5678',
-    buyer_addr : '서울특별시 강남구 삼성동',
-    buyer_postcode : '123-456',
-    m_redirect_url : 'https://www.yourdomain.com/payments/complete'
-}, function(rsp) {
-    if ( rsp.success ) {
-        var msg = '결제가 완료되었습니다.';
-        msg += '고유ID : ' + rsp.imp_uid;
-        msg += '상점 거래ID : ' + rsp.merchant_uid;
-        msg += '결제 금액 : ' + rsp.paid_amount;
-        msg += '카드 승인번호 : ' + rsp.apply_num;
-    } else {
-        var msg = '결제에 실패하였습니다.';
-        msg += '에러내용 : ' + rsp.error_msg;
-    }
-    alert(msg);
+    console.log("버튼클릭 감지 및 처리");
+    var maskHeight = document.body.offsetHeight;
+    $("#mask").css({ 'width': '100%', 'height': '100%' });
+    $('#mask').fadeTo('slow', 0.3);
+
+    var dialog = $('#content_div');
+    var left = ($(window).scrollLeft() + ($(window).width() - dialog.width()) / 2);
+    var top = ($(window).scrollTop() + ($(window).height() - dialog.height()) / 2);
+    dialog.css({ 'left': left, 'top': top });
+    dialog.show();
+
+    $('#mask').click(function () {
+        console.log("마스크 클릭 감지 및 처리");
+        $('#mask').hide();
+        $('#content_div').hide();
+    });
 });
+
+function resize_slide() {
+    var width = $(document).width();
+    var height = $(docuemnt).height();
+    var dialog = $('#content_div');
+    var top = $(window).scrollTop() + ($(windwo).height() - dialog.height()) / 2;
+    dialog.css({ 'top': top, 'left': width / 2 - 150 });
+}
+//  ----△ 로그인 패널과 관련된 함수세트 △----
+	 	
