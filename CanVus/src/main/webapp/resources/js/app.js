@@ -26,7 +26,7 @@ function resize_slide() {
     var top = $(window).scrollTop() + ($(windwo).height() - dialog.height()) / 2;
     dialog.css({ 'top': top, 'left': width / 2 - 150 });
 }
-//  ----△ 로그인 패널과 관련된 함수세트 △----
+//  ----△ 로그인 패널과 관련된 함수세트 △----intr
 
 //로그인 처리
   var clicked = false;//Global Variable
