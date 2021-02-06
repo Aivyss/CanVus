@@ -10,16 +10,18 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 		<script src="/resources/js/fabric/dist/fabric.js"></script>
 		<script type="text/javascript">
+			var layer = null;
+
 			$(()=> {
 				// 대강의 패브릭 객체 만들자
-				var canvas = new fabric.Canvas('canvas');
-				canvas.isDrawingMode = true;
+				layer= new fabric.Canvas('canvas');
+				layer.isDrawingMode = true;
 				
 				connect(); // 소켓 커넥트 실시
 
 				document.onkeydown = function (event) {
 
-					if(event.keyCode == 116 || event.ctrlKey == true && (event.keyCode == 82)) {
+					if(event.keyCode === 116 || event.ctrlKey == true && (event.keyCode === 82)) {
 						disconnect(); // 소켓 커넥트 종료
 						event.cancelBubble = true;
 						event.returnValue = false;
@@ -31,38 +33,54 @@
 					}
 				}
 
-				// 버튼을 클릭하면 보낸다. 단 실제로 이렇게 안하고 백단테스트용
+				// 버튼을 클릭하면 fabric 객체를 보낸다. 단 실제로 이렇게 안하고 백단테스트용
 				$('#btn').on('click', ()=> {
-					sendFabric(canvas, 1, 1, "4f8d59d6-5868-4f09-8f42-4e99ff890ef2");
+					sendFabric(layer, 1, 1, "4f8d59d6-5868-4f09-8f42-4e99ff890ef2");
 				});
-				
+
+				// 버튼을 클릭하면 챗 메세지를 보낸다. 단 실제로 이렇게 안하고 백단 테스트 용.
+				$('#btn2').on('click', () => {
+					sendMessage("4f8d59d6-5868-4f09-8f42-4e99ff890ef2", '메세지테스트', 'Aivyss');
+				});
+
+				//그려지면 전송하는 구조
+				layer.on('mouse:up', function() {
+					sendFabric(layer, 1, 1, "4f8d59d6-5868-4f09-8f42-4e99ff890ef2");
+				});
 			}); // 레디함수 엔드
 
+
+
 			// 소켓 클라이언트 정의
-			var stompClient = null;
+			var chatSocket = null;
+			var fabricObjSocket = null;
 
 			// 소켓 연결부
 			function connect() {
 				const socket = new SockJS('/endpoint');
-				stompClient = Stomp.over(socket);
+				const socket2 = new SockJS('/endpoint');
+				chatSocket = Stomp.over(socket);
+				fabricObjSocket = Stomp.over(socket2);
 
-				stompClient.connect({}, function(frame) {
-					// fabric js 객체를 실시간으로 받아들이는 파트
-					stompClient.subscribe('/subscribe/room/${room_Id}/fabric', function(result) {
+				chatSocket.connect({}, function(frame) {
+					// 챗 메세지를 실시간으로 받아들이는 파트
+					chatSocket.subscribe('/subscribe/test/room/${room_Id}/chat', function(result) {
 						var data = JSON.parse(result.body);
 						console.log(data);
 					});
 				});
 
-				stompClient.connect({}, function(frame) {
-					// 챗 메세지를 실시간으로 받아들이는 파트
-					stompClient.subscribe('/subscribe/room/${room_Id}/chat', function(result) {
-						var data = JSON.parse(result.body);
+				fabricObjSocket.connect({}, function(frame) {
+					fabricObjSocket.subscribe('/subscribe/test/room/${room_Id}/fabric', function(result) {
+						const data = JSON.parse(result.body);
 						console.log(data);
+						console.log(data['stringify']);
+						layer.loadFromJSON(data['stringify'], layer.renderAll.bind(layer));
 					});
 				});
 			}
 
+			// 패브릭 객체 전송 함수
 			function sendFabric(fabricObj, page, layer, room_Id) {
 				// fabric 객체를 보내는 과정 page, layer는 1, room_Id는 "a"이라 가정한다.
 				// fabric 객체도 대강 하자. 위에 canvas객체로 대강 때려 넣었다.
@@ -76,13 +94,27 @@
 				}
 
 				// send process
-				stompClient.send('/test/room/${room_Id}/fabric', {}, JSON.stringify(data));
+				chatSocket.send('/test/room/${room_Id}/fabric', {}, JSON.stringify(data));
+			}
+
+			// 메세지 전송 함수
+			function sendMessage(room_Id, message, nickname) {
+				const data = {
+					room_Id : room_Id,
+					message : message,
+					nickname : nickname
+				}
+
+				// send process
+				fabricObjSocket.send('/test/room/${room_Id}/chat', {}, JSON.stringify(data));
 			}
 		</script>	
 	</head>
 	<body>
-		<canvas id="canvas" style="width : 100px; height : 200px;"></canvas>
-		<input type="button" id="btn" value="전송테스트">
-
+		<div class="container">
+			<canvas id="canvas" style="width : 100px; height : 200px; border: 1px solid black";></canvas>
+			<input type="button" id="btn" value="객체 전송테스트">
+			<input type="button" id="btn2" value="메세지 전송테스트">
+		</div>
 	</body>
 </html>

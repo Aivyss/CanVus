@@ -2,6 +2,7 @@ package com.canvus.app.socket.controller;
 
 import java.util.Map;
 
+import com.canvus.app.socket.vo.MessageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -22,6 +23,15 @@ public class SocketRoomController {
 	@Autowired
 	private DrawingService drawingService;
 
+	/**
+	 * fabric 객체를 DB에 저장 및 방에 입장해 있는 유저에게 전달하는 메소드
+	 * 작성일: 2021.02.03 / 완료일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param room_Id
+	 * @param json
+	 * @param headerAccessor
+	 * @return
+	 */
 	@MessageMapping("/test/room/{room_Id}/fabric")
 	@SendTo("/subscribe/test/room/{room_Id}/fabric")
 	public Map<String, Object> fabric(@DestinationVariable("room_Id") String room_Id,
@@ -39,5 +49,25 @@ public class SocketRoomController {
 		}
 		
 		return json;
+	}
+
+	/**
+	 * 채팅 메세지를 방에 있는 유저에게 전송하는 메소드.
+	 * 드로잉 룸 채팅 메세지는 데이터베이스에 저장하지 않는다.
+	 * 작성일: 2021.02.05 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param room_Id
+	 * @param message
+	 * @return
+	 */
+	@MessageMapping("/test/room/{room_Id}/chat")
+	@SendTo("/subscribe/test/room/{room_Id}/chat")
+	public MessageVO sendChat(String room_Id, MessageVO message) {
+		log.info("채팅 전송 컨트롤러");
+		
+		// 값 들어왔는지 체크용
+		log.info(message.toString());
+
+		return message;
 	}
 }
