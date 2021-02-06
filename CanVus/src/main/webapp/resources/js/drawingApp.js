@@ -23,6 +23,22 @@ var canvas5 = new fabric.Canvas('canvas5', {
   isDrawingMode: true,
 });
 
+var canvas_1_1 = new fabric.Canvas('canvas_1_1', {
+  isDrawingMode: true,
+});
+var canvas_1_2 = new fabric.Canvas('canvas_1_2', {
+  isDrawingMode: true,
+});
+var canvas_1_3 = new fabric.Canvas('canvas_1_3', {
+  isDrawingMode: true,
+});
+var canvas_1_4 = new fabric.Canvas('canvas_1_4', {
+  isDrawingMode: true,
+});
+var canvas_1_5 = new fabric.Canvas('canvas_1_5', {
+  isDrawingMode: true,
+});
+
 var ctx = canvas.getContext('2d');
 var ctx2 = canvas2.getContext('2d');
 var ctx3 = canvas3.getContext('2d');

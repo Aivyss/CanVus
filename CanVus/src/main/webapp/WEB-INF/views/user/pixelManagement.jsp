@@ -94,6 +94,7 @@
             	        });
     				})
               	}
+            	
               if(currlayers==5){
                   $(document).on("click",".layers"+currlayers,function(){
                 	  $(".layers5").click(function(){
@@ -101,7 +102,12 @@
                 	        });
                          
         				})
-              }
+        				$(document).on("click",".hidelayers"+currlayers,function(){
+            	  $(".hidelayers5").click(function(){
+            	           $(".layer5").css({"z-index": "1","opacity": "0"});
+            	        });
+    				})
+              	}
 
            }); 
 
