@@ -42,6 +42,9 @@
 			<li><a href="/user/loginForm">로그인 창으로 이동</a></li>
 			<li><a href="/search/imageSearch">이미지 서칭</a></li>
 			<li><a href="main">메인이동</a></li>
+			<li><a href="intro-check-nickname">인트로 체크닉네임으로 이동</a></li>
+			<li><a href="intro-main">인트로 메인으로이동</a></li>
+			
 		</ul>
 				
 				
