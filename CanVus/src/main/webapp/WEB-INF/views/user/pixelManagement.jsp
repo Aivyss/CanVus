@@ -259,8 +259,11 @@ ul.tabs li.current{
 				<button id="moveLayer">moveLayer</button>
 			</div>
 			<div>
-         		<button class="hidelayers1">hidelayer1</button>
-         	</div>
+         <button style="float:left;" class="layers1">layer1</button>
+         </div>
+         <div>
+         <button class="hidelayers1">hidelayer1</button>
+         </div>
 			
 		</div>
 		
