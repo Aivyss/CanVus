@@ -10,12 +10,14 @@
 <title>Insert title here</title>
  
    <link rel="stylesheet" href="/resources/js/style.css">
+   <%-- <jsp:include page="/WEB-INF/views/header.jsp"></jsp:include> --%>
    <script src="/resources/js/Classic/Color.Picker.Classic.js" type="text/javascript"></script> 
    <script src="/resources/js/Classic/Color.Space.js" type="text/javascript"></script> 
    <script src="/resources/js/Classic/viewpalette.js"></script>
    <script src="/resources/js/fabric/dist/fabric.js"></script>
-   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-   <!-- <script src="node_modules/fabric-history/src/index.js"></script> -->
+   <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
+   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>   <!-- <script src="node_modules/fabric-history/src/index.js"></script> -->
    
    <script type="text/javascript">
    $(document).ready(function(){
@@ -37,95 +39,234 @@
          });
          
       }); */
-      var currlayers=1;
-
       
-          $("#makebtn").click(function(){
-              if(currlayers==5){
-            	  alert("레이어는 최대 5개까지 생성 가능합니다");
-                  return false;
-              }else{
-            	  currlayers+=1;
-              }
-              var dynamicTag = $('<div><button class="layers'+currlayers+'">layer'+currlayers+'</button></div>').addClass('new');
-              var dynamicTag2 = $('<div><button class="hidelayers'+currlayers+'">hidelayer'+currlayers+'</button></div>').addClass('new');
-              $('.tool').append(dynamicTag);
-              $('.tool').append(dynamicTag2);
+       var currlayers=1;
+      var layerstotal=1;
+       
+         $("#makebtn").click(function(){
+             if(layerstotal==5){
+                alert("레이어는 최대 5개까지 생성 가능합니다");
+                 return false;
+             }else{
+                currlayers+=1;
+                layerstotal+=1;
+             }
              
-              if(currlayers==2){
-                  
-              $(document).on("click",".layers"+currlayers,function(){
-            	  $(".layers2").click(function(){
-            	           $(".layer2").css({"z-index": current,"opacity": "1"});
-            	        });
-    				})
-    				
-    			$(document).on("click",".hidelayers"+currlayers,function(){
-            	  $(".hidelayers2").click(function(){
-            	           $(".layer2").css({"z-index": "1","opacity": "0"});
-            	        });
-    				})
-    	      }
+             var dynamicTag = $('<div style="float:left;"><button class="layers'+currlayers+'">layer'+currlayers+'</button></div>').addClass('new');
+             var dynamicTag2 = $('<div style="float:left;"><button class="hidelayers'+currlayers+'">hidelayer'+currlayers+'</button></div>').addClass('new');
+             var dynamicTag3 = $('<div><button class="deletelayers'+currlayers+'">deletelayer'+currlayers+'</button></div>').addClass('new');
+             $('.tool').append(dynamicTag);
+             $('.tool').append(dynamicTag2);
+             $('.tool').append(dynamicTag3);
+            
+             if(currlayers==2){
+                 
+             $(document).on("click",".layers"+currlayers,function(){
+                $(".layers2").click(function(){
+                         $(".layer2").css({"z-index": current,"opacity": "1"});
+                         $(".layers2").css({
+                             "color": "red",
+                             "border": "2px solid red",
+                          });
+                         $(".hidelayers2").css({
+                             "color": "black",
+                             "border": "2px solid black",
+                          });
+                      });
+               })
+               
+            $(document).on("click",".hidelayers"+currlayers,function(){
+                $(".hidelayers2").click(function(){
+                         $(".layer2").css({"z-index": "1","opacity": "0"});
+                         $(".layers2").css({
+                             "color": "black",
+                             "border": "2px solid black",
+                          });
+                     	$(".hidelayers2").css({
+                             "color": "red",
+                             "border": "2px solid red",
+                          });
+                      });
+               })
+               
+               $(document).on("click",".deletelayers"+currlayers,function(){
+                $(".deletelayers2").click(function(){
+                		$(".layer2").css({"z-index": "1","opacity": "0"});
+                         $(".layers2").remove();
+                         $(".hidelayers2").remove();
+                         $(".deletelayers2").remove();
+                         layerstotal-=1;
+                      });
+               })
+            }
 
-              if(currlayers==3){
-                  $(document).on("click",".layers"+currlayers,function(){
-                	  $(".layers3").click(function(){
-                	           $(".layer3").css({"z-index": current,"opacity": "1"});
-                	        });
-                         
-        				})
-        				$(document).on("click",".hidelayers"+currlayers,function(){
-            	  $(".hidelayers3").click(function(){
-            	           $(".layer3").css({"z-index": "1","opacity": "0"});
-            	        });
-    				})
-              }
+             if(currlayers==3){
+                 $(document).on("click",".layers"+currlayers,function(){
+                    $(".layers3").click(function(){
+                             $(".layer3").css({"z-index": current,"opacity": "1"});
+                             $(".layers3").css({
+                                 "color": "red",
+                                 "border": "2px solid red",
+                              });
+                             $(".hidelayers3").css({
+                                 "color": "black",
+                                 "border": "2px solid black",
+                              });
+                          });
+                        
+                   })
+                   $(document).on("click",".hidelayers"+currlayers,function(){
+                $(".hidelayers3").click(function(){
+                         $(".layer3").css({"z-index": "1","opacity": "0"});
+                         $(".layers3").css({
+                             "color": "black",
+                             "border": "2px solid black",
+                          });
+                     	$(".hidelayers3").css({
+                             "color": "red",
+                             "border": "2px solid red",
+                          });
+                      });
+               })
+               $(document).on("click",".deletelayers"+currlayers,function(){
+                $(".deletelayers3").click(function(){
+                		$(".layer3").css({"z-index": "1","opacity": "0"});
+                         $(".layers3").remove();
+                         $(".hidelayers3").remove();
+                         $(".deletelayers3").remove();
+                         layerstotal-=1;
+                      });
+               })
+             }
+             
+             if(currlayers==4){
+                 $(document).on("click",".layers"+currlayers,function(){
+                    $(".layers4").click(function(){
+                             $(".layer4").css({"z-index": current,"opacity": "1"});
+                             $(".layers4").css({
+                                 "color": "red",
+                                 "border": "2px solid red",
+                              });
+                             $(".hidelayers4").css({
+                                 "color": "black",
+                                 "border": "2px solid black",
+                              });
+                          });
+                        
+                   })
+                   $(document).on("click",".hidelayers"+currlayers,function(){
+                $(".hidelayers4").click(function(){
+                         $(".layer4").css({"z-index": "1","opacity": "0"});
+                         $(".layers4").css({
+                             "color": "black",
+                             "border": "2px solid black",
+                          });
+                     	$(".hidelayers4").css({
+                             "color": "red",
+                             "border": "2px solid red",
+                          });
+                      });
+               })
+               $(document).on("click",".deletelayers"+currlayers,function(){
+                $(".deletelayers4").click(function(){
+                		$(".layer4").css({"z-index": "1","opacity": "0"});
+                    	$(".layers4").remove();
+                         $(".hidelayers4").remove();
+                         $(".deletelayers4").remove();
+                         layerstotal-=1;
+                      });
+               })
+                }
               
-              if(currlayers==4){
-                  $(document).on("click",".layers"+currlayers,function(){
-                	  $(".layers4").click(function(){
-                	           $(".layer4").css({"z-index": current,"opacity": "1"});
-                	        });
-                         
-        				})
-        				$(document).on("click",".hidelayers"+currlayers,function(){
-            	  $(".hidelayers4").click(function(){
-            	           $(".layer4").css({"z-index": "1","opacity": "0"});
-            	        });
-    				})
-              	}
-            	
-              if(currlayers==5){
-                  $(document).on("click",".layers"+currlayers,function(){
-                	  $(".layers5").click(function(){
-                	           $(".layer5").css({"z-index": current,"opacity": "1"});
-                	        });
-                         
-        				})
-        				$(document).on("click",".hidelayers"+currlayers,function(){
-            	  $(".hidelayers5").click(function(){
-            	           $(".layer5").css({"z-index": "1","opacity": "0"});
-            	        });
-    				})
-              	}
+             if(currlayers==5){
+                 $(document).on("click",".layers"+currlayers,function(){
+                    $(".layers5").click(function(){
+                             $(".layer5").css({"z-index": current,"opacity": "1"});
+                             $(".layers5").css({
+                                 "color": "red",
+                                 "border": "2px solid red",
+                              });
+                             $(".hidelayers5").css({
+                                 "color": "black",
+                                 "border": "2px solid black",
+                              });
+                          });
+                        
+                   })
+                   $(document).on("click",".hidelayers"+currlayers,function(){
+                $(".hidelayers5").click(function(){
+                         $(".layer5").css({"z-index": "1","opacity": "0"});
+                         $(".layers5").css({
+                             "color": "black",
+                             "border": "2px solid black",
+                          });
+                     	$(".hidelayers5").css({
+                             "color": "red",
+                             "border": "2px solid red",
+                          });
+                      });
+               })
+               $(document).on("click",".deletelayers"+currlayers,function(){
+                $(".deletelayers5").click(function(){
+                		$(".layer5").css({"z-index": "1","opacity": "0"});
+                         $(".layers5").remove();
+                         $(".hidelayers5").remove();
+                         $(".deletelayers5").remove();
+                         layerstotal-=1;
+                      });
+               })
+                }
 
-           }); 
+          }); 
 
-      var current=1;
-
-      $(".layers1").click(function(){
-		current+=1;
-         $(".layer1").css({
-            "z-index": current,
-            "opacity": "1"
+        var current=1;
+   
+        $(".layers1").click(function(){
+        current+=1;
+        $(".layers1").css({
+            "color": "red",
+            "border": "2px solid red",
          });
+        $(".hidelayers1").css({
+            "color": "black",
+            "border": "2px solid black",
+         });
+           $(".layer1").css({
+              "z-index": current,
+              "opacity": "1"
+           });
+   
+        });
+   
+        $(".hidelayers1").click(function(){
+        	$(".layers1").css({
+                "color": "black",
+                "border": "2px solid black",
+             });
+        	$(".hidelayers1").css({
+                "color": "red",
+                "border": "2px solid red",
+             });
+            $(".layer1").css({"z-index": "1","opacity": "0"});
+         });
+        
+        $(".deletelayers1").click(function(){
+    		$(".layer1").css({"z-index": "1","opacity": "0"});
+             $(".layers1").remove();
+             $(".hidelayers1").remove();
+             $(".deletelayers1").remove();
+             layerstotal-=1;
+          });
+        
+   
+        $("#moveLayer").click(function(){
+            $('.layer1').draggable(); 
+        });
 
-      });
-
-      $(".hidelayers1").click(function(){
-          $(".layer1").css({"z-index": "1","opacity": "0"});
-       });
-
+         $('.layer1').mouseup(function(){
+        
+            $('.layer1').draggable("destroy"); 
+        }); 
 
    });
    </script>
@@ -139,6 +280,8 @@ line-height: 1.6
 .toolBar{
    display: inline-block;
    margin: 10px;
+   top: 0;
+   left: 0;
 }
 
 .tool{
@@ -235,7 +378,7 @@ ul.tabs li.current{
    <jsp:include page="/WEB-INF/views/mainMenu.jsp"></jsp:include>
    
    <!-- 툴 텝 시작 -->
-   <div class="toolBar">
+   <div class="toolBar" id="test">
       <div>Drawing Page</div>
       <span>CanVus</span>
       <a>올리기</a>
@@ -250,13 +393,18 @@ ul.tabs li.current{
             <button id="selection">selection</button>
          </div>
          <div>
-         <button class="layers1">layer1</button>
+            <button id="moveLayer">moveLayer</button>
          </div>
-         <div>
-         <button class="hidelayers1">hidelayer1</button>
-         </div>
-        
          
+        <div class="layers1">
+         <button style="float:left; border:solid red 2px; color:red;" class="layers1">layer1</button>
+         </div>
+         <div class="hidelayers1">
+         <button style="float:left; border:solid black 2px; color:black;" class="hidelayers1">hidelayer1</button>
+         </div>
+         <div class="deletelayers1">
+         <button class="deletelayers1">deletelayer1</button>
+         </div>
          
       </div>
       
@@ -274,12 +422,14 @@ ul.tabs li.current{
             <input type="button" value="연필" onclick="pencilBrush();">
          </div>   
       </div>
+     
       <div class="rangeBar">
          <input type="range" max="1" min="0.1" step="0.05" value="1" id="opacity" class="range">
        </div>
        <div class="rangeBar">
          <input type="range" max="30" min="1" step="1" value="5" id="thickness" class="range">
-       </div>  
+       </div>
+        
    </div>
    <!-- 툴 텝 끝 -->
    
@@ -294,35 +444,23 @@ ul.tabs li.current{
       <div id="tab-1" class="tab-content current">
          <div class="set">
              <div class="layers">
-             
-             <input type="button" id="makebtn" value="레이어추가"/>
-             
+                <input type="button" id="makebtn" value="레이어추가"/>
                 <div class="layer1">
                    <canvas class="canvas" id="canvas" width="1000" height="600"></canvas>
-    			 </div>
-
-               <div class="layer2">
+                 </div>
+            <div class="layer2">
                    <canvas class="canvas" id="canvas2" width="1000" height="600"></canvas>
-     			</div>
-     			<div class="layer3">
+                 </div>
+                 <div class="layer3">
                    <canvas class="canvas" id="canvas3" width="1000" height="600"></canvas>
-     			</div>
-     			<div class="layer4">
+                 </div>
+                 <div class="layer4">
                    <canvas class="canvas" id="canvas4" width="1000" height="600"></canvas>
-     			</div>
-     			<div class="layer5">
+                 </div>
+                 <div class="layer5">
                    <canvas class="canvas" id="canvas5" width="1000" height="600"></canvas>
-     			</div>
-
-     			
-
-
-               
-                <!-- <canvas class="background" width="400" height="400"></canvas> -->
-           <!-- <div>
-                   <canvas class="canvas" id="canvas2" width="1000" height="600"></canvas>
-                </div> -->
-                <!-- <canvas class="background" width="400" height="400"></canvas> -->
+                 </div>
+                 
 
              </div>
              <div class="buttons">
@@ -350,7 +488,7 @@ ul.tabs li.current{
       </div>
       <div id="tab-3" class="tab-content">
       </div>
-   </div>
+   
      <script src="/resources/js/drawingApp.js"></script>
    <!-- page 텝 끝-->
    
