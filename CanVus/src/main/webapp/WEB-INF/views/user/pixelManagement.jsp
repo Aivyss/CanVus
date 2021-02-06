@@ -10,6 +10,7 @@
 <title>Insert title here</title>
  
 	<link rel="stylesheet" href="/resources/js/style.css">
+	<%-- <jsp:include page="/WEB-INF/views/header.jsp"></jsp:include> --%>
 	<script src="/resources/js/Classic/Color.Picker.Classic.js" type="text/javascript"></script> 
 	<script src="/resources/js/Classic/Color.Space.js" type="text/javascript"></script> 
 	<script src="/resources/js/Classic/viewpalette.js"></script>
@@ -55,7 +56,7 @@
 
 		$(".layers2").click(function(){
 			$(".layer2").css({
-				"z-index": "3",
+				"z-index": y,
 				"opacity": "1"
 			});
 
