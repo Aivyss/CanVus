@@ -127,9 +127,17 @@
 	     $(".hidelayers1").click(function(){
 	         $(".layer1").css({"z-index": "1","opacity": "0"});
 	      });
-	
-		console.log($('.toolBar'));
-		$('.layer1').draggable(); 
+
+	     $("#moveLayer").click(function(){
+	    	 $('.layer1').draggable(); 
+		 });
+
+	     $('.layer1').mouseup(function(){
+	    
+	    	 $('.layer1').draggable("destroy"); 
+		 });
+		
+		
 
 	});
 	</script>
