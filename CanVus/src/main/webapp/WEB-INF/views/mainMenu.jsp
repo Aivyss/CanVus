@@ -147,7 +147,7 @@
     
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <!-- <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>-->
-    <script src="/resources/mainAsset/js/jquery-1.12.3.min.js"></script>
+    <!-- <script src="/resources/mainAsset/js/jquery-1.12.3.min.js"></script> -->
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="/resources/mainAsset/js/bootstrap.min.js"></script>
     

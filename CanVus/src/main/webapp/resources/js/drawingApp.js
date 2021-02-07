@@ -1,3 +1,6 @@
+$(function(){
+
+});
 var brushColor = "black";
 var color = new fabric.Color(brushColor).toRgba();
 color = color.replaceAll('1)', opacity + ')'); // rgb+opacity
