@@ -69,40 +69,6 @@ public class SocketRoomController {
 	public Map<String, Object> sendChat(@DestinationVariable("room_Id") String room_Id, MessageVO message) {
 		log.info("채팅 및 기타 기능 컨트롤러");
 
-		return parser(room_Id, message);
-	}
-	
-	private Map<String, Object> parser(String room_Id, MessageVO message) {
-		String type = message.getType();
-		Map<String, Object> container = new HashMap<String, Object>();
-		MessageVO result = null;
-		
-		if (type.toUpperCase().equals("COMMONCHAT")) {
-			container = commonChat(message);
-		} else if (type.toUpperCase().equals("ENTER")) {
-			container = enter(room_Id, message);
-		} else if (type.toUpperCase().equals("QUIT")) {
-			result = message;
-		}
-		
-		return container;
-	}
-	
-	private Map<String, Object> commonChat(MessageVO message) {
-		Map<String, Object> container = new HashMap<String, Object>();
-		
-		container.put("header", "COMMONCHAT");
-		container.put("message", message);
-		
-		return container;
-	}
-	
-	private Map<String, Object> enter(String room_Id, MessageVO message) {
-		// message에 있어야할 내용: 입장하는 유저의 아이디
-		Map<String, Object> container = new HashMap<String, Object>();
-		
-		container.put("header", "ENTER");
-		
-		return container;
+		return stompService.parser(room_Id, message);
 	}
 }

@@ -68,4 +68,13 @@
 	)
 </insert>
 
+<delete id="quitRoom" parameterType="drawingUser">
+	DELETE FROM
+		JOIN_LIST
+	WHERE
+		USER_ID = #{user_id}
+		AND
+		ROOM_ID = #{room_Id}
+</delete>
+
 </mapper>
