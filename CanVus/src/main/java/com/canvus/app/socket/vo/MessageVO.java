@@ -8,5 +8,5 @@ import lombok.Data;
 public class MessageVO {
 	private String type;
     private String room_Id;
-    private Map<String, Object> message; // json에 해당
+    private String message; // json에 해당
 }

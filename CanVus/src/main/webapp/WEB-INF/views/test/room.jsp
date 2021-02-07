@@ -37,17 +37,17 @@
 
 				// 버튼을 클릭하면 fabric 객체를 보낸다. 단 실제로 이렇게 안하고 백단테스트용
 				$('#btn').on('click', ()=> {
-					sendFabric(layer, 1, 1, "4f8d59d6-5868-4f09-8f42-4e99ff890ef2");
+					sendFabric(layer, 1, 1, "${room_Id}");
 				});
 
 				// 버튼을 클릭하면 챗 메세지를 보낸다. 단 실제로 이렇게 안하고 백단 테스트 용.
 				$('#btn2').on('click', () => {
-					sendMessage("4f8d59d6-5868-4f09-8f42-4e99ff890ef2", '메세지테스트', 'Aivyss');
+					sendMessage("${room_Id}", '메세지', 'Aivyss', 'commonchat');
 				});
 
 				//그려지면 전송하는 구조
 				layer.on('mouse:up', function() {
-					sendFabric(layer, 1, 1, "4f8d59d6-5868-4f09-8f42-4e99ff890ef2");
+					sendFabric(layer, 1, 1, "${room_Id}");
 				});
 			}); // 레디함수 엔드
 
@@ -100,11 +100,11 @@
 			}
 
 			// 메세지 전송 함수
-			function sendMessage(room_Id, message, nickname) {
+			function sendMessage(room_Id, message, nickname, type) {
 				const data = {
-					type : "commonchat",
+					type : type,
 					room_Id : room_Id,
-					message : message,
+					message : JSON.stringify(message)
 				}
 
 				// send process
@@ -113,10 +113,11 @@
 
 			// 페이지 종료 이벤트 --> 소켓종료
 			$(window).on('beforeunload', function() {
-				sendMessage(${room_Id}, '${userVO.nickname}님 접속종료', '${userVO.nickname}')
+				var data = {'quitmessage': '일단테스트'};
+				sendMessage('${room_Id}', data, '${userVO.nickname}', 'quit')
 				
-				var chatClient.disconnect();
-				var fabricClient.disconnect();
+				chatClient.disconnect();
+				fabricClient.disconnect();
 			});
 		</script>	
 	</head>
