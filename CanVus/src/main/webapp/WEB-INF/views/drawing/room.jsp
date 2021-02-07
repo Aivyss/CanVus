@@ -418,7 +418,7 @@ ul.tabs li.current{
 									location.href="/drawing/room/?room_Id="+"${room_Id}";
 								
 								}else {								
-									alret("비밀번호가 틀렸습니다");
+									alert("비밀번호가 틀렸습니다");
 									}
 							},
 							error:function(request,status,error){
