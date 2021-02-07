@@ -29,6 +29,5 @@
 		<mapper resource="mapper/FeedsMapper.xml" />
 		<mapper resource="mapper/FeedDrawingsMapper.xml" />
 		<mapper resource="mapper/TagsInFeedMapper.xml" />
-		<mapper resource="mapper/TagMapper.xml" />
 	</mappers>
 </configuration>

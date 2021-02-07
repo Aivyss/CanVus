@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.canvus.app.service.UserService;
 import com.canvus.app.vo.BookmarkVO;
@@ -59,8 +60,8 @@ public class UserViewController {
 	}
 	
 	@RequestMapping(value="/signupSubmit", method=RequestMethod.POST)
-	public String signupSubmit(UserVO vo, HttpSession session) {
-		vo = userService.signup(vo);
+	public String signupSubmit(UserVO vo, MultipartFile photo_upload, HttpSession session) {
+		vo = userService.signup(vo, photo_upload);
 		String url = "redirect:/";
 		
 		if (vo != null) { // 회원가입 완료 validation check

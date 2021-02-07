@@ -8,11 +8,11 @@
 </head>
 <body>
 	<h1>회원가입 페이지 테스트</h1>
-	<form action="/user/signupSubmit" method="post">
+	<form action="/user/signupSubmit" method="post" enctype="multipart/form-data">
 		토큰히든 <input type="hidden" name="idToken" value="${idToken }"> <br>
 		닉네임 <input type="text" name="nickname"> <br>
 		자기소개 <input type="text" name="introduction"> <br>
-		프로필 나중에하자 힘들다
+		프로필 <input type="file" name="photo_upload">
 		<input type="submit" value="가입">
 	</form>
 	<script type="text/javascript">

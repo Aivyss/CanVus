@@ -55,6 +55,7 @@ public class UserDAO {
 			check = mapper.signup(vo);
 		} catch (Exception e) {
 			logger.info("SQL 회원가입 오류");
+			e.printStackTrace();
 		}
 		
 		return check;
