@@ -62,4 +62,15 @@ public class HomeController {
 		return "searchResult";
 	}
 	
+	//INTRO링크 추가
+	@RequestMapping(value = "/intro-check-nickname", method = RequestMethod.GET)
+	public String GetToIntroCheckNickname() {
+		return "intro-check-nickname";
+	}
+	
+	@RequestMapping(value = "/intro-main", method = RequestMethod.GET)
+	public String GetToIntroMain() {
+		return "intro-main";
+	}
+	
 }
