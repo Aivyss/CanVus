@@ -19,6 +19,8 @@
 				
 				connect(); // 소켓 커넥트 실시
 
+				
+
 				document.onkeydown = function (event) {
 
 					if(event.keyCode === 116 || event.ctrlKey == true && (event.keyCode === 82)) {
@@ -52,26 +54,26 @@
 
 
 			// 소켓 클라이언트 정의
-			var chatSocket = null;
-			var fabricObjSocket = null;
+			var chatClient = null;
+			var fabricClient = null;
 
 			// 소켓 연결부
 			function connect() {
-				const socket = new SockJS('/endpoint');
+				const socket1 = new SockJS('/endpoint');
 				const socket2 = new SockJS('/endpoint');
-				chatSocket = Stomp.over(socket);
-				fabricObjSocket = Stomp.over(socket2);
+				chatClient = Stomp.over(socket1);
+				fabricClient = Stomp.over(socket2);
 
-				chatSocket.connect({}, function(frame) {
+				chatClient.connect({}, function(frame) {
 					// 챗 메세지를 실시간으로 받아들이는 파트
-					chatSocket.subscribe('/subscribe/test/room/${room_Id}/chat', function(result) {
+					chatClient.subscribe('/subscribe/test/room/${room_Id}/chat', function(result) {
 						var data = JSON.parse(result.body);
 						console.log(data);
 					});
 				});
 
-				fabricObjSocket.connect({}, function(frame) {
-					fabricObjSocket.subscribe('/subscribe/test/room/${room_Id}/fabric', function(result) {
+				fabricClient.connect({}, function(frame) {
+					fabricClient.subscribe('/subscribe/test/room/${room_Id}/fabric', function(result) {
 						const data = JSON.parse(result.body);
 						console.log(data);
 						console.log(data['stringify']);
@@ -94,25 +96,33 @@
 				}
 
 				// send process
-				chatSocket.send('/test/room/${room_Id}/fabric', {}, JSON.stringify(data));
+				fabricClient.send('/test/room/${room_Id}/fabric', {}, JSON.stringify(data));
 			}
 
 			// 메세지 전송 함수
 			function sendMessage(room_Id, message, nickname) {
 				const data = {
+					type : "commonchat",
 					room_Id : room_Id,
 					message : message,
-					nickname : nickname
 				}
 
 				// send process
-				fabricObjSocket.send('/test/room/${room_Id}/chat', {}, JSON.stringify(data));
+				chatClient.send('/test/room/${room_Id}/chat', {}, JSON.stringify(data));
 			}
+
+			// 페이지 종료 이벤트 --> 소켓종료
+			$(window).on('beforeunload', function() {
+				sendMessage(${room_Id}, '${userVO.nickname}님 접속종료', '${userVO.nickname}')
+				
+				var chatClient.disconnect();
+				var fabricClient.disconnect();
+			});
 		</script>	
 	</head>
 	<body>
 		<div class="container">
-			<canvas id="canvas" style="width : 100px; height : 200px; border: 1px solid black";></canvas>
+			<canvas id="canvas" style="width : 100px; height : 200px; border: 1px solid black;"></canvas>
 			<input type="button" id="btn" value="객체 전송테스트">
 			<input type="button" id="btn2" value="메세지 전송테스트">
 		</div>

@@ -2,6 +2,7 @@ package com.canvus.app.socket.controller;
 
 import java.util.Map;
 
+import com.canvus.app.socket.service.StompService;
 import com.canvus.app.socket.vo.MessageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -22,6 +23,8 @@ import lombok.extern.slf4j.Slf4j;
 public class SocketRoomController {
 	@Autowired
 	private DrawingService drawingService;
+	@Autowired
+	private StompService stompService;
 
 	/**
 	 * fabric 객체를 DB에 저장 및 방에 입장해 있는 유저에게 전달하는 메소드
@@ -63,11 +66,21 @@ public class SocketRoomController {
 	@MessageMapping("/test/room/{room_Id}/chat")
 	@SendTo("/subscribe/test/room/{room_Id}/chat")
 	public MessageVO sendChat(String room_Id, MessageVO message) {
-		log.info("채팅 전송 컨트롤러");
+		log.info("채팅 및 기타 기능 컨트롤러");
+		String type = message.getType();
+		MessageVO result = null;
+		
+		if (type.equals("COMMONCHAT")) {
+			result = message;
+		} else if (type.equals("ENTER")) {
+			result = stompService.getUserList(room_Id);
+		} else if (type.equals("QUIT")) {
+			
+		}
 		
 		// 값 들어왔는지 체크용
 		log.info(message.toString());
 
-		return message;
+		return result;
 	}
 }

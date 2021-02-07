@@ -202,4 +202,14 @@ public class DrawingDAO {
 		
 		return pageList;
 	}
+
+	public List<DrawingUserVO> connectUser(String room_Id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<DrawingUserVO> disconnectUser(String room_Id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

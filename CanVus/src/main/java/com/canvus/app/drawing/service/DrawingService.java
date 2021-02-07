@@ -296,4 +296,19 @@ public class DrawingService {
 		return drawingDAO.selectAllPages(room_Id);
 	}
 
+	/**
+	 * 방에 입장한 유저를 유저목록 테이블에 추가하는 메소드
+	 * 작성일: 2021.02.06 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param chatRoomId
+	 * @param sessionId
+	 */
+	public List<DrawingUserVO> connectUser(String room_Id, String sessionId) {
+		return drawingDAO.connectUser(room_Id);
+	}
+
+	public List<DrawingUserVO> disconnectUser(String room_Id, String sessionId) {
+		return drawingDAO.disconnectUser(room_Id);
+	}
+
 }

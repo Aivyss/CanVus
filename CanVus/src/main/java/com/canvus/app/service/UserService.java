@@ -58,6 +58,8 @@ public class UserService {
 		vo.setProfile_photo((String) payload.get("picture"));
 		vo.setUser_id((String) payload.getSubject());
 		
+		logger.info(vo.toString());
+		
 		boolean check = userDAO.signup(vo);
 		
 		if (check) {
