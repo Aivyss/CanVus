@@ -32,13 +32,13 @@
          $("#"+tab_id).addClass('current');
       });
 
-      /* $(".brush").click(function(){
-         $(".spray").css({
+       $(".brush").click(function(){
+         $(".tool_brush").css({
             "display": "block"
             
          });
          
-      }); */
+      });
       
        var currlayers=1;
       var layerstotal=1;
@@ -420,7 +420,10 @@ ul.tabs li.current{
          </div>
          <div>
             <input type="button" value="연필" onclick="pencilBrush();">
-         </div>   
+         </div>
+         <button id="red">펜</button>
+         <button id="eraser">eraser</button>
+         <button id="drawer">drawer</button>
       </div>
      
       <div class="rangeBar">
