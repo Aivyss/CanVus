@@ -396,46 +396,49 @@ ul.tabs li.current{
    
 	<c:choose>
 		<c:when test="${empty pwWrttenByUser && dbPassword != null}">
-				
+			<script type="text/javascript">
+				$(() => {
+					$('#pwCheck').on('click', () => {
+						const data={
+								"pwWrttenByUser" : $("#inputPassword5").val(),
+								"room_Id" : "${room_Id}"								
+							};
+																			
+							$.ajax({
+			
+							url : "/drawing/passwordCheck",
+							type : "POST",
+							dataType : "json",
+							contentType : "application/json",
+							data : JSON.stringify(data),
+							success : function(result) {
+								if(result["result"] == "success") {
+									console.log("성공");
+									sessionStorage.setItem('pwWrttenByUser', $("#inputPassword5").val());						
+									location.href="/drawing/room/?room_Id="+"${room_Id}";
+								
+								}else {								
+									alret("비밀번호가 틀렸습니다");
+									}
+							},
+							error:function(request,status,error){
+							    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+							    }					
+							});
+					});
+				});
+			</script>
+			 	
 			<div class="row g-3 align-items-center" id ="passwordsetting">
 		 		<label for="inputPassword5" class="form-label">Password</label>
 				<input type="password" id="inputPassword5" name="password" class="form-control" aria-describedby="passwordHelpBlock">
 				<div> 
-				<input type="button" value= "입력" id = "submitbox" onclick="correctPw()">
+				<input type="button" value= "입력" id="pwCheck">
 				</div>
 			</div>
 			
 			<div>
-				<script type="text/javascript">
-				function correctPw(){
-					const data={
-					"pwWrttenByUser" : $("#inputPassword5").val(),
-					"room_Id" : ${room_Id};								
-					}
-																	
-					$.ajax({
-	
-					url : "/drawing/passwordCheck",
-					type : "POST",
-					dataType : "json",
-					contentType : "application/json",
-					data : JSON.stringify(data),
-					success : function(result) {
-						if(result["result"] == "sussces") {
-							//TODO 세션스코프에 비번값넣기	
-							${sessionScope.pwWrttenByUser}							
-						location.href="/drawing/room/?room_Id="+${room_Id};
-						
-						}else {								
-							alret("비밀번호가 틀렸습니다");
-							}
-					},
-					error:function(request,status,error){
-					    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-					    }					
-					});
-				}
-				</script> 
+				
 				
 				<p>ajax로 보내고 일치하면 다시 이페이지 불러와.</p>
 			</div>

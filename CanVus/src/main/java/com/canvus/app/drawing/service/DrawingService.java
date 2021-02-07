@@ -25,6 +25,7 @@ import com.canvus.app.vo.CanVusVOType;
 import com.canvus.app.vo.FeedDrawingsVO;
 import com.canvus.app.vo.FeedVO;
 import com.canvus.app.vo.TagsInFeedVO;
+import com.canvus.app.vo.UserVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,26 +38,6 @@ public class DrawingService {
 	private FeedDAO feedDAO;
 	@Autowired
 	private TagDAO tagDAO;
-
-	/**
-	 * 제작일: 2021.01.16
-	 * 
-	 * @param drawingRoom
-	 * @return
-	 */
-	public boolean enterRoom(DrawingRoomVO drawingRoom) {
-		DrawingRoomVO dbData = drawingDAO.enterRoom(drawingRoom.getRoom_Id());
-		
-		boolean check = false;
-
-		if (dbData.getRoom_Id().equals(drawingRoom.getRoom_Id())) {
-			if (dbData.getPassword().equals(drawingRoom.getPassword())) {
-				check = true;
-			}
-		}
-
-		return check;
-	}
 
 	/**
 	 * 제작일: 2021.01.16 / 최종수정일: 2021.01.18
@@ -155,8 +136,9 @@ public class DrawingService {
 		boolean check = false;
 		DrawingRoomVO roomInfo = drawingDAO.getRoomById(room_Id);
 
-		if (password.equals(roomInfo.getPassword())) {
-			
+		if (roomInfo.getPassword().equals(password)) {
+			// 비밀번호가 일치하여 세션에 방 비밀번호를 넣는 처리
+			session.setAttribute("pwWrttenByUser", roomInfo.getPassword());
 			check = true;
 		}
 
@@ -295,20 +277,38 @@ public class DrawingService {
 		
 		return drawingDAO.selectAllPages(room_Id);
 	}
+	
+	/**
+	 * 현재 해당 방에 얼마나 유저가 있는지 산출하는 메소드
+	 * 작성일: 2021.02.07 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param room_Id
+	 * @return
+	 */
+	public List<DrawingUserVO> getRoomUserList(String room_Id) {
+		
+		return drawingDAO.getRoomUserList(room_Id);
+	}
 
 	/**
-	 * 방에 입장한 유저를 유저목록 테이블에 추가하는 메소드
-	 * 작성일: 2021.02.06 / 완성일: / 버그검증일:
-	 * 작성자: 이한결
-	 * @param chatRoomId
-	 * @param sessionId
+	 * 비밀번호 검증에 성공하여 유저를 방리스트에 넣는 메소드.
+	 * @param room_Id
+	 * @param session
+	 * @param user_type
+	 * @return
 	 */
-	public List<DrawingUserVO> connectUser(String room_Id, String sessionId) {
-		return drawingDAO.connectUser(room_Id);
+	public boolean enterRoom(String room_Id, HttpSession session, String user_type) {
+		log.info("유저를 방에 입장시키는 메소드");
+		UserVO userVO = (UserVO) session.getAttribute("userVO");
+		DrawingUserVO newRoomUser = CanVusVOFactory.newInstance(CanVusVOType.DrawingUserVO);
+		
+		newRoomUser.setRoom_Id(room_Id);
+		newRoomUser.setUser_id(userVO.getUser_id());
+		newRoomUser.setRoom_Id(room_Id);
+		newRoomUser.setUser_type(user_type);
+		
+		boolean isEntered = drawingDAO.enterRoom(newRoomUser);
+		
+		return isEntered;
 	}
-
-	public List<DrawingUserVO> disconnectUser(String room_Id, String sessionId) {
-		return drawingDAO.disconnectUser(room_Id);
-	}
-
 }

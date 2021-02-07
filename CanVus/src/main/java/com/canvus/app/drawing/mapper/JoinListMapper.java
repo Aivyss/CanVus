@@ -13,4 +13,8 @@ public interface JoinListMapper {
 
 	public int getUserCount(String room_Id);
 
+	public List<DrawingUserVO> getRoomUserList(String room_Id);
+	
+	public boolean enterRoom(DrawingUserVO newRoomUser);
+
 }

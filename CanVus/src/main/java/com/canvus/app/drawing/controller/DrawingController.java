@@ -24,6 +24,8 @@ import com.canvus.app.drawing.vo.DrawingRoomVO;
 import com.canvus.app.drawing.vo.DrawingUserVO;
 import com.canvus.app.drawing.vo.PageVO;
 import com.canvus.app.service.UserService;
+import com.canvus.app.vo.CanVusVOFactory;
+import com.canvus.app.vo.CanVusVOType;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -55,14 +57,15 @@ public class DrawingController {
 		String url = "";
 
 		// TODO 방을 생성하고 DB저장후 반환된 방정보
-		DrawingRoomVO result = drawingService.createRoom(roomInfo, session);
+		DrawingRoomVO roomInfoDB = drawingService.createRoom(roomInfo, session);
 		
 		// TODO 방이 생성됐는지 여부에 따라 분기
-		if (result == null) {
+		if (roomInfoDB == null) {
 			url = "redirect:/main";
 		} else {
-			session.setAttribute("pwWrttenByUser", result.getPassword());
-			url = "redirect:/drawing/room/?room_Id=" + result.getRoom_Id();
+			drawingService.enterRoom(roomInfoDB.getRoom_Id(), session, "ADMIN");
+			session.setAttribute("pwWrttenByUser", roomInfoDB.getPassword());
+			url = "redirect:/drawing/room/?room_Id=" + roomInfoDB.getRoom_Id();
 		}
 		
 		log.info("방만들기 controller 종료");
@@ -73,7 +76,7 @@ public class DrawingController {
 	 * 방입장을 위한 메소드
 	 * GET방식으로 방 아이디는 노출 시킬 생각이다. 편하게 URL을 공유할 수 있도록.
 	 * 방 비밀번호가 필요한 경우에는 세션에 넣어서 전달한다.
-	 * 작성일: 2021.01.22 / 완성일: / 버그검증일:
+	 * 작성일: 2021.01.22 / 수정일: 2021.02.08 / 완성일: / 버그검증일:
 	 * 작성자: 이한결
 	 * @param request
 	 * @param model
@@ -85,8 +88,8 @@ public class DrawingController {
 		 * AJAX로 비밀번호를 검증하든 안하든 이 메소드로 들어온다.
 		 * 방찾기 페이지에서 AJAX로 검증해서 들어온 유저의 경우
 		 * 세션에 roomPassword라는 키로 방 비밀번호를 가지고 있다.
-		 * 직접 노출로 들어온 유저는 세션에 roomPassword라는 값이 없다.
-		 * (단 이 전제는 방에 들어올 시 세션에서 roomPassword키에 대한 값을 초기화한 경우이다.
+		 * 직접 노출로 들어온 유저는 세션에 pwWrttenByUser라는 값이 없다.
+		 * (단 이 전제는 방에 들어올 시 세션에서 pwWrttenByUser키에 대한 값을 초기화한 경우이다.
 		 * 다른 방과 비밀번호가 겹칠 수 있으므로 방입장에 성공하면 매번 지워야 한다.)
 		 * 하지만 모두 이 메소드로 들어와서 MODEL을 통해 비번값을 방 JSP 로 전달하고
 		 * 방 JSP에서는 코어태그로 분기하여 구분한다.
@@ -99,19 +102,64 @@ public class DrawingController {
 		DrawingRoomVO roomInfo = drawingService.getRoomById(room_Id);
 		// TODO room_Id로 현재 방인원수를 산출함
 		int userCount = drawingService.getUserCount(room_Id);
+		// TODO 방에 입장한 유저 리스트 산출
+		List<DrawingUserVO> userList = drawingService.getRoomUserList(room_Id);
 		
-		// TODO 입장하려는 방의 인원수가 초과했는지 안했는지 판단
-		if (roomInfo.getUser_no() > userCount) {
-			// 유저정보라든지 그림정보는 소켓연결 시 받아와야 할듯.
-			// 프론트는 비밀번호 검증이 완료 될 시 ajax로 유저 정보 요청 및 레이어 요청
+		// TODO 해당 유저가 방에 있는지 체크한다.
+		// 있을 시 방에 추가하는 행위는 하지 않아도 되기 때문.
+		boolean isMember = false;
+		String userId = (String)session.getAttribute("userId");
+		for (DrawingUserVO user : userList) {
+			if (userId.equals(user.getUser_id())) {
+				isMember = true;
+				break;
+			}
+		}
+		
+		model.addAttribute("room_Id", room_Id);
+		// 이미 멤버인지 아닌지 확인
+		if (isMember) { 
+			// 기존 방 멤버이다. 굳이 비밀번호 거치지 않아도 되도록 통일.
+			model.addAttribute("pwWrttenByUser", "None"); 
+			model.addAttribute("dbPassword", "None");
 			
-			// TODO 방에 들어오려 시도한 유저에게 비밀번호 검증을 위한 값 전달
-			model.addAttribute("room_Id", room_Id);
-			model.addAttribute("pwWrttenByUser", (String) session.getAttribute("pwWrttenByUser")); // 유저가 입력한 비번
-			model.addAttribute("dbPassword", roomInfo.getPassword()); // 방 비번
 			url = "drawing/room";
 		} else {
-			url = "redirect:/main";
+			// 기존 방 멤버가 아니다.
+			if (roomInfo.getUser_no() > userCount) { // 방인원수가 초과했는지 확인
+				// 비밀번호가 필요한지 확인
+				if (roomInfo.getPassword() == null) {
+					// 방 비번이 필요 없으니까 통일한다.
+					model.addAttribute("pwWrttenByUser", "None");
+					model.addAttribute("dbPassword", "None");
+					
+					url = "drawing/room";
+				} else {
+					// 비밀번호 검증
+					
+					Map<String, String> params = new HashMap<String, String>();
+					params.put("pwWrttenByUser", (String) session.getAttribute("pwWrttenByUser"));
+					params.put("room_Id", room_Id);
+					boolean isCorrect = drawingService.passwordCheck(params, session);
+					
+					if (isCorrect) {
+						// 비밀번호가 옳았으므로 유저리스트에 해당 유저를 넣는다.
+						drawingService.enterRoom(room_Id, session, "VISITER");
+						
+						// 해당 방 아이디와 입력한 비밀번호, db상 방비밀번호를 모델에 넣는다.
+						model.addAttribute("pwWrttenByUser", (String) session.getAttribute("pwWrttenByUser")); // 유저가 입력한 비번
+						model.addAttribute("dbPassword", roomInfo.getPassword()); // 방 비번
+					} else {
+						//비밀번호가 틀렸다.
+						model.addAttribute("dbPassword", roomInfo.getPassword());
+					}
+					
+					url = "drawing/room";
+				}
+			} else {
+				// 방인원수를 초과했다. 입장불가.
+				url = "redirect:/main";
+			}
 		}
 		
 		return url;
@@ -133,6 +181,7 @@ public class DrawingController {
 		
 		if (check) {
 			result = "success";
+			
 		} else {
 			result = "fail";
 		}

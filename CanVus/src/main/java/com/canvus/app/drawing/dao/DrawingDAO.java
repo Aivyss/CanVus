@@ -25,19 +25,21 @@ public class DrawingDAO {
 	
 	/**
 	 * 제작일: 2021.01.16
-	 * @param roomId
+	 * @param newRoomUser
 	 * @return
 	 */
-	public DrawingRoomVO enterRoom(String roomId) {
-		DrawingRoomVO dbData = null;
+	public boolean enterRoom(DrawingUserVO newRoomUser) {
+		boolean check = false;
+		
 		try {
-			DrawingRoomMapper mapper = session.getMapper(DrawingRoomMapper.class);
-			dbData = mapper.enterRoom(roomId);
+			JoinListMapper mapper = session.getMapper(JoinListMapper.class);
+			check = mapper.enterRoom(newRoomUser);
 		} catch (Exception e) {
 			log.info("enterRoom sql 오류");
+			e.printStackTrace();
 		}
 		
-		return dbData;
+		return check;
 	}
 	
 	/**
@@ -211,5 +213,26 @@ public class DrawingDAO {
 	public List<DrawingUserVO> disconnectUser(String room_Id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	/**
+	 * 아이디에 해당하는 룸에 접속한 인원수를 산출하는 메소드
+	 * 작성일: 2021.02.07 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param room_Id
+	 * @return
+	 */
+	public List<DrawingUserVO> getRoomUserList(String room_Id) {
+		List<DrawingUserVO> userList = null;
+		
+		try {
+			JoinListMapper mapper = session.getMapper(JoinListMapper.class);
+			userList = mapper.getRoomUserList(room_Id);
+		} catch (Exception e) {
+			log.info("방 유저 산출 sql 오류");
+			e.printStackTrace();
+		}
+		
+		return userList;
 	}
 }

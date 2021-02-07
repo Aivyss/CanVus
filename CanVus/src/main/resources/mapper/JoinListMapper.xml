@@ -39,4 +39,33 @@
 	WHERE
 		ROOM_ID = #{string}
 </select>
+
+<select id="getRoomUserList" parameterType="string" resultType="drawingUser">
+	SELECT
+		J.USER_ID	AS	USER_ID
+		,J.ROOM_ID	AS	ROOM_ID
+		,J.USER_TYPE	AS	USER_TYPE
+		,U.NICKNAME	AS	NICKNAME
+	FROM
+		JOIN_LIST J, USERS U
+	WHERE
+		J.ROOM_ID = #{string}
+		AND
+		J.USER_ID = U.USER_ID
+</select>
+
+<insert id="enterRoom" parameterType="drawingUser">
+	INSERT INTO JOIN_LIST(
+		JOINLIST_ID
+		,USER_ID
+		,ROOM_ID
+		,USER_TYPE
+	) VALUES (
+		JOINLIST_SEQ.NEXTVAL
+		,#{user_id}
+		,#{room_Id}
+		,#{user_type}
+	)
+</insert>
+
 </mapper>
