@@ -17,4 +17,6 @@ public interface JoinListMapper {
 	
 	public boolean enterRoom(DrawingUserVO newRoomUser);
 
+	public boolean quitRoom(DrawingUserVO quitedUser);
+
 }

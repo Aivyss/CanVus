@@ -311,4 +311,20 @@ public class DrawingService {
 		
 		return isEntered;
 	}
+
+	/**
+	 * 퇴장된 유저를 리스트 테이블에서 삭제하는 메소드
+	 * 작성일: 2021.02.08 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param room_Id
+	 * @param userId
+	 * @return
+	 */
+	public boolean quitRoom(String room_Id, String userId) {
+		DrawingUserVO quitedUser = CanVusVOFactory.newInstance(CanVusVOType.DrawingUserVO);
+		quitedUser.setRoom_Id(room_Id);
+		quitedUser.setUser_id(userId);
+		
+		return drawingDAO.quitRoom(quitedUser);
+	}
 }

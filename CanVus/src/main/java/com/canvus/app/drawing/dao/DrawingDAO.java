@@ -235,4 +235,25 @@ public class DrawingDAO {
 		
 		return userList;
 	}
+
+	/**
+	 * 퇴장한 유저를 방 유저리스트 테이블로부터 삭제하는 메소드
+	 * 작성일: 2021.02.08 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param quitedUser
+	 * @return
+	 */
+	public boolean quitRoom(DrawingUserVO quitedUser) {
+		boolean check = false;
+		
+		try {
+			JoinListMapper mapper = session.getMapper(JoinListMapper.class);
+			check = mapper.quitRoom(quitedUser);
+		} catch (Exception e) {
+			log.info("퇴장처리 sql오류");
+			e.printStackTrace();
+		}
+		
+		return check;
+	}
 }
