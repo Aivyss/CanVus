@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.canvus.app.drawing.dao.DrawingDAO;
 import com.canvus.app.drawing.service.DrawingService;
 import com.canvus.app.drawing.vo.DrawingUserVO;
+import com.canvus.app.service.UserService;
 import com.canvus.app.socket.vo.MessageVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 public class StompService {
 	@Autowired
 	DrawingService drawingService;
+	@Autowired
+	UserService userService;
 	
 	/**
 	 * 메세지 파서
@@ -30,17 +33,19 @@ public class StompService {
 	 */
 	public Map<String, Object> parser(String room_Id, MessageVO message) {
 		log.info("메세지 파서 메소드 진입");
-		String type = message.getType();
+		String type = message.getType().toUpperCase();
 		Map<String, Object> container = new HashMap<String, Object>();
 		
-		if (type.toUpperCase().equals("COMMONCHAT")) {
+		if (type.equals("COMMONCHAT")) {
 			container = commonChat(message);
-		} else if (type.toUpperCase().equals("ENTER")) {
+		} else if (type.equals("ENTER")) {
 			container = enter(room_Id, message);
-		} else if (type.toUpperCase().equals("QUIT")) {
+		} else if (type.equals("QUIT")) {
 			container = quit(room_Id, message);
-		} else if (type.toUpperCase().equals("CREATEPAGELAYER")) {
+		} else if (type.equals("CREATEPAGELAYER")) {
 			container = createPageLayer(room_Id, message);
+		} else if (type.equals("PRESENTPIXEL")) {
+			container = presentPixel(message);
 		}
 		
 		return container;
@@ -126,6 +131,32 @@ public class StompService {
 		container.put("layer_no", layer_no);
 	
 		drawingService.createPage(container);
+		
+		return container;
+	}
+	
+	/**
+	 * 픽셀 선물하기를 반영하는 메소드 (프론트로 이것을 전달하면 프론트는 데이터를 채팅창에 뿌린다)
+	 * 작성일: 2021.02.08 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param room_Id
+	 * @param message
+	 * @return
+	 */
+	private Map<String, Object> presentPixel(MessageVO message) {
+		// 있어야할 내용: 보낸사람-받는사람-픽셀수
+		String[] infoSet = message.getMessage().split("-");
+		Map<String, Object> container = new HashMap<String, Object>();
+
+		String sender = infoSet[0];
+		String receiver = infoSet[1];
+		int pixel = Integer.parseInt(infoSet[2]);
+		
+		container.put("sender", sender);
+		container.put("receiver", receiver);
+		container.put("pixel", pixel);
+		
+		boolean sended = userService.presentPixel(container);
 		
 		return container;
 	}

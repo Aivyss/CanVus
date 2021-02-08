@@ -15,6 +15,7 @@
 		<typeAlias type="com.canvus.app.drawing.vo.DrawingRoomVO" alias="room" />
 		<typeAlias type="com.canvus.app.drawing.vo.DrawingUserVO" alias="drawingUser" />
 		<typeAlias type="com.canvus.app.drawing.vo.PageVO" alias="page" />
+		<typeAlias type="com.canvus.app.vo.TransactionPixelVO" alias="transPx" />
 	</typeAliases>
 	
 	<mappers>
@@ -29,5 +30,6 @@
 		<mapper resource="mapper/FeedsMapper.xml" />
 		<mapper resource="mapper/FeedDrawingsMapper.xml" />
 		<mapper resource="mapper/TagsInFeedMapper.xml" />
+		<mapper resource="mapper/TransactionPixelMapper.xml" />
 	</mappers>
 </configuration>

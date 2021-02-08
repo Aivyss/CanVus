@@ -55,4 +55,18 @@
 
 </select>
 
+<update id="withdrawPixel" parameterType="user">
+	UPDATE USERS
+		SET PIXELS = PIXELS - #{pixels}
+	WHERE
+		USER_ID = #{user_id}
+</update>
+
+<update id="depositPixel" parameterType="user">
+	UPDATE USERS
+		SET PIXELS = PIXELS + #{pixels}
+	WHERE
+		USER_ID = #{user_id}
+</update>
+
 </mapper>
