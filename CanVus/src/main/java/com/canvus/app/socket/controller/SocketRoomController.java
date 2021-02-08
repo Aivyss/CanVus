@@ -36,8 +36,8 @@ public class SocketRoomController {
 	 * @param headerAccessor
 	 * @return
 	 */
-	@MessageMapping("/test/room/{room_Id}/fabric")
-	@SendTo("/subscribe/test/room/{room_Id}/fabric")
+	@MessageMapping("/drawing/room/{room_Id}/fabric")
+	@SendTo("/subscribe/drawing/room/{room_Id}/fabric")
 	public Map<String, Object> fabric(@DestinationVariable("room_Id") String room_Id,
 			Map<String, Object> json, SimpMessageHeaderAccessor headerAccessor){
 		log.info("fabric 객체 stringify 컨트롤러");
@@ -64,8 +64,8 @@ public class SocketRoomController {
 	 * @param message
 	 * @return
 	 */
-	@MessageMapping("/test/room/{room_Id}/chat")
-	@SendTo("/subscribe/test/room/{room_Id}/chat")
+	@MessageMapping("/drawing/room/{room_Id}/chat")
+	@SendTo("/subscribe/drawing/room/{room_Id}/chat")
 	public Map<String, Object> sendChat(@DestinationVariable("room_Id") String room_Id, MessageVO message) {
 		log.info("채팅 및 기타 기능 컨트롤러");
 
