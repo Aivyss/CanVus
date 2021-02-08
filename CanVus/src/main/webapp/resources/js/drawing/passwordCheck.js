@@ -2,7 +2,7 @@ $(() => {
     $('#pwCheck').on('click', () => {
         const data={
             "pwWrttenByUser" : $("#inputPassword5").val(),
-            "room_Id" : "${room_Id}"
+            "room_Id" : room_Id
         };
 
         $.ajax({
@@ -16,7 +16,7 @@ $(() => {
                 if(result["result"] == "success") {
                     console.log("성공");
                     sessionStorage.setItem('pwWrttenByUser', $("#inputPassword5").val());
-                    location.href="/drawing/room/?room_Id="+"${room_Id}";
+                    location.href="/drawing/room/?room_Id="+room_Id;
 
                 }else {
                     alert("비밀번호가 틀렸습니다");
