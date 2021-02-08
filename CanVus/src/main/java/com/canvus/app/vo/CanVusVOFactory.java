@@ -3,7 +3,7 @@ package com.canvus.app.vo;
 import com.canvus.app.drawing.vo.*;
 
 public class CanVusVOFactory {
-	@SuppressWarnings("unchecked")
+	
 	public static <T> T newInstance(CanVusVOType type) {
 		T t = null;
 		
