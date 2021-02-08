@@ -1,9 +1,6 @@
 package com.canvus.app.drawing.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,6 +25,7 @@ import com.canvus.app.vo.TagsInFeedVO;
 import com.canvus.app.vo.UserVO;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.ui.Model;
 
 @Slf4j
 @Service
@@ -83,9 +81,7 @@ public class DrawingService {
 
 	/**
 	 * 그려진 한 레이어를 저장하는 메소드 작성일 2021.01.21 / 완성일: / 버그검증일: 작성자: 이한결
-	 * @param room_Id 
-	 * 
-	 * @param page
+	 * @param params
 	 * @return
 	 */
 	public boolean createPage(Map<String, Object> params) {
@@ -326,5 +322,88 @@ public class DrawingService {
 		quitedUser.setUser_id(userId);
 		
 		return drawingDAO.quitRoom(quitedUser);
+	}
+
+	/**
+	 * 방입장을 유저의 상태에 따라 분리하는 서비스 메소드
+	 * 작성일: 2021.02.08 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param room_Id
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	public String enterSpliter(String room_Id, HttpSession session, Model model) {
+		log.info("방입장 스플리터 서비스 메소드 진입");
+		// TODO 이동해야하는 URL
+		String url = null;
+		// TODO room_Id로 방정보를 받아옴
+		DrawingRoomVO roomInfo = getRoomById(room_Id);
+		// TODO room_Id로 현재 방인원수를 산출함
+		int userCount = getUserCount(room_Id);
+		// TODO 방에 입장한 유저 리스트 산출
+		List<DrawingUserVO> userList = getRoomUserList(room_Id);
+		// TODO 입장하려는 유저의 아이디
+		String userId = (String) session.getAttribute("userId");
+
+		// TODO 해당 유저가 방에 있는지 체크한다.
+		// 있을 시 방에 추가하는 행위는 하지 않아도 되기 때문.
+		boolean isMember = false;
+		for (DrawingUserVO user : userList) {
+			if (userId.equals(user.getUser_id())) {
+				isMember = true;
+				break;
+			}
+		}
+
+		// TODO 이미 멤버인지 아닌지 확인
+		if (isMember) {
+			// TODO 기존 방 멤버이다. 기존 방 멤버는 하나의 창만 들어갈 수 있다.
+			url = "redirect:/main";
+		} else {
+			model.addAttribute("room_Id", room_Id);
+			// 기존 방 멤버가 아니다.
+			if (roomInfo.getUser_no() > userCount) { // TODO 방인원수가 초과했는지 확인
+				// TODO 비밀번호가 필요한지 확인
+				if (roomInfo.getPassword() == null) {
+					// 방 비번이 필요 없으니까 통일한다.
+					model.addAttribute("pwWrttenByUser", "None");
+					model.addAttribute("dbPassword", "None");
+
+					url = "drawing/room";
+				} else {
+					// TODO 비밀번호 검증
+
+					Map<String, String> params = new HashMap<String, String>();
+					params.put("pwWrttenByUser", (String) session.getAttribute("pwWrttenByUser"));
+					params.put("room_Id", room_Id);
+					boolean isCorrect = passwordCheck(params, session);
+
+					if (userId.equals(roomInfo.getAdmin())) {
+						enterRoom(room_Id, session, "ADMIN");
+
+						// 어드민은 비밀번호 검증이 필요 없다.
+						model.addAttribute("pwWrttenByUser", "None");
+						model.addAttribute("dbPassword", "None");
+					} else if (isCorrect) {
+						enterRoom(room_Id, session, "VISITER");
+
+						// TODO 해당 방 아이디와 입력한 비밀번호, db상 방비밀번호를 모델에 넣는다.
+						model.addAttribute("pwWrttenByUser", (String) session.getAttribute("pwWrttenByUser")); // 유저가 입력한 비번
+						model.addAttribute("dbPassword", roomInfo.getPassword()); // 방 비번
+					} else {
+						//비밀번호가 틀렸다.
+						model.addAttribute("dbPassword", roomInfo.getPassword());
+					}
+
+					url = "drawing/room";
+				}
+			} else {
+				// 방인원수를 초과했다. 입장불가.
+				url = "redirect:/main";
+			}
+		}
+
+		return url;
 	}
 }

@@ -63,7 +63,6 @@ public class DrawingController {
 		if (roomInfoDB == null) {
 			url = "redirect:/main";
 		} else {
-			drawingService.enterRoom(roomInfoDB.getRoom_Id(), session, "ADMIN");
 			session.setAttribute("pwWrttenByUser", roomInfoDB.getPassword());
 			url = "redirect:/drawing/room/?room_Id=" + roomInfoDB.getRoom_Id();
 		}
@@ -78,7 +77,7 @@ public class DrawingController {
 	 * 방 비밀번호가 필요한 경우에는 세션에 넣어서 전달한다.
 	 * 작성일: 2021.01.22 / 수정일: 2021.02.08 / 완성일: / 버그검증일:
 	 * 작성자: 이한결
-	 * @param request
+	 * @param room_Id, session
 	 * @param model
 	 * @return
 	 */
@@ -96,72 +95,8 @@ public class DrawingController {
 		 * 
 		 */
 		log.info("방 입장 컨트롤러 작동");
-		String url = null; 
-		
-		// TODO room_Id로 방정보를 받아옴
-		DrawingRoomVO roomInfo = drawingService.getRoomById(room_Id);
-		// TODO room_Id로 현재 방인원수를 산출함
-		int userCount = drawingService.getUserCount(room_Id);
-		// TODO 방에 입장한 유저 리스트 산출
-		List<DrawingUserVO> userList = drawingService.getRoomUserList(room_Id);
-		
-		// TODO 해당 유저가 방에 있는지 체크한다.
-		// 있을 시 방에 추가하는 행위는 하지 않아도 되기 때문.
-		boolean isMember = false;
-		String userId = (String)session.getAttribute("userId");
-		for (DrawingUserVO user : userList) {
-			if (userId.equals(user.getUser_id())) {
-				isMember = true;
-				break;
-			}
-		}
-		
-		model.addAttribute("room_Id", room_Id);
-		// 이미 멤버인지 아닌지 확인
-		if (isMember) { 
-			// 기존 방 멤버이다. 굳이 비밀번호 거치지 않아도 되도록 통일.
-			model.addAttribute("pwWrttenByUser", "None"); 
-			model.addAttribute("dbPassword", "None");
-			
-			url = "drawing/room";
-		} else {
-			// 기존 방 멤버가 아니다.
-			if (roomInfo.getUser_no() > userCount) { // 방인원수가 초과했는지 확인
-				// 비밀번호가 필요한지 확인
-				if (roomInfo.getPassword() == null) {
-					// 방 비번이 필요 없으니까 통일한다.
-					model.addAttribute("pwWrttenByUser", "None");
-					model.addAttribute("dbPassword", "None");
-					
-					url = "drawing/room";
-				} else {
-					// 비밀번호 검증
-					
-					Map<String, String> params = new HashMap<String, String>();
-					params.put("pwWrttenByUser", (String) session.getAttribute("pwWrttenByUser"));
-					params.put("room_Id", room_Id);
-					boolean isCorrect = drawingService.passwordCheck(params, session);
-					
-					if (isCorrect) {
-						// 비밀번호가 옳았으므로 유저리스트에 해당 유저를 넣는다.
-						drawingService.enterRoom(room_Id, session, "VISITER");
-						
-						// 해당 방 아이디와 입력한 비밀번호, db상 방비밀번호를 모델에 넣는다.
-						model.addAttribute("pwWrttenByUser", (String) session.getAttribute("pwWrttenByUser")); // 유저가 입력한 비번
-						model.addAttribute("dbPassword", roomInfo.getPassword()); // 방 비번
-					} else {
-						//비밀번호가 틀렸다.
-						model.addAttribute("dbPassword", roomInfo.getPassword());
-					}
-					
-					url = "drawing/room";
-				}
-			} else {
-				// 방인원수를 초과했다. 입장불가.
-				url = "redirect:/main";
-			}
-		}
-		
+		String url = drawingService.enterSpliter(room_Id, session, model);
+
 		return url;
 	}
 	
