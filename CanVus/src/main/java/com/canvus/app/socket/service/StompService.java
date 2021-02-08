@@ -156,8 +156,6 @@ public class StompService {
 		container.put("receiver", receiver);
 		container.put("pixel", pixel);
 		
-		boolean sended = userService.presentPixel(container);
-		
 		return container;
 	}
 }

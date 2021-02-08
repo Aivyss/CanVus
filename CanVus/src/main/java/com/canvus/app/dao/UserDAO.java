@@ -143,29 +143,16 @@ public class UserDAO {
 		UserVO sender = CanVusVOFactory.newInstance(CanVusVOType.UserVO);
 		UserVO receiver = CanVusVOFactory.newInstance(CanVusVOType.UserVO);
 		sender.setUser_id(transPx.getSender());
-		sender.setPixel(transPx.getPixels_amount());
+		sender.setPixels(transPx.getPixels_amount());
 		receiver.setUser_id(transPx.getReceiver());
-		receiver.setPixel(transPx.getPixels_amount());
+		receiver.setPixels(transPx.getPixels_amount());
 		
 		try {
 			TransactionPixelMapper transPxMapper = session.getMapper(TransactionPixelMapper.class);
 			UserMapper userMapper = session.getMapper(UserMapper.class);
-			check = userMapper.withdrawPixel(sender);
-			
-			if (check) {
-				check = userMapper.depositPixel(receiver);
-			} else {
-				logger.info("withdrawPixel sql오류");
-				throw new Exception();
-			}
-			
-			if (check) {
-				check = transPxMapper.presentPixel(transPx);
-			} else {
-				logger.info("depositPixel sql오류");
-				throw new Exception();
-			}
-
+			userMapper.withdrawPixel(sender);
+			userMapper.depositPixel(receiver);
+			check = transPxMapper.presentPixel(transPx);
 		} catch (Exception e) {
 			logger.info("픽셀 선물 sql오류");
 			e.printStackTrace();

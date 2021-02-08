@@ -10,12 +10,12 @@
 		TRANSACTION_ID
 		,SENDER
 		,RECEIVER
-		,PIXEL_AMOUNT	
+		,PIXELS_AMOUNT	
 	) VALUES (
 		TRANSPX_SEQ.NEXTVAL
 		,#{sender}
-		,#(receiver)
-		,#{pixel_amount}
+		,#{receiver}
+		,#{pixels_amount}
 	)
 </insert>
 

@@ -174,17 +174,25 @@ public class UserService {
 	 * 픽셀을 선물하는 메소드
 	 * 작성일: 2021.02.08 / 완성일: / 버그검증일:
 	 * 작성자: 이한결
-	 * @param container
+	 * @param params (key: sender, receiver, pixel)
 	 * @return
 	 */
-	public boolean presentPixel(Map<String, Object> container) {
+	public Map<String, Object> presentPixel(Map<String, Object> params) {
 		TransactionPixelVO transPx = CanVusVOFactory.newInstance(CanVusVOType.TransactionPixelVO);
 		
-		transPx.setSender((String) container.get("sender"));
-		transPx.setReceiver((String) container.get("receiver"));
-		transPx.setPixels_amount((Integer) container.get("pixel"));
+		transPx.setSender((String) params.get("sender"));
+		transPx.setReceiver((String) params.get("receiver"));
+		transPx.setPixels_amount((Integer) params.get("pixel"));
 		
-		return userDAO.presentPixel(transPx);
+		boolean success = userDAO.presentPixel(transPx);
+		
+		if (success) {
+			params.put("result", true);
+		} else {
+			params.put("result", false);
+		}
+		
+		return params; 
 	}
 
 }
