@@ -245,6 +245,7 @@ public class DrawingDAO {
 	 */
 	public boolean quitRoom(DrawingUserVO quitedUser) {
 		boolean check = false;
+		log.info("방퇴장 sql 처리과정에 들어오는지 확인");
 		
 		try {
 			JoinListMapper mapper = session.getMapper(JoinListMapper.class);

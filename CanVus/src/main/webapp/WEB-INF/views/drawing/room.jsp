@@ -19,6 +19,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <script type="text/javascript" src="/resources/js/drawing/layerTestJaewonSeokhyeon.js"></script>
     <link rel="stylesheet" href="/resources/css/drawing/style.css">
+    <script type="text/javascript">
+		// 동적 처리 변수를 위해서 만든 자바스크립트
+		const room_Id = "${room_Id}";
+		const user_id = "${sessionScope.userId}";
+		const mynickname = "${sessionScope.userVO.nickname}"
+		
+    </script>
 
 </head>
 

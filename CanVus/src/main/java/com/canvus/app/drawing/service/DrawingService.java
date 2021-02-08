@@ -317,9 +317,13 @@ public class DrawingService {
 	 * @return
 	 */
 	public boolean quitRoom(String room_Id, String userId) {
+		log.info("해당 유저를 퇴장시키는 서비스 메소드 진입");
+		
 		DrawingUserVO quitedUser = CanVusVOFactory.newInstance(CanVusVOType.DrawingUserVO);
 		quitedUser.setRoom_Id(room_Id);
 		quitedUser.setUser_id(userId);
+		
+		log.info("vo에 값넣는지 확인 : {}", quitedUser.toString());
 		
 		return drawingDAO.quitRoom(quitedUser);
 	}

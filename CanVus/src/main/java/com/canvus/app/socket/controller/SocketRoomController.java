@@ -66,7 +66,7 @@ public class SocketRoomController {
 	 */
 	@MessageMapping("/drawing/room/{room_Id}/chat")
 	@SendTo("/subscribe/drawing/room/{room_Id}/chat")
-	public Map<String, Object> sendChat(@DestinationVariable("room_Id") String room_Id, MessageVO message) {
+	public Map<String, Object> sendChat (@DestinationVariable("room_Id") String room_Id, MessageVO message) {
 		log.info("채팅 및 기타 기능 컨트롤러");
 
 		return stompService.parser(room_Id, message);

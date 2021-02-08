@@ -34,7 +34,7 @@ public class StompService {
 	public Map<String, Object> parser(String room_Id, MessageVO message) {
 		log.info("메세지 파서 메소드 진입");
 		String type = message.getType().toUpperCase();
-		Map<String, Object> container = new HashMap<String, Object>();
+		Map<String, Object> container = null;
 		
 		if (type.equals("COMMONCHAT")) {
 			container = commonChat(message);
@@ -95,6 +95,8 @@ public class StompService {
 	 * @return
 	 */
 	private Map<String, Object> quit(String room_Id, MessageVO message) {
+		log.info("퇴장 처리 서비스 메소드 진입");
+		
 		// message에 있어야할 내용 : 퇴장하는 유저의 아이디	
 		String userId = message.getMessage();
 		Map<String, Object> container = new HashMap<String, Object>();
