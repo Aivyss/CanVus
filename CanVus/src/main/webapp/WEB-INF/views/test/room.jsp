@@ -100,11 +100,11 @@
 			}
 
 			// 메세지 전송 함수
-			function sendMessage(room_Id, message, nickname, type) {
+			function sendMessage(room_Id, message, type) {
 				const data = {
 					type : type,
 					room_Id : room_Id,
-					message : JSON.stringify(message)
+					message : message
 				}
 
 				// send process
@@ -114,7 +114,7 @@
 			// 페이지 종료 이벤트 --> 소켓종료
 			$(window).on('beforeunload', function() {
 				var data = {'quitmessage': '일단테스트'};
-				sendMessage('${room_Id}', data, '${userVO.nickname}', 'quit')
+				sendMessage('${room_Id}', '${sessionScope.userId}', 'quit')
 				
 				chatClient.disconnect();
 				fabricClient.disconnect();
