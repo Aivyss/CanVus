@@ -16,6 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.canvus.app.dao.UserDAO;
 import com.canvus.app.util.FileService;
 import com.canvus.app.vo.BookmarkVO;
+import com.canvus.app.vo.CanVusVOFactory;
+import com.canvus.app.vo.CanVusVOType;
+import com.canvus.app.vo.TransactionPixelVO;
 import com.canvus.app.vo.UserVO;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
@@ -166,4 +169,30 @@ public class UserService {
 		
 		return userDAO.deleteFolder((Integer) params.get("folder_id"));
 	}
+
+	/** 
+	 * 픽셀을 선물하는 메소드
+	 * 작성일: 2021.02.08 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param params (key: sender, receiver, pixel)
+	 * @return
+	 */
+	public Map<String, Object> presentPixel(Map<String, Object> params) {
+		TransactionPixelVO transPx = CanVusVOFactory.newInstance(CanVusVOType.TransactionPixelVO);
+		
+		transPx.setSender((String) params.get("sender"));
+		transPx.setReceiver((String) params.get("receiver"));
+		transPx.setPixels_amount((Integer) params.get("pixel"));
+		
+		boolean success = userDAO.presentPixel(transPx);
+		
+		if (success) {
+			params.put("result", true);
+		} else {
+			params.put("result", false);
+		}
+		
+		return params; 
+	}
+
 }

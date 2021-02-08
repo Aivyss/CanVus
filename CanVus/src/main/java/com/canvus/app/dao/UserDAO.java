@@ -8,8 +8,12 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.canvus.app.dao.mapper.BookmarkMapper;
+import com.canvus.app.dao.mapper.TransactionPixelMapper;
 import com.canvus.app.dao.mapper.UserMapper;
 import com.canvus.app.vo.BookmarkVO;
+import com.canvus.app.vo.CanVusVOFactory;
+import com.canvus.app.vo.CanVusVOType;
+import com.canvus.app.vo.TransactionPixelVO;
 import com.canvus.app.vo.UserVO;
 
 @Repository
@@ -121,6 +125,37 @@ public class UserDAO {
 			check = mapper.deleteFolder(folder_id);
 		} catch (Exception e) {
 			logger.info("북마크 제거 SQL오류");
+		}
+		
+		return check;
+	}
+
+	/**
+	 * 픽셀을 선물하는 메소드
+	 * 작성일: 2021.02.08 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param transPx
+	 * @return
+	 */
+	@Transactional(rollbackFor = {Exception.class})
+	public boolean presentPixel(TransactionPixelVO transPx) {
+		boolean check = false;
+		UserVO sender = CanVusVOFactory.newInstance(CanVusVOType.UserVO);
+		UserVO receiver = CanVusVOFactory.newInstance(CanVusVOType.UserVO);
+		sender.setUser_id(transPx.getSender());
+		sender.setPixels(transPx.getPixels_amount());
+		receiver.setUser_id(transPx.getReceiver());
+		receiver.setPixels(transPx.getPixels_amount());
+		
+		try {
+			TransactionPixelMapper transPxMapper = session.getMapper(TransactionPixelMapper.class);
+			UserMapper userMapper = session.getMapper(UserMapper.class);
+			userMapper.withdrawPixel(sender);
+			userMapper.depositPixel(receiver);
+			check = transPxMapper.presentPixel(transPx);
+		} catch (Exception e) {
+			logger.info("픽셀 선물 sql오류");
+			e.printStackTrace();
 		}
 		
 		return check;
