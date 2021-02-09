@@ -128,6 +128,12 @@
                           });
                       });
                })
+               
+               
+        	 
+               
+               
+               
                $(document).on("click",".deletelayers"+currlayers,function(){
                 $(".deletelayers3").click(function(){
                       $(".layer3").css({"z-index": "1","opacity": "0"});
@@ -286,10 +292,7 @@
    			      reorder();
            }
        });
-       //$("#itemBoxWrap").disableSelection();
-       
-       //$( "#sortable" ).sortable();
-       //$( "#sortable" ).disableSelection();
+   
    });
 
    /** 레이어 번호 조정 */
@@ -301,22 +304,23 @@
 
    /** 레이어 추가 */
    function createItem() {
+	   var isVisable = true;
        $(createBox())
        .appendTo("#itemBoxWrap")
        
        .hover(
            function() {
                $(this).css('backgroundColor', '#f9f9f5');
-               $(this).find('.deleteBox').show();
+               $(this).find('.setBox').show();
            },
            function() {
                $(this).css('background', 'none');
-               $(this).find('.deleteBox').hide();
+               $(this).find('.setBox').hide();
            }
        )
-       	.append("<div class='deleteBox'>[숨기기]</div>")
-   		.append("<div class='deleteBox'>[삭제]</div>")
-   		.find(".deleteBox").click(function() {
+       	.append("<span class='setBox' id='hideLayer'>[숨기기]</span>")
+   		.append("<div class='setBox' id='deleteLayer'>[삭제]</div>")
+   		.find("#deleteLayer").click(function() {
            var valueCheck = false;
            $(this).parent().find('input').each(function() {
                if($(this).attr("name") != "type" && $(this).val() != '') {
@@ -325,14 +329,27 @@
            });
 
            if(valueCheck) {
-               var delCheck = confirm('입력하신 내용이 있습니다.\n삭제하시겠습니까?');
+               var delCheck = confirm('그림 싹 날라간다.\n삭제할거니?');
            }
            if(!valueCheck || delCheck == true) {
-               $(this).parent().remove();
-               $(".layer'+layerNum+'").css({"z-index": "1","opacity": "0"});
+               $(this).parent().remove();              
                reorder();
-           }
+           }          
        });
+
+       $("#hideLayer").click(function(){
+           if(isVisable){
+        	   $(".layer"+layerNum).css({"z-index": "1","opacity": "0"});
+        	   isVisable = false;
+           } else{
+        	   $(".layer"+layerNum).css({"z-index": "1","opacity": "1"});
+        	   isVisable = true;
+             }
+           
+     
+        });
+
+              
        // 레이어 번호를 다시 정렬한다.
        reorder();
    }
@@ -343,7 +360,7 @@
        var contents = "<div class='itemBox'>"
                     + "<div style='float:left;'>"
                     + "<span class='itemNum'></span> "
-                    + "<input type='text' id='layer"+layerNum+"' name='item' style='width:150px;' value='layer"+layerNum+"'/>"
+                    + "<input type='text' name='item' style='width:150px;' value='layer"+layerNum+"'/>"
                     + "</div>"
                     + "</div>";
        return contents;
@@ -431,7 +448,9 @@ line-height: 1.6
     margin-bottom:10px;
     background-color:gray;
 }
-.deleteBox {
+
+
+.setBox {
     float:right;
     display:none;
     cursor:pointer;
