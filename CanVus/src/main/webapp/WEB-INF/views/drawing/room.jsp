@@ -19,35 +19,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <script type="text/javascript" src="/resources/js/drawing/layerTestJaewonSeokhyeon.js"></script>
     <link rel="stylesheet" href="/resources/css/drawing/style.css">
-    <!-- 전역변수 및 서버로부터 받아온 변수를 저장하는 자바스크립트 -->
+    <!-- 서버로부터 받아온 변수를 저장하는 자바스크립트 -->
     <script type="text/javascript">
 		const room_Id = "${room_Id}";
 		const user_id = "${sessionScope.userId}";
 		const mynickname = "${sessionScope.userVO.nickname}";
-
-        // 전체 레이어 객체 및 z-index를 저장하는 리스트
-		const layerSet = []; // 예: p3l2의 패브릭 객체는 layerSet[2][1]
-		const zNumSet = []; // 예: p1l1이 z-index가 3이라면 zNumSet[0][0]  == 3
-
-		// 현재 바라보고 있는 레이어 객체
-        let currlayer = null;
-
-        // 현재 바라보고 있는 페이지 번호와 레이어번호
-        let pageNum = 0;
-        let layerNum = 0;
-
-        // 전 단계에서 바라보고 있던 페이지번호와 레이어번호
-        let bPageNum = 0;
-        let bLayerNum = 0;
-
-        // rbgaGlobal 정보 (주입된 값은 초기값이므로 신경쓰지 않아도 된다.)
-        let opacityGlobal = 0;
-        let thicknessGlobal = 5;
-        let rgbaGlobal = new fabric.Color("black").toRgba(); rgbaGlobal = rgbaGlobal.replaceAll('1)', opacityGlobal + ')');
-        let brushGlobal = "PencilBrush";
     </script>
-    <script src="/resources/js/drawing/drawingFunctionSet.js"></script>
-
 </head>
 
 <body data-spy="scroll" data-target="#header">
@@ -67,6 +44,7 @@
         </div>
     </c:when>
     <c:otherwise>
+        <script src="/resources/js/drawing/drawingFunctionSet.js"></script>
         <!-- 본격적인 드로잉 페이지 시작 -->
         <!-- 툴 텝 시작 -->
         <div class="toolBar" id="test">
@@ -184,7 +162,6 @@
         <!-- ▼소켓부분이니 !!!되도록!!!건드리지 말것▼ -->
         <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
         <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-        <script type="text/javascript" src="/resources/js/drawing/roomSocket.js"></script>
         <div class="container">
             <canvas id="socketLayer" style="width : 100px; height : 200px; border: 1px solid black;"></canvas>
             <input type="button" id="btn" value="객체 전송테스트">
