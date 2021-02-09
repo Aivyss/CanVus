@@ -2,13 +2,14 @@
 // 전체 레이어 객체 및 z-index를 저장하는 리스트
 const layerSet = []; // 예: p3l2의 패브릭 객체는 layerSet[2][1]
 const zNumSet = []; // 예: p1l1이 z-index가 3이라면 zNumSet[0][0]  == 3
+const eventSet = [];
 
 // 현재 바라보고 있는 레이어 객체
 let currlayer = null;
 
 // 현재 바라보고 있는 페이지 번호와 레이어번호
-let pageNum = 0;
-let layerNum = 0;
+let pageNum = 1;
+let layerNum = 1;
 
 // 전 단계에서 바라보고 있던 페이지번호와 레이어번호
 let bPageNum = 0;
@@ -32,8 +33,14 @@ var layer = null;
 // ********** 소켓 관련 함수 ********** //
 $(() => {
     // 대강의 패브릭 객체 만들자
-    layer= new fabric.Canvas('socketLayer');
+    layer = new fabric.Canvas('p1l1');
     layer.isDrawingMode = true;
+    eventSet.push([]);
+    eventSet[0].push(
+        layer.on('mouse:up', function() {
+            sendFabric(layer, 1, 1);
+        })
+    );
 
     connect(); // 소켓 커넥트 실시
 
@@ -53,7 +60,7 @@ $(() => {
 
     // 버튼을 클릭하면 fabric 객체를 보낸다. 단 실제로 이렇게 안하고 백단테스트용
     $('#btn').on('click', ()=> {
-        sendFabric(layer, 1, 1, room_Id);
+        sendFabric(layer, 1, 1);
     });
 
     // 버튼을 클릭하면 챗 메세지를 보낸다. 단 실제로 이렇게 안하고 백단 테스트 용.
@@ -120,11 +127,6 @@ $(() => {
         chatClient.send(`/drawing/room/${room_Id}/chat`, {}, JSON.stringify(data));
     }
 
-    // 페이지 종료 이벤트 --> 소켓종료
-    $(window).on('beforeunload', function() {
-        disconnect();
-    });
-
     // 소켓 종료 메소드
     function disconnect() {
         sendMessage(user_id, 'quit');
@@ -132,6 +134,24 @@ $(() => {
         chatClient.disconnect();
         fabricClient.disconnect();
     }
+
+    // ********** 소켓 전송과 관련된 이벤트 ********** //
+    // 그림이 그려진 레이어의 객체를 인식해 소켓으로 그려진 정보를 전송하는 이벤트.
+
+
+    // 채팅을 소켓으로 전송하는 이벤트
+    $('#send').on('click', ()=>{
+        const message = $('#chatBox').val();
+        if(message.length > 0) {
+            sendMessage(message, 'COMMONCHAT');
+        }
+        $('#chatBox').val("");
+    });
+
+    // 페이지 종료 이벤트 --> 소켓종료
+    $(window).on('beforeunload', function() {
+        disconnect();
+    });
 });
 
 
@@ -183,10 +203,15 @@ $(() => {
          */
 
         ///////////////////////////////////////////////////////////////
-
-        // 객체배열 및 z-index 배열에 값을 추가하는 프로세스.
+        // 객체배열, z-index, 이벤트를 배열에 추가하는 프로세스.
         let newLayer = new fabric.Canvas(layerId);
+        newLayer.isDrawingMode = true;
         layerSet[pageNum].push(newLayer);
+        const eventObj = newLayer.on('mouse:up', function() {
+            sendFabric(layer2, pageNum, totalNumOfLayer);
+        });
+        eventSet[pageNum].push(eventObj);
+
         ///////////////////////////////////////////////////////////////
 
         // fabric 객체 생성에 의해 만들어진 upper-canvas를 한 div로 모아주는 구문을 넣어줄 것.
@@ -208,8 +233,9 @@ $(() => {
     }
 
     function createPage() {
+
         const totalNumOfPage = layerSet.length;
-        const pageId = 'p' + (totalNumOfLayer+1);
+        const pageId = 'p' + (totalNumOfPage+1); // 예: length가 1이면 2번 페이지를 만들어야한다
         
         // 이 부분에 html 상으로 페이지를 생성하는 구문을 넣어줄 것 아이디는 pageId로 준다.
         // 첫 레이어는 자동생성을 하는 편이 좋을 듯 싶다.
@@ -222,9 +248,14 @@ $(() => {
         
         // 객체 배열 및 z-index를 수정하는 프로세스
         layerSet.push([]);
+        eventSet.push([]);
         let newLayer = new fabric.Canvas(pageId + 'l1');
-        layerSet[totalNumOfPage].push(newLayer);
-        
+        layerSet[totalNumOfPage].push(newLayer); // 예: 2번 페이지는 1번 인덱스이다.
+        const eventObj = newLayer.on('mouse:up', function() {
+            sendFabric(layer2, totalNumOfPage+1, 1); // 예: 2번 페이지는 1번 인덱스이다.
+        });
+        eventSet[totalNumOfPage].push(eventObj);
+
         // 소켓에 페이지를 만들었다는 정보를 쏴주는 구문 (추후 작성예정)
 
         /**
@@ -254,22 +285,5 @@ $(() => {
         changeBrush();
         // 타게팅한 레이어를 그릴수 있는 upper-canvas를 가장 위에둔다. 2147483647는 z-index 최대값이다.
         $('#'+pageLayer+"u").css({"z-index": 2147483647});
-    });
-});
-
-// ********** 소켓 전송과 관련된 이벤트 ********** //
-$(()=>{
-    // 그림이 그려진 레이어의 객체를 인식해 소켓으로 그려진 정보를 전송하는 이벤트.
-    currlayer.on('mouse:up', function() {
-        sendFabric(currlayer, pageNum, layerNum, room_Id);
-    });
-
-    // 채팅을 소켓으로 전송하는 이벤트
-    $('#send').on('click', ()=>{
-        const message = $('#chatBox').val();
-        if(message.length > 0) {
-            sendMessage(message, 'COMMONCHAT');
-        }
-        $('#chatBox').val("");
     });
 });

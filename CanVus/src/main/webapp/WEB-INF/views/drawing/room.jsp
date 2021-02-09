@@ -163,9 +163,11 @@
         <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
         <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
         <div class="container">
-            <canvas id="socketLayer" style="width : 100px; height : 200px; border: 1px solid black;"></canvas>
+            <canvas id="p1l1" style="width : 100px; height : 200px; border: 1px solid black;"></canvas>
+            <canvas id="p1l2" style="width : 100px; height : 200px; border: 1px solid black;"></canvas>
             <input type="button" id="btn" value="객체 전송테스트">
             <input type="button" id="btn2" value="메세지 전송테스트">
+            <input type="button" id="btn3" value="currlayer 바꾸고 이벤트 테스트">
         </div>
         <!-- ▲소켓부분이니 !!!되도록!!!건드리지 말것▲ -->
 
