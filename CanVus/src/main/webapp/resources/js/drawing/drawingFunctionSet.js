@@ -139,27 +139,37 @@ $(() => {
 $(() => {
     // rgba, 굵기, 투명도의 글로벌 정보를 업데이트하는 메소드
     function colorChangeGlobal(opacity, thickness, rgb) {
-        opacityGlobal = opacity;
-        thicknessGlobal = thickness;
-        let rgba = new fabric.Color(rgb).toRgba();
-        rgbaGlobal = rgba.replaceAll('1)', opacityGlobal + ')');
-    }
-
-    function changeBrush(fabricObj) {
-        if (brushGlobal == 'PencilBrush') {
-            fabricObj.freeDrawingBrush = new fabric.PencilBrush(fabricObj);
-        } else if (brushGlobal == "SprayBrush") {
-            fabricObj.freeDrawingBrush = new fabric.SprayBrush(fabricObj);
-        } else if (brushGlobal == "CircleBrush") {
-            fabricObj.freeDrawingBrush = new fabric.CircleBrush(fabricObj);
-        } else if (brushGlobal == "BaseBrush") {
-            fabricObj.freeDrawingBrush = new fabric.BaseBrush(fabricObj);
-        } else if (brushGlobal == "PatternBrush") {
-            fabricObj.freeDrawingBrush = new fabric.BaseBrush(fabricObj);
+        if (opacity != null && opacity != undefined) {
+            opacityGlobal = opacity;
         }
 
-        fabricObj.freeDrawingBrush.color = rgbaGlobal;
-        fabricObj.freeDrawingBrush.width = thicknessGlobal;
+        if (thickness != null && thickness != undefined) {
+            thicknessGlobal = thickness;
+        }
+
+        if (rgb != null && rgb != undefined && rgb.length != 0) {
+            let rgba = new fabric.Color(rgb).toRgba();
+            rgbaGlobal = rgba.replaceAll('1)', opacityGlobal + ')');
+        }
+
+        changeBrush();
+    }
+
+    function changeBrush() {
+        if (brushGlobal == 'PencilBrush') {
+            currlayer.freeDrawingBrush = new fabric.PencilBrush(currlayer);
+        } else if (brushGlobal == "SprayBrush") {
+            currlayer.freeDrawingBrush = new fabric.SprayBrush(currlayer);
+        } else if (brushGlobal == "CircleBrush") {
+            currlayer.freeDrawingBrush = new fabric.CircleBrush(currlayer);
+        } else if (brushGlobal == "BaseBrush") {
+            currlayer.freeDrawingBrush = new fabric.BaseBrush(currlayer);
+        } else if (brushGlobal == "PatternBrush") {
+            currlayer.freeDrawingBrush = new fabric.BaseBrush(currlayer);
+        }
+
+        currlayer.freeDrawingBrush.color = rgbaGlobal;
+        currlayer.freeDrawingBrush.width = thicknessGlobal;
     }
 
     function createLayer() {
@@ -241,8 +251,26 @@ $(() => {
 
         // 레이어 타게팅
         currlayer = layerSet[pageNum-1][layerNum-1];
-        changeBrush(currlayer);
+        changeBrush();
         // 타게팅한 레이어를 그릴수 있는 upper-canvas를 가장 위에둔다. 2147483647는 z-index 최대값이다.
         $('#'+pageLayer+"u").css({"z-index": 2147483647});
+    });
+});
+
+// ********** 소켓 전송과 관련된 이벤트 ********** //
+$(()=>{
+    // 그림이 그려진 레이어의 객체를 인식해 소켓으로 그려진 정보를 전송하는 이벤트.
+    $('.canvas-container').click(function(event) {
+        const object = JSON.stringify(currlayer);
+        sendFabric(currlayer, pageNum, layerNum, room_Id);
+    });
+
+    // 채팅을 소켓으로 전송하는 이벤트
+    $('#send').on('click', ()=>{
+        const message = $('#chatBox').val();
+        if(message.length > 0) {
+            sendMessage(message, 'COMMONCHAT');
+        }
+        $('#chatBox').val("");
     });
 });
