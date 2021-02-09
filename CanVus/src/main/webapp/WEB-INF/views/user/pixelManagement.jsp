@@ -18,8 +18,8 @@
    <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>   <!-- <script src="node_modules/fabric-history/src/index.js"></script> -->
-   
-   <script type="text/javascript">
+
+	<script type="text/javascript">
    $(document).ready(function(){
       
       $('ul.tabs li').click(function(){
@@ -39,6 +39,15 @@
          });
          
       });
+
+       $(function(){
+           $(".tab ul li").click(function(){ 
+               $(".tab ul li").removeClass('on');
+               $(".tab .conBox").removeClass('on');
+               $(this).addClass('on');
+               $("#"+$(this).data('id')).addClass('on');
+           });
+       });
       
        var currlayers=1;
       var layerstotal=1;
@@ -268,8 +277,300 @@
             $('.layer1').draggable("destroy"); 
         }); 
 
+      // 휠 확대 기능, alt+클릭으로 캔버스 이동가능
+      
+         canvas.on('mouse:wheel', function(opt) {
+      	   var delta = opt.e.deltaY;
+      	   var zoom = canvas.getZoom();
+      	   zoom *= 0.999 ** delta;
+      	   if (zoom > 20) zoom = 20;
+      	   if (zoom < 0.01) zoom = 0.01;
+      	   canvas.setZoom(zoom);
+      	   opt.e.preventDefault();
+      	   opt.e.stopPropagation();
+      	 })
+
+      	canvas.on('mouse:down', function(opt) {
+      	  var evt = opt.e;
+      	  if (evt.altKey === true) {
+      	    this.isDragging = true;
+      	    this.selection = false;
+      	    this.lastPosX = evt.clientX;
+      	    this.lastPosY = evt.clientY;
+      	  }
+      	});
+      	canvas.on('mouse:move', function(opt) {
+      	  if (this.isDragging) {
+      	    var e = opt.e;
+      	    var vpt = this.viewportTransform;
+      	    vpt[4] += e.clientX - this.lastPosX;
+      	    vpt[5] += e.clientY - this.lastPosY;
+      	    this.requestRenderAll();
+      	    this.lastPosX = e.clientX;
+      	    this.lastPosY = e.clientY;
+      	  }
+      	});
+     
+      	canvas.on('mouse:up', function(opt) {
+      	  // on mouse up we want to recalculate new interaction
+      	  // for all objects, so we call setViewportTransform
+      	  this.setViewportTransform(this.viewportTransform);
+      	  this.isDragging = false;
+      	  this.selection = true;
+      	});
+
+     
+		// 오른쪽 사이드바 접었다폈다 해주는애
+
+      	$(".button-div").click(function(){
+      	  
+      	  $(this).toggleClass("div-close");
+      	  
+      	  if ($(this).hasClass("div-close")) {
+      	    $(".slide-div").animate({ left: "-200px"}, 800);  
+      	    $(".button-div").animate({ left: "-10px"}, 800);
+      	    $(this).find(".button-open").attr("class", "button-close");
+      	  } else {
+      	    $(".slide-div").animate({ left: "0px"}, 800);  
+      	    $(".button-div").animate({ left: "200px"}, 800);
+      	    $(this).find(".button-close").attr("class", "button-open");
+      	  }
+      	});
+
+      	
+		// 캔버스 배경색 변경하는 기능
+
+      	// canvas.backgroundColor = 'white'; <-이거는 처음배경색지정
+        // canvas.renderAll();
+        $('#bg_color').on('input', function() { 
+        	canvas.backgroundColor = $('#bg_color').val();
+        	canvas.renderAll();
+        });
+
+    	// 텍스트 추가하는 기능
+    	
+		$('#btn_add_new').click(function(e) {
+	        e.preventDefault();
+	        if($('#new_text').val() !== '')
+	        {
+		        var newText = new fabric.IText($('#new_text').val(), { 
+		            fontFamily: "Arial", 
+		            left: 50,
+		            top: 50,
+		            fontSize: 30,
+		            textAlign: "left",
+		            fill: 'black',
+		        });
+		        canvas.add(newText);
+		        
+	        }
+	    });
+
+	    
+		    
+		function setStyle(object, styleName, value) {
+		    if (object.setSelectionStyles && object.isEditing) {
+		        var style = { };
+		        style[styleName] = value;
+		        object.setSelectionStyles(style).setCoords();
+		    }
+		    else {
+		        object[styleName] = value;
+		    }
+		    canvas.renderAll();
+		};
+		
+		function  getStyle(object, styleName) {
+		    return (object.getSelectionStyles && object.isEditing)
+		    ? object.getSelectionStyles()[styleName]
+		    : object[styleName];
+		}
+		
+		function addHandler(id, fn, eventName) {
+		    document.getElementById(id)[eventName || 'onclick'] = function() {
+		        var el = this;
+		        if (obj = canvas.getActiveObject()) {
+		            fn.call(el, obj);
+		            canvas.renderAll();
+		        }
+		    };
+		}
+
+
+		addHandler('color', function(obj) {
+		      setStyle(obj, 'fill', this.value);
+		    }, 'onchange');
+
+		addHandler('opacity', function(obj) {
+		      setStyle(obj, 'opacity', this.value);
+		    }, 'onchange');
+		    
+		addHandler('font-family', function(obj) {
+		      setStyle(obj, 'fontFamily', this.value);
+		    }, 'onchange');
+		    
+		addHandler('text-align', function(obj) {
+		      setStyle(obj, 'textAlign', this.value);
+		    }, 'onchange');
+		    
+		addHandler('text-bg-color', function(obj) {
+		      setStyle(obj, 'textBackgroundColor', this.value);
+		    }, 'onchange');
+		    
+		addHandler('text-lines-bg-color', function(obj) {
+		      setStyle(obj, 'backgroundColor', this.value);
+		    }, 'onchange');
+		    
+		addHandler('text-stroke-color', function(obj) {
+		      setStyle(obj, 'stroke', this.value);
+		    }, 'onchange');
+		    
+		addHandler('text-stroke-width', function(obj) {
+		      setStyle(obj, 'strokeWidth', this.value);
+		    }, 'onchange');
+		    
+		addHandler('text-font-size', function(obj) {
+		      setStyle(obj, 'fontSize', this.value);
+		    }, 'onchange');
+		    
+		addHandler('text-line-height', function(obj) {
+		      setStyle(obj, 'lineHeight', this.value);
+		    }, 'onchange');
+		    
+		addHandler('text-cmd-bold', function(obj) {
+		      setStyle(obj, 'fontWeight', this.value);
+		    }, 'onchange');
+		    
+		addHandler('text-cmd-italic', function(obj) {
+		      setStyle(obj, 'italic', this.value);
+		    }, 'onchange');
+		    
+		addHandler('text-cmd-underline"', function(obj) {
+		      setStyle(obj, 'underline', this.value);
+		    }, 'onchange');
+		    
+		addHandler('text-cmd-linethrough', function(obj) {
+		      setStyle(obj, 'line-through', this.value);
+		    }, 'onchange');
+		    
+		addHandler('text-cmd-overline', function(obj) {
+		      setStyle(obj, 'overline', this.value);
+		    }, 'onchange');
+	    
+		// Text formatting actions
+		var underline = document.getElementById('btn-underline');
+		var bold = document.getElementById('btn-bold');
+		var italic = document.getElementById('btn-italic');
+
+		underline.addEventListener('click', function() {
+		  dtEditText('underline');
+		});
+
+		bold.addEventListener('click', function() {
+		  dtEditText('bold');
+		}); 
+
+		italic.addEventListener('click', function() {
+		  dtEditText('italic');
+		}); 
+		
+		// Functions
+		function dtEditText(action) {
+		    var a = action;
+		    var o = canvas.getActiveObject();
+		    var t;
+
+		    // If object selected, what type?
+		    if (o) {
+		        t = o.get('type');
+		    }
+
+		    if (o && t === 'i-text') {
+		        switch(a) {
+		            case 'bold':				
+		                var isBold = dtGetStyle(o, 'fontWeight') === 'bold';
+		                dtSetStyle(o, 'fontWeight', isBold ? '' : 'bold');
+		            break;
+
+		            case 'italic':
+		                var isItalic = dtGetStyle(o, 'fontStyle') === 'italic';
+		                dtSetStyle(o, 'fontStyle', isItalic ? '' : 'italic');
+		            break;
+
+		            case 'underline':
+		                var isUnderline = dtGetStyle(o, 'textDecoration') === 'underline';
+		                dtSetStyle(o, 'textDecoration', isUnderline ? '' : 'underline');
+		            break;
+		            canvas.renderAll();
+		        }
+		    }
+		}
+
+		// Get the style
+		function dtGetStyle(object, styleName) {
+		    return object[styleName];
+		}
+
+		// Set the style
+		function dtSetStyle(object, styleName, value) {
+		    object[styleName] = value;
+		    object.set({dirty: true});
+		    canvas.renderAll();
+		}
+
    });
-   </script>
+
+	// undo, redo 펑션
+	
+   var canvas = new fabric.Canvas('canvas');
+ 	canvas.isDrawingMode = true;
+ 	canvas.on('object:added',function(){
+ 	  if(!isRedoing){
+ 	    h = [];
+ 	  }
+ 	  isRedoing = false;
+ 	});
+
+ 	var isRedoing = false;
+ 	var h = [];
+ 	function undo(){
+ 	  if(canvas._objects.length>0){
+ 	   h.push(canvas._objects.pop());
+ 	   canvas.renderAll();
+ 	  }
+ 	}
+ 	function redo(){
+ 	  
+ 	  if(h.length>0){
+ 	    isRedoing = true;
+ 	   canvas.add(h.pop());
+ 	  }
+ 	}
+
+ 
+ 	// 텍스트박스 추가해주는 버튼 함수
+
+ 	function Addtext() { 
+ 	canvas.add(new fabric.IText('Tap and Type', { 
+ 	      left: 50,
+ 	      top: 100,
+ 	      fontFamily: 'arial black',
+ 	      fill: '#333',
+ 		    fontSize: 50
+ 	}));
+ 	}
+
+	// 페이지 클리어 (근데 이거 새로고침이랑 똑같음ㅋㅋ)
+	
+ 	function refresh() {
+ 	   setTimeout(function() {
+ 	      location.reload()
+ 	   }, 100);
+ 	}
+
+	
+</script>
+   
 <style type="text/css">
 /* body{
 margin-top: 100px;
@@ -278,10 +579,13 @@ line-height: 1.6
 } */
 
 .toolBar{
+	position: relative;
    display: inline-block;
    margin: 10px;
    top: 0;
    left: 0;
+   height:1000px;
+   width:250px;
 }
 
 .tool{
@@ -371,6 +675,95 @@ ul.tabs li.current{
 .tab-content.current{
    display: inherit;
 }
+
+.tab{
+    width:200px;
+    height:auto;
+    overflow:hidden;
+}
+ 
+.tab ul{
+    padding:0;
+    margin:0;
+    list-style:none;
+    width:100%:
+    height:auto;
+    overflow:hidden;
+}
+ 
+.tab ul li{
+    display:inline-block;
+    width:33.3333%;
+    float:left;
+    line-height:40px;
+    text-align:center;
+    cursor:pointer;
+}
+ 
+.tab ul li:hover,
+.tab ul li.on{
+    background:#50bcdf;
+}
+ 
+.tab .conBox{
+    width:100%;
+    height:auto;
+    overflow:hidden;
+    min-height:200px;
+    background:#50bcdf;
+    display:none;
+    text-align:center;
+    border:2px solid black;
+}
+ 
+.tab .conBox.on{
+    display:block;
+}
+
+.slide-div {
+  position: absolute;
+  left: 0px;
+  top: 10px;
+  width: 200px;
+  height: 300px;
+  background: grey;
+}
+
+.button-div {
+  position: absolute;
+  left: 200px;
+  top: 30px;
+  width: 70px;
+  height: 50px;
+  background: #17b0af;
+}
+
+.button-open {
+  width: 0px;
+  height: 0px;
+  border-top: 10px solid transparent;
+  border-right: 20px solid #0f304e;
+  border-bottom: 10px solid transparent;
+  margin: 15px 40px;
+}
+
+.button-close {
+  width: 0px;
+  height: 0px;
+  border-top: 10px solid transparent;
+  border-left: 20px solid #0f304e;
+  border-bottom: 10px solid transparent;
+  margin: 15px 40px;
+}
+
+.box {
+  float: left;
+  margin: 1em;
+}
+.after-box {
+  clear: left;
+}
+
 </style>
   
 </head>
@@ -378,14 +771,150 @@ ul.tabs li.current{
    <jsp:include page="/WEB-INF/views/mainMenu.jsp"></jsp:include>
    
    <!-- 툴 텝 시작 -->
+   
+   
    <div class="toolBar" id="test">
+   
+   <div class="slide-div">
+	
+	
+    <div class="tab">
+    <ul>
+        <li data-id="con1" class="on">그리기 툴</li>
+        <li data-id="con2">채팅</li>
+        <li data-id="con3">멤버</li>
+    </ul>
+    <div id="con1" class="conBox on">
+
+      <br>
       <div>Drawing Page</div>
       <span>CanVus</span>
-      <a>올리기</a>
-      <a>저장</a>
-      <a>뒤로</a>
-      <a>앞으로</a>
+      <hr width = "100%">
+      <a>올리기</a><br>
+      <a>저장</a><br>
+      <button onclick="refresh()">Clear All</button>
+      <hr width = "100%">
       <div class="tool">
+         <input type="button" value="undo" onclick="javascript:undo();">
+         <input type="button" value="redo" onclick="javascript:redo();">
+         <br><br>
+         
+         
+
+         
+         <button onclick="Addtext()">Add Text</button><br><br>
+         
+      		
+      		
+      	
+
+    <div class="container" style="padding: 0px;width: 100%;">
+
+      <div class="starter-template">
+	      <div>
+	      	<div>
+	      		<div>
+		      		<div>
+		      		<div>
+						    <button id="btn-underline">Underline Toggle</button>
+						    <button id="btn-bold">Bold Toggle</button>
+						    <button id="btn-italic">Italic Toggle</button> 
+						</div>
+						
+		      			Background Color
+		      		</div>
+		      		<div>
+		      			<input type="color" id="bg_color">
+		      		</div>
+		      		<div>
+	      				<input type="text" id="new_text" class="form-control" placeholder="Add new text here">
+		      		</div>
+		      		<div>
+	      				<input type="button" id="btn_add_new" class="btn btn-primary" value="Add New Text">
+		      		</div>
+		      	</div>
+		      
+	      	</div>
+	      </div>
+      </div>
+    </div>
+      
+      
+      <div id="text-controls">
+    	 <label for="opacity">Opacity: </label>
+    <input value="100" type="range" bind-value-to="opacity" id="opacity">
+	  <input type="color" value="" id="color" size="10">
+      <label for="font-family" style="display:inline-block">Font family:</label>
+      <select id="font-family">
+        <option value="arial">Arial</option>
+        <option value="helvetica" selected>Helvetica</option>
+        <option value="myriad pro">Myriad Pro</option>
+        <option value="delicious">Delicious</option>
+        <option value="verdana">Verdana</option>
+        <option value="georgia">Georgia</option>
+        <option value="courier">Courier</option>
+        <option value="comic sans ms">Comic Sans MS</option>
+        <option value="impact">Impact</option>
+        <option value="monaco">Monaco</option>
+        <option value="optima">Optima</option>
+        <option value="hoefler text">Hoefler Text</option>
+        <option value="plaster">Plaster</option>
+        <option value="engagement">Engagement</option>
+      </select>
+      <br>
+      <label for="text-align" style="display:inline-block">Text align:</label>
+      <select id="text-align">
+        <option value="left">Left</option>
+        <option value="center">Center</option>
+        <option value="right">Right</option>
+        <option value="justify">Justify</option>
+      </select>
+      <div>
+        <label for="text-bg-color">Background color:</label>
+        <input type="color" value="" id="text-bg-color" size="10">
+      </div>
+      <div>
+        <label for="text-lines-bg-color">Background text color:</label>
+        <input type="color" value="" id="text-lines-bg-color" size="10">
+      </div>
+      <div>
+        <label for="text-stroke-color">Stroke color:</label>
+        <input type="color" value="" id="text-stroke-color">
+      </div>
+      <div>
+	  
+
+        <label for="text-stroke-width">Stroke width:</label>
+        <input type="range" value="1" min="1" max="5" id="text-stroke-width">
+      </div>
+      <div>
+        <label for="text-font-size">Font size:</label>
+        <input type="range" value="" min="1" max="120" step="1" id="text-font-size">
+      </div>
+      <div>
+        <label for="text-line-height">Line height:</label>
+        <input type="range" value="" min="0" max="10" step="0.1" id="text-line-height">
+      </div>
+    </div>
+    <div id="text-controls-additional">
+      <input type='checkbox' name='fonttype' id="text-cmd-bold">
+        Bold
+    
+      <input type='checkbox' name='fonttype' id="text-cmd-italic">
+        Italic
+     
+      <input type='checkbox' name='fonttype' id="text-cmd-underline" >
+        Underline
+      
+      <input type='checkbox' name='fonttype'  id="text-cmd-linethrough">
+        Linethrough
+     
+      <input type='checkbox' name='fonttype'  id="text-cmd-overline" >
+        Overline
+       </div>
+       
+       
+         
          <div>
          <button class="brush">브러쉬</button>
          </div>
@@ -425,6 +954,8 @@ ul.tabs li.current{
          <button id="eraser">eraser</button>
          <button id="drawer">drawer</button>
       </div>
+      
+      
      
       <div class="rangeBar">
          <input type="range" max="1" min="0.1" step="0.05" value="1" id="opacity" class="range">
@@ -432,6 +963,20 @@ ul.tabs li.current{
        <div class="rangeBar">
          <input type="range" max="30" min="1" step="1" value="5" id="thickness" class="range">
        </div>
+       
+       </div>
+    <div id="con2" class="conBox">
+        Chatting
+    </div>
+    <div id="con3" class="conBox">
+        Member
+    </div>
+	</div>
+	</div>
+	
+	<div class="button-div div-close">
+	  <div class="button-open"></div>
+	</div>
         
    </div>
    <!-- 툴 텝 끝 -->
@@ -449,9 +994,9 @@ ul.tabs li.current{
              <div class="layers">
                 <input type="button" id="makebtn" value="레이어추가"/>
                 <div class="layer1">
-                   <canvas class="canvas" id="canvas" width="1000" height="600"></canvas>
+                <canvas class="canvas" id="canvas" width="1000" height="600"></canvas>
                  </div>
-            <div class="layer2">
+            	<div class="layer2">
                    <canvas class="canvas" id="canvas2" width="1000" height="600"></canvas>
                  </div>
                  <div class="layer3">

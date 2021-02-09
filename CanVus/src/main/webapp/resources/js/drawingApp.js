@@ -49,6 +49,8 @@ var ctx3 = canvas3.getContext('2d');
 var ctx4 = canvas4.getContext('2d');
 var ctx5 = canvas5.getContext('2d');
 
+
+	 
 $("#eraser").on("click", function () {
   canvas.freeDrawingBrush = new fabric.PencilBrush(canvas);
   canvas.isDrawingMode = 1;
@@ -78,6 +80,8 @@ $("#red").on("click", function () {
   canvas.calcOffset();
   canvas.renderAll();
 });
+
+
 
 $("#selection").on("click", function () {
   canvas.isDrawingMode = false;
@@ -342,6 +346,7 @@ $(function(){
 	
 	  canvas.renderAll();
 	})
+	
 
 });
 
