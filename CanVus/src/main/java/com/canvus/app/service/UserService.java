@@ -11,9 +11,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.canvus.app.dao.UserDAO;
+import com.canvus.app.util.FileService;
 import com.canvus.app.vo.BookmarkVO;
+import com.canvus.app.vo.CanVusVOFactory;
+import com.canvus.app.vo.CanVusVOType;
+import com.canvus.app.vo.TransactionPixelVO;
 import com.canvus.app.vo.UserVO;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
@@ -26,6 +31,7 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 public class UserService {
 	private final String CLIENT_ID = "1073968802049-evh62jql0f6gblp8din0t6rqv0sobg17.apps.googleusercontent.com";
 	private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+	private String uploadPath = "/userProfile";
 	
 	@Autowired
 	private UserDAO userDAO;
@@ -45,7 +51,7 @@ public class UserService {
 		return userDAO.getUserInfo(payload.getSubject());
 	}
 	
-	public UserVO signup(UserVO vo) {
+	public UserVO signup(UserVO vo, MultipartFile photo_upload) {
 		logger.info("회원가입 서비스 진입");
 		
 		UserVO output = null;
@@ -55,8 +61,15 @@ public class UserService {
 		vo.setEmail(payload.getEmail());
 		vo.setFamily_name((String) payload.get("family_name"));
 		vo.setGiven_name((String) payload.get("given_name"));
-		vo.setProfile_photo((String) payload.get("picture"));
+		if (photo_upload.isEmpty()) {
+			vo.setProfile_photo((String) payload.get("picture"));
+		} else {
+			String saved_file = FileService.saveFile(photo_upload, uploadPath, (String) payload.getSubject());
+			vo.setProfile_photo(saved_file);
+		}
 		vo.setUser_id((String) payload.getSubject());
+		
+		logger.info(vo.toString());
 		
 		boolean check = userDAO.signup(vo);
 		
@@ -156,4 +169,30 @@ public class UserService {
 		
 		return userDAO.deleteFolder((Integer) params.get("folder_id"));
 	}
+
+	/** 
+	 * 픽셀을 선물하는 메소드
+	 * 작성일: 2021.02.08 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param params (key: sender, receiver, pixel)
+	 * @return
+	 */
+	public Map<String, Object> presentPixel(Map<String, Object> params) {
+		TransactionPixelVO transPx = CanVusVOFactory.newInstance(CanVusVOType.TransactionPixelVO);
+		
+		transPx.setSender((String) params.get("sender"));
+		transPx.setReceiver((String) params.get("receiver"));
+		transPx.setPixels_amount((Integer) params.get("pixel"));
+		
+		boolean success = userDAO.presentPixel(transPx);
+		
+		if (success) {
+			params.put("result", true);
+		} else {
+			params.put("result", false);
+		}
+		
+		return params; 
+	}
+
 }

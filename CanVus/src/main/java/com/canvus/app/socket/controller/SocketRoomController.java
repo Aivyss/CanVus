@@ -1,7 +1,9 @@
 package com.canvus.app.socket.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
+import com.canvus.app.socket.service.StompService;
 import com.canvus.app.socket.vo.MessageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -22,6 +24,8 @@ import lombok.extern.slf4j.Slf4j;
 public class SocketRoomController {
 	@Autowired
 	private DrawingService drawingService;
+	@Autowired
+	private StompService stompService;
 
 	/**
 	 * fabric 객체를 DB에 저장 및 방에 입장해 있는 유저에게 전달하는 메소드
@@ -32,8 +36,8 @@ public class SocketRoomController {
 	 * @param headerAccessor
 	 * @return
 	 */
-	@MessageMapping("/test/room/{room_Id}/fabric")
-	@SendTo("/subscribe/test/room/{room_Id}/fabric")
+	@MessageMapping("/drawing/room/{room_Id}/fabric")
+	@SendTo("/subscribe/drawing/room/{room_Id}/fabric")
 	public Map<String, Object> fabric(@DestinationVariable("room_Id") String room_Id,
 			Map<String, Object> json, SimpMessageHeaderAccessor headerAccessor){
 		log.info("fabric 객체 stringify 컨트롤러");
@@ -60,14 +64,11 @@ public class SocketRoomController {
 	 * @param message
 	 * @return
 	 */
-	@MessageMapping("/test/room/{room_Id}/chat")
-	@SendTo("/subscribe/test/room/{room_Id}/chat")
-	public MessageVO sendChat(String room_Id, MessageVO message) {
-		log.info("채팅 전송 컨트롤러");
-		
-		// 값 들어왔는지 체크용
-		log.info(message.toString());
+	@MessageMapping("/drawing/room/{room_Id}/chat")
+	@SendTo("/subscribe/drawing/room/{room_Id}/chat")
+	public Map<String, Object> sendChat (@DestinationVariable("room_Id") String room_Id, MessageVO message) {
+		log.info("채팅 및 기타 기능 컨트롤러");
 
-		return message;
+		return stompService.parser(room_Id, message);
 	}
 }
