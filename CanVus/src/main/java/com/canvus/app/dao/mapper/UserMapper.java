@@ -12,4 +12,8 @@ public interface UserMapper {
 
 	public UserVO getUserInfo(String user_id);
 
+	public boolean withdrawPixel(UserVO sender);
+
+	public boolean depositPixel(UserVO receiver);
+
 }

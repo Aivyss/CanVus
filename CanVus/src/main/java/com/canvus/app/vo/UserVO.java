@@ -13,7 +13,7 @@ public class UserVO implements CanVusVOs {
 	private String introduction;
 
 	private String sign_in_date;
-	private int pixel;
+	private int pixels;
 	private int accumulatedpixels;
 	private String idToken;
 }

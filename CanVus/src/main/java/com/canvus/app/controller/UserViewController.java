@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.canvus.app.service.UserService;
 import com.canvus.app.vo.BookmarkVO;
@@ -51,6 +52,7 @@ public class UserViewController {
 			url = "/user/signup";
 		} else {// 로그인인 경우
 			session.setAttribute("userId", userInfo.getUser_id());
+			session.setAttribute("userVO", userInfo);
 			url = "redirect:/main";
 		}
 		
@@ -58,12 +60,13 @@ public class UserViewController {
 	}
 	
 	@RequestMapping(value="/signupSubmit", method=RequestMethod.POST)
-	public String signupSubmit(UserVO vo, HttpSession session) {
-		vo = userService.signup(vo);
+	public String signupSubmit(UserVO vo, MultipartFile photo_upload, HttpSession session) {
+		vo = userService.signup(vo, photo_upload);
 		String url = "redirect:/";
 		
 		if (vo != null) { // 회원가입 완료 validation check
 			session.setAttribute("userId", vo.getUser_id());
+			session.setAttribute("userVO", vo);
 			url = "redirect:/main";
 		} else { // 회원가입 실패
 			session.removeAttribute("userId");
@@ -142,6 +145,21 @@ public class UserViewController {
 	public String logout() {
 		
 		return "redirect:/";
+	}
+	
+	/**
+	 * 픽셀을 선물하는 메소드
+	 * 작성일: 2021.02.08 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param params (key: sender, receiver, pixel)
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/presentPixel", method=RequestMethod.POST)
+	public Map<String, Object> presentPixel(@RequestBody Map<String, Object> params) {
+		logger.info("픽셀 전물하기 컨트롤러");
+		
+		return userService.presentPixel(params);
 	}
 	
 }
