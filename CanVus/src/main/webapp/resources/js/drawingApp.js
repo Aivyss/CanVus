@@ -55,6 +55,8 @@ $("#selection").on("click", function () {
   canvas.selectable = true;
 });
 
+
+
 $('#stringify').on('click', function() {
   undoText = JSON.stringify(canvas.historyUndo);
   redoText = JSON.stringify(canvas.historyRedo);

@@ -10,6 +10,7 @@
 <title>Insert title here</title>
  
    <link rel="stylesheet" href="/resources/js/style.css">
+   <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
    <%-- <jsp:include page="/WEB-INF/views/header.jsp"></jsp:include> --%>
    <script src="/resources/js/Classic/Color.Picker.Classic.js" type="text/javascript"></script> 
    <script src="/resources/js/Classic/Color.Space.js" type="text/javascript"></script> 
@@ -32,16 +33,14 @@
          $("#"+tab_id).addClass('current');
       });
 
-      /* $(".brush").click(function(){
-         $(".spray").css({
+      $(".brush").click(function(){
+         $(".tool_brush").css({
             "display": "block"
-            
-         });
-         
-      }); */
+         }); 
+      });
       
        var currlayers=1;
-      var layerstotal=1;
+       var layerstotal=1;
        
          $("#makebtn").click(function(){
              if(layerstotal==5){
@@ -200,7 +199,7 @@
                              "color": "black",
                              "border": "2px solid black",
                           });
-                        $(".hidelayers5").css({
+                     	$(".hidelayers5").css({
                              "color": "red",
                              "border": "2px solid red",
                           });
@@ -258,17 +257,93 @@
              layerstotal-=1;
           });
         
-   
         $("#moveLayer").click(function(){
-            $('.layer1').draggable(); 
+            $('.layers').draggable();
+            
         });
 
-         $('.layer1').mouseup(function(){
-        
-            $('.layer1').draggable("destroy"); 
-        }); 
+        $('.layers').mouseup(function(){
+            $('.layers').draggable("destroy"); 
+		});
+
+		$('#addItem').click(function(){
+			$('.layers').append('<div><canvas class="canvas" id="canvas" width="1000" height="600"></canvas></div>');
+		});
 
    });
+
+   /** UI 설정 및 드래그로 순서 변경 기능 */
+   $(function() {
+       $("#itemBoxWrap").sortable({
+           placeholder:"itemBoxHighlight",
+           start: function(event, ui) {
+               ui.item.data('start_pos', ui.item.index());
+           },
+           stop: function(event, ui) {
+               var spos = ui.item.data('start_pos');
+               var epos = ui.item.index();
+   			      reorder();
+           }
+       });
+       //$("#itemBoxWrap").disableSelection();
+       
+       //$( "#sortable" ).sortable();
+       //$( "#sortable" ).disableSelection();
+   });
+
+   /** 레이어 번호 조정 */
+   function reorder() {
+       $(".itemBox").each(function(i, box) {
+           $(box).find(".itemNum").html(i + 1);
+       });
+   }
+
+   /** 레이어 추가 */
+   function createItem() {
+       $(createBox())
+       .appendTo("#itemBoxWrap")
+       
+       .hover(
+           function() {
+               $(this).css('backgroundColor', '#f9f9f5');
+               $(this).find('.deleteBox').show();
+           },
+           function() {
+               $(this).css('background', 'none');
+               $(this).find('.deleteBox').hide();
+           }
+       )
+   		.append("<div class='deleteBox'>[삭제]</div>")
+   		.find(".deleteBox").click(function() {
+           var valueCheck = false;
+           $(this).parent().find('input').each(function() {
+               if($(this).attr("name") != "type" && $(this).val() != '') {
+                   valueCheck = true;
+               }
+           });
+
+           if(valueCheck) {
+               var delCheck = confirm('입력하신 내용이 있습니다.\n삭제하시겠습니까?');
+           }
+           if(!valueCheck || delCheck == true) {
+               $(this).parent().remove();
+               reorder();
+           }
+       });
+       // 레이어 번호를 다시 정렬한다.
+       reorder();
+   }
+
+   /** 레이어 이름 작성 */
+   function createBox() {
+       var contents = "<div class='itemBox'>"
+                    + "<div style='float:left;'>"
+                    + "<span class='itemNum'></span> "
+                    + "<input type='text' name='item' style='width:150px;'/>"
+                    + "</div>"
+                    + "</div>";
+       return contents;
+   }
    </script>
 <style type="text/css">
 /* body{
@@ -337,6 +412,27 @@ line-height: 1.6
    opacity: 0;
 }
 
+.itemBox {
+    border:solid 1px black;
+    width:250px;
+    height:40px;
+    padding:5px;
+    margin-bottom:5px;
+}
+.itemBoxHighlight {
+    border:solid 1px black;
+    width:250px;
+    height:40px;
+    padding:10px;
+    margin-bottom:10px;
+    background-color:gray;
+}
+.deleteBox {
+    float:right;
+    display:none;
+    cursor:pointer;
+}
+
 #container{
    
    margin: 0 auto;
@@ -395,17 +491,34 @@ ul.tabs li.current{
          <div>
             <button id="moveLayer">moveLayer</button>
          </div>
-         
+         <div class="layers">
+       		<div class="layers1">
+        		<button style="float:left; border:solid red 2px; color:red;" class="layers1">layer1</button>
+       		</div>
+        	<div class="hidelayers1">
+        		<button style="float:left; border:solid black 2px; color:black;" class="hidelayers1">hidelayer1</button>
+        	</div>
+        	<div class="deletelayers1">
+        		<button class="deletelayers1">deletelayer1</button>
+       		</div>
+         </div>
         <div class="layers1">
-         <button style="float:left; border:solid red 2px; color:red;" class="layers1">layer1</button>
-         </div>
-         <div class="hidelayers1">
-         <button style="float:left; border:solid black 2px; color:black;" class="hidelayers1">hidelayer1</button>
-         </div>
-         <div class="deletelayers1">
-         <button class="deletelayers1">deletelayer1</button>
-         </div>
-         
+        	<button style="float:left; border:solid red 2px; color:red;" class="layers1">layer1</button>
+        </div>
+        	<div class="hidelayers1">
+        		<button style="float:left; border:solid black 2px; color:black;" class="hidelayers1">hidelayer1</button>
+        	</div>
+        	<div class="deletelayers1">
+        		<button class="deletelayers1">deletelayer1</button>
+        	</div>
+        <div>
+		    <div style="float:left;width:100px;">레이어 추가 : </div>
+		    <div style="clar:both;">
+		        <input type="button" id="addItem" value="추가" onclick="createItem();">
+		    </div>
+		</div>
+		<br />
+		<div id="itemBoxWrap"></div>     
       </div>
       
       <div class="tool_brush">
@@ -420,6 +533,9 @@ ul.tabs li.current{
          </div>
          <div>
             <input type="button" value="연필" onclick="pencilBrush();">
+         </div>   
+         <div>
+         	<input type="button" value="펜" onclick="baseBrush();">
          </div>   
       </div>
      
@@ -446,23 +562,22 @@ ul.tabs li.current{
              <div class="layers">
                 <input type="button" id="makebtn" value="레이어추가"/>
                 <div class="layer1">
-                   <canvas class="canvas" id="canvas" width="1000" height="600"></canvas>
-                 </div>
-            <div class="layer2">
-                   <canvas class="canvas" id="canvas2" width="1000" height="600"></canvas>
-                 </div>
-                 <div class="layer3">
-                   <canvas class="canvas" id="canvas3" width="1000" height="600"></canvas>
-                 </div>
-                 <div class="layer4">
-                   <canvas class="canvas" id="canvas4" width="1000" height="600"></canvas>
-                 </div>
-                 <div class="layer5">
-                   <canvas class="canvas" id="canvas5" width="1000" height="600"></canvas>
-                 </div>
-                 
-
+                	<canvas class="canvas" id="canvas" width="1000" height="600"></canvas>
+                </div>
+				<div class="layer2">
+                	<canvas class="canvas" id="canvas2" width="1000" height="600"></canvas>
+                </div>
+                <div class="layer3">
+                	<canvas class="canvas" id="canvas3" width="1000" height="600"></canvas>
+                </div>
+                <div class="layer4">
+                	<canvas class="canvas" id="canvas4" width="1000" height="600"></canvas>
+                </div>
+                <div class="layer5">
+                	<canvas class="canvas" id="canvas5" width="1000" height="600"></canvas>
+                </div>
              </div>
+             
              <div class="buttons">
                <button id="eraser">eraser</button>
                <button id="drawer">drawer</button>
