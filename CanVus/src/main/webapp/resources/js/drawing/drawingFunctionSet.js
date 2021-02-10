@@ -203,15 +203,27 @@ $(() => {
          */
 
         ///////////////////////////////////////////////////////////////
-        // 객체배열, z-index, 이벤트를 배열에 추가하는 프로세스.
+        // TODO fabric 객체를 만들고 객체배열에 추가하는 프로세스
         let newLayer = new fabric.Canvas(layerId);
         newLayer.isDrawingMode = true;
-        layerSet[pageNum].push(newLayer);
+        layerSet[pageNum-1].push(newLayer);
+
+        // TODO 이벤트객체를 이벤트배열에 추가하는 프로세스.
         const eventObj = newLayer.on('mouse:up', function() {
             sendFabric(layer2, pageNum, totalNumOfLayer);
         });
-        eventSet[pageNum].push(eventObj);
+        eventSet[pageNum-1].push(eventObj);
 
+        // TODO z-index CSS 속성을 부여하고 Z-INDEX 배열에 추가하는 프로세스
+        $('#'+layerId).css({'z-index':totalNumOfLayer});
+        zNumSet[pageNum-1].push(totalNumOfLayer);
+
+        //TODO 부가적으로 생성된 canvas-container를 지우는 프로세스
+        $('#p'+pageNum).next().attr('id', 'remove');
+        $('#'+layerId).appnedTo('#p'+pageNum);
+        $('#remove').children('.upper-canvas').atrr('id', layerId+'u');
+        $('#'+layerId+'u').appnedTo('#p'+pageNum);
+        $('#remove').remove();
         ///////////////////////////////////////////////////////////////
 
         // fabric 객체 생성에 의해 만들어진 upper-canvas를 한 div로 모아주는 구문을 넣어줄 것.
@@ -246,11 +258,25 @@ $(() => {
 
         ///////////////////////////////////////////////////////////////
         
-        // 객체 배열 및 z-index를 수정하는 프로세스
+        // TODO 객체 배열 및 z-index배열을 만드는 프로세스
         layerSet.push([]);
+        zNumSet.push([]);
         eventSet.push([]);
+
+        // TODO 해당 페이지의 첫 레이어를 만드는 프로세스
         let newLayer = new fabric.Canvas(pageId + 'l1');
         layerSet[totalNumOfPage].push(newLayer); // 예: 2번 페이지는 1번 인덱스이다.
+
+        // TODO canvas-container를 단 1개로 유지하기 위해 ID속성부여 프로세스
+        $('.canvas-container').attr('id', pageId);
+        $('.upper-canvas').attr('id', pageId+'l1u');
+
+        // TODO 생성된 canvas 태그들에 z-index를 부여하고 zNumSet에 반영하는 프로세스
+        $('#'+pageId+'l1').css({"z-index": 1});
+        $('#'+pageId+'l1u').css({"z-index": 1});
+        zNumSet[totalNumOfPage].push([1]);
+
+        // TODO 이벤트 객체를 eventSet에 넣는 프로세스
         const eventObj = newLayer.on('mouse:up', function() {
             sendFabric(layer2, totalNumOfPage+1, 1); // 예: 2번 페이지는 1번 인덱스이다.
         });
