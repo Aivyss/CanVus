@@ -196,7 +196,7 @@ $(() => {
         const totalNumOfLayer = layerSet[pageNum].length;
         let layerId = 'p' + pageNum + 'l' + totalNumOfLayer;
 
-        // 이부분에 html상으로 캔버스를 생성하는 구문을 넣어줄 것 아이디는 layerId로 준다.
+        // 이부분에 canvas 태그를 생성하는 구문을 넣어줄 것 아이디는 layerId로 준다.
         
         /**
          * 작성 바람
@@ -226,15 +226,6 @@ $(() => {
         $('#remove').remove();
         ///////////////////////////////////////////////////////////////
 
-        // fabric 객체 생성에 의해 만들어진 upper-canvas를 한 div로 모아주는 구문을 넣어줄 것.
-        // 주의사항1: upper-canvas도 id를 부여해야한다.
-
-        /**
-         * 작성 바람
-         */
-
-        ///////////////////////////////////////////////////////////////
-
         // 소켓에 레이어를 생성했다는 정보를 쏴주는 구문 (추후 작성예정)
         
         /**
@@ -249,7 +240,7 @@ $(() => {
         const totalNumOfPage = layerSet.length;
         const pageId = 'p' + (totalNumOfPage+1); // 예: length가 1이면 2번 페이지를 만들어야한다
         
-        // 이 부분에 html 상으로 페이지를 생성하는 구문을 넣어줄 것 아이디는 pageId로 준다.
+        // 이 부분에 canvas 태그 생성구문을 넣을 것. 아이디는 p만든레이어번호l1로 준다.
         // 첫 레이어는 자동생성을 하는 편이 좋을 듯 싶다.
 
         /**
