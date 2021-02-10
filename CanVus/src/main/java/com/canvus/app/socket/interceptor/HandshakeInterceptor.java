@@ -44,6 +44,7 @@ public class HandshakeInterceptor extends HttpSessionHandshakeInterceptor {
 	public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,
 			Exception ex) {
 		logger.info("***** After Handshake *****");
+		request.getURI();
 		super.afterHandshake(request, response, wsHandler, ex);
 	}
 	

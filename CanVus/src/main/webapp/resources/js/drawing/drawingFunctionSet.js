@@ -97,13 +97,6 @@ $(() => {
             });
         });
 
-
-        // 입장처리 진행.
-        const data = {
-            userId : user_id,
-            mynickname : mynickname,
-        }
-        sendMessage(data, "enter");
     }
 
     // 패브릭 객체 전송 함수
@@ -127,7 +120,7 @@ $(() => {
     function sendMessage(message, type) {
         const data = {
             type : type,
-            message : JSON.stringify(message)
+            message : message
         };
 
         // send process
@@ -136,7 +129,11 @@ $(() => {
 
     // 소켓 종료 메소드
     function disconnect() {
-        sendMessage(user_id, 'quit');
+    	const message = {
+    		userId : user_id
+    	};
+    	
+        sendMessage(message, 'quit');
 
         chatClient.disconnect();
         fabricClient.disconnect();

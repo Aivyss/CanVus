@@ -34,6 +34,7 @@ public class StompService {
 	public Map<String, Object> parser(String room_Id, Map<String, Object> json) {
 		log.info("메세지 파서 메소드 진입");
 		String type = (String) json.get("type");
+		type = type.toUpperCase();
 		Map<String, Object> container = null;
 		
 		if (type.equals("COMMONCHAT")) {
@@ -92,7 +93,8 @@ public class StompService {
 		log.info("퇴장 처리 서비스 메소드 진입");
 		
 		// message에 있어야할 내용 : 퇴장하는 유저의 아이디	
-		String userId = (String) json.get("userId");
+		Map<String, Object> message = (Map) json.get("message");
+		String userId = (String) message.get("userId");
 		List<DrawingUserVO> userListInRoom = null;
 		// 방을 퇴장시킨다.
 		boolean quitSuccess = drawingService.quitRoom(room_Id, userId);
