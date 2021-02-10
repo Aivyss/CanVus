@@ -84,13 +84,14 @@ public class DrawingService {
 	 * @param params
 	 * @return
 	 */
-	public boolean createPage(Map<String, Object> params) {
+	public boolean createPageLayer(Map<String, Object> json) {
 		PageVO page = CanVusVOFactory.newInstance(CanVusVOType.PageVO);
 		
 		// 페이지를 만들 당시 프론트 단에서는 페이지 넘버와 레이어 넘버를 주어야 한다.
-		page.setRoom_Id((String) params.get("room_Id"));
-		page.setPage_no((Integer) params.get("page_no"));
-		page.setLayer_no((Integer) params.get("layer_no"));
+		page.setRoom_Id((String) json.get("room_Id"));
+		page.setPage_no((Integer) json.get("page_no"));
+		page.setLayer_no((Integer) json.get("layer_no"));
+		page.setLayer_name((String) json.get("layer_name"));
 		page.setStringify("{\"version\":\"4.3.0\",\"objects\":[]}");
 
 		boolean check = drawingDAO.createPage(page);

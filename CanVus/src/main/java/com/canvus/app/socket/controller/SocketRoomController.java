@@ -61,14 +61,14 @@ public class SocketRoomController {
 	 * 작성일: 2021.02.05 / 완성일: / 버그검증일:
 	 * 작성자: 이한결
 	 * @param room_Id
-	 * @param message
+	 * @param json
 	 * @return
 	 */
 	@MessageMapping("/drawing/room/{room_Id}/chat")
 	@SendTo("/subscribe/drawing/room/{room_Id}/chat")
-	public Map<String, Object> sendChat (@DestinationVariable("room_Id") String room_Id, MessageVO message) {
+	public Map<String, Object> sendChat (@DestinationVariable("room_Id") String room_Id, Map<String, Object> json) {
 		log.info("채팅 및 기타 기능 컨트롤러");
 
-		return stompService.parser(room_Id, message);
+		return stompService.parser(room_Id, json);
 	}
 }

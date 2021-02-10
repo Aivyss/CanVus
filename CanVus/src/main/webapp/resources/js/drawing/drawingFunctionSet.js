@@ -96,6 +96,14 @@ $(() => {
                 layer.loadFromJSON(data['stringify'], layer.renderAll.bind(layer));
             });
         });
+
+
+        // 입장처리 진행.
+        const data = {
+            userId : user_id,
+            mynickname : mynickname,
+        }
+        sendMessage(data, "enter");
     }
 
     // 패브릭 객체 전송 함수
@@ -119,8 +127,7 @@ $(() => {
     function sendMessage(message, type) {
         const data = {
             type : type,
-            room_Id : room_Id,
-            message : message
+            message : JSON.stringify(message)
         };
 
         // send process
@@ -210,7 +217,7 @@ $(() => {
 
         // TODO 이벤트객체를 이벤트배열에 추가하는 프로세스.
         const eventObj = newLayer.on('mouse:up', function() {
-            sendFabric(layer2, pageNum, totalNumOfLayer);
+            sendFabric(newLayer, pageNum, totalNumOfLayer);
         });
         eventSet[pageNum-1].push(eventObj);
 
@@ -269,7 +276,7 @@ $(() => {
 
         // TODO 이벤트 객체를 eventSet에 넣는 프로세스
         const eventObj = newLayer.on('mouse:up', function() {
-            sendFabric(layer2, totalNumOfPage+1, 1); // 예: 2번 페이지는 1번 인덱스이다.
+            sendFabric(newLayer, totalNumOfPage+1, 1); // 예: 2번 페이지는 1번 인덱스이다.
         });
         eventSet[totalNumOfPage].push(eventObj);
 
@@ -293,8 +300,8 @@ $(() => {
         $('#'+bPageLayer+'u').css({"z-index": zNumSet[bPageNum-1][bLayerNum-1]});
 
         // 현 단계 페이지 번호 지정
-        pageNum = $(layerBoxId).children('.pageNum').val();
-        layerNum = $(layerBoxId).children('.layerNum').val();
+        pageNum = $('#'+layerBoxId).children('.pageNum').val();
+        layerNum = $('#'+layerBoxId).children('.layerNum').val();
         const pageLayer = "p"+pageNum+"l"+layerNum;
 
         // 레이어 타게팅
@@ -303,4 +310,30 @@ $(() => {
         // 타게팅한 레이어를 그릴수 있는 upper-canvas를 가장 위에둔다. 2147483647는 z-index 최대값이다.
         $('#'+pageLayer+"u").css({"z-index": 2147483647});
     });
+
+
+    function deleteLayer() {
+        const layerId = 'p' + pageNum + 'l' + layerNum;
+
+        $('#'+layerId).remove();
+        $('#'+layerId+'u').remove();
+
+        layerSet[pageNum-1][layerNum-1] = null;
+        zNumSet[pageNum-1][layerNum-1] = null;
+        eventSet[pageNum-1][layerNum-1] = null;
+
+        // 소켓에 레이어를 지웠다고 전송하는 구문 (추후작성예정)
+    }
+
+    function deletePage() {
+        const layerLength = layerSet[pageNum-1].length;
+
+        $('#p'+pageNum).remove();
+
+        layerSet[pageNum-1] = [];
+        zNumSet[pageNum-1] = [];
+        eventSet[pageNum-1] = [];
+
+        // 소켓에 페이지를 지웠다고 전송하는 구문 (추후작성예정)
+    }
 });

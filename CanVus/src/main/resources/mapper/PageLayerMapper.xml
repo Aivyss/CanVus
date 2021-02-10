@@ -16,6 +16,7 @@
 	    ,#{page_no}
 	    ,#{layer_no}
 	    ,#{stringify}
+	    ,#{layer_name}
 	)
 </insert>
 
@@ -26,6 +27,7 @@
 	    ,PAGE_NO
 	    ,LAYER_NO
 	    ,STRINGIFY
+		,PAGE_NAME
 	FROM
 	    PAGE_LAYER
 	WHERE

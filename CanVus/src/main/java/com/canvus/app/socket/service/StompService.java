@@ -31,21 +31,21 @@ public class StompService {
 	 * @param message
 	 * @return
 	 */
-	public Map<String, Object> parser(String room_Id, MessageVO message) {
+	public Map<String, Object> parser(String room_Id, Map<String, Object> json) {
 		log.info("메세지 파서 메소드 진입");
-		String type = message.getType().toUpperCase();
+		String type = (String) json.get("type");
 		Map<String, Object> container = null;
 		
 		if (type.equals("COMMONCHAT")) {
-			container = commonChat(message);
+			container = commonChat(json);
 		} else if (type.equals("ENTER")) {
-			container = enter(room_Id, message);
+			container = enter(room_Id, json);
 		} else if (type.equals("QUIT")) {
-			container = quit(room_Id, message);
+			container = quit(room_Id, json);
 		} else if (type.equals("CREATEPAGELAYER")) {
-			container = createPageLayer(room_Id, message);
+			container = createPageLayer(room_Id, json);
 		} else if (type.equals("PRESENTPIXEL")) {
-			container = presentPixel(message);
+			container = presentPixel(json);
 		}
 		
 		return container;
@@ -58,13 +58,9 @@ public class StompService {
 	 * @param message
 	 * @return
 	 */
-	private Map<String, Object> commonChat(MessageVO message) {
-		Map<String, Object> container = new HashMap<String, Object>();
-		
-		container.put("header", "COMMONCHAT");
-		container.put("message", message);
-		
-		return container;
+	private Map<String, Object> commonChat(Map<String, Object> json) {
+
+		return json;
 	}
 	
 	/**
@@ -75,15 +71,13 @@ public class StompService {
 	 * @param message
 	 * @return
 	 */
-	private Map<String, Object> enter(String room_Id, MessageVO message) {
-		// message에 있어야할 내용: 없음
-		Map<String, Object> container = new HashMap<String, Object>();
+	private Map<String, Object> enter(String room_Id, Map<String, Object> json) {
+		// message에 있어야할 내용: 아이디, 닉네임
 		List<DrawingUserVO> userListInRoom = drawingService.getRoomUserList(room_Id);
+
+		json.put("userListInRoom", userListInRoom);
 		
-		container.put("header", "ENTER");
-		container.put("userListInRoom", userListInRoom);
-		
-		return container;
+		return json;
 	}
 	
 	/**
@@ -94,23 +88,20 @@ public class StompService {
 	 * @param message
 	 * @return
 	 */
-	private Map<String, Object> quit(String room_Id, MessageVO message) {
+	private Map<String, Object> quit(String room_Id, Map<String, Object> json) {
 		log.info("퇴장 처리 서비스 메소드 진입");
 		
 		// message에 있어야할 내용 : 퇴장하는 유저의 아이디	
-		String userId = message.getMessage();
-		Map<String, Object> container = new HashMap<String, Object>();
+		String userId = (String) json.get("userId");
 		List<DrawingUserVO> userListInRoom = null;
 		// 방을 퇴장시킨다.
 		boolean quitSuccess = drawingService.quitRoom(room_Id, userId);
 		
 		if (quitSuccess) {
-			userListInRoom = drawingService.getRoomUserList(room_Id);
-			container.put("header", "QUIT");
-			container.put("userListInRoom", userListInRoom);
+			json.put("userListInRoom", userListInRoom);
 		}
 		
-		return container;
+		return json;
 	}
 	
 	/**
@@ -121,20 +112,14 @@ public class StompService {
 	 * @param message
 	 * @return
 	 */
-	private Map<String, Object> createPageLayer(String room_Id, MessageVO message) {
+	private Map<String, Object> createPageLayer(String room_Id, Map<String, Object> json) {
 		// 있어야할 내용: 페이지-레이어 번호(스트링 값으로 줘야함)
-		String[] pageLayerSet = message.getMessage().split("-");
-		Map<String, Object> container = new HashMap<String, Object>();
+
+		json.put("room_Id", room_Id);
+
+		drawingService.createPageLayer(json);
 		
-		int page_no = Integer.parseInt(pageLayerSet[0]);
-		int layer_no = Integer.parseInt(pageLayerSet[1]);		
-		container.put("room_Id", room_Id);
-		container.put("page_no", page_no);
-		container.put("layer_no", layer_no);
-	
-		drawingService.createPage(container);
-		
-		return container;
+		return json;
 	}
 	
 	/**
@@ -145,19 +130,9 @@ public class StompService {
 	 * @param message
 	 * @return
 	 */
-	private Map<String, Object> presentPixel(MessageVO message) {
+	private Map<String, Object> presentPixel(Map<String, Object> json) {
 		// 있어야할 내용: 보낸사람-받는사람-픽셀수
-		String[] infoSet = message.getMessage().split("-");
-		Map<String, Object> container = new HashMap<String, Object>();
-
-		String sender = infoSet[0];
-		String receiver = infoSet[1];
-		int pixel = Integer.parseInt(infoSet[2]);
-		
-		container.put("sender", sender);
-		container.put("receiver", receiver);
-		container.put("pixel", pixel);
-		
-		return container;
+		// 전송은 이미 AJAX로 해서 DAO를 거치지 않아도 된다.
+		return json;
 	}
 }
