@@ -140,9 +140,6 @@ $(() => {
     }
 
     // ********** 소켓 전송과 관련된 이벤트 ********** //
-    // 그림이 그려진 레이어의 객체를 인식해 소켓으로 그려진 정보를 전송하는 이벤트.
-
-
     // 채팅을 소켓으로 전송하는 이벤트
     $('#send').on('click', ()=>{
         const message = $('#chatBox').val();
@@ -156,6 +153,14 @@ $(() => {
     $(window).on('beforeunload', function() {
         disconnect();
     });
+
+    // 방입장 메세지 전송파트 (일단 임시로 하고 만약 비동기가 이래도 처리가 안되면
+    // 반복문으로 처리할 것이다.
+    const enterData = {
+        user_id : user_id,
+        nickname : mynickname
+    };
+    setTimeout(sendMessage, 1000, enterData, 'enter');
 });
 
 
