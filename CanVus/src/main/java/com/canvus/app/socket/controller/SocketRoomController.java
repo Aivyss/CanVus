@@ -41,17 +41,17 @@ public class SocketRoomController {
 	public Map<String, Object> fabric(@DestinationVariable("room_Id") String room_Id,
 			Map<String, Object> json, SimpMessageHeaderAccessor headerAccessor){
 		log.info("fabric 객체 stringify 컨트롤러");
-		
+
 		log.info(json.toString()); // 객체 제대로 들어왔는지 확인해보자 으으으
-		
+
 		// fabric 객체가 있는 json을 db에 넣는 프로세스
 		boolean check = drawingService.updatePage(json, room_Id);
-		
+
 		if (!check) {
 			// 성공하지 못했다면 json 보내지마
 			json = null;
 		}
-		
+
 		return json;
 	}
 
@@ -64,8 +64,8 @@ public class SocketRoomController {
 	 * @param json
 	 * @return
 	 */
-	@MessageMapping("/drawing/room/{room_Id}/chat")
-	@SendTo("/subscribe/drawing/room/{room_Id}/chat")
+	@MessageMapping("/drawing/room/{room_Id}")
+	@SendTo("/subscribe/drawing/room/{room_Id}")
 	public Map<String, Object> sendChat (@DestinationVariable("room_Id") String room_Id, Map<String, Object> json) {
 		log.info("채팅 및 기타 기능 컨트롤러");
 		return stompService.parser(room_Id, json);

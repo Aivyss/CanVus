@@ -47,11 +47,26 @@ public class StompService {
 			container = createPageLayer(room_Id, json);
 		} else if (type.equals("PRESENTPIXEL")) {
 			container = presentPixel(json);
+		} else if (type.equals("DRAWING")) {
+			container = drawing(room_Id, json);
 		}
 		
 		return container;
 	}
-	
+
+	private Map<String, Object> drawing(String room_Id, Map<String, Object> json) {
+		log.info("드로잉을 처리하는 서비스 메소드");
+
+		boolean check = drawingService.updatePage(json, room_Id);
+
+		if (!check) {
+			// 성공하지 못했다면 json 보내지마
+			json = null;
+		}
+
+		return json;
+	}
+
 	/**
 	 * 일반 채팅을 처리하는 서비스 메소드
 	 * 작성일: 2021.02.28 / 완성일: / 버그검증일:
