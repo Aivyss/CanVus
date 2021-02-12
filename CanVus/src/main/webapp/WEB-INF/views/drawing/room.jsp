@@ -56,8 +56,7 @@
                     <div>
                         <div style="float:left;width:100px;">아이템 추가 : </div>
                         <div style="clear:both;">
-                            <input type="button" id="addItem" value="추가" onclick="createItem();" />
-                            <input type="button" id="submitItem" value="제출" onclick="submitItem();" />
+                            <input type="button" id="addItem" value="추가" onclick="createLayer();" />
                         </div>
                     </div>
 

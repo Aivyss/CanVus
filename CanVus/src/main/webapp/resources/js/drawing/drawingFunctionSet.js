@@ -184,7 +184,7 @@ function createLayer() {
      * 작성 바람
      */
     let contents = `<canvas id="${layerId}"></canvas>`;
-    $(`.p${pageNum}`).append(contents);
+    $(`#p${pageNum}`).append(contents);
 
     ///////////////////////////////////////////////////////////////
     // TODO fabric 객체를 만들고 객체배열에 추가하는 프로세스
@@ -206,10 +206,10 @@ function createLayer() {
     console.log(eventSet);
 
     //TODO 부가적으로 생성된 canvas-container를 지우는 프로세스
-    $('#'+layerId).appendTo('.p'+pageNum);
     $('.canvas-container').attr('class', 'remove');
     $('.upper-canvas').attr('class', layerId+'u');
-    $('.'+layerId+'u').appendTo('.p'+pageNum);
+    $('#'+layerId).appendTo('#p'+pageNum);
+    $('.'+layerId+'u').appendTo('#p'+pageNum);
     $('.remove').remove();
 
     // TODO z-index CSS 속성을 부여하고 Z-INDEX 배열에 추가하는 프로세스
@@ -218,6 +218,8 @@ function createLayer() {
     zNumSet[pageNum-1].push(totalNumOfLayer+1);
     console.log(zNumSet);
 
+    // TODO 레이어 리스트에 추가하는 메소드
+    createItem(layerId);
 
     ///////////////////////////////////////////////////////////////
 
