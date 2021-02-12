@@ -47,16 +47,28 @@
         <script src="/resources/js/drawing/drawingFunctionSet.js"></script>
         <!-- 본격적인 드로잉 페이지 시작 -->
         <!-- 툴 텝 시작 -->
+        <link rel="stylesheet" href="/resources/css/drawing/sideBar.css">
         <link rel="stylesheet" href="/resources/css/drawing/pageTab.css">
-        <div id="container">
-            <ul class="tab">
-                <li class="current" data-tab="create" id="createPage"><a href="#">New Page</a></li>
-            </ul>
-            <!-- 생성을 위한 툴탭 -->
-            <div id="base">
-                <div id="create" class="tabcontent current" style="display: none"></div>
-            </div>
-        </div>
+        <div class="skeleton" style="padding-top:5px;">
+            <div class="row-fluid">
+                <div id="sidebar" class="span2">
+                    사이드바
+                </div> <!-- end #nav -->
+
+                <div id="content" class="span7">
+                    <!-- 툴탭 -->
+                    <div id="container">
+                        <ul class="tab">
+                            <li class="current" data-tab="create" id="createPage"><a href="#">New Page</a></li>
+                        </ul>
+                        <!-- 생성을 위한 툴탭 -->
+                        <div id="base">
+                            <div id="create" class="tabcontent current" style="display: none"></div>
+                        </div>
+                    </div>
+                </div> <!-- end #content -->
+            </div> <!-- end .row-fluid -->
+        </div> <!-- end .container -->
 
         <!-- ▼소켓부분이니 !!!되도록!!!건드리지 말것▼ -->
         <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
