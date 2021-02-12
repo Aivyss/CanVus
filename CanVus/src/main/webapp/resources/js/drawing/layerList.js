@@ -28,6 +28,24 @@ function createBox(layerId) {
 function reorder() {
     $(".itemBox").each(function (i, box) {
         $(box).find(".itemNum").html(i + 1);
+
+        let itemBoxIdArray = [];
+        $(".itemBox").each(function(){
+            let temp = $(this).attr("id");
+            temp = temp.split('b');
+            itemBoxIdArray.push(temp[0]);
+
+            // z index reodering
+            for (let i=0; i<itemBoxIdArray.length; i++) {
+                let temp2 = itemBoxIdArray[i].split('p');
+                temp2 = temp2[1].split('l');
+                zNumSet[temp2[0]-1][temp2[1]-1] = i+1;
+                $('#'+itemBoxIdArray[i]).css({'z-index': i+1});
+                $('.'+itemBoxIdArray[i]+'u').css({'z-index': i+1});
+            }
+        });
+
+
     });
 }
 

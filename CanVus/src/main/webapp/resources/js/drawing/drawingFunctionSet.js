@@ -179,10 +179,6 @@ function createLayer() {
     let layerId = 'p' + pageNum + 'l' + (totalNumOfLayer+1);
 
     // 이부분에 canvas 태그를 생성하는 구문을 넣어줄 것 아이디는 layerId로 준다.
-
-    /**
-     * 작성 바람
-     */
     let contents = `<canvas id="${layerId}"></canvas>`;
     $(`#p${pageNum}`).append(contents);
 
@@ -238,11 +234,6 @@ function createPage() {
 
     // 이 부분에 canvas 태그 생성구문을 넣을 것. 아이디는 p만든레이어번호l1로 준다.
     // 첫 레이어는 자동생성을 하는 편이 좋을 듯 싶다.
-
-    /**
-     * 작성바람
-     */
-
     let contents = `<canvas id="${pageId}l1"></canvas>`;
     $('#base').append(contents);
 
