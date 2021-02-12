@@ -314,15 +314,18 @@ $("#itemBoxWrap").click(function(event) {
 });
 
 
-function deleteLayer() {
-    const layerId = 'p' + pageNum + 'l' + layerNum;
+function deleteLayer(layerId) {
+    let temp = layerId.split("p");
+    temp = temp[1].split("l");
+    let pageNumber = temp[0];
+    let layerNumber = temp[1];
 
     $('#'+layerId).remove();
-    $('#'+layerId+'u').remove();
+    $('.'+layerId+'u').remove();
 
-    layerSet[pageNum-1][layerNum-1] = null;
-    zNumSet[pageNum-1][layerNum-1] = null;
-    eventSet[pageNum-1][layerNum-1] = null;
+    layerSet[pageNumber-1][layerNumber-1] = null;
+    zNumSet[pageNumber-1][layerNumber-1] = null;
+    eventSet[pageNumber-1][layerNumber-1] = null;
 
     // 소켓에 레이어를 지웠다고 전송하는 구문 (추후작성예정)
 }

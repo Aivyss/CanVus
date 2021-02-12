@@ -54,9 +54,13 @@ function createItem(layerId) {
             }
         });
         if (valueCheck) {
-            var delCheck = confirm('입력하신 내용이 있습니다.\n삭제하시겠습니까?');
+            var delCheck = confirm('해당 레이어를 지우시겠습니까?');
         }
         if (!valueCheck || delCheck == true) {
+            console.log(layerId);
+            // 실질적 레이어를 삭제한다.
+            deleteLayer(layerId);
+
             $(this).parent().remove();
             reorder();
         }
