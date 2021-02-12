@@ -49,10 +49,22 @@
         <!-- 툴 텝 시작 -->
         <link rel="stylesheet" href="/resources/css/drawing/sideBar.css">
         <link rel="stylesheet" href="/resources/css/drawing/pageTab.css">
+
         <div class="skeleton" style="padding-top:5px;">
             <div class="row-fluid">
                 <div id="sidebar" class="span2">
-                    사이드바
+                    <div>
+                        <div style="float:left;width:100px;">아이템 추가 : </div>
+                        <div style="clear:both;">
+                            <input type="button" id="addItem" value="추가" onclick="createItem();" />
+                            <input type="button" id="submitItem" value="제출" onclick="submitItem();" />
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div id="itemBoxWrap"></div>
+                    <script src="/resources/js/drawing/layerList.js"></script>
                 </div> <!-- end #nav -->
 
                 <div id="content" class="span7">

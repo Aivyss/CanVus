@@ -345,6 +345,24 @@ $(()=>{
         $('.tabcontent').removeClass('current');
         $(this).addClass('current');
         $('#'+activeTab).addClass('current');
+
+        // 레이어 리스트 박스를 초기화한다.
+        $('#itemBoxWrap').empty();
+
+        // 클릭한 레이어 번호를 현재 레이어 번호로 가진다.
+        if (activeTab != "create") {
+            bPageNum = pageNum; // 그전에 이전 레이어 번호로 넘긴다.
+            pageNum = activeTab.substr(1, activeTab.length);
+            console.log(activeTab.substr(1, activeTab.length));
+            let numOfLayer = layerSet[pageNum-1].length;
+            for (let i=0; i<numOfLayer; i++) {
+                if(layerSet[pageNum-1][i] != null) {
+                    const layerId = "p"+pageNum+"l"+(i+1);
+                    createItem(layerId);
+                }
+            }
+        }
+
     });
 
     $('#createPage').click(function() {
