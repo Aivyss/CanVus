@@ -1,15 +1,16 @@
 .itemBox {
     border: solid 1px black;
-    width: 400px;
-    height: 50px;
+    background-color: #dca7a7;
+    width: 200px;
+    height: 60px;
     padding: 10px;
     margin-bottom: 10px;
 }
 
 .itemBoxHighlight {
     border: solid 1px black;
-    width: 400px;
-    height: 50px;
+    width: 200px;
+    height: 60px;
     padding: 10px;
     margin-bottom: 10px;
     background-color: yellow;

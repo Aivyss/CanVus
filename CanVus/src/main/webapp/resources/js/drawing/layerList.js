@@ -14,10 +14,11 @@ $(function () {
 
 function createBox(layerId) {
     let contents
-        = `<div class='itemBox' id="${layerId}b" >`
+        = `<div class='itemBox' id="${layerId}b" style="width:200px; height:60px; background-color:white;" >`
         + "<div style='float:left;'>"
         + "<span class='itemNum'></span> "
-        + `<input type='text' name='item' value="${layerId}" readonly="readonly" style='width:300px;'/>`
+        + `<span name="item">Layer : ${layerId.split("l")[1]}</span>`
+        // + `<input type='text' name='item' value="${layerId}" readonly="readonly" style='width:300px;'/>`
         + "</div>"
         + "</div>";
     return contents;
@@ -55,18 +56,18 @@ function createItem(layerId) {
         .appendTo("#itemBoxWrap")
         .hover(
             function () {
-                $(this).css('backgroundColor', '#f9f9f5');
+                $(this).css('backgroundColor', 'skyblue');
                 $(this).find('.deleteBox').show();
             },
             function () {
-                $(this).css('background', 'none');
+                $(this).css('background', 'white');
                 $(this).find('.deleteBox').hide();
             }
         )
         .append("<div class='deleteBox'>[삭제]</div>")
         .find(".deleteBox").click(function () {
         var valueCheck = false;
-        $(this).parent().find('input').each(function () {
+        $(this).parent().find('.item').each(function () {
             if ($(this).attr("name") != "type" && $(this).val() != '') {
                 valueCheck = true;
             }
