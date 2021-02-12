@@ -47,117 +47,16 @@
         <script src="/resources/js/drawing/drawingFunctionSet.js"></script>
         <!-- 본격적인 드로잉 페이지 시작 -->
         <!-- 툴 텝 시작 -->
-        <div class="toolBar" id="test">
-            <div>Drawing Page</div>
-            <span>CanVus</span>
-            <a>올리기</a>
-            <a>저장</a>
-            <a>뒤로</a>
-            <a>앞으로</a>
-            <div class="tool">
-                <div>
-                    <button class="brush">브러쉬</button>
-                </div>
-                <div>
-                    <button id="selection">selection</button>
-                </div>
-                <div>
-                    <button id="moveLayer">moveLayer</button>
-                </div>
-                <div class="layers1">
-                    <button style="float:left; border:solid #ff0000 2px; color:red;" class="layers1">layer1</button>
-                </div>
-                <div class="hidelayers1">
-                    <button style="float:left; border:solid black 2px; color:black;" class="hidelayers1">hidelayer1
-                    </button>
-                </div>
-                <div class="deletelayers1">
-                    <button class="deletelayers1">deletelayer1</button>
-                </div>
-
-            </div>
-
-            <div class="tool_brush">
-                <div>
-                    <input type="button" value="스프레이" onclick="sprayBrush();">
-                </div>
-                <div>
-                    <input type="button" value="써클" onclick="circleBrush();">
-                </div>
-                <div>
-                    <input type="button" value="패턴" onclick="patternBrush();">
-                </div>
-                <div>
-                    <input type="button" value="연필" onclick="pencilBrush();">
-                </div>
-            </div>
-
-            <div class="rangeBar">
-                <input type="range" max="1" min="0.1" step="0.05" value="1" id="opacity" class="range">
-            </div>
-            <div class="rangeBar">
-                <input type="range" max="30" min="1" step="1" value="5" id="thickness" class="range">
-            </div>
-
-        </div>
-        <!-- 툴 텝 끝 -->
-
-        <!-- page 텝 시작-->
-        <div class="container" id="container">
-            <ul class="tabs">
-                <li class="tab-link current" data-tab="tab-1">page1</li>
-                <li class="tab-link" data-tab="tab-2">page2</li>
-                <li class="tab-link" data-tab="tab-3">page3</li>
+        <link rel="stylesheet" href="/resources/css/drawing/pageTab.css">
+        <div id="container">
+            <ul class="tab">
+                <li class="current" data-tab="create" id="createPage"><a href="#">New Page</a></li>
             </ul>
-
-            <div id="tab-1" class="tab-content current">
-                <div class="set">
-                    <div class="layers">
-                        <input type="button" id="makebtn" value="레이어추가"/>
-                        <div class="layer1">
-                            <canvas class="canvas" id="canvas" width="1000" height="600"></canvas>
-                        </div>
-                        <div class="layer2">
-                            <canvas class="canvas" id="canvas2" width="1000" height="600"></canvas>
-                        </div>
-                        <div class="layer3">
-                            <canvas class="canvas" id="canvas3" width="1000" height="600"></canvas>
-                        </div>
-                        <div class="layer4">
-                            <canvas class="canvas" id="canvas4" width="1000" height="600"></canvas>
-                        </div>
-                        <div class="layer5">
-                            <canvas class="canvas" id="canvas5" width="1000" height="600"></canvas>
-                        </div>
-
-
-                    </div>
-                    <div class="buttons">
-                        <button id="eraser">eraser</button>
-                        <button id="drawer">drawer</button>
-                        <button id="red">펜</button>
-                        <!-- <input type="button" value="펜" onclick="baseBrush();"> -->
-                        <input type="button" value="스프레이" onclick="sprayBrush();">
-                        <input type="button" value="써클" onclick="circleBrush();">
-                        <input type="button" value="패턴" onclick="patternBrush();">
-                        <input type="button" value="연필" onclick="PencilBrush();">
-                        <!-- <input type="button" value="히스토리" onclick="getHistory();"> -->
-                        <button id="selection">selection</button>
-                        <!-- <button id="stringify">stringify</button>
-                        <button id="removal">removal</button>
-                        <button id="recover">recover</button> -->
-                    </div>
-
-                </div>
-
+            <!-- 생성을 위한 툴탭 -->
+            <div id="base">
+                <div id="create" class="tabcontent current" style="display: none"></div>
             </div>
-
         </div>
-        <div id="tab-2" class="tab-content">
-        </div>
-        <div id="tab-3" class="tab-content">
-        </div>
-        <script src="/resources/js/drawingApp.js"></script>
 
         <!-- ▼소켓부분이니 !!!되도록!!!건드리지 말것▼ -->
         <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>

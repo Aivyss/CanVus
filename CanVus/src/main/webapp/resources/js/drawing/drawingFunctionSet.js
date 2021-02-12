@@ -30,115 +30,113 @@ var layer = null;
 
 
 // ********** 소켓 관련 함수 ********** //
-$(() => {
-    // 대강의 패브릭 객체 만들자
-    layer = new fabric.Canvas('p1l1');
-    layer.isDrawingMode = true;
-    eventSet.push([]);
-    eventSet[0].push(
-        layer.on('mouse:up', function() {
-            sendFabric(layer, 1, 1);
-        })
-    );
-
-    connect(); // 소켓 커넥트 실시
-
-    document.onkeydown = function (event) {
-        if(event.keyCode === 116 || event.ctrlKey == true && (event.keyCode === 82)) {
-            disconnect(room_Id, user_id);
-            event.cancelBubble = true;
-            event.returnValue = false;
-
-            setTimeout(function() {
-                window.location.reload();
-            }, 100);
-
-            return false;
-        }
-    }
-
-    // 버튼을 클릭하면 fabric 객체를 보낸다. 단 실제로 이렇게 안하고 백단테스트용
-    $('#btn').on('click', ()=> {
-        sendFabric(layer, 1, 1);
-    });
-
-    // 버튼을 클릭하면 챗 메세지를 보낸다. 단 실제로 이렇게 안하고 백단 테스트 용.
-    $('#btn2').on('click', () => {
-        sendMessage('aivyss-메세지', 'commonchat');
-    });
-
-    //그려지면 전송하는 구조
+// 대강의 패브릭 객체 만들자
+layer = new fabric.Canvas('p1l1');
+layer.isDrawingMode = true;
+eventSet.push([]);
+eventSet[0].push(
     layer.on('mouse:up', function() {
         sendFabric(layer, 1, 1);
-    });
+    })
+);
 
-    // 소켓 연결부
-    function connect() {
-        const socket = new SockJS('/endpoint');
-        socketClient = Stomp.over(socket1);
+connect(); // 소켓 커넥트 실시
 
-        socketClient.connect({}, function(frame) {
-            // 챗 메세지를 실시간으로 받아들이는 파트
-            socketClient.subscribe(`/subscribe/drawing/room/${room_Id}`, function(result) {
-                const data = JSON.parse(result.body);
-                console.log(data);
-                parser(data);
-            });
-        });
+document.onkeydown = function (event) {
+    if(event.keyCode === 116 || event.ctrlKey == true && (event.keyCode === 82)) {
+        disconnect(room_Id, user_id);
+        event.cancelBubble = true;
+        event.returnValue = false;
 
-        //layer.loadFromJSON(data['stringify'], layer.renderAll.bind(layer));
+        setTimeout(function() {
+            window.location.reload();
+        }, 100);
+
+        return false;
     }
+}
 
-    // 메세지 전송 함수
-    function sendMessage(message, type) {
-        const data = {
-            type : type,
-            message : message
-        };
-
-        // send process
-        socketClient.send(`/drawing/room/${room_Id}`, {}, JSON.stringify(data));
-    }
-
-    // 소켓 종료 메소드
-    function disconnect() {
-    	const message = {
-    		userId : user_id
-    	};
-    	
-        sendMessage(message, 'quit');
-
-        socketClient.disconnect();
-    }
-
-    // ********** 소켓 전송과 관련된 이벤트 ********** //
-    // 채팅을 소켓으로 전송하는 이벤트
-    $('#send').on('click', ()=>{
-        const message = $('#chatBox').val();
-        if(message.length > 0) {
-            sendMessage(message, 'COMMONCHAT');
-        }
-        $('#chatBox').val("");
-    });
-
-    // 페이지 종료 이벤트 --> 소켓종료
-    $(window).on('beforeunload', function() {
-        disconnect();
-    });
-
-    // 방입장 메세지 전송파트 (일단 임시로 하고 만약 비동기가 이래도 처리가 안되면
-    // 반복문으로 처리할 것이다.
-    const enterData = {
-        user_id : user_id,
-        nickname : mynickname
-    };
-    setTimeout(sendMessage, 1000, enterData, 'enter');
-
-    // Message parser
-    function parser(data) {
-
-    }
+// 버튼을 클릭하면 fabric 객체를 보낸다. 단 실제로 이렇게 안하고 백단테스트용
+$('#btn').on('click', ()=> {
+    sendFabric(layer, 1, 1);
 });
+
+// 버튼을 클릭하면 챗 메세지를 보낸다. 단 실제로 이렇게 안하고 백단 테스트 용.
+$('#btn2').on('click', () => {
+    sendMessage('aivyss-메세지', 'commonchat');
+});
+
+//그려지면 전송하는 구조
+layer.on('mouse:up', function() {
+    sendFabric(layer, 1, 1);
+});
+
+// 소켓 연결부
+function connect() {
+    const socket = new SockJS('/endpoint');
+    socketClient = Stomp.over(socket);
+
+    socketClient.connect({}, function(frame) {
+        // 챗 메세지를 실시간으로 받아들이는 파트
+        socketClient.subscribe(`/subscribe/drawing/room/${room_Id}`, function(result) {
+            const data = JSON.parse(result.body);
+            console.log(data);
+            parser(data);
+        });
+    });
+
+    //layer.loadFromJSON(data['stringify'], layer.renderAll.bind(layer));
+}
+
+// 메세지 전송 함수
+function sendMessage(message, type) {
+    const data = {
+        type : type,
+        message : message
+    };
+
+    // send process
+    socketClient.send(`/drawing/room/${room_Id}`, {}, JSON.stringify(data));
+}
+
+// 소켓 종료 메소드
+function disconnect() {
+    const message = {
+        userId : user_id
+    };
+
+    sendMessage(message, 'quit');
+
+    socketClient.disconnect();
+}
+
+// ********** 소켓 전송과 관련된 이벤트 ********** //
+// 채팅을 소켓으로 전송하는 이벤트
+$('#send').on('click', ()=>{
+    const message = $('#chatBox').val();
+    if(message.length > 0) {
+        sendMessage(message, 'COMMONCHAT');
+    }
+    $('#chatBox').val("");
+});
+
+// 페이지 종료 이벤트 --> 소켓종료
+$(window).on('beforeunload', function() {
+    disconnect();
+});
+
+// 방입장 메세지 전송파트 (일단 임시로 하고 만약 비동기가 이래도 처리가 안되면
+// 반복문으로 처리할 것이다.
+const enterData = {
+    user_id : user_id,
+    nickname : mynickname
+};
+setTimeout(sendMessage, 1000, enterData, 'enter');
+
+// Message parser
+function parser(data) {
+
+}
 
 // ********** fabric 관련 함수 ********** //
 // rgba, 굵기, 투명도의 글로벌 정보를 업데이트하는 메소드
@@ -244,7 +242,7 @@ function createPage() {
      */
 
     let contents = `<canvas id="${pageId}l1"></canvas>`;
-    $('#target').append(contents);
+    $('#base').append(contents);
 
     ///////////////////////////////////////////////////////////////
 
@@ -260,8 +258,9 @@ function createPage() {
     console.log(layerSet);
 
     // TODO canvas-container를 단 1개로 유지하기 위해 ID속성부여 프로세스
-    $('.canvas-container').attr('class', pageId);
+    $('.canvas-container').attr('id', pageId);
     $('.upper-canvas').attr('class', pageId+'l1u');
+    $('#'+pageId).attr('class', 'tabcontent');
 
     // TODO 생성된 canvas 태그들에 z-index를 부여하고 zNumSet에 반영하는 프로세스
     $('#'+pageId+'l1').css({"z-index": 1});
@@ -337,3 +336,27 @@ function deletePage() {
 
     // 소켓에 페이지를 지웠다고 전송하는 구문 (추후작성예정)
 }
+
+
+$(()=>{
+    $(document).on('click', 'ul.tab li', function() {
+        let activeTab = $(this).attr('data-tab');
+        $('ul.tab li').removeClass('current');
+        $('.tabcontent').removeClass('current');
+        $(this).addClass('current');
+        $('#'+activeTab).addClass('current');
+    });
+
+    $('#createPage').click(function() {
+        const totalPage = layerSet.length;
+
+        createPage();
+
+        let content = `<div id="p${totalPage+1}"></div>`;
+        $('#p'+(totalPage+1)).appendTo('#base');
+
+        content = `<li data-tab="p${totalPage+1}"><a href="#">p${totalPage+1}</a></li>`
+
+        $('.tab').append(content);
+    });
+});
