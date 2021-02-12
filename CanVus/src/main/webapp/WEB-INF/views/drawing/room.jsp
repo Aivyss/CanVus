@@ -49,10 +49,12 @@
         <!-- 툴 텝 시작 -->
         <link rel="stylesheet" href="/resources/css/drawing/sideBar.css">
         <link rel="stylesheet" href="/resources/css/drawing/pageTab.css">
+        <link rel="stylesheet" href="/resources/css/drawing/layerList.css">
 
         <div class="skeleton" style="padding-top:5px;">
             <div class="row-fluid">
                 <div id="sidebar" class="span2">
+                    <!-- 사이드바 -->
                     <div>
                         <div style="float:left;width:100px;">아이템 추가 : </div>
                         <div style="clear:both;">
@@ -62,9 +64,9 @@
 
                     <br>
 
-                    <div id="itemBoxWrap"></div>
+                    <div id="itemBoxWrap" style="overflow:auto; width:300px; height:150px;"></div>
                     <script src="/resources/js/drawing/layerList.js"></script>
-                </div> <!-- end #nav -->
+                </div>
 
                 <div id="content" class="span7">
                     <!-- 툴탭 -->
