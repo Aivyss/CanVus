@@ -589,11 +589,26 @@ $(()=>{
         // 레이어 리스트 박스를 초기화한다.
         $('#itemBoxWrap').empty();
 
-        // 클릭한 레이어 번호를 현재 레이어 번호로 가진다.
+        // 클릭한 페이지 번호를 현재 페이지 번호로 가진다.
         if (activeTab != "create") {
             bPageNum = pageNum; // 그전에 이전 레이어 번호로 넘긴다.
             pageNum = parseInt(activeTab.substr(1, activeTab.length));
             console.log(activeTab.substr(1, activeTab.length));
+
+            // z-index가 가장 큰 레이어 판단한다.
+            let maxzNum = 0;
+            let maxL = 0;
+            for (let i=1; i<=layerSet[pageNum-1].length; i++) {
+                let zNum = $(`.p${pageNum}l${i}u`).css('z-index');
+
+                if(zNum > maxzNum) {
+                    maxzNum = zNum;
+                    maxL = i;
+                }
+            }
+            // 현재 레이어를 z-index가 가장 큰 레이어로 한다.
+            layerNum = maxL;
+            currlayer = layerSet[pageNum-1][maxL-1];
 
             // 레이어 리오더링
             let numOfLayer = layerSet[pageNum-1].length;
@@ -663,6 +678,9 @@ $(()=>{
 
         console.log(thickness);
         console.log(opacity);
+
+        hexGlobal = $('#drawing-color').val();
+        hexGlobal = hexGlobal + Math.floor(opacity * 255).toString(16);
 
         thicknessGlobal = thickness;
         opacityGlobal = opacity;
