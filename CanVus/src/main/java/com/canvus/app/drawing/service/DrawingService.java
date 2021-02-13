@@ -429,6 +429,5 @@ public class DrawingService {
 		page.setLayer_no((Integer) message.get("layer_no"));
 
 		return drawingDAO.deletePageLayer(page);
-
 	}
 }

@@ -66,22 +66,15 @@ function createItem(layerId) {
         )
         .append("<div class='deleteBox'>[삭제]</div>")
         .find(".deleteBox").click(function () {
-        var valueCheck = false;
-        $(this).parent().find('.item').each(function () {
-            if ($(this).attr("name") != "type" && $(this).val() != '') {
-                valueCheck = true;
-            }
-        });
-        if (valueCheck) {
-            var delCheck = confirm('해당 레이어를 지우시겠습니까?');
-        }
-        if (!valueCheck || delCheck == true) {
-            console.log(layerId);
-            // 실질적 레이어를 삭제한다.
-            deleteLayer(layerId);
+            let delCheck = confirm('해당 레이어를 지우시겠습니까?');
 
-            $(this).parent().remove();
-            reorder();
+            if (delCheck) {
+                console.log(layerId);
+                // 실질적 레이어를 삭제한다.
+                deleteLayer(layerId);
+
+                $(this).parent().remove();
+                reorder();
         }
     });
     // 숫자를 다시 붙인다.

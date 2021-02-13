@@ -286,8 +286,8 @@ $("#itemBoxWrap").click(function(event) {
 function deleteLayer(layerId) {
     let temp = layerId.split("p");
     temp = temp[1].split("l");
-    let pageNumber = temp[0];
-    let layerNumber = temp[1];
+    let pageNumber = parseInt(temp[0]);
+    let layerNumber = parseInt(temp[1]);
 
     $('#'+layerId).remove();
     $('.'+layerId+'u').remove();
@@ -297,6 +297,11 @@ function deleteLayer(layerId) {
     eventSet[pageNumber-1][layerNumber-1] = null;
 
     // 소켓에 레이어를 지웠다고 전송하는 구문 (추후작성예정)
+    const message = {
+        page_no: pageNumber,
+        layer_no: layerNumber
+    }
+    sendMessage(message,'DELETEPAGELAYER');
 }
 
 function deletePage() {

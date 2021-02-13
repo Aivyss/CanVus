@@ -266,6 +266,7 @@ public class DrawingDAO {
 	 * @return
 	 */
     public boolean deletePageLayer(PageVO page) {
+    	log.info("레이어삭제 dao 메소드 진입");
     	boolean check = false;
 
     	try {
