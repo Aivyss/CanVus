@@ -84,7 +84,23 @@
 
                     <div id="itemBoxWrap" style="overflow:auto; width:300px; height:150px;"></div>
                     <script src="/resources/js/drawing/layerList.js"></script>
-                </div>
+
+                    <!-- 레인지 바 -->
+                    <link rel="stylesheet" href="/resources/css/drawing/range.css">
+                    <div class="range-container">
+                        <div class="range-slider">
+                            <input type="range" orient="vertical" min="0" max="100" />
+                            <div class="range-slider__bar theme1"></div>
+                            <div class="range-slider__thumb" id="thicknessBar"></div>
+                        </div>
+
+                        <div class="range-slider">
+                            <input type="range" orient="vertical" min="0" max="100" />
+                            <div class="range-slider__bar theme2"></div>
+                            <div class="range-slider__thumb" id="opacityBar"></div>
+                        </div>
+                    </div>
+                </div> <!-- 사이드바 앤드 -->
 
                 <div id="content" class="span7">
                     <!-- 툴탭 -->

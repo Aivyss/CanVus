@@ -24,9 +24,55 @@ let brushGlobal = "PencilBrush";
 // 소켓 클라이언트 정의
 let socketClient = null;
 
-// 소켓 테스트 용 전역변수
-var layer = null;
+// 레인지바 객체
+let sliderObj = {
+    updateSlider: function (element) {
+        if (element) {
+            var parent = element.parentElement,
+                lastValue = parent.getAttribute('data-slider-value');
 
+            if (lastValue === element.value) {
+                return; // No value change, no need to update then
+            }
+
+            parent.setAttribute('data-slider-value', element.value);
+            var $thumb = parent.querySelector('.range-slider__thumb'),
+                $bar = parent.querySelector('.range-slider__bar'),
+                pct = element.value * ((parent.clientHeight - $thumb.clientHeight) / parent.clientHeight);
+
+            $thumb.style.bottom = pct + '%';
+            $bar.style.height = 'calc(' + pct + '% + ' + $thumb.clientHeight / 2 + 'px)';
+            $thumb.textContent = element.value + '%';
+        }
+    }
+};
+
+// 소켓 수신부 함수셋
+let socketFunctionSet = (function() {
+    return {
+        commonchat: function (data) {
+            messageController.chatReply(data);
+        },
+        drawing: function (data) {
+
+        },
+        enter: function (data) {
+
+        },
+        quit: function (data) {
+
+        },
+        createPageLayer: function (data) {
+
+        },
+        presentPixel: function (data) {
+
+        },
+        deletePageLayer: function (data){
+
+        }
+    }
+})();
 
 
 // ********** 소켓 관련 함수 ********** //
@@ -114,19 +160,19 @@ function parser(data) {
     type = type.toUpperCase();
 
     if (type == "COMMONCHAT") {
-        commonchat(data);
+        socketFunctionSet.commonchat(data);
     } else if (type == "DRAWING") {
-        drawing(data);
+        socketFunctionSet.drawing(data);
     } else if (type == "ENTER") {
-        enter(data);
+        socketFunctionSet.enter(data);
     } else if (type == "QUIT") {
-        quit(data);
+        socketFunctionSet.quit(data);
     } else if (type == "CREATEPAGELAYER") {
-        createPageLayer(data);
+        socketFunctionSet.createPageLayer(data);
     } else if (type == "PRESENTPIXEL") {
-        presentPixel(data);
+        socketFunctionSet.presentPixel(data);
     } else if (type == "DELETEPAGELAYER"){
-        deletePageLayer(data);
+        socketFunctionSet.deletePageLayer(data);
     }
 }
 
@@ -281,37 +327,6 @@ function createPage() {
     ///////////////////////////////////////////////////////////////
 }
 
-// Layer Explorer를 클릭시 현재 페이지번호, 레이어번호를 업데이트하고 현재 바라보는 레이어를 설정.
-$(document).on('click', '#itemBoxWrap' ,function(event) {
-    console.log("레이어 타게팅 체인지 함수");
-    let layerBoxId = event.target.id;
-    // 전 단계 페이지 레이어 번호 지정 및 z인덱스
-    bPageNum = pageNum;
-    bLayerNum = layerNum;
-    const bPageLayer = "p" + bPageNum + "l" + bLayerNum;
-    // 전 단계 upper-canvas의 z-index를 원상복구한다.
-    $('#'+bPageLayer+'u').css({"z-index": zNumSet[bPageNum-1][bLayerNum-1]});
-
-    // 현 단계 페이지 번호 지정
-    layerBoxId = layerBoxId.split('b')[0];
-    layerBoxId = layerBoxId.split('p');
-    layerBoxId = layerBoxId[1].split('l');
-    pageNum = parseInt(layerBoxId[0]);
-    layerNum = parseInt(layerBoxId[1]);
-    console.log(pageNum);
-    console.log(layerNum);
-    const pageLayer = "p"+pageNum+"l"+layerNum;
-
-    // 레이어 타게팅
-    currlayer = layerSet[pageNum-1][layerNum-1];
-    changeBrush();
-    // 타게팅한 레이어를 그릴수 있는 upper-canvas를 가장 위에둔다.
-    $('.'+pageLayer+"u").css({"z-index": 10000});
-    //$('#'+pageLayer).css({"z-index": 10000});
-    //$('.current').trigger('click');
-});
-
-
 function deleteLayer(layerId) {
     let temp = layerId.split("p");
     temp = temp[1].split("l");
@@ -346,7 +361,39 @@ function deletePage() {
 }
 
 
+/*********************** 이벤트 등록파트 *******************/
 $(()=>{
+    // Layer Explorer를 클릭시 현재 페이지번호, 레이어번호를 업데이트하고 현재 바라보는 레이어를 설정.
+    $(document).on('click', '#itemBoxWrap' ,function(event) {
+        console.log("레이어 타게팅 체인지 함수");
+        let layerBoxId = event.target.id;
+        // 전 단계 페이지 레이어 번호 지정 및 z인덱스
+        bPageNum = pageNum;
+        bLayerNum = layerNum;
+        const bPageLayer = "p" + bPageNum + "l" + bLayerNum;
+        // 전 단계 upper-canvas의 z-index를 원상복구한다.
+        $('#'+bPageLayer+'u').css({"z-index": zNumSet[bPageNum-1][bLayerNum-1]});
+
+        // 현 단계 페이지 번호 지정
+        layerBoxId = layerBoxId.split('b')[0];
+        layerBoxId = layerBoxId.split('p');
+        layerBoxId = layerBoxId[1].split('l');
+        pageNum = parseInt(layerBoxId[0]);
+        layerNum = parseInt(layerBoxId[1]);
+        console.log(pageNum);
+        console.log(layerNum);
+        const pageLayer = "p"+pageNum+"l"+layerNum;
+
+        // 레이어 타게팅
+        currlayer = layerSet[pageNum-1][layerNum-1];
+        changeBrush();
+        // 타게팅한 레이어를 그릴수 있는 upper-canvas를 가장 위에둔다.
+        $('.'+pageLayer+"u").css({"z-index": 10000});
+        //$('#'+pageLayer).css({"z-index": 10000});
+        //$('.current').trigger('click');
+    });
+
+    // ************ 페이지텝 이벤트 *********/
     $(document).on('click', 'ul.tab li', function() {
         let activeTab = $(this).attr('data-tab');
         $('ul.tab li').removeClass('current');
@@ -376,17 +423,10 @@ $(()=>{
                     }
                 }
             }
-
-            // for (let i=0; i<numOfLayer; i++) {
-            //     if(layerSet[pageNum-1][i] != null) {
-            //         const layerId = "p"+pageNum+"l"+(i+1);
-            //         createItem(layerId);
-            //     }
-            // }
         }
-
     });
 
+    //************* 페이지 생성 이벤트 ******************//
     $('#createPage').click(function() {
         const totalPage = layerSet.length;
 
@@ -398,5 +438,50 @@ $(()=>{
         content = `<li data-tab="p${totalPage+1}"><a href="#">p${totalPage+1}</a></li>`
 
         $('.tab').append(content);
+    });
+
+    // ******************* 레인지바 초기설정함수 *****************//
+    (function initAndSetupTheSliders() {
+        var inputs = [].slice.call(document.querySelectorAll('.range-slider input'));
+        inputs.forEach(function (input) {
+            return input.setAttribute('value', '10');
+        });
+        inputs.forEach(function (input) {
+            return sliderObj.updateSlider(input);
+        });
+        // Cross-browser support where value changes instantly as you drag the handle, therefore two event types.
+        inputs.forEach(function (input) {
+            return input.addEventListener('input', function (element) {
+                return sliderObj.updateSlider(input);
+            });
+        });
+        inputs.forEach(function (input) {
+            return input.addEventListener('change', function (element) {
+                return sliderObj.updateSlider(input);
+            });
+        });
+    })();
+
+    //******************* 색, 굵기, 투명도 변경과 관련된 이벤트 ********//
+    $(document).on('mouseup', '.range-container', function(){
+        console.log("레인지바 이벤트 작동");
+
+        const MAX_THICKNESS = 20;
+        const MAX_OPACITY = 1;
+
+        let thickness = $('#thicknessBar').text();
+        thickness = parseInt(thickness.split('%')[0]);
+        thickness = MAX_THICKNESS * (thickness/100);
+        let opacity = $('#opacityBar').text();
+        opacity = parseInt(opacity.split('%')[0]);
+        opacity = MAX_OPACITY * (opacity/100);
+
+        console.log(thickness);
+        console.log(opacity);
+
+        thicknessGlobal = thickness;
+        opacityGlobal = opacity;
+
+        changeBrush();
     });
 });
