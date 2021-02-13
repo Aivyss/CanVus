@@ -110,7 +110,28 @@ setTimeout(sendMessage, 1000, enterData, 'enter');
 
 // Message parser
 function parser(data) {
+    let type = data['type'];
+    type = type.toUpperCase();
 
+    if (type == "COMMONCHAT") {
+        commonchat(data);
+    } else if (type == "DRAWING") {
+        drawing(data);
+    } else if (type == "ENTER") {
+        enter(data);
+    } else if (type == "QUIT") {
+        quit(data);
+    } else if (type == "CREATEPAGELAYER") {
+        createPageLayer(data);
+    } else if (type == "PRESENTPIXEL") {
+        presentPixel(data);
+    } else if (type == "DELETEPAGELAYER"){
+        deletePageLayer(data);
+    }
+}
+
+function commonchat(data) {
+    messageController.chatReply(data);
 }
 
 // ********** fabric 관련 함수 ********** //

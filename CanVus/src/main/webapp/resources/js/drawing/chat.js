@@ -5,8 +5,8 @@ let messageController = (function(){
     return {
         chatSend: function(){
             const data = {
-                user_id: '1234',
-                user_nickname: 1234,
+                user_id: user_id,
+                user_nickname: mynickname,
                 message: $('#chatContainer').val()
             };
 
@@ -15,7 +15,7 @@ let messageController = (function(){
         },
         chatReply: function(result){
             let reply = result['message']['message'];
-            let sender_id = result['message']['user_nickname'];
+            let sender_id = result['message']['user_id'];
             let message_container = document.createElement("div");
             let message = `<div class="message_text"> ${reply} </div>`;
 
