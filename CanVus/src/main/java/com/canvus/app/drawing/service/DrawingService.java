@@ -67,18 +67,6 @@ public class DrawingService {
 		log.info("방 유저리스트 반환 서비스");
 		return drawingDAO.getUserList(roomId);
 	}
-
-	/**
-	 * 해당 방의 그림 정보를 가져오는 메소드 제작일: 2021.01.20 / 완성일: / 버그검증완료:
-	 * 
-	 * @param room_Id
-	 * @return
-	 */
-	public List<PageVO> getPgs(String room_Id) {
-
-		return drawingDAO.getPgs(room_Id);
-	}
-
 	/**
 	 * 그려진 한 레이어를 저장하는 메소드 작성일 2021.01.21 / 완성일: / 버그검증일: 작성자: 이한결
 	 * @param params
@@ -262,19 +250,7 @@ public class DrawingService {
 		
 		return drawingDAO.updatePage(page);
 	}
-	
-	/**
-	 * 방 아이디에 일치하는 모든 페이지 정보들을 가지고 온다
-	 * 작성일: 2021.02.24 / 완성일: / 버그검증일:
-	 * 작성자: 이한결
-	 * @param room_Id
-	 * @return
-	 */
-	public List<PageVO> selectAllPages(String room_Id) {
-		
-		return drawingDAO.selectAllPages(room_Id);
-	}
-	
+
 	/**
 	 * 현재 해당 방에 얼마나 유저가 있는지 산출하는 메소드
 	 * 작성일: 2021.02.07 / 완성일: / 버그검증일:
@@ -328,7 +304,6 @@ public class DrawingService {
 		
 		return drawingDAO.quitRoom(quitedUser);
 	}
-
 	/**
 	 * 방입장을 유저의 상태에 따라 분리하는 서비스 메소드
 	 * 작성일: 2021.02.08 / 완성일: / 버그검증일:
@@ -410,6 +385,19 @@ public class DrawingService {
 		}
 
 		return url;
+	}
+
+	/**
+	 * 방에 입장할 때 필요한 레이어 정보를 모두 가져온다.
+	 * 작성일: 2021.02.23 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param room_id
+	 * @return
+	 */
+	public List<PageVO> getAllLayers(String room_Id) {
+		log.info("레이어 정보 가져오기 서비스 메소드 진입");
+
+		return drawingDAO.getAllLayers(room_Id);
 	}
 
 	/**

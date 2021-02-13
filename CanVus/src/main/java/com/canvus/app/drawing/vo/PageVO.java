@@ -24,9 +24,6 @@ public class PageVO implements CanVusVOs {
 	
 	@Column(name="LAYER_NO")
 	private int layer_no;
-
-	@Column(name="LAYER_NAME")
-	private String layer_name;
 	
 	@Column(name="STRINGIFY")
 	@Lob

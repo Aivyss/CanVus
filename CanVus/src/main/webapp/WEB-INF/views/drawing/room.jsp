@@ -15,12 +15,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.0.0/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <link rel="stylesheet" href="/resources/css/drawing/style.css">
-    <!-- 서버로부터 받아온 변수를 저장하는 자바스크립트 -->
-    <script type="text/javascript">
-		const room_Id = "${room_Id}";
-		const user_id = "${sessionScope.userId}";
-		const mynickname = "${sessionScope.userVO.nickname}";
-    </script>
 </head>
 
 <body data-spy="scroll" data-target="#header">
@@ -40,6 +34,12 @@
         </div>
     </c:when>
     <c:otherwise>
+        <!-- 서버로부터 받아온 변수를 저장하는 자바스크립트 -->
+        <script type="text/javascript">
+            const room_Id = "${room_Id}";
+            const user_id = "${sessionScope.userId}";
+            const mynickname = "${sessionScope.userVO.nickname}";
+        </script>
         <script src="/resources/js/drawing/drawingFunctionSet.js"></script>
         <!-- 본격적인 드로잉 페이지 시작 -->
         <!-- 툴 텝 시작 -->
@@ -82,8 +82,8 @@
 
                     <br>
 
+                    <!-- 레이어 리스트 -->
                     <div id="itemBoxWrap" style="overflow:auto; width:300px; height:150px;"></div>
-                    <script src="/resources/js/drawing/layerList.js"></script>
 
                     <!-- 레인지 바 -->
                     <link rel="stylesheet" href="/resources/css/drawing/range.css">

@@ -23,6 +23,7 @@ let brushGlobal = "PencilBrush";
 
 // 소켓 클라이언트 정의
 let socketClient = null;
+let isInitialized = false;
 
 // 레인지바 객체
 let sliderObj = {
@@ -47,14 +48,19 @@ let sliderObj = {
     }
 };
 
-// 소켓 수신부 함수셋
+// ********** 소켓 수신부 함수셋 ******************//
 let socketFunctionSet = (function() {
     return {
         commonchat: function (data) {
             messageController.chatReply(data);
         },
         drawing: function (data) {
-
+            const message = data['message'];
+            const page_no = message['page_no'];
+            const layer_no = message['layer_no'];
+            const obj = message['stringify'];
+            const targetObj = layerSet[page_no-1][layer_no-1];
+            targetObj.loadFromJSON(obj, targetObj.renderAll.bind(targetObj));
         },
         enter: function (data) {
 
@@ -74,10 +80,6 @@ let socketFunctionSet = (function() {
     }
 })();
 
-
-// ********** 소켓 관련 함수 ********** //
-connect(); // 소켓 커넥트 실시
-
 document.onkeydown = function (event) {
     if(event.keyCode === 116 || event.ctrlKey == true && (event.keyCode === 82)) {
         disconnect(room_Id, user_id);
@@ -91,6 +93,9 @@ document.onkeydown = function (event) {
         return false;
     }
 }
+
+// ********** 소켓 관련 함수 ********** //
+connect(); // 소켓 커넥트 실시
 
 // 소켓 연결부
 function connect() {
@@ -176,10 +181,6 @@ function parser(data) {
     }
 }
 
-function commonchat(data) {
-    messageController.chatReply(data);
-}
-
 // ********** fabric 관련 함수 ********** //
 // rgba, 굵기, 투명도의 글로벌 정보를 업데이트하는 메소드
 function colorChangeGlobal(opacity, thickness, rgb) {
@@ -261,14 +262,58 @@ function createLayer() {
 
     ///////////////////////////////////////////////////////////////
 
-    // 소켓에 레이어를 생성했다는 정보를 쏴주는 구문
-    const message = {
-        page_no: pageNum,
-        layer_no: totalNumOfLayer+1
+    // 소켓에 레이어를 생성했다는 정보를 쏴주는 구문 (이니셜라이즈 문제가 있어 isInitialized 도입)
+    if (isInitialized) {
+        const message = {
+            page_no: pageNum,
+            layer_no: totalNumOfLayer+1
+        };
+
+        sendMessage(message,'CREATEPAGELAYER');
     }
 
-    sendMessage(message,'CREATEPAGELAYER');
     ///////////////////////////////////////////////////////////////
+}
+
+function initializeCreateLayer(pageNo) {
+    const totalNumOfLayer = layerSet[pageNo-1].length;
+    let layerId = 'p' + pageNo + 'l' + (totalNumOfLayer+1);
+
+    // 이부분에 canvas 태그를 생성하는 구문을 넣어줄 것 아이디는 layerId로 준다.
+    let contents = `<canvas id="${layerId}"></canvas>`;
+    $(`#p${pageNo}`).append(contents);
+
+    ///////////////////////////////////////////////////////////////
+    // TODO fabric 객체를 만들고 객체배열에 추가하는 프로세스
+    let newLayer = new fabric.Canvas(layerId);
+    newLayer.isDrawingMode = true;
+    layerSet[pageNo-1].push(newLayer);
+    console.log(layerSet);
+
+    // TODO 이벤트객체를 이벤트배열에 추가하는 프로세스.
+    const eventObj = newLayer.on('mouse:up', function() {
+        const message = {
+            page_no: pageNo,
+            layer_no : totalNumOfLayer+1,
+            stringify: JSON.stringify(newLayer)
+        };
+        sendMessage(message, "drawing"); // 예: 2번 페이지는 1번 인덱스이다.
+    });
+    eventSet[pageNo-1].push(eventObj);
+    console.log(eventSet);
+
+    //TODO 부가적으로 생성된 canvas-container를 지우는 프로세스
+    $('.canvas-container').attr('class', 'remove');
+    $('.upper-canvas').attr('class', layerId+'u');
+    $('#'+layerId).appendTo('#p'+pageNo);
+    $('.'+layerId+'u').appendTo('#p'+pageNo);
+    $('.remove').remove();
+
+    // TODO z-index CSS 속성을 부여하고 Z-INDEX 배열에 추가하는 프로세스
+    $('#'+layerId).css({'z-index':totalNumOfLayer+1});
+    $('.'+layerId+'u').css({'z-index':totalNumOfLayer+1});
+    zNumSet[pageNo-1].push(totalNumOfLayer+1);
+    console.log(zNumSet);
 }
 
 function createPage() {
@@ -301,7 +346,7 @@ function createPage() {
     // TODO 생성된 canvas 태그들에 z-index를 부여하고 zNumSet에 반영하는 프로세스
     $('#'+pageId+'l1').css({"z-index": 1});
     $('.'+pageId+'l1u').css({"z-index": 1});
-    zNumSet[totalNumOfPage].push([1]);
+    zNumSet[totalNumOfPage].push(1);
     console.log(zNumSet);
 
     // TODO 이벤트 객체를 eventSet에 넣는 프로세스
@@ -316,14 +361,15 @@ function createPage() {
     eventSet[totalNumOfPage].push(eventObj);
     console.log(eventSet);
 
-    // 소켓에 페이지를 만들었다는 정보를 쏴주는 구문 (추후 작성예정)
-    const message = {
-        page_no: totalNumOfPage+1,
-        layer_no: 1
+    // 소켓에 페이지를 만들었다는 정보를 쏴주는 구문 (이니셜라이즈 문제가 있어 isInitialized 도입)
+    if (isInitialized) {
+        const message = {
+            page_no: totalNumOfPage+1,
+            layer_no: 1
+        };
+
+        sendMessage(message,'CREATEPAGELAYER');
     }
-
-    sendMessage(message,'CREATEPAGELAYER');
-
     ///////////////////////////////////////////////////////////////
 }
 
@@ -344,7 +390,7 @@ function deleteLayer(layerId) {
     const message = {
         page_no: pageNumber,
         layer_no: layerNumber
-    }
+    };
     sendMessage(message,'DELETEPAGELAYER');
 }
 
@@ -360,9 +406,150 @@ function deletePage() {
     // 소켓에 페이지를 지웠다고 전송하는 구문 (추후작성예정)
 }
 
+function createBox(layerId) {
+    let contents
+        = `<div class='itemBox' id="${layerId}b" style="width:200px; height:60px; background-color:white;" >`
+        + "<div style='float:left;'>"
+        + "<span class='itemNum'></span> "
+        + `<span name="item">Layer : ${layerId.split("l")[1]}</span>`
+        // + `<input type='text' name='item' value="${layerId}" readonly="readonly" style='width:300px;'/>`
+        + "</div>"
+        + "</div>";
+    return contents;
+}
+
+
+
+function reorder() {
+    $(".itemBox").each(function (i, box) {
+        $(box).find(".itemNum").html(i + 1);
+
+        let itemBoxIdArray = [];
+        $(".itemBox").each(function(){
+            let temp = $(this).attr("id");
+            temp = temp.split('b');
+            itemBoxIdArray.push(temp[0]);
+
+            // z index reodering
+            for (let i=0; i<itemBoxIdArray.length; i++) {
+                let temp2 = itemBoxIdArray[i].split('p');
+                temp2 = temp2[1].split('l');
+                zNumSet[temp2[0]-1][temp2[1]-1] = i+1;
+                $('#'+itemBoxIdArray[i]).css({'z-index': i+1});
+                $('.'+itemBoxIdArray[i]+'u').css({'z-index': i+1});
+            }
+        });
+    });
+}
+// ******************** 레이어 리스트 관련 함수 ********************//
+function createItem(layerId) {
+    $(createBox(layerId))
+        .appendTo("#itemBoxWrap")
+        .hover(
+            function () {
+                $(this).css('backgroundColor', 'skyblue');
+                $(this).find('.deleteBox').show();
+            },
+            function () {
+                $(this).css('background', 'white');
+                $(this).find('.deleteBox').hide();
+            }
+        )
+        .append("<div class='deleteBox'>[삭제]</div>")
+        .find(".deleteBox").click(function () {
+        let delCheck = confirm('해당 레이어를 지우시겠습니까?');
+
+        if (delCheck) {
+            console.log(layerId);
+            // 실질적 레이어를 삭제한다.
+            deleteLayer(layerId);
+
+            $(this).parent().remove();
+            reorder();
+        }
+    })
+        .click(function(){
+            $('#'+layerId+'b').css('backgroundColor', 'red');
+        });
+    // 숫자를 다시 붙인다.
+    reorder();
+}
+
 
 /*********************** 이벤트 등록파트 *******************/
 $(()=>{
+    // ************ 레이어 리스트 초기설정 *****************//
+    $("#itemBoxWrap").sortable({
+        placeholder: "itemBoxHighlight",
+        start: function (event, ui) {
+            ui.item.data('start_pos', ui.item.index());
+        },
+        stop: function (event, ui) {
+            var spos = ui.item.data('start_pos');
+            var epos = ui.item.index();
+            reorder();
+        }
+    });
+    // ********** 레이어 이니셜라이저 실행  ***************//
+    initializer();
+
+    // ******************** Page Layer Initializer ******************** //
+    function initializer() {
+        const data = {
+            room_Id : room_Id
+        };
+        let layers = null;
+
+        $.ajax({
+            url : "/drawing/getAllLayers",
+            type : "POST",
+            dataType : "json",
+            async : false,
+            contentType : "application/json",
+            data : JSON.stringify(data),
+            success : function(result) {
+                layers = result;
+            },
+            error:function(request,status,error){
+                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+        });
+
+        let i = 2;
+        for (let layer of layers) {
+            const page_no = layer['page_no'];
+            const layer_no = layer['layer_no'];
+            const obj = layer['stringify'];
+
+            if (page_no == i || (page_no == 1 && layer_no == 1)) {
+                // 크리에이트 탭 버튼을 누르는 효과를 주는 구문
+                const totalPage = layerSet.length;
+
+                createPage();
+
+                let content = `<div id="p${totalPage+1}"></div>`;
+                $('#p'+(totalPage+1)).appendTo('#base');
+
+                content = `<li data-tab="p${totalPage+1}"><a href="#">p${totalPage+1}</a></li>`
+
+                $('.tab').append(content);
+                /////////////////////////////////////////////////////
+                let targetObj = layerSet[page_no-1][layer_no-1];
+                targetObj.loadFromJSON(obj, targetObj.renderAll.bind(targetObj));
+
+                if (page_no != 1){
+                    i++;
+                }
+            } else {
+                initializeCreateLayer(page_no);
+                let targetObj = layerSet[page_no-1][layer_no-1];
+                targetObj.loadFromJSON(obj, targetObj.renderAll.bind(targetObj));
+            }
+        } // FOR END
+
+        isInitialized = true;
+    }
+
     // Layer Explorer를 클릭시 현재 페이지번호, 레이어번호를 업데이트하고 현재 바라보는 레이어를 설정.
     $(document).on('click', '#itemBoxWrap' ,function(event) {
         console.log("레이어 타게팅 체인지 함수");
@@ -389,8 +576,6 @@ $(()=>{
         changeBrush();
         // 타게팅한 레이어를 그릴수 있는 upper-canvas를 가장 위에둔다.
         $('.'+pageLayer+"u").css({"z-index": 10000});
-        //$('#'+pageLayer).css({"z-index": 10000});
-        //$('.current').trigger('click');
     });
 
     // ************ 페이지텝 이벤트 *********/

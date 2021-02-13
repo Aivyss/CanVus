@@ -156,11 +156,11 @@ public class DrawingController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="selectAllPages", method=RequestMethod.GET)
+	@RequestMapping(value="getAllLayers", method=RequestMethod.POST)
 	public List<PageVO> selectAllPages(@RequestBody Map<String, Object> params) {
 		log.info("모든 페이지-레이어 정보 불러오기 컨트롤러 메소드");
 		log.info((String) params.get("room_Id"));
 		
-		return drawingService.selectAllPages((String) params.get("room_Id"));
+		return drawingService.getAllLayers((String) params.get("room_Id"));
 	}
 }
