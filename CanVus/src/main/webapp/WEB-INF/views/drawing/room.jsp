@@ -85,6 +85,12 @@
                     <!-- 레이어 리스트 -->
                     <div id="itemBoxWrap" style="overflow:auto; width:300px; height:150px;"></div>
 
+                    <!-- 색상 파레트 -->
+                    <div id="drawing-mode-options">
+                        <label for="drawing-color">Line color:</label>
+                        <input type="color" value="#005E7A" id="drawing-color"><br>
+                    </div>
+
                     <!-- 레인지 바 -->
                     <link rel="stylesheet" href="/resources/css/drawing/range.css">
                     <div class="range-container">

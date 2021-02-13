@@ -18,7 +18,7 @@ let bLayerNum = 0;
 // rbgaGlobal 정보 (주입된 값은 초기값이므로 신경쓰지 않아도 된다.)
 let opacityGlobal = 1;
 let thicknessGlobal = 5;
-let rgbaGlobal = new fabric.Color("black").toRgba(); rgbaGlobal = rgbaGlobal.replaceAll('1)', opacityGlobal + ')');
+let hexGlobal = "#005E7AFF"; // rgba 정보
 let brushGlobal = "PencilBrush";
 
 // 소켓 클라이언트 정의
@@ -213,7 +213,7 @@ function changeBrush() {
         currlayer.freeDrawingBrush = new fabric.BaseBrush(currlayer);
     }
 
-    currlayer.freeDrawingBrush.color = rgbaGlobal;
+    currlayer.freeDrawingBrush.color = hexGlobal;
     currlayer.freeDrawingBrush.width = thicknessGlobal;
 }
 
@@ -666,6 +666,14 @@ $(()=>{
 
         thicknessGlobal = thickness;
         opacityGlobal = opacity;
+
+        changeBrush();
+    });
+
+    // ***************** 색상 변경 이벤트  ************************//
+    $('#drawing-color').on('change', function(){
+        hexGlobal = $('#drawing-color').val();
+        hexGlobal = hexGlobal + Math.floor(opacityGlobal * 255).toString(16);
 
         changeBrush();
     });
