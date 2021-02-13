@@ -341,13 +341,27 @@ $(()=>{
             bPageNum = pageNum; // 그전에 이전 레이어 번호로 넘긴다.
             pageNum = parseInt(activeTab.substr(1, activeTab.length));
             console.log(activeTab.substr(1, activeTab.length));
+
+            // 레이어 리오더링
             let numOfLayer = layerSet[pageNum-1].length;
-            for (let i=0; i<numOfLayer; i++) {
-                if(layerSet[pageNum-1][i] != null) {
-                    const layerId = "p"+pageNum+"l"+(i+1);
-                    createItem(layerId);
+            for (let j=1; j<=numOfLayer; j++){
+                for (let k=0; k<numOfLayer; k++) {
+                    if(zNumSet[pageNum-1][k] == j) {
+                        if (layerSet[pageNum-1][k] !=null) {
+                            const layerId = "p"+pageNum+"l"+(k+1);
+                            createItem(layerId);
+                        }
+                        break;
+                    }
                 }
             }
+
+            // for (let i=0; i<numOfLayer; i++) {
+            //     if(layerSet[pageNum-1][i] != null) {
+            //         const layerId = "p"+pageNum+"l"+(i+1);
+            //         createItem(layerId);
+            //     }
+            // }
         }
 
     });

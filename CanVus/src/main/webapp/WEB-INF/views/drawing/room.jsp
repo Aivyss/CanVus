@@ -8,16 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Insert title here</title>
     <link rel="stylesheet" href="/resources/js/style.css">
-    <script src="/resources/js/Classic/Color.Picker.Classic.js" type="text/javascript"></script>
-    <script src="/resources/js/Classic/Color.Space.js" type="text/javascript"></script>
-    <script src="/resources/js/Classic/viewpalette.js"></script>
     <script src="/resources/js/fabric/dist/fabric.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
             integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.0.0/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-    <script type="text/javascript" src="/resources/js/drawing/layerTestJaewonSeokhyeon.js"></script>
     <link rel="stylesheet" href="/resources/css/drawing/style.css">
     <!-- 서버로부터 받아온 변수를 저장하는 자바스크립트 -->
     <script type="text/javascript">
@@ -56,7 +52,7 @@
                 <div id="sidebar" class="span2">
                     <!-- 사이드바 -->
                     <div>
-                        <div style="float:left;width:100px;">아이템 추가 : </div>
+                        <div style="float:left;width:100px;">레이어 추가 : </div>
                         <div style="clear:both;">
                             <input type="button" id="addItem" value="추가" onclick="createLayer();" />
                         </div>
@@ -82,20 +78,6 @@
                 </div> <!-- end #content -->
             </div> <!-- end .row-fluid -->
         </div> <!-- end .container -->
-
-        <!-- ▼소켓부분이니 !!!되도록!!!건드리지 말것▼ -->
-        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-        <div class="container">
-            <canvas id="p1l1" style="width : 100px; height : 200px; border: 1px solid black;"></canvas>
-            <canvas id="p1l2" style="width : 100px; height : 200px; border: 1px solid black;"></canvas>
-            <input type="button" id="btn" value="객체 전송테스트">
-            <input type="button" id="btn2" value="메세지 전송테스트">
-            <input type="button" id="btn3" value="currlayer 바꾸고 이벤트 테스트">
-        </div>
-        <!-- ▲소켓부분이니 !!!되도록!!!건드리지 말것▲ -->
-
-
     </c:otherwise>
 </c:choose>
 </body>
