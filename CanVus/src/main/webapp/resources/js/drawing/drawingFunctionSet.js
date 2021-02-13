@@ -16,7 +16,7 @@ let bPageNum = 0;
 let bLayerNum = 0;
 
 // rbgaGlobal 정보 (주입된 값은 초기값이므로 신경쓰지 않아도 된다.)
-let opacityGlobal = 0;
+let opacityGlobal = 1;
 let thicknessGlobal = 5;
 let rgbaGlobal = new fabric.Color("black").toRgba(); rgbaGlobal = rgbaGlobal.replaceAll('1)', opacityGlobal + ')');
 let brushGlobal = "PencilBrush";
@@ -261,8 +261,9 @@ function createPage() {
 }
 
 // Layer Explorer를 클릭시 현재 페이지번호, 레이어번호를 업데이트하고 현재 바라보는 레이어를 설정.
-$("#itemBoxWrap").click(function(event) {
-    const layerBoxId = event.target.id;
+$(document).on('click', '#itemBoxWrap' ,function(event) {
+    console.log("레이어 타게팅 체인지 함수");
+    let layerBoxId = event.target.id;
     // 전 단계 페이지 레이어 번호 지정 및 z인덱스
     bPageNum = pageNum;
     bLayerNum = layerNum;
@@ -271,15 +272,22 @@ $("#itemBoxWrap").click(function(event) {
     $('#'+bPageLayer+'u').css({"z-index": zNumSet[bPageNum-1][bLayerNum-1]});
 
     // 현 단계 페이지 번호 지정
-    pageNum = $('#'+layerBoxId).children('.pageNum').val();
-    layerNum = $('#'+layerBoxId).children('.layerNum').val();
+    layerBoxId = layerBoxId.split('b')[0];
+    layerBoxId = layerBoxId.split('p');
+    layerBoxId = layerBoxId[1].split('l');
+    pageNum = parseInt(layerBoxId[0]);
+    layerNum = parseInt(layerBoxId[1]);
+    console.log(pageNum);
+    console.log(layerNum);
     const pageLayer = "p"+pageNum+"l"+layerNum;
 
     // 레이어 타게팅
     currlayer = layerSet[pageNum-1][layerNum-1];
     changeBrush();
-    // 타게팅한 레이어를 그릴수 있는 upper-canvas를 가장 위에둔다. 2147483647는 z-index 최대값이다.
-    $('#'+pageLayer+"u").css({"z-index": 2147483647});
+    // 타게팅한 레이어를 그릴수 있는 upper-canvas를 가장 위에둔다.
+    $('.'+pageLayer+"u").css({"z-index": 10000});
+    //$('#'+pageLayer).css({"z-index": 10000});
+    //$('.current').trigger('click');
 });
 
 

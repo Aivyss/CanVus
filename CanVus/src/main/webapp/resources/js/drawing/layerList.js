@@ -45,8 +45,6 @@ function reorder() {
                 $('.'+itemBoxIdArray[i]+'u').css({'z-index': i+1});
             }
         });
-
-
     });
 }
 
@@ -75,8 +73,11 @@ function createItem(layerId) {
 
                 $(this).parent().remove();
                 reorder();
-        }
-    });
+            }
+        })
+        .click(function(){
+            $('#'+layerId+'b').css('backgroundColor', 'red');
+        });
     // 숫자를 다시 붙인다.
     reorder();
 }
