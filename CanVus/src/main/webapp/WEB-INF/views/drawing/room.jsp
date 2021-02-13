@@ -51,6 +51,28 @@
             <div class="row-fluid">
                 <div id="sidebar" class="span2">
                     <!-- 사이드바 -->
+
+                    <!-- 채팅박스 -->
+                    <link rel="stylesheet" href="/resources/css/drawing/chat.css">
+                    <div class='chatbox'>
+                        <div class='chatbox__header'>
+                        </div>
+                        <div class='chatbox__body'>
+                            <div class='message receive'>
+                            </div>
+                        </div>
+                        <div class='chatbox__input'>
+                            <input placeholder='Type something here' id="chatContainer">
+                            <button>
+                                <svg height='24' viewbox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'>
+                                    <path d='M2.01 21L23 12 2.01 3 2 10l15 2-15 2z'></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <script src="/resources/js/drawing/chat.js"></script>
+
+                    <!-- 레이어 리스트 -->
                     <div>
                         <div style="float:left;width:100px;">레이어 추가 : </div>
                         <div style="clear:both;">
