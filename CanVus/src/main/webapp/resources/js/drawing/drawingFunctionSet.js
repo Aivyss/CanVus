@@ -30,16 +30,6 @@ var layer = null;
 
 
 // ********** 소켓 관련 함수 ********** //
-// 대강의 패브릭 객체 만들자
-layer = new fabric.Canvas('p1l1');
-layer.isDrawingMode = true;
-eventSet.push([]);
-eventSet[0].push(
-    layer.on('mouse:up', function() {
-        sendFabric(layer, 1, 1);
-    })
-);
-
 connect(); // 소켓 커넥트 실시
 
 document.onkeydown = function (event) {
@@ -55,21 +45,6 @@ document.onkeydown = function (event) {
         return false;
     }
 }
-
-// 버튼을 클릭하면 fabric 객체를 보낸다. 단 실제로 이렇게 안하고 백단테스트용
-$('#btn').on('click', ()=> {
-    sendFabric(layer, 1, 1);
-});
-
-// 버튼을 클릭하면 챗 메세지를 보낸다. 단 실제로 이렇게 안하고 백단 테스트 용.
-$('#btn2').on('click', () => {
-    sendMessage('aivyss-메세지', 'commonchat');
-});
-
-//그려지면 전송하는 구조
-layer.on('mouse:up', function() {
-    sendFabric(layer, 1, 1);
-});
 
 // 소켓 연결부
 function connect() {
@@ -193,8 +168,8 @@ function createLayer() {
     const eventObj = newLayer.on('mouse:up', function() {
         const message = {
             page_no: pageNum,
-            layer_no : totalNumOfLayer,
-            stringify: JSON.stringify(layerSet[pageNum-1][totalNumOfLayer-1])
+            layer_no : totalNumOfLayer+1,
+            stringify: JSON.stringify(newLayer)
         };
         sendMessage(message, "drawing"); // 예: 2번 페이지는 1번 인덱스이다.
     });
@@ -219,12 +194,13 @@ function createLayer() {
 
     ///////////////////////////////////////////////////////////////
 
-    // 소켓에 레이어를 생성했다는 정보를 쏴주는 구문 (추후 작성예정)
+    // 소켓에 레이어를 생성했다는 정보를 쏴주는 구문
+    const message = {
+        page_no: pageNum,
+        layer_no: totalNumOfLayer+1
+    }
 
-    /**
-     * 나중에 작성할 예정
-     */
-
+    sendMessage(message,'CREATEPAGELAYER');
     ///////////////////////////////////////////////////////////////
 }
 
@@ -266,7 +242,7 @@ function createPage() {
         const message = {
             page_no: totalNumOfPage+1,
             layer_no : 1,
-            stringify: JSON.stringify(layerSet[totalNumOfPage][0])
+            stringify: JSON.stringify(newLayer)
         };
         sendMessage(message, "drawing"); // 예: 2번 페이지는 1번 인덱스이다.
     });
@@ -274,10 +250,12 @@ function createPage() {
     console.log(eventSet);
 
     // 소켓에 페이지를 만들었다는 정보를 쏴주는 구문 (추후 작성예정)
+    const message = {
+        page_no: totalNumOfPage+1,
+        layer_no: 1
+    }
 
-    /**
-     * 나중에 작성할 예정
-     */
+    sendMessage(message,'CREATEPAGELAYER');
 
     ///////////////////////////////////////////////////////////////
 }
@@ -348,7 +326,7 @@ $(()=>{
         // 클릭한 레이어 번호를 현재 레이어 번호로 가진다.
         if (activeTab != "create") {
             bPageNum = pageNum; // 그전에 이전 레이어 번호로 넘긴다.
-            pageNum = activeTab.substr(1, activeTab.length);
+            pageNum = parseInt(activeTab.substr(1, activeTab.length));
             console.log(activeTab.substr(1, activeTab.length));
             let numOfLayer = layerSet[pageNum-1].length;
             for (let i=0; i<numOfLayer; i++) {

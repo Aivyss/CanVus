@@ -84,14 +84,13 @@ public class DrawingService {
 	 * @param params
 	 * @return
 	 */
-	public boolean createPageLayer(Map<String, Object> json) {
+	public boolean createPageLayer(String room_Id, Map<String, Object> json) {
 		PageVO page = CanVusVOFactory.newInstance(CanVusVOType.PageVO);
-		
+		Map<String, Object> message = (Map) json.get("message");
 		// 페이지를 만들 당시 프론트 단에서는 페이지 넘버와 레이어 넘버를 주어야 한다.
-		page.setRoom_Id((String) json.get("room_Id"));
-		page.setPage_no((Integer) json.get("page_no"));
-		page.setLayer_no((Integer) json.get("layer_no"));
-		page.setLayer_name((String) json.get("layer_name"));
+		page.setRoom_Id(room_Id);
+		page.setPage_no((Integer) message.get("page_no"));
+		page.setLayer_no((Integer) message.get("layer_no"));
 		page.setStringify("{\"version\":\"4.3.0\",\"objects\":[]}");
 
 		boolean check = drawingDAO.createPage(page);
@@ -251,12 +250,13 @@ public class DrawingService {
 	 */
 	public boolean updatePage(Map<String, Object> json, String room_Id) {
 		log.info("페이지-레이어 업데이트");
+		Map<String, Object> message = (Map) json.get("message");
 		PageVO page = CanVusVOFactory.newInstance(CanVusVOType.PageVO);
 		
 		page.setRoom_Id(room_Id);
-		page.setPage_no((Integer) json.get("page_no"));
-		page.setLayer_no((Integer) json.get("layer_no"));
-		page.setStringify((String) json.get("stringify"));
+		page.setPage_no((Integer) message.get("page_no"));
+		page.setLayer_no((Integer) message.get("layer_no"));
+		page.setStringify((String) message.get("stringify"));
 		
 		
 		
@@ -410,5 +410,25 @@ public class DrawingService {
 		}
 
 		return url;
+	}
+
+	/**
+	 * 레이어를 지우는 서비스 메소드
+	 * 작성일: 2021.02.13 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param json
+	 * @return
+	 */
+	public boolean deletePageLayer(String room_Id, Map<String, Object> json) {
+		log.info("레이어를 지우는 서비스 메소드 진입");
+		Map<String, Object> message = (Map) json.get("message");
+
+		PageVO page = CanVusVOFactory.newInstance(CanVusVOType.PageVO);
+		page.setRoom_Id(room_Id);
+		page.setPage_no((Integer) message.get("page_no"));
+		page.setLayer_no((Integer) message.get("layer_no"));
+
+		return drawingDAO.deletePageLayer(page);
+
 	}
 }

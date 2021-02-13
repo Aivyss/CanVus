@@ -16,7 +16,6 @@
 	    ,#{page_no}
 	    ,#{layer_no}
 	    ,#{stringify}
-	    ,#{layer_name}
 	)
 </insert>
 
@@ -27,7 +26,6 @@
 	    ,PAGE_NO
 	    ,LAYER_NO
 	    ,STRINGIFY
-		,PAGE_NAME
 	FROM
 	    PAGE_LAYER
 	WHERE
@@ -44,5 +42,16 @@
     	AND
     	LAYER_NO = #{layer_no}
 </update>
+
+<delete id="deletePageLayer" parameterType="page">
+	DELETE FROM
+		PAGE_LAYER
+	WHERE
+		ROOM_ID = #{room_Id}
+		AND
+	    PAGE_NO = #{page_no}
+		AND
+	    LAYER_NO = #{layer_no}
+</delete>
 
 </mapper>

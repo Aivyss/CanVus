@@ -257,4 +257,25 @@ public class DrawingDAO {
 		
 		return check;
 	}
+
+	/**
+	 * 레이어를 삭제하는 메소드
+	 * 작성일:2021.02.13 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param page
+	 * @return
+	 */
+    public boolean deletePageLayer(PageVO page) {
+    	boolean check = false;
+
+    	try {
+    		PageLayerMapper mapper = session.getMapper(PageLayerMapper.class);
+    		check = mapper.deletePageLayer(page);
+		} catch (Exception e) {
+    		log.info("레이어 삭제 sql오류");
+    		e.printStackTrace();
+		}
+
+    	return check;
+    }
 }

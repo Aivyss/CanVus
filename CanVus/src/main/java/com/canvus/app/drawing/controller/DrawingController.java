@@ -140,21 +140,6 @@ public class DrawingController {
 		session.removeAttribute("pwWrttenByUser");
 	}
 	
-	/**
-	 * 새로 생성한 레이어를 데이터베이스에 저장하는 메소드
-	 * 작성일 2021.01.21 / 완성일: / 버그검증일:
-	 * 작성자: 이한결
-	 * @param params
-	 * @return
-	 */
-	@ResponseBody
-	@RequestMapping(value="/createPage")
-	public boolean createPageLayer(@RequestBody Map<String, Object> params) {
-		boolean check = drawingService.createPageLayer(params);
-		
-		return check;
-	}
-	
 	@RequestMapping(value="/makeFeed", method=RequestMethod.POST)
 	public String makeFeed(@RequestBody Map<String, Object> params) {
 		boolean check = drawingService.makeFeed(params);

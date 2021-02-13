@@ -1,17 +1,14 @@
 package com.canvus.app.socket.service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.canvus.app.drawing.dao.DrawingDAO;
 import com.canvus.app.drawing.service.DrawingService;
 import com.canvus.app.drawing.vo.DrawingUserVO;
 import com.canvus.app.service.UserService;
-import com.canvus.app.socket.vo.MessageVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,9 +46,33 @@ public class StompService {
 			container = presentPixel(json);
 		} else if (type.equals("DRAWING")) {
 			container = drawing(room_Id, json);
+		} else if (type.equals("DELETEPAGELAYER")) {
+			container = deletePageLayer(room_Id, json);
 		}
 		
 		return container;
+	}
+
+	/**
+	 * 레이어를 지우는 메소드
+	 * 작성일: 2021.02.13 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param room_id
+	 * @param json
+	 * @return
+	 */
+	private Map<String, Object> deletePageLayer(String room_Id, Map<String, Object> json) {
+		log.info("레이어를 지우는 소켓 서비스메소드 진입");
+
+		json.put("room_Id", room_Id);
+		
+		boolean check = drawingService.deletePageLayer(room_Id, json);
+		
+		if (!check) {
+			json = null;
+		}
+		
+		return json;
 	}
 
 	private Map<String, Object> drawing(String room_Id, Map<String, Object> json) {
@@ -132,9 +153,7 @@ public class StompService {
 	private Map<String, Object> createPageLayer(String room_Id, Map<String, Object> json) {
 		// 있어야할 내용: 페이지-레이어 번호(스트링 값으로 줘야함)
 
-		json.put("room_Id", room_Id);
-
-		drawingService.createPageLayer(json);
+		drawingService.createPageLayer(room_Id, json);
 		
 		return json;
 	}
