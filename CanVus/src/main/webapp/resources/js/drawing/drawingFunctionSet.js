@@ -145,22 +145,6 @@ function disconnect() {
 }
 
 // ********** 소켓 전송과 관련된 이벤트 ********** //
-// 채팅을 소켓으로 전송하는 이벤트
-$('#send').on('click', ()=>{
-    const message = $('#chatBox').val();
-    const data = {
-        user_id: user_id,
-        nickname: mynickname,
-        message: message
-    };
-
-    if(message.length > 0) {
-        sendMessage(data, 'COMMONCHAT');
-    }
-
-    $('#chatBox').val("");
-});
-
 // 페이지 종료 이벤트 --> 소켓종료
 $(window).on('beforeunload', function() {
     disconnect();

@@ -6,7 +6,7 @@ let messageController = (function(){
         chatSend: function(){
             const data = {
                 user_id: user_id,
-                user_nickname: mynickname,
+                nickname: mynickname,
                 message: $('#chatContainer').val()
             };
 
@@ -21,6 +21,7 @@ let messageController = (function(){
             const nickname = result['message']['nickname'];
             let message_container = document.createElement("div");
             let message = '';
+
             if(type == 'ENTER' || type == 'QUIT'){
                 message = `<div class="message_text"> BOT : ${reply} </div>`;
             } else {
