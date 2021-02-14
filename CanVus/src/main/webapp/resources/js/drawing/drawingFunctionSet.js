@@ -63,7 +63,14 @@ let socketFunctionSet = (function() {
             targetObj.loadFromJSON(obj, targetObj.renderAll.bind(targetObj));
         },
         enter: function (data) {
+            messageController.chatReply(data);
+            const userList = data['userListInRoom'];
 
+            $('#canvus-list').empty();
+
+            for (const user of userList) {
+                $('#canvus-list').append(`<li>${user['nickname']}</li>`);
+            }
         },
         quit: function (data) {
 
@@ -128,7 +135,8 @@ function sendMessage(message, type) {
 // 소켓 종료 메소드
 function disconnect() {
     const message = {
-        userId : user_id
+        userId : user_id,
+        message : mynickname + 'さんが退室しました。'
     };
 
     sendMessage(message, 'quit');
@@ -140,9 +148,16 @@ function disconnect() {
 // 채팅을 소켓으로 전송하는 이벤트
 $('#send').on('click', ()=>{
     const message = $('#chatBox').val();
+    const data = {
+        user_id: user_id,
+        nickname: mynickname,
+        message: message
+    };
+
     if(message.length > 0) {
-        sendMessage(message, 'COMMONCHAT');
+        sendMessage(data, 'COMMONCHAT');
     }
+
     $('#chatBox').val("");
 });
 
@@ -154,10 +169,11 @@ $(window).on('beforeunload', function() {
 // 방입장 메세지 전송파트 (일단 임시로 하고 만약 비동기가 이래도 처리가 안되면
 // 반복문으로 처리할 것이다.
 const enterData = {
-    user_id : user_id,
-    nickname : mynickname
+    user_id : "BOT",
+    nickname : mynickname,
+    message : mynickname + "さんが入室しました。"
 };
-setTimeout(sendMessage, 10000, enterData, 'enter');
+setTimeout(sendMessage, 5000, enterData, 'enter');
 
 // Message parser
 function parser(data) {
@@ -180,6 +196,7 @@ function parser(data) {
         socketFunctionSet.deletePageLayer(data);
     }
 }
+// ********** 소켓 전송과 관련된 이벤트 끝 ********** //
 
 // ********** fabric 관련 함수 ********** //
 // rgba, 굵기, 투명도의 글로벌 정보를 업데이트하는 메소드
@@ -234,7 +251,7 @@ function createLayer() {
     let layerId = 'p' + pageNum + 'l' + (totalNumOfLayer+1);
 
     // 이부분에 canvas 태그를 생성하는 구문을 넣어줄 것 아이디는 layerId로 준다.
-    let contents = `<canvas id="${layerId}"></canvas>`;
+    let contents = `<canvas id="${layerId}" style="width:800px height:800px"></canvas>`;
     $(`#p${pageNum}`).append(contents);
 
     ///////////////////////////////////////////////////////////////
@@ -295,7 +312,7 @@ function initializeCreateLayer(pageNo) {
     let layerId = 'p' + pageNo + 'l' + (totalNumOfLayer+1);
 
     // 이부분에 canvas 태그를 생성하는 구문을 넣어줄 것 아이디는 layerId로 준다.
-    let contents = `<canvas id="${layerId}"></canvas>`;
+    let contents = `<canvas id="${layerId}" style="width:800px height:800px"></canvas>`;
     $(`#p${pageNo}`).append(contents);
 
     ///////////////////////////////////////////////////////////////
@@ -340,7 +357,7 @@ function createPage() {
 
     // 이 부분에 canvas 태그 생성구문을 넣을 것. 아이디는 p만든레이어번호l1로 준다.
     // 첫 레이어는 자동생성을 하는 편이 좋을 듯 싶다.
-    let contents = `<canvas id="${pageId}l1"></canvas>`;
+    let contents = `<canvas id="${pageId}l1" style="width:800px, height:800px"></canvas>`;
     $('#base').append(contents);
 
     ///////////////////////////////////////////////////////////////

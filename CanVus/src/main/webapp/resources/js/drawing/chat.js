@@ -14,10 +14,18 @@ let messageController = (function(){
             $('#chatContainer').val("");
         },
         chatReply: function(result){
-            let reply = result['message']['message'];
-            let sender_id = result['message']['user_id'];
+            let type = result['type'];
+            type = type.toUpperCase();
+            const reply = result['message']['message'];
+            const sender_id = result['message']['user_id'];
+            const nickname = result['message']['nickname'];
             let message_container = document.createElement("div");
-            let message = `<div class="message_text"> ${reply} </div>`;
+            let message = '';
+            if(type == 'ENTER' || type == 'QUIT'){
+                message = `<div class="message_text"> BOT : ${reply} </div>`;
+            } else {
+                message = `<div class="message_text"> ${nickname}さん: ${reply} </div>`;
+            }
 
             if (sender_id == user_id) {
                 message_container.className = "message sender";
