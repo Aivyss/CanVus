@@ -18,7 +18,7 @@ let bLayerNum = 0;
 // rbgaGlobal 정보 (주입된 값은 초기값이므로 신경쓰지 않아도 된다.)
 let opacityGlobal = 1;
 let thicknessGlobal = 5;
-let hexGlobal = "#005E7AFF"; // rgba 정보
+let hexGlobal = "#005E7A"; // rgb 정보
 let brushGlobal = "PencilBrush";
 
 // 소켓 클라이언트 정의
@@ -157,7 +157,7 @@ const enterData = {
     user_id : user_id,
     nickname : mynickname
 };
-setTimeout(sendMessage, 1000, enterData, 'enter');
+setTimeout(sendMessage, 10000, enterData, 'enter');
 
 // Message parser
 function parser(data) {
@@ -211,10 +211,22 @@ function changeBrush() {
         currlayer.freeDrawingBrush = new fabric.BaseBrush(currlayer);
     } else if (brushGlobal == "PatternBrush") {
         currlayer.freeDrawingBrush = new fabric.BaseBrush(currlayer);
+    } else if (brushGlobal == "SquareBrush") {
+        currlayer.freeDrawingBrush = new fabric.SquareBrush(currlayer);
     }
+
+    console.log(typeof hexGlobal);
+    console.log(hexGlobal);
+    console.log(typeof thicknessGlobal);
 
     currlayer.freeDrawingBrush.color = hexGlobal;
     currlayer.freeDrawingBrush.width = thicknessGlobal;
+
+    if (brushGlobal != "SquareBrush"){
+        // square brush는 opcity를 지원하지 않는다.
+        currlayer.freeDrawingBrush.opacity = opacityGlobal;
+    }
+
 }
 
 function createLayer() {
@@ -229,6 +241,9 @@ function createLayer() {
     // TODO fabric 객체를 만들고 객체배열에 추가하는 프로세스
     let newLayer = new fabric.Canvas(layerId);
     newLayer.isDrawingMode = true;
+    newLayer.freeDrawingBrush.width = thicknessGlobal;
+    newLayer.freeDrawingBrush.color = hexGlobal;
+    newLayer.freeDrawingBrush.opacity = opacityGlobal;
     layerSet[pageNum-1].push(newLayer);
     console.log(layerSet);
 
@@ -287,6 +302,9 @@ function initializeCreateLayer(pageNo) {
     // TODO fabric 객체를 만들고 객체배열에 추가하는 프로세스
     let newLayer = new fabric.Canvas(layerId);
     newLayer.isDrawingMode = true;
+    newLayer.freeDrawingBrush.width = thicknessGlobal;
+    newLayer.freeDrawingBrush.color = hexGlobal;
+    newLayer.freeDrawingBrush.opacity = opacityGlobal;
     layerSet[pageNo-1].push(newLayer);
     console.log(layerSet);
 
@@ -335,6 +353,9 @@ function createPage() {
     // TODO 해당 페이지의 첫 레이어를 만드는 프로세스
     let newLayer = new fabric.Canvas(pageId + 'l1');
     newLayer.isDrawingMode = true;
+    newLayer.freeDrawingBrush.width = thicknessGlobal;
+    newLayer.freeDrawingBrush.color = hexGlobal;
+    newLayer.freeDrawingBrush.opacity = opacityGlobal;
     layerSet[totalNumOfPage].push(newLayer); // 예: 2번 페이지는 1번 인덱스이다.
     console.log(layerSet);
 
@@ -623,7 +644,9 @@ $(()=>{
                     }
                 }
             }
-        }
+
+            changeBrush();
+        } // if end
     });
 
     //************* 페이지 생성 이벤트 ******************//
@@ -676,11 +699,11 @@ $(()=>{
         opacity = parseInt(opacity.split('%')[0]);
         opacity = MAX_OPACITY * (opacity/100);
 
+        console.log(typeof thickness);
         console.log(thickness);
         console.log(opacity);
 
         hexGlobal = $('#drawing-color').val();
-        hexGlobal = hexGlobal + Math.floor(opacity * 255).toString(16);
 
         thicknessGlobal = thickness;
         opacityGlobal = opacity;
@@ -691,8 +714,19 @@ $(()=>{
     // ***************** 색상 변경 이벤트  ************************//
     $('#drawing-color').on('change', function(){
         hexGlobal = $('#drawing-color').val();
-        hexGlobal = hexGlobal + Math.floor(opacityGlobal * 255).toString(16);
 
         changeBrush();
+    });
+
+    // *************** 브러시 버튼 클릭 이벤트 ********************* //
+    $(document).on('click', '.brushBox', function(event){
+        console.log("브러시 선택 버튼 클릭으로 인한 브러시 변경 이벤트 발생");
+
+        let brushType = event.target.id;
+
+        if(brushType != 'brushBox') {
+            brushGlobal = brushType;
+            changeBrush();
+        }
     });
 });

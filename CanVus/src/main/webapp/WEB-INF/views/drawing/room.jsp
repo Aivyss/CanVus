@@ -8,10 +8,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Insert title here</title>
     <link rel="stylesheet" href="/resources/js/style.css">
-    <script src="/resources/js/fabric/dist/fabric.js"></script>
+    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <!-- fabricJS -->
+    <script src="/resources/js/fabric/dist/fabric.js"></script>
+    <!-- custom brushes -->
+    <script src="/resources/js/customBrush/square_brush.js"></script>
+    <!-- Drag function -->
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
             integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+    <!-- Websocket libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.0.0/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <link rel="stylesheet" href="/resources/css/drawing/style.css">
@@ -72,7 +78,7 @@
                     </div>
                     <script src="/resources/js/drawing/chat.js"></script>
 
-                    <!-- 레이어 리스트 -->
+                    <!-- 레이어 추가버튼 -->
                     <div>
                         <div style="float:left;width:100px;">레이어 추가 : </div>
                         <div style="clear:both;">
@@ -84,6 +90,14 @@
 
                     <!-- 레이어 리스트 -->
                     <div id="itemBoxWrap" style="overflow:auto; width:300px; height:150px;"></div>
+
+                    <!-- 브러시 버튼 -->
+                    <div id="brushSet" class="brushBox">
+                        <div id="PencilBrush" class="brushElement">pencil</div>
+                        <div id="CircleBrush" class="brushElement">circle</div>
+                        <div id="SprayBrush" class="brushElement">spray</div>
+                        <div id="SquareBrush" class="brushElement">square</div>
+                    </div>
 
                     <!-- 색상 파레트 -->
                     <div id="drawing-mode-options">
