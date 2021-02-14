@@ -101,8 +101,8 @@ let socketFunctionSet = (function() {
             const sender = message['user_id'];
 
             if (sender != user_id) {
-                const layerId = `p${message['page_no']}${message['layer_no']}b`;
-                $(`${layerId}b`).remove();
+                const layerId = `p${message['page_no']}l${message['layer_no']}`;
+                $(`#${layerId}b`).remove();
                 deleteLayer(layerId, 'receiver');
             }
         },
