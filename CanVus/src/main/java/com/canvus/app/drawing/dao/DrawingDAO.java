@@ -291,6 +291,7 @@ public class DrawingDAO {
 	 * @return
 	 */
 	public boolean addAuthority(DrawingUserVO targetUser) {
+		log.info("권한부여 drawing dao 메소드 진입");
 		boolean check = false;
 
 		try {

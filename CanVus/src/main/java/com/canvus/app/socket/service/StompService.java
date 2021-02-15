@@ -64,8 +64,14 @@ public class StompService {
 	 * @return
 	 */
 	private Map<String, Object> addAuthoity(String room_Id, Map<String, Object> json) {
+		log.info("권한부여 소켓 서비스 진입");
 		boolean check = drawingService.addAuthoity(room_Id, json);
-		return null;
+
+		if (check) {
+			return json;
+		} else {
+			return null;
+		}
 	}
 
 	/**

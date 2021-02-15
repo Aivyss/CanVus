@@ -144,11 +144,7 @@ let socketFunctionSet = (function() {
             const targetId = message['targetId'];
 
             if (sender != user_id && targetId == user_id){
-                for (let i=0; i<layerSet.length; i++) {
-                    for (let j=0; j<layerSet[i].length; j++) {
-                        $(`.p${i+1}l${j}u`).css({'display':''});
-                    }
-                }
+                $('.drawReceiver').css({'display' : ''});
             } // if end
         }
     }
@@ -333,10 +329,11 @@ function createLayer(isReceiver) {
     //TODO 부가적으로 생성된 canvas-container를 지우는 프로세스
     $('.canvas-container').attr('class', 'remove');
     if (user_id != admin_id){
-        $('.upper-canvas').attr('class', layerId+'u').css({'display': 'none'});
-        $(`.${layerId}u`).css({'display': 'none'});
+        $('.upper-canvas').attr('class', layerId+'u');
+        $(`.${layerId}u`).css({'display': 'none'}).addClass('drawReceiver');
     } else {
-        $('.upper-canvas').attr('class', layerId+'u')
+        $('.upper-canvas').attr('class', layerId+'u');
+        $(`.${layerId}u`).addClass('drawReceiver');
     }
     $('#'+layerId).appendTo('#p'+pageNum);
     $('.'+layerId+'u').appendTo('#p'+pageNum);
@@ -403,10 +400,11 @@ function initializeCreateLayer(pageNo) {
     //TODO 부가적으로 생성된 canvas-container를 지우는 프로세스
     $('.canvas-container').attr('class', 'remove');
     if (user_id != admin_id){
-        $('.upper-canvas').attr('class', layerId+'u')
-        $(`.${layerId}u`).css({'display': 'none'});
+        $('.upper-canvas').attr('class', layerId+'u');
+        $(`.${layerId}u`).css({'display': 'none'}).addClass('drawReceiver');
     } else {
-        $('.upper-canvas').attr('class', layerId+'u')
+        $('.upper-canvas').attr('class', layerId+'u');
+        $(`.${layerId}u`).addClass('drawReceiver');
     }
     $('#'+layerId).appendTo('#p'+pageNo);
     $('.'+layerId+'u').appendTo('#p'+pageNo);
@@ -449,9 +447,10 @@ function createPage(isReceiver) {
     $('.upper-canvas').attr('class', pageId+'l1u');
     if (user_id != admin_id){
         $('.upper-canvas').attr('class', pageId+'l1u');
-        $(`.${pageId}l1u`).css({'display': 'none'});
+        $(`.${pageId}l1u`).css({'display': 'none'}).addClass('drawReceiver');
     } else {
         $('.upper-canvas').attr('class', pageId+'l1u');
+        $(`.${pageId}l1u`).addClass('drawReceiver');
     }
     $('#'+pageId).attr('class', 'tabcontent');
 
@@ -845,11 +844,16 @@ $(()=>{
                 targetId : targetId
             };
 
-            sendMessage(message, 'addAuthoity');
+            $(`#${event.target.id}`).remove();
+
+            sendMessage(message, 'ADDAUTHORITY');
+
             authCount++;
         } else {
             alert('권한은 최대 4명만 부여 가능합니다.');
         }
+
+
     });
 
     // ****************** 우저리스트 필터 이벤트 ************************/

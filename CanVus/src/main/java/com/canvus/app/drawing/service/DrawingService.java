@@ -437,11 +437,13 @@ public class DrawingService {
 	 * @return
 	 */
     public boolean addAuthoity(String room_Id, Map<String, Object> json) {
+    	log.info("권한부여 드로잉 서비스 메소드 진입");
     	DrawingUserVO targetUser = new DrawingUserVO();
     	Map<String, Object> message = (Map) json.get("message");
     	targetUser.setRoom_Id(room_Id);
     	targetUser.setUser_id((String) message.get("targetId"));
     	targetUser.setUser_type("DRAWER");
+    	log.info(targetUser.toString());
 
     	return drawingDAO.addAuthority(targetUser);
     }
