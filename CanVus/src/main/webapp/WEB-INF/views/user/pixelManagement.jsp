@@ -37,7 +37,7 @@
          $("#"+tab_id).addClass('current');
       });
 
-<<<<<<< HEAD
+
        $(".brush").click(function(){
          $(".tool_brush").css({
             "display": "block"
@@ -49,25 +49,32 @@
        
     // 오른쪽 사이드바 페이지기능
     
-       $(function(){
-           $(".tab ul li").click(function(){ 
-               $(".tab ul li").removeClass('on');
-               $(".tab .conBox").removeClass('on');
-               $(this).addClass('on');
-               $("#"+$(this).data('id')).addClass('on');
-           });
-       });
+        // tab 메뉴를 클릭하였을 때 동작함
+        $(".tab ul li").click(function(){ 
+             
+            // 현재 선택되어있던 메뉴들을 초기화함
+            $(".tab ul li").removeClass('on');
+            $(".tab .conBox").removeClass('on');
+ 
+            // 선택된 메뉴에 on 클래스를 주어 표기함
+            $(this).addClass('on');
+ 
+            // 선택된 탭의 data 값으로 content box를 선택함
+            $("#"+$(this).data('id')).addClass('on');
+        });
+
+        
 
        
       // 레이어 추가,숨김,삭제기능
       // 되긴하는데 지금 엄청 대충만든상태고 하드코딩한거
-=======
+
       $(".brush").click(function(){
          $(".tool_brush").css({
             "display": "block"
          }); 
       });
->>>>>>> main
+
       
        var currlayers=1;
        var layerstotal=1;
@@ -344,19 +351,19 @@
       	});
 
      
-		// 오른쪽 사이드바 접었다폈다 해주는애
+		// 오른쪽 사이드바 접었다폈다 해주는기능
 
       	$(".button-div").click(function(){
       	  
       	  $(this).toggleClass("div-close");
       	  
       	  if ($(this).hasClass("div-close")) {
-      	    $(".slide-div").animate({ left: "-200px"}, 800);  
-      	    $(".button-div").animate({ left: "-10px"}, 800);
+      	    $(".slide-div").animate({ left: "-270px"}, 800);  
+      	    $(".button-div").animate({ left: "0px"}, 800);
       	    $(this).find(".button-open").attr("class", "button-close");
       	  } else {
       	    $(".slide-div").animate({ left: "0px"}, 800);  
-      	    $(".button-div").animate({ left: "200px"}, 800);
+      	    $(".button-div").animate({ left: "237px"}, 800);
       	    $(this).find(".button-close").attr("class", "button-open");
       	  }
       	});
@@ -548,9 +555,14 @@
 		    canvas.renderAll();
 		}
 
+
+
+
+		
+		// ready 펑션 끝
    });
 
-<<<<<<< HEAD
+
 	// undo, redo 펑션 / 근데 뺀다고함 ㅋㅋ
 	
    var canvas = new fabric.Canvas('canvas');
@@ -599,84 +611,100 @@
  	   }, 100);
  	}
 
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
 	
 </script>
    
-=======
-   /** UI 설정 및 드래그로 순서 변경 기능 */
-   $(function() {
-       $("#itemBoxWrap").sortable({
-           placeholder:"itemBoxHighlight",
-           start: function(event, ui) {
-               ui.item.data('start_pos', ui.item.index());
-           },
-           stop: function(event, ui) {
-               var spos = ui.item.data('start_pos');
-               var epos = ui.item.index();
-   			      reorder();
-           }
-       });
-       //$("#itemBoxWrap").disableSelection();
-       
-       //$( "#sortable" ).sortable();
-       //$( "#sortable" ).disableSelection();
-   });
+<script type="text/javascript">
 
-   /** 레이어 번호 조정 */
-   function reorder() {
-       $(".itemBox").each(function(i, box) {
-           $(box).find(".itemNum").html(i + 1);
-       });
-   }
+/** UI 설정 및 드래그로 순서 변경 기능 */
+$(function() {
+    $("#itemBoxWrap").sortable({
+        placeholder:"itemBoxHighlight",
+        start: function(event, ui) {
+            ui.item.data('start_pos', ui.item.index());
+        },
+        stop: function(event, ui) {
+            var spos = ui.item.data('start_pos');
+            var epos = ui.item.index();
+			      reorder();
+        }
+    });
+    //$("#itemBoxWrap").disableSelection();
+    
+    //$( "#sortable" ).sortable();
+    //$( "#sortable" ).disableSelection();
+});
 
-   /** 레이어 추가 */
-   function createItem() {
-       $(createBox())
-       .appendTo("#itemBoxWrap")
-       
-       .hover(
-           function() {
-               $(this).css('backgroundColor', '#f9f9f5');
-               $(this).find('.deleteBox').show();
-           },
-           function() {
-               $(this).css('background', 'none');
-               $(this).find('.deleteBox').hide();
-           }
-       )
-   		.append("<div class='deleteBox'>[삭제]</div>")
-   		.find(".deleteBox").click(function() {
-           var valueCheck = false;
-           $(this).parent().find('input').each(function() {
-               if($(this).attr("name") != "type" && $(this).val() != '') {
-                   valueCheck = true;
-               }
-           });
+/** 레이어 번호 조정 */
+function reorder() {
+    $(".itemBox").each(function(i, box) {
+        $(box).find(".itemNum").html(i + 1);
+    });
+}
 
-           if(valueCheck) {
-               var delCheck = confirm('입력하신 내용이 있습니다.\n삭제하시겠습니까?');
-           }
-           if(!valueCheck || delCheck == true) {
-               $(this).parent().remove();
-               reorder();
-           }
-       });
-       // 레이어 번호를 다시 정렬한다.
-       reorder();
-   }
+/** 레이어 추가 */
+function createItem() {
+    $(createBox())
+    .appendTo("#itemBoxWrap")
+    
+    .hover(
+        function() {
+            $(this).css('backgroundColor', '#f9f9f5');
+            $(this).find('.deleteBox').show();
+        },
+        function() {
+            $(this).css('background', 'none');
+            $(this).find('.deleteBox').hide();
+        }
+    )
+		.append("<div class='deleteBox'>[삭제]</div>")
+		.find(".deleteBox").click(function() {
+        var valueCheck = false;
+        $(this).parent().find('input').each(function() {
+            if($(this).attr("name") != "type" && $(this).val() != '') {
+                valueCheck = true;
+            }
+        });
 
-   /** 레이어 이름 작성 */
-   function createBox() {
-       var contents = "<div class='itemBox'>"
-                    + "<div style='float:left;'>"
-                    + "<span class='itemNum'></span> "
-                    + "<input type='text' name='item' style='width:150px;'/>"
-                    + "</div>"
-                    + "</div>";
-       return contents;
-   }
-   </script>
->>>>>>> main
+        if(valueCheck) {
+            var delCheck = confirm('입력하신 내용이 있습니다.\n삭제하시겠습니까?');
+        }
+        if(!valueCheck || delCheck == true) {
+            $(this).parent().remove();
+            reorder();
+        }
+    });
+    // 레이어 번호를 다시 정렬한다.
+    reorder();
+}
+
+/** 레이어 이름 작성 */
+function createBox() {
+    var contents = "<div class='itemBox'>"
+                 + "<div style='float:left;'>"
+                 + "<span class='itemNum'></span> "
+                 + "<input type='text' name='item' style='width:150px;'/>"
+                 + "</div>"
+                 + "</div>";
+    return contents;
+}
+
+</script>
+
 <style type="text/css">
 /* body{
 margin-top: 100px;
@@ -687,11 +715,10 @@ line-height: 1.6
 .toolBar{
 	position: relative;
    display: inline-block;
-   margin: 10px;
    top: 0;
    left: 0;
-   height:1000px;
-   width:250px;
+   height:1200px;
+   width:260px;
 }
 
 .tool{
@@ -805,7 +832,7 @@ ul.tabs li.current{
 }
 
 .tab{
-    width:200px;
+    width:270px;
     height:auto;
     overflow:hidden;
 }
@@ -814,7 +841,7 @@ ul.tabs li.current{
     padding:0;
     margin:0;
     list-style:none;
-    width:100%:
+    width:100%;
     height:auto;
     overflow:hidden;
 }
@@ -844,6 +871,18 @@ ul.tabs li.current{
     text-align:center;
     border:2px solid black;
 }
+
+.tab .conBox2{
+    width:100%;
+    height:500px;
+    overflow:hidden;
+    width: 270px;
+    min-height:200px;
+    background:#50bcdf;
+    display:none;
+    text-align:center;
+    border:2px solid black;
+}
  
 .tab .conBox.on{
     display:block;
@@ -860,10 +899,10 @@ ul.tabs li.current{
 
 .button-div {
   position: absolute;
-  left: 200px;
-  top: 30px;
-  width: 70px;
-  height: 50px;
+  left: 237px;
+  top: 180px;
+  width: 40px;
+  height: 40px;
   background: #17b0af;
 }
 
@@ -873,7 +912,7 @@ ul.tabs li.current{
   border-top: 10px solid transparent;
   border-right: 20px solid #0f304e;
   border-bottom: 10px solid transparent;
-  margin: 15px 40px;
+  margin: 10px 10px;
 }
 
 .button-close {
@@ -882,7 +921,7 @@ ul.tabs li.current{
   border-top: 10px solid transparent;
   border-left: 20px solid #0f304e;
   border-bottom: 10px solid transparent;
-  margin: 15px 40px;
+  margin: 10px 10px;
 }
 
 .box {
@@ -892,6 +931,10 @@ ul.tabs li.current{
 .after-box {
   clear: left;
 }
+
+
+
+
 
 </style>
   
@@ -908,11 +951,11 @@ ul.tabs li.current{
 	
 	
     <div class="tab">
-    <ul>
-        <li data-id="con1" class="on">그리기 툴</li>
-        <li data-id="con2">채팅</li>
-        <li data-id="con3">멤버</li>
-    </ul>
+	    <ul>
+	        <li data-id="con1" class="on">그리기 툴</li>
+	        <li data-id="con2">채팅</li>
+	        <li data-id="con3">멤버</li>
+	    </ul>
     <div id="con1" class="conBox on">
 
       <br>
@@ -922,6 +965,10 @@ ul.tabs li.current{
       <a>올리기</a><br>
       <a>저장</a><br>
       <button onclick="refresh()">Clear All</button>
+      
+      
+
+      
       <hr width = "100%">
       <div class="tool">
          <input type="button" value="undo" onclick="javascript:undo();">
@@ -1019,29 +1066,9 @@ ul.tabs li.current{
         <label for="text-font-size">Font size:</label>
         <input type="range" value="" min="1" max="120" step="1" id="text-font-size">
       </div>
-      <div>
-        <label for="text-line-height">Line height:</label>
-        <input type="range" value="" min="0" max="10" step="0.1" id="text-line-height">
-      </div>
     </div>
-    <div id="text-controls-additional">
-      <input type='checkbox' name='fonttype' id="text-cmd-bold">
-        Bold
-    
-      <input type='checkbox' name='fonttype' id="text-cmd-italic">
-        Italic
-     
-      <input type='checkbox' name='fonttype' id="text-cmd-underline" >
-        Underline
-      
-      <input type='checkbox' name='fonttype'  id="text-cmd-linethrough">
-        Linethrough
-     
-      <input type='checkbox' name='fonttype'  id="text-cmd-overline" >
-        Overline
-       </div>
-       
-       
+   
+
          
          <div>
          <button class="brush">브러쉬</button>
@@ -1052,7 +1079,7 @@ ul.tabs li.current{
          <div>
             <button id="moveLayer">moveLayer</button>
          </div>
-<<<<<<< HEAD
+
          
         <div class="layers1_1">
          <button style="float:left; border:solid red 2px; color:red;" class="layers1">layer1</button>
@@ -1064,7 +1091,7 @@ ul.tabs li.current{
          <button class="deletelayers1">deletelayer1</button>
          </div>
          
-=======
+
          <div class="layers">
        		<div class="layers1">
         		<button style="float:left; border:solid red 2px; color:red;" class="layers1">layer1</button>
@@ -1093,7 +1120,7 @@ ul.tabs li.current{
 		</div>
 		<br />
 		<div id="itemBoxWrap"></div>     
->>>>>>> main
+
       </div>
       
       <div class="tool_brush">
@@ -1108,34 +1135,67 @@ ul.tabs li.current{
          </div>
          <div>
             <input type="button" value="연필" onclick="pencilBrush();">
-<<<<<<< HEAD
+
          </div>
          <button id="red">펜</button>
          <button id="eraser">eraser</button>
          <button id="drawer">drawer</button>
-=======
+
          </div>   
          <div>
          	<input type="button" value="펜" onclick="baseBrush();">
-         </div>   
->>>>>>> main
+         </div>
+
+
       </div>
       
       
      
-      <div class="rangeBar">
+      <!--  <div class="rangeBar">
          <input type="range" max="1" min="0.1" step="0.05" value="1" id="opacity" class="range">
        </div>
        <div class="rangeBar">
          <input type="range" max="30" min="1" step="1" value="5" id="thickness" class="range">
        </div>
        
-       </div>
+       </div>-->
+       
     <div id="con2" class="conBox">
-        Chatting
+		Chatting<br>
+		Chatting<br>
+		Chatting<br>
+		Chatting<br>
+		Chatting<br>
+		Chatting<br>
+		Chatting<br>
+		Chatting<br>
+		Chatting<br>
+		Chatting<br>
+		Chatting<br>
+		Chatting<br>
+		Chatting<br>
+		Chatting<br>
+		Chatting<br>
+		Chatting<br>
+		Chatting<br>
+		Chatting<br>
+		Chatting<br>
+		Chatting<br>
     </div>
     <div id="con3" class="conBox">
-        Member
+		Member<br>
+		Member<br>
+		Member<br>
+		Member<br>
+		Member<br>
+		Member<br>
+		Member<br>
+		Member<br>
+		Member<br>
+		Member<br>
+		Member<br>
+		Member<br>
+		Member<br>
     </div>
 	</div>
 	</div>
@@ -1160,7 +1220,7 @@ ul.tabs li.current{
              <div class="layers">
                 <input type="button" id="makebtn" value="레이어추가"/>
                 <div class="layer1">
-<<<<<<< HEAD
+
                 <canvas class="canvas" id="canvas" width="1000" height="600"></canvas>
                  </div>
             	<div class="layer2">
@@ -1175,24 +1235,7 @@ ul.tabs li.current{
                  <div class="layer5">
                    <canvas class="canvas" id="canvas5" width="1000" height="600"></canvas>
                  </div>
-                 
 
-=======
-                	<canvas class="canvas" id="canvas" width="1000" height="600"></canvas>
-                </div>
-				<div class="layer2">
-                	<canvas class="canvas" id="canvas2" width="1000" height="600"></canvas>
-                </div>
-                <div class="layer3">
-                	<canvas class="canvas" id="canvas3" width="1000" height="600"></canvas>
-                </div>
-                <div class="layer4">
-                	<canvas class="canvas" id="canvas4" width="1000" height="600"></canvas>
-                </div>
-                <div class="layer5">
-                	<canvas class="canvas" id="canvas5" width="1000" height="600"></canvas>
-                </div>
->>>>>>> main
              </div>
              
              <div class="buttons">
