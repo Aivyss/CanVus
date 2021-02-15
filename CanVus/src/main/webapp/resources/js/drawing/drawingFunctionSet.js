@@ -84,7 +84,7 @@ let socketFunctionSet = (function () {
             if (admin_id == user_id) { // 어드민이 입장한 경우
                 for (const user of userList) {
                     if (user['user_type'] == 'VISITOR') { // 유저리스트의 유저가 방문자인 경우
-                        $('#canvus-list').append(`<li>${user['nickname']}<button class="addAuthority" id="list${user['user_id']}">권한부여</button></li>`);
+                        $('#canvus-list').append(`<li>${user['nickname']}<button class="addAuthority" id="list${user['user_id']}">一緒に</button></li>`);
                     } else { // 유저 리스트의 유저가 drawer인 경우
                         drawerNicknameList.push(user['nickname']);
                         drawerIdList.push(user['user_id']);
@@ -174,10 +174,18 @@ let socketFunctionSet = (function () {
             const message = data['message'];
             const sender = message['user_id'];
             const targetId = message['targetId'];
+            const targetNickname = message['targetNickname'];
 
+            // 캔버스 잠금해제
             if (sender != user_id && targetId == user_id) {
                 $('.drawReceiver').css({'display': ''});
-            } // if end
+            }
+
+            // 드로워 리스트에 해당유저 추가.
+            const content = `<button class="btn btn-primary" type="button" id="drawerTop-${targetId}">
+                ${targetNickname} <span class="badge">0</span>
+            </button>`;
+            $('#drawerList').append(content);
         }
     }
 })();
@@ -855,26 +863,26 @@ $(() => {
     });
 
     // *************** 브러시 버튼 클릭 이벤트 ********************* //
-    $(document).on('click', '.brushBox', function (event) {
+    $(document).on('click', '.brushElement', function () {
         console.log("브러시 선택 버튼 클릭으로 인한 브러시 변경 이벤트 발생");
 
-        let brushType = event.target.id;
-
-        if (brushType != 'brushBox') {
-            brushGlobal = brushType;
-            changeBrush();
-        }
+        let brushType = $(this).attr('id');
+        brushGlobal = brushType;
+        changeBrush();
     });
 
     // ********************* 드로잉 권한부여 이벤트 *************************//
     $(document).on('click', '.addAuthority', function (event) {
         if (authCount < 4) {
             let targetId = event.target.id;
+            let targetNickname = $('#'+targetId).parent().text();
+            targetNickname = targetNickname.split('一緒に')[0];
             targetId = targetId.split('list')[1];
 
             const message = {
                 user_id: user_id,
-                targetId: targetId
+                targetId: targetId,
+                targetNickname: targetNickname
             };
 
             $(`#${event.target.id}`).remove();

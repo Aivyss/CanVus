@@ -13,17 +13,6 @@
     text-align : center;
 }
 
-.brushBox{
-    width:200px;
-    height:500px;
-}
-.brushElement{
-    float:left;
-    width:25%;
-    margin:2px;
-    border: 1px solid black;
-}
-
 /*!* body{*/
 /*margin-top: 100px;*/
 /*font-family: 'Trebuchet MS', serif;*/

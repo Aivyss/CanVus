@@ -52,7 +52,7 @@
     </script>
 </head>
 
-<body data-spy="scroll" data-target="#header">
+<body data-spy="scroll" data-target="#header" style="paddin-top: 70px;">
     <!--Start Hedaer Section-->
     <jsp:include page="mainMenu.jsp"></jsp:include>
 

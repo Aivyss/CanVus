@@ -20,7 +20,7 @@
     <!-- Websocket libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.0.0/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-    <link rel="stylesheet" href="/resources/css/drawing/style.css">
+    <link rel="stylesheet" href="/resources/css/drawing/style.css?after">
     <!-- 서버로부터 받아온 변수를 저장하는 자바스크립트 -->
     <script type="text/javascript">
         const room_Id = "${room_Id}";
@@ -30,9 +30,9 @@
     </script>
 </head>
 
-<body data-spy="scroll" data-target="#header">
+<body data-spy="scroll" data-target="#header" style="padding-top:80px">
 <!--Start Hedaer Section-->
-<jsp:include page="/WEB-INF/views/mainMenu.jsp"></jsp:include>
+<%--<jsp:include page="/WEB-INF/views/mainMenu.jsp"></jsp:include>--%>
 <c:choose>
     <c:when test="${empty pwWrttenByUser && dbPassword != null}">
         <script type="text/javascript" src="/resources/js/drawing/passwordCheck.js"></script>
@@ -48,6 +48,9 @@
     </c:when>
     <c:otherwise>
         <script src="/resources/js/drawing/drawingFunctionSet.js"></script>
+        <jsp:include page="/WEB-INF/baseJSP/toolTop.jsp"></jsp:include>
+        <!-- 그리기 및 소켓관련 js -->
+
         <!-- 본격적인 드로잉 페이지 시작 -->
 
         <link rel="stylesheet" href="/resources/css/drawing/sideBar.css">
@@ -59,32 +62,8 @@
                 <!-- 사이드 바 시작 -->
                 <div id="sidebar" class="span2">
                     <!-- 사이드바 -->
-                    <!-- 레이어 추가버튼 -->
-                    <div>
-                        <div style="float:left;width:100px;">레이어 추가 :</div>
-                        <div style="clear:both;">
-                            <input type="button" id="addItem" value="추가" onclick="createLayer();"/>
-                        </div>
-                    </div>
-
-                    <br>
-
                     <!-- 레이어 리스트 -->
-                    <div id="itemBoxWrap" style="overflow:auto; width:300px; height:150px;"></div>
-
-                    <!-- 브러시 버튼 -->
-                    <div id="brushSet" class="brushBox">
-                        <div id="PencilBrush" class="brushElement">pencil</div>
-                        <div id="CircleBrush" class="brushElement">circle</div>
-                        <div id="SprayBrush" class="brushElement">spray</div>
-                        <div id="SquareBrush" class="brushElement">square</div>
-                    </div>
-
-                    <!-- 색상 파레트 -->
-                    <div id="drawing-mode-options">
-                        <label for="drawing-color">Line color:</label>
-                        <input type="color" value="#005E7A" id="drawing-color"><br>
-                    </div>
+                    <div id="itemBoxWrap" style="overflow:auto; width:300px; height:300px;"></div>
 
                     <!-- 레인지 바 -->
                     <link rel="stylesheet" href="/resources/css/drawing/range.css">
@@ -103,11 +82,11 @@
                     </div>
                 </div> <!-- 사이드바 앤드 -->
 
-                <!-- 드로워 리스트 -->
-                <div class="btn-group btn-group-lg" role="group" aria-label="..." id="drawerList" style="height:50px;">
-                </div>
-
                 <div id="content" class="span7">
+                    <!-- 드로워 리스트 -->
+                    <div class="btn-group btn-group-lg" role="group" aria-label="..." id="drawerList" style="height:50px;">
+                    </div>
+
                     <!-- 페이지 탭 -->
                     <div id="container">
                         <ul class="tab">
