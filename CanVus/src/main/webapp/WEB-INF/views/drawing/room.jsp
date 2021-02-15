@@ -49,20 +49,21 @@
     <c:otherwise>
         <script src="/resources/js/drawing/drawingFunctionSet.js"></script>
         <!-- 본격적인 드로잉 페이지 시작 -->
-        <!-- 툴 텝 시작 -->
+
         <link rel="stylesheet" href="/resources/css/drawing/sideBar.css">
         <link rel="stylesheet" href="/resources/css/drawing/pageTab.css">
         <link rel="stylesheet" href="/resources/css/drawing/layerList.css">
 
         <div class="skeleton" style="padding-top:5px;">
             <div class="row-fluid">
+                <!-- 사이드 바 시작 -->
                 <div id="sidebar" class="span2">
                     <!-- 사이드바 -->
                     <!-- 레이어 추가버튼 -->
                     <div>
-                        <div style="float:left;width:100px;">레이어 추가 : </div>
+                        <div style="float:left;width:100px;">레이어 추가 :</div>
                         <div style="clear:both;">
-                            <input type="button" id="addItem" value="추가" onclick="createLayer();" />
+                            <input type="button" id="addItem" value="추가" onclick="createLayer();"/>
                         </div>
                     </div>
 
@@ -89,28 +90,32 @@
                     <link rel="stylesheet" href="/resources/css/drawing/range.css">
                     <div class="range-container">
                         <div class="range-slider">
-                            <input type="range" orient="vertical" min="0" max="100" />
+                            <input type="range" orient="vertical" min="0" max="100"/>
                             <div class="range-slider__bar theme1"></div>
                             <div class="range-slider__thumb" id="thicknessBar"></div>
                         </div>
 
                         <div class="range-slider">
-                            <input type="range" orient="vertical" min="0" max="100" />
+                            <input type="range" orient="vertical" min="0" max="100"/>
                             <div class="range-slider__bar theme2"></div>
                             <div class="range-slider__thumb" id="opacityBar"></div>
                         </div>
                     </div>
                 </div> <!-- 사이드바 앤드 -->
 
+                <!-- 드로워 리스트 -->
+                <div class="btn-group btn-group-lg" role="group" aria-label="..." id="drawerList" style="height:50px;">
+                </div>
+
                 <div id="content" class="span7">
-                    <!-- 툴탭 -->
+                    <!-- 페이지 탭 -->
                     <div id="container">
                         <ul class="tab">
                             <li class="current" data-tab="create" id="createPage"><a href="#">New Page</a></li>
                         </ul>
-                        <!-- 생성을 위한 툴탭 -->
-                        <div id="base">
-                            <div id="create" class="tabcontent current" style="display: none"></div>
+                        <!-- 생성을 위한 탭 -->
+                        <div id="base" style="width: 100%; margin: 0 auto;">
+                            <div id="create" class="tabcontent current" style="width:800px; height:800px;"></div>
                         </div>
                     </div>
 
@@ -139,7 +144,7 @@
                         <link rel="stylesheet" href="/resources/css/drawing/userList.css">
                         <div style="width:200px; float:left;">
                             <section id="userListSection">
-                                <input type="text" id="filter" placeholder="Type to filter" />
+                                <input type="text" id="filter" placeholder="Type to filter"/>
                                 <ul id="canvus-list" class="Canvus-List">
 
                                 </ul>
@@ -148,7 +153,8 @@
                     </div>
                 </div> <!-- end #content -->
             </div> <!-- end .row-fluid -->
-        </div> <!-- end .container -->
+        </div>
+        <!-- end .container -->
     </c:otherwise>
 </c:choose>
 </body>
