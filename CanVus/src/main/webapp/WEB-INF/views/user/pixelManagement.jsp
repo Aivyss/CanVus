@@ -21,6 +21,10 @@
 
 	<script type="text/javascript">
    $(document).ready(function(){
+
+
+	   
+      // 캔버스 페이지 기능
       
       $('ul.tabs li').click(function(){
          var tab_id = $(this).attr('data-tab');
@@ -40,6 +44,9 @@
          
       });
 
+       
+    // 오른쪽 사이드바 페이지기능
+    
        $(function(){
            $(".tab ul li").click(function(){ 
                $(".tab ul li").removeClass('on');
@@ -48,6 +55,10 @@
                $("#"+$(this).data('id')).addClass('on');
            });
        });
+
+       
+      // 레이어 추가,숨김,삭제기능
+      // 되긴하는데 지금 엄청 대충만든상태고 하드코딩한거
       
        var currlayers=1;
       var layerstotal=1;
@@ -277,7 +288,8 @@
             $('.layer1').draggable("destroy"); 
         }); 
 
-      // 휠 확대 기능, alt+클릭으로 캔버스 이동가능
+      // 휠 확대 기능
+      // alt+클릭으로 캔버스 이동가능
       
          canvas.on('mouse:wheel', function(opt) {
       	   var delta = opt.e.deltaY;
@@ -347,7 +359,7 @@
         	canvas.renderAll();
         });
 
-    	// 텍스트 추가하는 기능
+    	// 입력한대로 텍스트박스 추가해주는 기능
     	
 		$('#btn_add_new').click(function(e) {
 	        e.preventDefault();
@@ -365,8 +377,10 @@
 		        
 	        }
 	    });
-
 	    
+
+	    // 텍스트박스 꾸미기 기능들 (색깔, 크기 글자배경색 etc)
+	    // 불안정함. 뭔 이윤지 모르겠는데 바로 안 바뀌고 글자 크기를 바꾸면 그제서야 적용되고 그럼
 		    
 		function setStyle(object, styleName, value) {
 		    if (object.setSelectionStyles && object.isEditing) {
@@ -456,8 +470,13 @@
 		addHandler('text-cmd-overline', function(obj) {
 		      setStyle(obj, 'overline', this.value);
 		    }, 'onchange');
+
+
+
+
 	    
-		// Text formatting actions
+		// 텍스트 굵게,기울게,밑줄 함수 - 뭔 이유인지 모르겠는데 작동안함
+		
 		var underline = document.getElementById('btn-underline');
 		var bold = document.getElementById('btn-bold');
 		var italic = document.getElementById('btn-italic');
@@ -473,8 +492,7 @@
 		italic.addEventListener('click', function() {
 		  dtEditText('italic');
 		}); 
-		
-		// Functions
+
 		function dtEditText(action) {
 		    var a = action;
 		    var o = canvas.getActiveObject();
@@ -520,7 +538,7 @@
 
    });
 
-	// undo, redo 펑션
+	// undo, redo 펑션 / 근데 뺀다고함 ㅋㅋ
 	
    var canvas = new fabric.Canvas('canvas');
  	canvas.isDrawingMode = true;
@@ -548,7 +566,7 @@
  	}
 
  
- 	// 텍스트박스 추가해주는 버튼 함수
+ 	// 'Tap and Type'라는 텍스트박스 추가해주는 버튼 함수
 
  	function Addtext() { 
  	canvas.add(new fabric.IText('Tap and Type', { 
@@ -670,6 +688,7 @@ ul.tabs li.current{
    display: none;
    background: #ededed;
    padding: 15px;
+   
 }
 
 .tab-content.current{
@@ -709,6 +728,7 @@ ul.tabs li.current{
     width:100%;
     height:auto;
     overflow:hidden;
+    width: 270px;
     min-height:200px;
     background:#50bcdf;
     display:none;
@@ -724,7 +744,7 @@ ul.tabs li.current{
   position: absolute;
   left: 0px;
   top: 10px;
-  width: 200px;
+  width: 270px;
   height: 300px;
   background: grey;
 }
@@ -816,11 +836,10 @@ ul.tabs li.current{
 	      		<div>
 		      		<div>
 		      		<div>
-						    <button id="btn-underline">Underline Toggle</button>
-						    <button id="btn-bold">Bold Toggle</button>
-						    <button id="btn-italic">Italic Toggle</button> 
-						</div>
-						
+						<button id="btn-underline">Underline Toggle</button>
+						<button id="btn-bold">Bold Toggle</button>
+						<button id="btn-italic">Italic Toggle</button> 
+					</div>
 		      			Background Color
 		      		</div>
 		      		<div>
