@@ -26,6 +26,7 @@
         const room_Id = "${room_Id}";
         const user_id = "${sessionScope.userId}";
         const mynickname = "${sessionScope.userVO.nickname}";
+        const admin_id = "${adminId}";
     </script>
 </head>
 
@@ -144,7 +145,6 @@
                                 </ul>
                             </section>
                         </div>
-                        <script src="/resources/js/drawing/userList.js"></script>
                     </div>
                 </div> <!-- end #content -->
             </div> <!-- end .row-fluid -->

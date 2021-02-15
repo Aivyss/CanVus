@@ -25,6 +25,14 @@ let brushGlobal = "PencilBrush";
 let socketClient = null;
 let isInitialized = false;
 
+// 권한부여자 카운팅
+let authCount = 0;
+
+// 유저리스트 필터용 변수
+let filter;
+let list;
+let listItems = [];
+
 // 레인지바 객체
 let sliderObj = {
     updateSlider: function (element) {
@@ -59,9 +67,21 @@ let socketFunctionSet = (function() {
             const userList = data['userListInRoom'];
 
             $('#canvus-list').empty();
+            authCount = 0;
 
-            for (const user of userList) {
-                $('#canvus-list').append(`<li>${user['nickname']}</li>`);
+            if (admin_id == user_id){ // 어드민이 입장한 경우
+                for (const user of userList) {
+                    if (user['user_type'] == 'VISITOR'){ // 유저리스트의 유저가 방문자인 경우
+                        $('#canvus-list').append(`<li>${user['nickname']}<button class="addAuthority" id="list${user['user_id']}">권한부여</button></li>`);
+                    } else { // 유저 리스트의 유저가 drawer인 경우
+                        $('#canvus-list').append(`<li>${user['nickname']}</li>`);
+                        authCount++;
+                    }
+                }
+            } else { // 기타 멤버가 입장한 경우
+                for (const user of userList) {
+                    $('#canvus-list').append(`<li>${user['nickname']}</li>`);
+                }
             }
         },
         quit: function (data) {
@@ -118,6 +138,19 @@ let socketFunctionSet = (function() {
                 targetObj.loadFromJSON(obj, targetObj.renderAll.bind(targetObj));
             }
         },
+        addAuthority: function (data) {
+            const message = data['message'];
+            const sender = message['user_id'];
+            const targetId = message['targetId'];
+
+            if (sender != user_id && targetId == user_id){
+                for (let i=0; i<layerSet.length; i++) {
+                    for (let j=0; j<layerSet[i].length; j++) {
+                        $(`.p${i+1}l${j}u`).css({'display':''});
+                    }
+                }
+            } // if end
+        }
     }
 })();
 
@@ -212,6 +245,8 @@ function parser(data) {
         socketFunctionSet.presentPixel(data);
     } else if (type == "DELETEPAGELAYER"){
         socketFunctionSet.deletePageLayer(data);
+    } else if (type == "ADDAUTHORITY") {
+        socketFunctionSet.addAuthority(data);
     }
 }
 // ********** 소켓 전송과 관련된 이벤트 끝 ********** //
@@ -297,7 +332,12 @@ function createLayer(isReceiver) {
 
     //TODO 부가적으로 생성된 canvas-container를 지우는 프로세스
     $('.canvas-container').attr('class', 'remove');
-    $('.upper-canvas').attr('class', layerId+'u');
+    if (user_id != admin_id){
+        $('.upper-canvas').attr('class', layerId+'u').css({'display': 'none'});
+        $(`.${layerId}u`).css({'display': 'none'});
+    } else {
+        $('.upper-canvas').attr('class', layerId+'u')
+    }
     $('#'+layerId).appendTo('#p'+pageNum);
     $('.'+layerId+'u').appendTo('#p'+pageNum);
     $('.remove').remove();
@@ -362,7 +402,12 @@ function initializeCreateLayer(pageNo) {
 
     //TODO 부가적으로 생성된 canvas-container를 지우는 프로세스
     $('.canvas-container').attr('class', 'remove');
-    $('.upper-canvas').attr('class', layerId+'u');
+    if (user_id != admin_id){
+        $('.upper-canvas').attr('class', layerId+'u')
+        $(`.${layerId}u`).css({'display': 'none'});
+    } else {
+        $('.upper-canvas').attr('class', layerId+'u')
+    }
     $('#'+layerId).appendTo('#p'+pageNo);
     $('.'+layerId+'u').appendTo('#p'+pageNo);
     $('.remove').remove();
@@ -402,6 +447,12 @@ function createPage(isReceiver) {
     // TODO canvas-container를 단 1개로 유지하기 위해 ID속성부여 프로세스
     $('.canvas-container').attr('id', pageId);
     $('.upper-canvas').attr('class', pageId+'l1u');
+    if (user_id != admin_id){
+        $('.upper-canvas').attr('class', pageId+'l1u');
+        $(`.${pageId}l1u`).css({'display': 'none'});
+    } else {
+        $('.upper-canvas').attr('class', pageId+'l1u');
+    }
     $('#'+pageId).attr('class', 'tabcontent');
 
     // TODO 생성된 canvas 태그들에 z-index를 부여하고 zNumSet에 반영하는 프로세스
@@ -548,6 +599,10 @@ function createItem(layerId) {
 
 /*********************** 이벤트 등록파트 *******************/
 $(()=>{
+    // ************로딩후 사용할 수 있는 전역변수 ********************/
+    filter = document.getElementById('filter');
+    list = document.getElementById('list');
+
     // ************ 레이어 리스트 초기설정 *****************//
     $("#itemBoxWrap").sortable({
         placeholder: "itemBoxHighlight",
@@ -776,6 +831,44 @@ $(()=>{
         if(brushType != 'brushBox') {
             brushGlobal = brushType;
             changeBrush();
+        }
+    });
+
+    // ********************* 드로잉 권한부여 이벤트 *************************//
+    $(document).on('click', '.addAuthority', function(event){
+        if (authCount < 4) {
+            let targetId = event.target.id;
+            targetId = targetId.split('list')[1];
+
+            const message = {
+                user_id : user_id,
+                targetId : targetId
+            };
+
+            sendMessage(message, 'addAuthoity');
+            authCount++;
+        } else {
+            alert('권한은 최대 4명만 부여 가능합니다.');
+        }
+    });
+
+    // ****************** 우저리스트 필터 이벤트 ************************/
+    filter.addEventListener('keyup', function (e) {
+        listItems = list.querySelectorAll('li');
+        let val = new RegExp(e.target.value, 'gi');
+        for (let i = 0; i < listItems.length; i++) {
+            if (e.target.value.length > 0) {
+                let text = listItems[i].innerHTML;
+
+                if (!text.match(val)) {
+                    listItems[i].classList.add('is-hidden');
+                } else {
+                    listItems[i].classList.remove('is-hidden');
+                }
+            } else {
+                listItems[i].classList.remove('is-hidden');
+            }
+
         }
     });
 });

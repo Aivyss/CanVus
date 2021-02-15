@@ -342,13 +342,22 @@ public class DrawingService {
 			url = "redirect:/main";
 		} else {
 			model.addAttribute("room_Id", room_Id);
+			model.addAttribute("adminId", roomInfo.getAdmin());
 			// 기존 방 멤버가 아니다.
 			if (roomInfo.getUser_no() > userCount) { // TODO 방인원수가 초과했는지 확인
 				// TODO 비밀번호가 필요한지 확인
 				if (roomInfo.getPassword() == null) {
-					// 방 비번이 필요 없으니까 통일한다.
-					model.addAttribute("pwWrttenByUser", "None");
-					model.addAttribute("dbPassword", "None");
+					if (userId.equals(roomInfo.getAdmin())) {
+						enterRoom(room_Id, session, "ADMIN");
+
+						// 어드민은 비밀번호 검증이 필요 없다.
+						model.addAttribute("pwWrttenByUser", "None");
+						model.addAttribute("dbPassword", "None");
+					} else {
+						// 방 비번이 필요 없으니까 통일한다.
+						model.addAttribute("pwWrttenByUser", "None");
+						model.addAttribute("dbPassword", "None");
+					}
 
 					url = "drawing/room";
 				} else {
@@ -366,7 +375,7 @@ public class DrawingService {
 						model.addAttribute("pwWrttenByUser", "None");
 						model.addAttribute("dbPassword", "None");
 					} else if (isCorrect) {
-						enterRoom(room_Id, session, "VISITER");
+						enterRoom(room_Id, session, "VISITOR");
 
 						// TODO 해당 방 아이디와 입력한 비밀번호, db상 방비밀번호를 모델에 넣는다.
 						model.addAttribute("pwWrttenByUser", (String) session.getAttribute("pwWrttenByUser")); // 유저가 입력한 비번
@@ -418,4 +427,22 @@ public class DrawingService {
 
 		return drawingDAO.deletePageLayer(page);
 	}
+
+	/**
+	 * 그리기 권한을 부여하는 메소드로 DB에 권한을 재설정한다.
+	 * 작성일: 2021.02.15 / 완성일: / 버그검증일:"
+	 * 작성자: 이한결
+	 * @param room_id
+	 * @param json
+	 * @return
+	 */
+    public boolean addAuthoity(String room_Id, Map<String, Object> json) {
+    	DrawingUserVO targetUser = new DrawingUserVO();
+    	Map<String, Object> message = (Map) json.get("message");
+    	targetUser.setRoom_Id(room_Id);
+    	targetUser.setUser_id((String) message.get("targetId"));
+    	targetUser.setUser_type("DRAWER");
+
+    	return drawingDAO.addAuthority(targetUser);
+    }
 }

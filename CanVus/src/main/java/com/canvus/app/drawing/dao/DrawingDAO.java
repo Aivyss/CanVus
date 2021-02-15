@@ -282,4 +282,26 @@ public class DrawingDAO {
 
 		return layers;
     }
+
+	/**
+	 * DB에 유저 권한 변경을 수행하는 메소드
+	 * 작성일: 2021.02.15 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param targetUser
+	 * @return
+	 */
+	public boolean addAuthority(DrawingUserVO targetUser) {
+		boolean check = false;
+
+		try {
+			JoinListMapper mapper = session.getMapper(JoinListMapper.class);
+			check = mapper.addAuthority(targetUser);
+		} catch (Exception e) {
+			log.info("권한정보 수정 sql 오류");
+
+			e.printStackTrace();
+		}
+
+		return check;
+	}
 }

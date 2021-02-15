@@ -48,9 +48,24 @@ public class StompService {
 			container = drawing(room_Id, json);
 		} else if (type.equals("DELETEPAGELAYER")) {
 			container = deletePageLayer(room_Id, json);
+		} else if (type.equals("ADDAUTHORITY")) {
+			container = addAuthoity(room_Id, json);
 		}
 		
 		return container;
+	}
+
+	/**
+	 * 드로잉 권한부여 처리과정
+	 * 작성일: 2021.02.15 / 완성일: / 버그검증일: 
+	 * 작성자: 이한결
+	 * @param room_id
+	 * @param json
+	 * @return
+	 */
+	private Map<String, Object> addAuthoity(String room_Id, Map<String, Object> json) {
+		boolean check = drawingService.addAuthoity(room_Id, json);
+		return null;
 	}
 
 	/**

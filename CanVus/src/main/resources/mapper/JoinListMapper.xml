@@ -77,4 +77,13 @@
 		ROOM_ID = #{room_Id}
 </delete>
 
+<update id="addAuthority" parameterType="drawingUser">
+	UPDATE JOIN_LIST
+		SET USER_TYPE = #{user_type}
+	WHERE
+		ROOM_ID = #{room_Id}
+		AND
+	    USER_ID = #{user_id}
+</update>
+
 </mapper>
