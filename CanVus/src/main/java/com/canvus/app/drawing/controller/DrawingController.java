@@ -140,21 +140,6 @@ public class DrawingController {
 		session.removeAttribute("pwWrttenByUser");
 	}
 	
-	/**
-	 * 레이어를 데이터베이스에 저장하는 메소드
-	 * 작성일 2021.01.21 / 완성일: / 버그검증일:
-	 * 작성자: 이한결
-	 * @param params
-	 * @return
-	 */
-	@ResponseBody
-	@RequestMapping(value="/createPage")
-	public boolean savePage(@RequestBody Map<String, Object> params) {
-		boolean check = drawingService.createPage(params);
-		
-		return check;
-	}
-	
 	@RequestMapping(value="/makeFeed", method=RequestMethod.POST)
 	public String makeFeed(@RequestBody Map<String, Object> params) {
 		boolean check = drawingService.makeFeed(params);
@@ -171,11 +156,11 @@ public class DrawingController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="selectAllPages", method=RequestMethod.GET)
+	@RequestMapping(value="getAllLayers", method=RequestMethod.POST)
 	public List<PageVO> selectAllPages(@RequestBody Map<String, Object> params) {
 		log.info("모든 페이지-레이어 정보 불러오기 컨트롤러 메소드");
 		log.info((String) params.get("room_Id"));
 		
-		return drawingService.selectAllPages((String) params.get("room_Id"));
+		return drawingService.getAllLayers((String) params.get("room_Id"));
 	}
 }

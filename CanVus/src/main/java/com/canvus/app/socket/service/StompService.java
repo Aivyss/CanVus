@@ -1,17 +1,14 @@
 package com.canvus.app.socket.service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.canvus.app.drawing.dao.DrawingDAO;
 import com.canvus.app.drawing.service.DrawingService;
 import com.canvus.app.drawing.vo.DrawingUserVO;
 import com.canvus.app.service.UserService;
-import com.canvus.app.socket.vo.MessageVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,26 +28,66 @@ public class StompService {
 	 * @param message
 	 * @return
 	 */
-	public Map<String, Object> parser(String room_Id, MessageVO message) {
+	public Map<String, Object> parser(String room_Id, Map<String, Object> json) {
 		log.info("메세지 파서 메소드 진입");
-		String type = message.getType().toUpperCase();
+		String type = (String) json.get("type");
+		type = type.toUpperCase();
 		Map<String, Object> container = null;
 		
 		if (type.equals("COMMONCHAT")) {
-			container = commonChat(message);
+			container = commonChat(json);
 		} else if (type.equals("ENTER")) {
-			container = enter(room_Id, message);
+			container = enter(room_Id, json);
 		} else if (type.equals("QUIT")) {
-			container = quit(room_Id, message);
+			container = quit(room_Id, json);
 		} else if (type.equals("CREATEPAGELAYER")) {
-			container = createPageLayer(room_Id, message);
+			container = createPageLayer(room_Id, json);
 		} else if (type.equals("PRESENTPIXEL")) {
-			container = presentPixel(message);
+			container = presentPixel(json);
+		} else if (type.equals("DRAWING")) {
+			container = drawing(room_Id, json);
+		} else if (type.equals("DELETEPAGELAYER")) {
+			container = deletePageLayer(room_Id, json);
 		}
 		
 		return container;
 	}
-	
+
+	/**
+	 * 레이어를 지우는 메소드
+	 * 작성일: 2021.02.13 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param room_id
+	 * @param json
+	 * @return
+	 */
+	private Map<String, Object> deletePageLayer(String room_Id, Map<String, Object> json) {
+		log.info("레이어를 지우는 소켓 서비스메소드 진입");
+
+		json.put("room_Id", room_Id);
+		
+		boolean check = drawingService.deletePageLayer(room_Id, json);
+		
+		if (!check) {
+			json = null;
+		}
+		
+		return json;
+	}
+
+	private Map<String, Object> drawing(String room_Id, Map<String, Object> json) {
+		log.info("드로잉을 처리하는 서비스 메소드");
+
+		boolean check = drawingService.updatePage(json, room_Id);
+
+		if (!check) {
+			// 성공하지 못했다면 json 보내지마
+			json = null;
+		}
+
+		return json;
+	}
+
 	/**
 	 * 일반 채팅을 처리하는 서비스 메소드
 	 * 작성일: 2021.02.28 / 완성일: / 버그검증일:
@@ -58,13 +95,9 @@ public class StompService {
 	 * @param message
 	 * @return
 	 */
-	private Map<String, Object> commonChat(MessageVO message) {
-		Map<String, Object> container = new HashMap<String, Object>();
-		
-		container.put("header", "COMMONCHAT");
-		container.put("message", message);
-		
-		return container;
+	private Map<String, Object> commonChat(Map<String, Object> json) {
+
+		return json;
 	}
 	
 	/**
@@ -75,15 +108,13 @@ public class StompService {
 	 * @param message
 	 * @return
 	 */
-	private Map<String, Object> enter(String room_Id, MessageVO message) {
-		// message에 있어야할 내용: 없음
-		Map<String, Object> container = new HashMap<String, Object>();
+	private Map<String, Object> enter(String room_Id, Map<String, Object> json) {
+		// message에 있어야할 내용: 아이디, 닉네임
 		List<DrawingUserVO> userListInRoom = drawingService.getRoomUserList(room_Id);
+
+		json.put("userListInRoom", userListInRoom);
 		
-		container.put("header", "ENTER");
-		container.put("userListInRoom", userListInRoom);
-		
-		return container;
+		return json;
 	}
 	
 	/**
@@ -94,23 +125,21 @@ public class StompService {
 	 * @param message
 	 * @return
 	 */
-	private Map<String, Object> quit(String room_Id, MessageVO message) {
+	private Map<String, Object> quit(String room_Id, Map<String, Object> json) {
 		log.info("퇴장 처리 서비스 메소드 진입");
 		
 		// message에 있어야할 내용 : 퇴장하는 유저의 아이디	
-		String userId = message.getMessage();
-		Map<String, Object> container = new HashMap<String, Object>();
+		Map<String, Object> message = (Map) json.get("message");
+		String userId = (String) message.get("userId");
 		List<DrawingUserVO> userListInRoom = null;
 		// 방을 퇴장시킨다.
 		boolean quitSuccess = drawingService.quitRoom(room_Id, userId);
 		
 		if (quitSuccess) {
-			userListInRoom = drawingService.getRoomUserList(room_Id);
-			container.put("header", "QUIT");
-			container.put("userListInRoom", userListInRoom);
+			json.put("userListInRoom", userListInRoom);
 		}
 		
-		return container;
+		return json;
 	}
 	
 	/**
@@ -121,20 +150,12 @@ public class StompService {
 	 * @param message
 	 * @return
 	 */
-	private Map<String, Object> createPageLayer(String room_Id, MessageVO message) {
+	private Map<String, Object> createPageLayer(String room_Id, Map<String, Object> json) {
 		// 있어야할 내용: 페이지-레이어 번호(스트링 값으로 줘야함)
-		String[] pageLayerSet = message.getMessage().split("-");
-		Map<String, Object> container = new HashMap<String, Object>();
+
+		drawingService.createPageLayer(room_Id, json);
 		
-		int page_no = Integer.parseInt(pageLayerSet[0]);
-		int layer_no = Integer.parseInt(pageLayerSet[1]);		
-		container.put("room_Id", room_Id);
-		container.put("page_no", page_no);
-		container.put("layer_no", layer_no);
-	
-		drawingService.createPage(container);
-		
-		return container;
+		return json;
 	}
 	
 	/**
@@ -145,19 +166,9 @@ public class StompService {
 	 * @param message
 	 * @return
 	 */
-	private Map<String, Object> presentPixel(MessageVO message) {
+	private Map<String, Object> presentPixel(Map<String, Object> json) {
 		// 있어야할 내용: 보낸사람-받는사람-픽셀수
-		String[] infoSet = message.getMessage().split("-");
-		Map<String, Object> container = new HashMap<String, Object>();
-
-		String sender = infoSet[0];
-		String receiver = infoSet[1];
-		int pixel = Integer.parseInt(infoSet[2]);
-		
-		container.put("sender", sender);
-		container.put("receiver", receiver);
-		container.put("pixel", pixel);
-		
-		return container;
+		// 전송은 이미 AJAX로 해서 DAO를 거치지 않아도 된다.
+		return json;
 	}
 }

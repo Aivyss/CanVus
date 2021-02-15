@@ -24,7 +24,7 @@ public class StompConfig extends AbstractWebSocketMessageBrokerConfigurer {
 	public void configureWebSocketTransport(WebSocketTransportRegistration registration) {
 		registration.setSendTimeLimit(20*10000);
 		registration.setSendBufferSizeLimit(3* 512 * 1024);
-		registration.setMessageSizeLimit(200000);
+		registration.setMessageSizeLimit(160 * 64 * 1024);
 		
 		super.configureWebSocketTransport(registration);
 	}

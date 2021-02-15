@@ -83,25 +83,6 @@ public class DrawingDAO {
 	}
 	
 	/**
-	 * 해당 방의 그림 정보를 가져오는 메소드
-	 * 제작일: 2021.01.20 / 완성일: / 버그검증완료:
-	 * @param room_Id
-	 * @return
-	 */
-	public List<PageVO> getPgs(String room_Id) {
-		List<PageVO> dbData = null;
-		
-		try {
-			PageLayerMapper mapper = session.getMapper(PageLayerMapper.class);
-			dbData = mapper.getPgs(room_Id);
-		} catch (Exception e) {
-			log.info("getPgs SQL오류");
-		}
-		
-		return dbData;
-	}
-	
-	/**
 	 * 그려진 한 레이어를 데이터베이스에 저장하는 메소드
 	 * 제작일: 2021.01.21 / 완성일: / 버그검증완료:
 	 * @param page
@@ -257,4 +238,48 @@ public class DrawingDAO {
 		
 		return check;
 	}
+
+	/**
+	 * 레이어를 삭제하는 메소드
+	 * 작성일:2021.02.13 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param page
+	 * @return
+	 */
+    public boolean deletePageLayer(PageVO page) {
+    	log.info("레이어삭제 dao 메소드 진입");
+    	boolean check = false;
+
+    	try {
+    		PageLayerMapper mapper = session.getMapper(PageLayerMapper.class);
+    		check = mapper.deletePageLayer(page);
+		} catch (Exception e) {
+    		log.info("레이어 삭제 sql오류");
+    		e.printStackTrace();
+		}
+
+    	return check;
+    }
+
+	/**
+	 * 작성일: 2021.02.13 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param room_id
+	 * @return
+	 *
+	 */
+	public List<PageVO> getAllLayers(String room_Id) {
+		List<PageVO> layers = null;
+		PageVO roomInfo = new PageVO();
+		roomInfo.setRoom_Id(room_Id);
+		try {
+			PageLayerMapper mapper = session.getMapper(PageLayerMapper.class);
+			layers = mapper.getAllLayers(roomInfo);
+		} catch (Exception e) {
+			log.info("전체 레이어 불러오기 sql오류");
+			e.printStackTrace();
+		}
+
+		return layers;
+    }
 }

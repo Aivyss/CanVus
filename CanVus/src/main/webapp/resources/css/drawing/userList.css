@@ -1,0 +1,59 @@
+/*
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+body {
+    padding: 1em;
+    font-family: 'Open Sans';
+    font-size: 14px;
+    font-weight: 300;
+    background-color: #3b2a32;
+    color: #5c393d;
+} */
+#userListSection {
+    width: 100%;
+    margin: 0 auto;
+}
+#filter {
+    width: 100%;
+    padding: 10px 0px;
+    font-size: 16px;
+    outline: none;
+    background-color: #e78584;
+    border: none;
+    color: #5c393d;
+}
+.Canvus-List {
+    width: 100%;
+    height: 300px;
+    margin: 8px 0;
+    list-style:none;
+    padding-left:0px;
+    overflow-x: scroll;
+}
+.Canvus-List > li {
+    padding: 12px 8px;
+    background-color: #f2b7bd;
+    border-bottom: 1px solid #5c393d;
+    transition: all 0.1s ease;
+}
+.Canvus-List > li.is-hidden {
+    height: 0;
+    font-size: 0;
+    padding: 0;
+    border: none;
+    visibility: hidden;
+}
+::-webkit-input-placeholder {
+    color: #5c393d;
+}
+:-moz-placeholder {
+    /* Firefox 18- */
+    color: #5c393d;
+}
+::-moz-placeholder {
+    /* Firefox 19+ */
+    color: #5c393d;
+}
