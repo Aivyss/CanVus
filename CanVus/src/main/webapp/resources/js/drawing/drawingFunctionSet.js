@@ -232,7 +232,14 @@ function sendMessage(message, type) {
     };
 
     // send process
-    socketClient.send(`/drawing/room/${room_Id}`, {}, JSON.stringify(data));
+    try {
+        socketClient.send(`/drawing/room/${room_Id}`, {}, JSON.stringify(data));
+    } catch (e) {
+        console.log("메세지 전송실패");
+        if (data['type'] == 'enter') {
+            socketEntranceRepeater();
+        }
+    }
 }
 
 // 소켓 종료 메소드
@@ -253,16 +260,21 @@ $(window).on('beforeunload', function () {
     disconnect();
 });
 
-// 방입장 메세지 전송파트 (일단 임시로 하고 만약 비동기가 이래도 처리가 안되면
-// 반복문으로 처리할 것이다.
-const enterData = {
-    user_id: "BOT",
-    nickname: mynickname,
-    message: mynickname + "さんが入室しました。"
-};
-setTimeout(sendMessage, 5000, enterData, 'enter');
+function socketEntranceRepeater(){
+    try {
+        const enterData = {
+            user_id: "BOT",
+            nickname: mynickname,
+            message: mynickname + "さんが入室しました。"
+        };
+        setTimeout(sendMessage, 500, enterData, 'enter');
+    } catch (e) {
+        console.log("소켓 생성전");
+        socketEntranceRepeater();
+    }
+}
 
-// Message parser
+// `Message` parser
 function parser(data) {
     let type = data['type'];
     type = type.toUpperCase();
@@ -314,10 +326,10 @@ function changeBrush() {
         currlayer.freeDrawingBrush = new fabric.SprayBrush(currlayer);
     } else if (brushGlobal == "CircleBrush") {
         currlayer.freeDrawingBrush = new fabric.CircleBrush(currlayer);
-    } else if (brushGlobal == "BaseBrush") {
-        currlayer.freeDrawingBrush = new fabric.BaseBrush(currlayer);
-    } else if (brushGlobal == "PatternBrush") {
-        currlayer.freeDrawingBrush = new fabric.BaseBrush(currlayer);
+    } else if (brushGlobal == "EraserBrush") {
+        currlayer.freeDrawingBrush = new fabric.PencilBrush(currlayer);
+        currlayer.freeDrawingBrush.globalCompositeOperation = 'destination-out';
+        currlayer.freeDrawingBrush.id = 'erasure';
     } else if (brushGlobal == "SquareBrush") {
         currlayer.freeDrawingBrush = new fabric.SquareBrush(currlayer);
     }
@@ -328,12 +340,6 @@ function changeBrush() {
 
     currlayer.freeDrawingBrush.color = hexGlobal;
     currlayer.freeDrawingBrush.width = thicknessGlobal;
-
-    if (brushGlobal != "SquareBrush") {
-        // square brush는 opcity를 지원하지 않는다.
-        currlayer.freeDrawingBrush.opacity = opacityGlobal;
-    }
-
 }
 
 function createLayer(isReceiver) {
@@ -847,7 +853,7 @@ $(() => {
         console.log(thickness);
         console.log(opacity);
 
-        hexGlobal = $('#drawing-color').val();
+        hexGlobal = $('#drawing-color').val() + Math.floor(opacity * 255).toString(16);
 
         thicknessGlobal = thickness;
         opacityGlobal = opacity;
@@ -863,12 +869,9 @@ $(() => {
     });
 
     // *************** 브러시 버튼 클릭 이벤트 ********************* //
-    $(document).on('click', '.brushElement', function () {
-        console.log("브러시 선택 버튼 클릭으로 인한 브러시 변경 이벤트 발생");
+    // deprecated
+    $(document).on('click', '.brushElement', function (event) {
 
-        let brushType = $(this).attr('id');
-        brushGlobal = brushType;
-        changeBrush();
     });
 
     // ********************* 드로잉 권한부여 이벤트 *************************//
@@ -916,4 +919,19 @@ $(() => {
 
         }
     });
+
+    // 브러시 탭은 내부를 클릭해도 닫히지 않는다.  레인지 바 때문에 닫으면 오히려 불편하다.
+    // 브러시 변화는 줘야하네 아 ㅋㅋ;;
+    $('#brushTap').on('click', function(event){
+        console.log("브러시 선택 버튼 클릭으로 인한 브러시 변경 이벤트 발생");
+
+        let brushType = event.target.id;
+        brushGlobal = brushType;
+        changeBrush();
+
+        event.stopPropagation();
+    });
+
+    // 방입장 메세지 전송파트
+    socketEntranceRepeater();
 });

@@ -35,6 +35,7 @@
 <%--<jsp:include page="/WEB-INF/views/mainMenu.jsp"></jsp:include>--%>
 <c:choose>
     <c:when test="${empty pwWrttenByUser && dbPassword != null}">
+        <jsp:include page="/WEB-INF/baseJSP/toolTop.jsp"></jsp:include>
         <script type="text/javascript" src="/resources/js/drawing/passwordCheck.js"></script>
 
         <div class="row g-3 align-items-center" id="passwordsetting">
@@ -47,7 +48,7 @@
         </div>
     </c:when>
     <c:otherwise>
-        <script src="/resources/js/drawing/drawingFunctionSet.js"></script>
+        <script src="/resources/js/drawing/drawingFunctionSet.js?after"></script>
         <jsp:include page="/WEB-INF/baseJSP/toolTop.jsp"></jsp:include>
         <!-- 그리기 및 소켓관련 js -->
 
@@ -64,22 +65,6 @@
                     <!-- 사이드바 -->
                     <!-- 레이어 리스트 -->
                     <div id="itemBoxWrap" style="overflow:auto; width:300px; height:300px;"></div>
-
-                    <!-- 레인지 바 -->
-                    <link rel="stylesheet" href="/resources/css/drawing/range.css">
-                    <div class="range-container">
-                        <div class="range-slider">
-                            <input type="range" orient="vertical" min="0" max="100"/>
-                            <div class="range-slider__bar theme1"></div>
-                            <div class="range-slider__thumb" id="thicknessBar"></div>
-                        </div>
-
-                        <div class="range-slider">
-                            <input type="range" orient="vertical" min="0" max="100"/>
-                            <div class="range-slider__bar theme2"></div>
-                            <div class="range-slider__thumb" id="opacityBar"></div>
-                        </div>
-                    </div>
                 </div> <!-- 사이드바 앤드 -->
 
                 <div id="content" class="span7">

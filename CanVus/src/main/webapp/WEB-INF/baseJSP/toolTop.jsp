@@ -60,22 +60,42 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                        aria-expanded="false"> Brush <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li class="brushElement" id="PencilBrush"><a href="#">Pencil</a></li>
-                        <li class="brushElement" id="SprayBrush"><a href="#">Spray</a></li>
+                    <ul class="dropdown-menu" role="menu" id="brushTap">
+                        <li><a href="#" class="brushElement" id="PencilBrush">Pencil</a></li>
+                        <li><a href="#" class="brushElement" id="SprayBrush">Spray</a></li>
+                        <li><a href="#" class="brushElement"id="EraserBrush">Eraser</a></li>
                         <li class="divider"></li>
-                        <li class="brushElement" id="CircleBrush"><a href="#">Circle</a></li>
-                        <li class="brushElement" id="SquareBrush"><a href="#">Square</a></li>
+                        <li><a href="#" class="brushElement" id="CircleBrush">Circle</a></li>
+                        <li><a href="#" class="brushElement" id="SquareBrush">Square</a></li>
                         <li class="divider"></li>
-                        <!-- 색상선택 -->
+
+                        <!-- 색상선택 시작-->
                         <li><a href="#"><input type="color" value="#005E7A" id="drawing-color"></a></li>
-                        <!-- 색상선택 -->
+                        <!-- 색상선택 끝-->
+
+                        <!-- 레인지 바 시작 -->
+                        <li>
+                            <link rel="stylesheet" href="/resources/css/drawing/range.css">
+                            <div class="range-container">
+                                <div class="range-slider">
+                                    <input type="range" orient="vertical" min="0" max="100"/>
+                                    <div class="range-slider__bar theme1"></div>
+                                    <div class="range-slider__thumb" id="thicknessBar"></div>
+                                </div>
+
+                                <div class="range-slider">
+                                    <input type="range" orient="vertical" min="0" max="100"/>
+                                    <div class="range-slider__bar theme2"></div>
+                                    <div class="range-slider__thumb" id="opacityBar"></div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="divider"></li>
+                        <!-- 레인지바 끝 -->
                     </ul>
                 </li>
                 <!-- 브러시 드랍다운 메뉴바 끝 -->
-                <!-- 색상선택 버튼 시작 -->
 
-                <!-- 색상선택 버튼 끝 -->
             </ul>
             <form class="navbar-form navbar-left" role="search">
                 <div class="form-group">
