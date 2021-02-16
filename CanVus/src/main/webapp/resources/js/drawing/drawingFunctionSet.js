@@ -642,6 +642,46 @@ function createItem(layerId) {
     reorder();
 }
 
+/****************************** 피드 생성 메소드 ******************************/
+function createFeed() {
+    let layerArry = [];
+    let ctxArry = [];
+    let imageBase64Arry = [];
+    const pageNo = layerSet.length;
+
+
+    // 레이어 오버레이 버퍼div style="display:none"
+    const content = `<div id="buffer"></div>`;
+    $('#base').append(content);
+
+    // 오버레이 레이어버퍼 생성
+    for (let i=0; i<pageNo; i++) {
+        const content = `
+            <canvas class="buffer" id="buffer_${i}" width="600px" height="600px"></canvas>
+        `;
+        $('#buffer').append(content);
+
+        let oneLayer = document.getElementById(`buffer_${i}`);
+        layerArry.push(oneLayer);
+        ctxArry.push(oneLayer.getContext('2d'));
+    }
+
+    // 오버레이 진행
+    for (let i=0; i<pageNo; i++) {
+        for (let j=0; j<layerSet[i].length; j++){
+            ctxArry[i].drawImage(document.getElementById(`p${i+1}l${j+1}`), 0, 0);
+        }
+
+        // base 64 추출
+        imageBase64Arry.push(layerArry[i].toDataURL("image/png"));
+    }
+
+
+
+    socketClient.disconnect();
+    alert("피드가 생성되고 방이 종료되었습니다.");
+}
+
 
 /*********************** 이벤트 등록파트 *******************/
 $(() => {
@@ -946,4 +986,17 @@ $(() => {
 
     // 방입장 메세지 전송파트 (소켓 연결은 비동기 이기 때문에 언제 연결될지 모른다)
     socketEntranceRepeater();
+
+    // ******************************** Edit 이벤트 *******************************//
+    $(document).on('click', '#Edit', function(event) {
+        const eventId = $(event.target).parent().attr('id');
+
+        if (eventId == 'Edit-create-layer'){
+            createLayer();
+        } else if (eventId == 'Edit-feed') {
+            createFeed();
+        } else if (eventId == 'Edit-exit') {
+
+        }
+    })
 });

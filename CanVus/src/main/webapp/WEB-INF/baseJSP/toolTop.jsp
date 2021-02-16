@@ -48,11 +48,11 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                        aria-expanded="false">Edit<span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li id="addItem" onclick="createLayer();"><a href="#">create layer</a></li>
+                    <ul class="dropdown-menu" role="menu" id="Edit">
+                        <li id="Edit-create-layer"><a href="#">create layer</a></li>
                         <li class="divider"></li>
-                        <li id="makeAFeed"><a href="#">save</a></li>
-                        <li id="roomExit"><a href="#">exit</a></li>
+                        <li id="Edit-feed"><a href="#">write a feed</a></li>
+                        <li id="Edit-exit"><a href="#">exit</a></li>
                     </ul>
                 </li>
                 <!-- Edit 드랍다운 메뉴바 끝 -->
