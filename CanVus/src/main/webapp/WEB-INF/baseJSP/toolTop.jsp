@@ -61,12 +61,22 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                        aria-expanded="false"> Brush <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu" id="brushTap">
+                        <!-- 브러시 선택 시작 -->
                         <li><a href="#" class="brushElement" id="PencilBrush">Pencil</a></li>
                         <li><a href="#" class="brushElement" id="SprayBrush">Spray</a></li>
                         <li><a href="#" class="brushElement"id="EraserBrush">Eraser</a></li>
                         <li class="divider"></li>
                         <li><a href="#" class="brushElement" id="CircleBrush">Circle</a></li>
                         <li><a href="#" class="brushElement" id="SquareBrush">Square</a></li>
+
+                        <!-- 브러시 선택 끝 -->
+
+                        <li class="divider"></li>
+
+                        <!-- 셀렉터 시작-->
+                        <li><a href="#" class="brushElement" id="selector">Selector</a></li>
+                        <!-- 셀렉터 끝-->
+
                         <li class="divider"></li>
 
                         <!-- 색상선택 시작-->

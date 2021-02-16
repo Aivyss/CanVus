@@ -863,7 +863,7 @@ $(() => {
 
     // ***************** 색상 변경 이벤트  ************************//
     $('#drawing-color').on('change', function () {
-        hexGlobal = $('#drawing-color').val();
+        hexGlobal = $('#drawing-color').val() + Math.floor(opacityGlobal*255).toString(16);
 
         changeBrush();
     });
@@ -920,18 +920,30 @@ $(() => {
         }
     });
 
-    // 브러시 탭은 내부를 클릭해도 닫히지 않는다.  레인지 바 때문에 닫으면 오히려 불편하다.
-    // 브러시 변화는 줘야하네 아 ㅋㅋ;;
+//****************************** 브러시(만) 변경 이벤트  ****************************//
     $('#brushTap').on('click', function(event){
         console.log("브러시 선택 버튼 클릭으로 인한 브러시 변경 이벤트 발생");
 
         let brushType = event.target.id;
-        brushGlobal = brushType;
-        changeBrush();
 
+        if (brushType != 'selector') {
+            brushGlobal = brushType;
+            changeBrush();
+        } else {
+            const modeChecker = layerSet[0][0].isDrawingMode;
+
+            for (let i=0; i<layerSet.length; i++) {
+                for (let j=0; j<layerSet[i].length; j++) {
+                    layerSet[i][j].isDrawingMode = !modeChecker;
+                }
+            }
+        }
+
+
+        // dropdown이 클릭하더라도 닫히지 않도록 이벤트 버블링 차단(range bar 편의성을 위해)
         event.stopPropagation();
     });
 
-    // 방입장 메세지 전송파트
+    // 방입장 메세지 전송파트 (소켓 연결은 비동기 이기 때문에 언제 연결될지 모른다)
     socketEntranceRepeater();
 });
