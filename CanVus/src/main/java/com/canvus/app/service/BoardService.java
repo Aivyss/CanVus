@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.canvus.app.drawing.vo.FeedVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +12,6 @@ import com.canvus.app.dao.BoardDAO;
 import com.canvus.app.dao.FeedDAO;
 import com.canvus.app.dao.FollowDAO;
 import com.canvus.app.dao.UserDAO;
-import com.canvus.app.vo.FeedVO;
-import com.canvus.app.vo.FollowingsVO;
 import com.canvus.app.vo.UserVO;
 
 import lombok.extern.slf4j.Slf4j;

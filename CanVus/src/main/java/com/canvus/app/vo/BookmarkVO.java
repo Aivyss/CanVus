@@ -2,6 +2,7 @@ package com.canvus.app.vo;
 
 import java.util.List;
 
+import com.canvus.app.drawing.vo.FeedVO;
 import lombok.Data;
 
 @Data

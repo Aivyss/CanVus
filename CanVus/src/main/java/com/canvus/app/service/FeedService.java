@@ -2,6 +2,7 @@ package com.canvus.app.service;
 
 import java.util.Map;
 
+import com.canvus.app.drawing.vo.FeedVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,6 @@ import com.canvus.app.dao.TagDAO;
 import com.canvus.app.util.Helper;
 import com.canvus.app.vo.CanVusVOFactory;
 import com.canvus.app.vo.CanVusVOType;
-import com.canvus.app.vo.FeedVO;
 import com.canvus.app.vo.TagsInFeedVO;
 
 import lombok.extern.slf4j.Slf4j;

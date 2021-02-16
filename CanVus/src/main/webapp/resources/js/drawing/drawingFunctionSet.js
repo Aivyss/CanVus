@@ -34,10 +34,15 @@ let listItems = [];
 // 권한부여자 카운팅
 let authCount = 0;
 
-// 드로워 리스트 (어드민 제외)
+// 드로워 리스트
 let drawerNicknameList = [];
 let drawerIdList = [];
 let getPixelList = [0,0,0,0];
+
+// 피드 저장용 전역변수
+let layerArry = [];
+let ctxArry = [];
+let imageBase64Arry = [];
 
 // 레인지바 객체
 let sliderObj = {
@@ -77,8 +82,6 @@ let socketFunctionSet = (function () {
             authCount = 0;
             drawerNicknameList = [];
             drawerIdList = [];
-            getPixelList = [0,0,0,0];
-
 
             // 전체 유저리스트 생성
             if (admin_id == user_id) { // 어드민이 입장한 경우
@@ -644,42 +647,95 @@ function createItem(layerId) {
 
 /****************************** 피드 생성 메소드 ******************************/
 function createFeed() {
-    let layerArry = [];
-    let ctxArry = [];
-    let imageBase64Arry = [];
-    const pageNo = layerSet.length;
+    if (user_id == admin_id) { // 어드민에게만 허용하기 위해 추가한 조건문
+        const pageNo = layerSet.length;
 
 
-    // 레이어 오버레이 버퍼div style="display:none"
-    const content = `<div id="buffer"></div>`;
-    $('#base').append(content);
+        // 레이어 오버레이 버퍼div style="display:none"
+        const content = `<div id="buffer"></div>`;
+        $('#base').append(content);
 
-    // 오버레이 레이어버퍼 생성
-    for (let i=0; i<pageNo; i++) {
-        const content = `
+        // 오버레이 레이어버퍼 생성
+        for (let i=0; i<pageNo; i++) {
+            const content = `
             <canvas class="buffer" id="buffer_${i}" width="600px" height="600px"></canvas>
         `;
-        $('#buffer').append(content);
+            $('#buffer').append(content);
 
-        let oneLayer = document.getElementById(`buffer_${i}`);
-        layerArry.push(oneLayer);
-        ctxArry.push(oneLayer.getContext('2d'));
-    }
-
-    // 오버레이 진행
-    for (let i=0; i<pageNo; i++) {
-        for (let j=0; j<layerSet[i].length; j++){
-            ctxArry[i].drawImage(document.getElementById(`p${i+1}l${j+1}`), 0, 0);
+            let oneLayer = document.getElementById(`buffer_${i}`);
+            layerArry.push(oneLayer);
+            ctxArry.push(oneLayer.getContext('2d'));
         }
 
-        // base 64 추출
-        imageBase64Arry.push(layerArry[i].toDataURL("image/png"));
+        // 오버레이 진행
+        for (let i=0; i<pageNo; i++) {
+            for (let j=0; j<layerSet[i].length; j++){
+                ctxArry[i].drawImage(document.getElementById(`p${i+1}l${j+1}`), 0, 0);
+            }
+
+            // base 64 추출
+            imageBase64Arry.push(layerArry[i].toDataURL("image/png"));
+        }
+
+        const makeFeedPanel = `
+            <div id="mask"></div>
+            <div id="content_div">
+                <div class="container" id="feedPanel">
+                    <div class="page-header">
+                        <h1>あなたのフィード <small>ハッシュタグは前に＃を付けて置いてください。</small></h1>
+                    </div>
+                    <textarea class="form-control col-sm-5" id="pre-context" rows="20"></textarea>
+                    <button type="button" class="btn btn-info btn-lg" onclick="makeFeedExecution();">
+                        <span class="glyphicon glyphicon-send" aria-hidden="true"></span> Star
+                    </button>
+                </div>
+            </div>  
+        `;
+        $('body').append(makeFeedPanel);
+
+        // 보기 좋으라고 css 조정하여 배치하는 구문
+        const dialog = $('#content_div');
+        const left = ($(window).scrollLeft() + ($(window).width() - dialog.width()) / 2);
+        const top = ($(window).scrollTop() + ($(window).height() - dialog.height()) / 2);
+        dialog.css({ 'left': left, 'top': top });
+    }
+}
+
+function makeFeedExecution() {
+    // 어드민 아이디를 없애버리는 프로세스
+    for (let i=0; i<drawerIdList.length; i++) {
+        if (drawerIdList[i] == admin_id) {
+            drawerIdList.splice(i, 1);
+            break;
+        }
     }
 
+    const data = {
+        feed_id : room_Id,
+        admin : admin_id,
+        drawers : drawerIdList,
+        context : $('#pre-context').val(),
+        pages : imageBase64Arry
+    };
 
+    $.ajax({
+        url: '/drawing/makeFeed',
+        type: 'post',
+        async: false,
+        contentType: "application/json",
+        data : JSON.stringify(data),
+        success: function() {
+            console.log("전송성공");
 
-    socketClient.disconnect();
-    alert("피드가 생성되고 방이 종료되었습니다.");
+            const message = {
+                message : 'Adminがフィードを作成してルームが閉まりました。'
+            }
+            sendMessage(message, "closeRoom");
+        },
+        error : function() {
+            console.log("전송실패");
+        }
+    });
 }
 
 
@@ -999,4 +1055,11 @@ $(() => {
 
         }
     })
+
+    // *******************      피드 작성 취소 이벤트 ************************/
+    $('#mask').click(function () {
+        console.log("마스크 클릭 감지 및 처리");
+        $('#mask').remove();
+        $('#content_div').remove();
+    });
 });

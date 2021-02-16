@@ -21,7 +21,7 @@ $(document).ready(function () { // 홈페이지가 동작하자마자 작동하�
 
 function resize_slide() {
     var width = $(document).width();
-    var height = $(docuemnt).height();
+    var height = $(document).height();
     var dialog = $('#content_div');
     var top = $(window).scrollTop() + ($(windwo).height() - dialog.height()) / 2;
     dialog.css({ 'top': top, 'left': width / 2 - 150 });

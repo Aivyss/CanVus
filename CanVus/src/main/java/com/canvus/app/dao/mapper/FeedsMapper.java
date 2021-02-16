@@ -2,9 +2,8 @@ package com.canvus.app.dao.mapper;
 
 import java.util.List;
 
+import com.canvus.app.drawing.vo.FeedVO;
 import org.apache.ibatis.session.RowBounds;
-
-import com.canvus.app.vo.FeedVO;
 
 public interface FeedsMapper {
 

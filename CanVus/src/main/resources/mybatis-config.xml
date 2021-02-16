@@ -9,7 +9,7 @@
 		<typeAlias type="com.canvus.app.vo.TagVO" alias="tag" />
 		<typeAlias type="com.canvus.app.vo.BookmarkVO" alias="bookmark" />
 		<typeAlias type="com.canvus.app.vo.FollowingsVO" alias="followUnit" />
-		<typeAlias type="com.canvus.app.vo.FeedVO" alias="feed" />
+		<typeAlias type="com.canvus.app.drawing.vo.FeedVO" alias="feed" />
 		<typeAlias type="com.canvus.app.vo.FeedDrawingsVO" alias="feedDrawings" />
 		<typeAlias type="com.canvus.app.vo.TagsInFeedVO" alias="tagsInFeed" />
 		<typeAlias type="com.canvus.app.drawing.vo.DrawingRoomVO" alias="room" />

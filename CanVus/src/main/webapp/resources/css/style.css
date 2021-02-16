@@ -1,5 +1,8 @@
 @import url('/resources/css/reset.css');
-
+html, body {
+	width: 100%;
+	height: 100%;
+}
 /* Login Block */
 #mask {
     display: none;

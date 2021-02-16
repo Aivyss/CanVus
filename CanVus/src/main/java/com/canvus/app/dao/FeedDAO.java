@@ -2,6 +2,7 @@ package com.canvus.app.dao;
 
 import java.util.List;
 
+import com.canvus.app.drawing.vo.FeedVO;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.canvus.app.dao.mapper.FeedDrawingsMapper;
 import com.canvus.app.dao.mapper.FeedsMapper;
-import com.canvus.app.dao.mapper.TagsInFeedMapper;
 import com.canvus.app.vo.FeedDrawingsVO;
-import com.canvus.app.vo.FeedVO;
-import com.canvus.app.vo.TagsInFeedVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -61,6 +59,7 @@ public class FeedDAO {
 			check =mapper.createFeedTableRow(feedVO);
 		} catch (Exception e) {
 			log.info("FEEDS 테이블 로우추가 SQL 오류");
+			e.printStackTrace();
 		}
 		
 		return check;

@@ -6,8 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Insert title here</title>
-    <link rel="stylesheet" href="/resources/js/style.css">
+    <title>Drawing Room</title>
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <!-- fabricJS -->
@@ -20,7 +19,7 @@
     <!-- Websocket libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.0.0/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-    <link rel="stylesheet" href="/resources/css/drawing/style.css?after">
+    <link rel="stylesheet" href="/resources/css/drawing/style.css?reload">
     <!-- 서버로부터 받아온 변수를 저장하는 자바스크립트 -->
     <script type="text/javascript">
         const room_Id = "${room_Id}";
@@ -118,6 +117,18 @@
                 </div> <!-- end #content -->
             </div> <!-- end .row-fluid -->
         </div>
+
+        <!-- 피드를 만들 당시에 사용하는 폼태그 depredcated -->
+
+<%--        <form action="/drawing/makeFeed" method="post" id="feedForm">--%>
+<%--            <input type="hidden" id="feed_id" name="feed_id">--%>
+<%--            <input type="hidden" id="user_id1" name="user_id1">--%>
+<%--            <input type="hidden" id="user_id2" name="user_id2">--%>
+<%--            <input type="hidden" id="user_id3" name="user_id3">--%>
+<%--            <input type="hidden" id="user_id4" name="user_id4">--%>
+<%--            <input type="hidden" id="context" name="context">--%>
+<%--            <input type="hidden" id="pages" name="pages">--%>
+<%--        </form>--%>
         <!-- end .container -->
     </c:otherwise>
 </c:choose>

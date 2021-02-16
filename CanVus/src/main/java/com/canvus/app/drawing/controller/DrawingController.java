@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.canvus.app.drawing.vo.FeedVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -139,7 +140,8 @@ public class DrawingController {
 	public void resetRoomPassword (HttpSession session) {
 		session.removeAttribute("pwWrttenByUser");
 	}
-	
+
+	@ResponseBody
 	@RequestMapping(value="/makeFeed", method=RequestMethod.POST)
 	public String makeFeed(@RequestBody Map<String, Object> params) {
 		boolean check = drawingService.makeFeed(params);

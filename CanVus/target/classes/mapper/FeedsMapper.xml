@@ -16,9 +16,9 @@
 	) VALUES (
 	    #{feed_id}
 	    ,#{user_id1}
-	    ,#{user_id2}
-	    ,#{user_id3}
-	    ,#{user_id4}
+	    ,#{user_id2, jdbcType=VARCHAR}
+	    ,#{user_id3, jdbcType=VARCHAR}
+	    ,#{user_id4, jdbcType=VARCHAR}
 	    ,#{context}
 	)
 </insert>

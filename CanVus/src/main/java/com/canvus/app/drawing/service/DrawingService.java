@@ -1,11 +1,10 @@
 package com.canvus.app.drawing.service;
 
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpSession;
 
+import com.canvus.app.drawing.vo.FeedVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +19,6 @@ import com.canvus.app.util.Helper;
 import com.canvus.app.vo.CanVusVOFactory;
 import com.canvus.app.vo.CanVusVOType;
 import com.canvus.app.vo.FeedDrawingsVO;
-import com.canvus.app.vo.FeedVO;
 import com.canvus.app.vo.TagsInFeedVO;
 import com.canvus.app.vo.UserVO;
 
@@ -138,33 +136,27 @@ public class DrawingService {
 	public boolean makeFeed(Map<String, Object> params) {
 		log.info("피드작성 서비스 메소드 진입");
 		// 방번호
-		String room_Id = (String) params.get("room_Id");
-
-		// index 0번이 피드의 주인
-		@SuppressWarnings("unchecked")
+		String feed_id = (String) params.get("feed_id");
 		List<String> drawers = (List<String>) params.get("drawers");
+		drawers.add(0, (String) params.get("admin"));
+
 		// 피드의 텍스트
 		String context = (String) params.get("context");
+
 		// 그림내용
-		@SuppressWarnings("unchecked")
 		List<String> pages = (List<String>) params.get("pages");
-		
-		// TODO 값이 들어왔는지 체크 (나중에 지워야 함)
-		log.info(room_Id);
-		log.info(drawers.toString());
-		log.info(context);
-		log.info(pages.toString());
+
 
 		// TODO DB에 피드 로우 생성
-		boolean check = this.createFeedTableRow(room_Id, drawers, context);
+		boolean check = this.createFeedTableRow(feed_id, drawers, context);
 
 		if (check) {
 			// TODO 만든 피드정보에 그림을 삽입하도록 한다.
-			check = this.createFeedDrawingsRows(room_Id, pages);
+			check = this.createFeedDrawingsRows(feed_id, pages);
 			
 			if (check) {
 				// TODO 만든 피드정보에 태그를 추출하여 삽입한다.
-				TagsInFeedVO tif = Helper.tagParse(room_Id, context);
+				TagsInFeedVO tif = Helper.tagParse(feed_id, context);
 				check = tagDAO.inputTags(tif);
 			}
 		}
@@ -184,14 +176,26 @@ public class DrawingService {
 	 * @param context
 	 * @return
 	 */
-	public boolean createFeedTableRow(String room_Id, List<String> drawers, String context) {
-		FeedVO feedVO = CanVusVOFactory.newInstance(CanVusVOType.FeedVO);
+	public boolean createFeedTableRow(String feed_id, List<String> drawers, String context) {
+		FeedVO feedVO = new FeedVO();
 
-		feedVO.setFeed_id(room_Id);
+		log.info(feed_id);
+		log.info(drawers.toString());
+		log.info(context);
+		int listSize = drawers.size();
+
+		// VO에 값을 넣는 프로세스
+		feedVO.setFeed_id(feed_id);
 		feedVO.setUser_id1(drawers.get(0));
-		feedVO.setUser_id2(drawers.get(1));
-		feedVO.setUser_id3(drawers.get(2));
-		feedVO.setUser_id4(drawers.get(3));
+		if (listSize >= 2) {
+			feedVO.setUser_id2(drawers.get(1));
+		}
+		if (listSize >= 3) {
+			feedVO.setUser_id3(drawers.get(2));
+		}
+		if (listSize >= 4) {
+			feedVO.setUser_id4(drawers.get(3));
+		}
 		feedVO.setContext(context);
 
 		return feedDAO.createFeedTableRow(feedVO);
@@ -212,10 +216,10 @@ public class DrawingService {
 		// TODO base64 디코딩, 저장된 파일이름 배열 생성
 		for (int i = 0; i < pages.size(); i++) {
 			// 디코딩 후 해당 위치에 파일을 저장하고
-			Base64ToImgDecoder.decoder(pages.get(i), "/userPicture", room_Id + "--divide--" + i, "png");
+			Base64ToImgDecoder.decoder(pages.get(i), "/userPicture", room_Id + "--divide--" + (i+1), "png");
 
 			// db에 저장하기 위해서 파일이름으로 값을 바꾼다.
-			page_file[i] = room_Id + "--divide--" + i + ".png";
+			page_file[i] = room_Id + "--divide--" + (i+1) + ".png";
 		}
 		
 		// TODO 데이터베이스로 정보를 넘기기 위해 DTO 객체 생성
