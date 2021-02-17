@@ -377,7 +377,7 @@ function createLayer(isReceiver) {
     console.log(eventSet);
 
     //TODO 부가적으로 생성된 canvas-container를 지우는 프로세스
-    $('.canvas-container').attr('class', 'remove');
+    $('.canvas-container').attr('id', 'removeResidue');
     if (user_id != admin_id) {
         $('.upper-canvas').attr('class', layerId + 'u');
         $(`.${layerId}u`).css({'display': 'none'}).addClass('drawReceiver');
@@ -387,7 +387,7 @@ function createLayer(isReceiver) {
     }
     $('#' + layerId).appendTo('#p' + pageNum);
     $('.' + layerId + 'u').appendTo('#p' + pageNum);
-    $('.remove').remove();
+    $('#removeResidue').remove();
 
     // TODO z-index CSS 속성을 부여하고 Z-INDEX 배열에 추가하는 프로세스
     $('#' + layerId).css({'z-index': totalNumOfLayer + 1});
@@ -448,7 +448,7 @@ function initializeCreateLayer(pageNo) {
     console.log(eventSet);
 
     //TODO 부가적으로 생성된 canvas-container를 지우는 프로세스
-    $('.canvas-container').attr('class', 'remove');
+    $('.canvas-container').attr('id', 'removeResidue');
     if (user_id != admin_id) {
         $('.upper-canvas').attr('class', layerId + 'u');
         $(`.${layerId}u`).css({'display': 'none'}).addClass('drawReceiver');
@@ -458,7 +458,7 @@ function initializeCreateLayer(pageNo) {
     }
     $('#' + layerId).appendTo('#p' + pageNo);
     $('.' + layerId + 'u').appendTo('#p' + pageNo);
-    $('.remove').remove();
+    $('#removeResidue').remove();
 
     // TODO z-index CSS 속성을 부여하고 Z-INDEX 배열에 추가하는 프로세스
     $('#' + layerId).css({'z-index': totalNumOfLayer + 1});
@@ -474,7 +474,7 @@ function createPage(isReceiver) {
     // 이 부분에 canvas 태그 생성구문을 넣을 것. 아이디는 p만든레이어번호l1로 준다.
     // 첫 레이어는 자동생성을 하는 편이 좋을 듯 싶다.
     let contents = `<canvas id="${pageId}l1" width="600px" height="600px"></canvas>`;
-    $('#base').append(contents);
+    $(`#T${pageId}`).append(contents);
 
     ///////////////////////////////////////////////////////////////
 
@@ -493,7 +493,7 @@ function createPage(isReceiver) {
     console.log(layerSet);
 
     // TODO canvas-container를 단 1개로 유지하기 위해 ID속성부여 프로세스
-    $('.canvas-container').attr('id', pageId);
+    $('.canvas-container').attr('id', pageId).attr('class', 'pageId');
     $('.upper-canvas').attr('class', pageId + 'l1u');
     if (user_id != admin_id) {
         $('.upper-canvas').attr('class', pageId + 'l1u');
@@ -502,7 +502,6 @@ function createPage(isReceiver) {
         $('.upper-canvas').attr('class', pageId + 'l1u');
         $(`.${pageId}l1u`).addClass('drawReceiver');
     }
-    $('#' + pageId).attr('class', 'tabcontent');
 
     // TODO 생성된 canvas 태그들에 z-index를 부여하고 zNumSet에 반영하는 프로세스
     $('#' + pageId + 'l1').css({"z-index": 1});
@@ -738,6 +737,26 @@ function makeFeedExecution() {
     });
 }
 
+// 크리에이트 탭 버튼을 누르는 효과를 주는 함수
+function createPageComponent(isReceiver) {
+   
+    const totalPage = layerSet.length;
+
+    let content = `
+                <div role="tabpanel" class="tab-pane fade" id="Tp${totalPage + 1}"></div>
+                `;
+    $('#tabPanes').append (content);
+
+    createPage(isReceiver);
+
+    content = `
+                <li role="presentation">
+                    <a href="#p${totalPage + 1}" aria-controls="p${totalPage + 1}" role="tab" data-toggle="tab" id="pli${totalPage + 1}">Page${totalPage + 1}</a>
+                </li>
+                `;
+    $('#tablist').append(content);
+}
+
 
 /*********************** 이벤트 등록파트 *******************/
 $(() => {
@@ -789,20 +808,7 @@ $(() => {
             const obj = layer['stringify'];
 
             if (page_no == i || (page_no == 1 && layer_no == 1)) {
-                // 크리에이트 탭 버튼을 누르는 효과를 주는 구문
-                const totalPage = layerSet.length;
-
-                createPage('receiver');
-
-                let content = `<div id="p${totalPage + 1}"></div>`;
-                $('#p' + (totalPage + 1)).appendTo('#base');
-
-                content = `<li data-tab="p${totalPage + 1}"><a href="#">p${totalPage + 1}</a></li>`
-
-                $('.tab').append(content);
-                /////////////////////////////////////////////////////
-                let targetObj = layerSet[page_no - 1][layer_no - 1];
-                targetObj.loadFromJSON(obj, targetObj.renderAll.bind(targetObj));
+                createPageComponent('receiver');
 
                 if (page_no != 1) {
                     i++;
@@ -846,6 +852,18 @@ $(() => {
     });
 
     // ************ 페이지텝 이벤트 *********/
+    $('#tablist a').click(function (e) {
+        e.preventDefault();
+        let tabId = e.target.id;
+        if (tabId == 'CreatePage') { // 페이지 생성의 경우
+            createPageComponent();
+        } else { // 페이지 열람의 경우
+            $('.tab-pane').removeClass('active').addClass('fade');
+            tabId=tabId.split('pli')[1];
+            $('#Tp'+tabId).addClass('active').removeClass('fade');
+        }
+    });
+
     $(document).on('click', 'ul.tab li', function () {
         let activeTab = $(this).attr('data-tab');
         $('ul.tab li').removeClass('current');
@@ -893,20 +911,6 @@ $(() => {
 
             changeBrush();
         } // if end
-    });
-
-    //************* 페이지 생성 이벤트 ******************//
-    $('#createPage').click(function () {
-        const totalPage = layerSet.length;
-
-        createPage();
-
-        let content = `<div id="p${totalPage + 1}"></div>`;
-        $('#p' + (totalPage + 1)).appendTo('#base');
-
-        content = `<li data-tab="p${totalPage + 1}"><a href="#">p${totalPage + 1}</a></li>`
-
-        $('.tab').append(content);
     });
 
     // ******************* 레인지바 초기설정함수 *****************//

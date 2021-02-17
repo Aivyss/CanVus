@@ -47,7 +47,7 @@
         </div>
     </c:when>
     <c:otherwise>
-        <script src="/resources/js/drawing/drawingFunctionSet.js?after"></script>
+        <script src="/resources/js/drawing/drawingFunctionSet.js?reload"></script>
         <jsp:include page="/WEB-INF/baseJSP/toolTop.jsp"></jsp:include>
         <!-- 그리기 및 소켓관련 js -->
 
@@ -64,55 +64,63 @@
                     <!-- 사이드바 -->
                     <!-- 레이어 리스트 -->
                     <div id="itemBoxWrap" style="overflow:auto; width:300px; height:300px;"></div>
+
+                    <!-- 채팅박스 -->
+                    <link rel="stylesheet" href="/resources/css/drawing/chat.css">
+                    <div class='chatbox' style="float:left">
+                        <div class='chatbox__header'>
+                        </div>
+                        <div class='chatbox__body'>
+                            <div class='message receive'>
+                            </div>
+                        </div>
+                        <div class='chatbox__input'>
+                            <input placeholder='Type something here' id="chatContainer">
+                            <button>
+                                <svg height='24' viewbox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'>
+                                    <path d='M2.01 21L23 12 2.01 3 2 10l15 2-15 2z'></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <script src="/resources/js/drawing/chat.js"></script>
+
+                    <!-- 유저 리스트 -->
+                    <link rel="stylesheet" href="/resources/css/drawing/userList.css">
+                    <div style="width:200px; float:left;">
+                        <section id="userListSection">
+                            <input type="text" id="filter" placeholder="Type to filter"/>
+                            <ul id="canvus-list" class="Canvus-List">
+
+                            </ul>
+                        </section>
+                    </div>
                 </div> <!-- 사이드바 앤드 -->
 
                 <div id="content" class="span7">
                     <!-- 드로워 리스트 -->
-                    <div class="btn-group btn-group-lg" role="group" aria-label="..." id="drawerList" style="height:50px;">
+                    <div class="btn-group btn-group-lg" role="group" aria-label="..." id="drawerList"
+                         style="height:50px;">
                     </div>
 
                     <!-- 페이지 탭 -->
-                    <div id="container">
-                        <ul class="tab">
-                            <li class="current" data-tab="create" id="createPage"><a href="#">New Page</a></li>
+                    <div role="tabpanel">
+
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist" id="tablist">
+                            <li role="presentation" class="active" id="tabNav">
+                                <a href="#CreatePage" aria-controls="CreatePage" role="tab" data-toggle="tab" id="CreatePage">Create Page</a>
+                            </li>
                         </ul>
-                        <!-- 생성을 위한 탭 -->
-                        <div id="base" style="width: 100%; margin: 0 auto;">
-                            <div id="create" class="tabcontent current" style="width:800px; height:800px;"></div>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content" id="tabPanes">
+                            <div role="tabpanel" class="tab-pane in active" id="createPageTab">...</div>
                         </div>
+
                     </div>
 
                     <div class="underContainer-Main">
-                        <!-- 채팅박스 -->
-                        <link rel="stylesheet" href="/resources/css/drawing/chat.css">
-                        <div class='chatbox' style="float:left">
-                            <div class='chatbox__header'>
-                            </div>
-                            <div class='chatbox__body'>
-                                <div class='message receive'>
-                                </div>
-                            </div>
-                            <div class='chatbox__input'>
-                                <input placeholder='Type something here' id="chatContainer">
-                                <button>
-                                    <svg height='24' viewbox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'>
-                                        <path d='M2.01 21L23 12 2.01 3 2 10l15 2-15 2z'></path>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                        <script src="/resources/js/drawing/chat.js"></script>
-
-                        <!-- 유저 리스트 -->
-                        <link rel="stylesheet" href="/resources/css/drawing/userList.css">
-                        <div style="width:200px; float:left;">
-                            <section id="userListSection">
-                                <input type="text" id="filter" placeholder="Type to filter"/>
-                                <ul id="canvus-list" class="Canvus-List">
-
-                                </ul>
-                            </section>
-                        </div>
                     </div>
                 </div> <!-- end #content -->
             </div> <!-- end .row-fluid -->
@@ -120,15 +128,15 @@
 
         <!-- 피드를 만들 당시에 사용하는 폼태그 depredcated -->
 
-<%--        <form action="/drawing/makeFeed" method="post" id="feedForm">--%>
-<%--            <input type="hidden" id="feed_id" name="feed_id">--%>
-<%--            <input type="hidden" id="user_id1" name="user_id1">--%>
-<%--            <input type="hidden" id="user_id2" name="user_id2">--%>
-<%--            <input type="hidden" id="user_id3" name="user_id3">--%>
-<%--            <input type="hidden" id="user_id4" name="user_id4">--%>
-<%--            <input type="hidden" id="context" name="context">--%>
-<%--            <input type="hidden" id="pages" name="pages">--%>
-<%--        </form>--%>
+        <%--        <form action="/drawing/makeFeed" method="post" id="feedForm">--%>
+        <%--            <input type="hidden" id="feed_id" name="feed_id">--%>
+        <%--            <input type="hidden" id="user_id1" name="user_id1">--%>
+        <%--            <input type="hidden" id="user_id2" name="user_id2">--%>
+        <%--            <input type="hidden" id="user_id3" name="user_id3">--%>
+        <%--            <input type="hidden" id="user_id4" name="user_id4">--%>
+        <%--            <input type="hidden" id="context" name="context">--%>
+        <%--            <input type="hidden" id="pages" name="pages">--%>
+        <%--        </form>--%>
         <!-- end .container -->
     </c:otherwise>
 </c:choose>
