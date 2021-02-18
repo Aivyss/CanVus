@@ -170,7 +170,7 @@ public class FeedDAO {
 				one.setPictures(pictureURLs);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();;
+			e.printStackTrace();
 			log.info("피드 번들 가져오기 sql오류");
 		}
 

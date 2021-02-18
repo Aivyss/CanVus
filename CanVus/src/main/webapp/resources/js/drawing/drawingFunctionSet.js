@@ -135,16 +135,7 @@ let socketFunctionSet = (function () {
 
                 if (layer_no == 1) {
                     // 페이지 생성 + 1번 레이어 생성
-                    const totalPage = layerSet.length;
-
-                    createPage('receiver');
-
-                    let content = `<div id="p${totalPage + 1}"></div>`;
-                    $('#p' + (totalPage + 1)).appendTo('#base');
-
-                    content = `<li data-tab="p${totalPage + 1}"><a href="#">p${totalPage + 1}</a></li>`
-
-                    $('.tab').append(content);
+                    createPageComponent('receiver');
                 } else {
                     // 레이어 생성 (초기화용 함수였지만 원하는 기능이 같아서 이용)
                     initializeCreateLayer(page_no);
@@ -651,8 +642,8 @@ function createFeed() {
 
 
         // 레이어 오버레이 버퍼div style="display:none"
-        const content = `<div id="buffer"></div>`;
-        $('#base').append(content);
+        const content = `<div id="buffer" style="display: none;"></div>`;
+        $('body').append(content);
 
         // 오버레이 레이어버퍼 생성
         for (let i=0; i<pageNo; i++) {
@@ -677,8 +668,8 @@ function createFeed() {
         }
 
         const makeFeedPanel = `
-            <div id="mask"></div>
-            <div id="content_div">
+            <div id="mask" style="z-index: 10000;"></div>
+            <div id="content_div" style="z-index: 15000;">
                 <div class="container" id="feedPanel">
                     <div class="page-header">
                         <h1>あなたのフィード <small>ハッシュタグは前に＃を付けて置いてください。</small></h1>
@@ -737,7 +728,7 @@ function makeFeedExecution() {
     });
 }
 
-// 크리에이트 탭 버튼을 누르는 효과를 주는 함수
+// 크리에이트 탭 버튼을 누를 시 나타나는 동적효과
 function createPageComponent(isReceiver) {
    
     const totalPage = layerSet.length;
@@ -815,9 +806,10 @@ $(() => {
                 }
             } else {
                 initializeCreateLayer(page_no);
-                let targetObj = layerSet[page_no - 1][layer_no - 1];
-                targetObj.loadFromJSON(obj, targetObj.renderAll.bind(targetObj));
             }
+            // 리렌더링
+            const targetObj = layerSet[page_no - 1][layer_no - 1];
+            targetObj.loadFromJSON(obj, targetObj.renderAll.bind(targetObj));
         } // FOR END
 
         isInitialized = true;
@@ -852,7 +844,7 @@ $(() => {
     });
 
     // ************ 페이지텝 이벤트 *********/
-    $('#tablist a').click(function (e) {
+    $(document).on('click', '#tablist a', function (e) {
         e.preventDefault();
         let tabId = e.target.id;
         if (tabId == 'CreatePage') { // 페이지 생성의 경우
