@@ -45,4 +45,31 @@
 		FEED_ID = #{feed_id}
 </update>
 
+<!-- FeedDAO / getFeedTotalCount / 특정 유저의 피드 갯수 산출 -->
+<select id="getFeedTotalCount" parameterType="string" resultType="int">
+	SELECT
+		COUNT(*)
+	FROM
+		FEEDS
+	WHERE
+		USER_ID1 = #{string}
+</select>
+
+<select id="selectFeedBundle" parameterType="string" resultType="feedComponent">
+	SELECT
+		FEED_ID
+		,USER_ID1
+		,USER_ID2
+		,USER_ID3
+		,USER_ID4
+		,CONTEXT
+		,INPUTDATE
+	FROM
+		FEEDS
+	WHERE
+		USER_ID1 = #{string}
+	ORDER BY
+		INPUTDATE ASC
+</select>
+
 </mapper>

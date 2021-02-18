@@ -11,10 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.canvus.app.service.UserService;
@@ -72,6 +69,20 @@ public class UserViewController {
 			session.removeAttribute("userId");
 		}
 		
+		return url;
+	}
+
+	/**
+	 * 특정 회원의 보드로 이동하는 메소드
+	 * 작성일: 2021.02.18 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param user_id
+	 * @return
+	 */
+	@RequestMapping(value="/board", method=RequestMethod.GET)
+	public String board(String user_id, Model model) {
+		String url = userService.board(user_id, model);
+
 		return url;
 	}
 	

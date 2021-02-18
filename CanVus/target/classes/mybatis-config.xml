@@ -16,6 +16,7 @@
 		<typeAlias type="com.canvus.app.drawing.vo.DrawingUserVO" alias="drawingUser" />
 		<typeAlias type="com.canvus.app.drawing.vo.PageVO" alias="page" />
 		<typeAlias type="com.canvus.app.vo.TransactionPixelVO" alias="transPx" />
+		<typeAlias type="com.canvus.app.vo.FeedComponentVO" alias="feedComponent" />
 	</typeAliases>
 	
 	<mappers>

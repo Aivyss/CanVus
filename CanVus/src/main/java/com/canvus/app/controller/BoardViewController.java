@@ -32,6 +32,6 @@ public class BoardViewController {
 		log.info("홈컨트롤러 보드이동 메소드 진입");
 		Map<String, Object> fullInfo = boardService.loadBoard(id);
 		
-		return "board";
+		return "user/board";
 	}
 }

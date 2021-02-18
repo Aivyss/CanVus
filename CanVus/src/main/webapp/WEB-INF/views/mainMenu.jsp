@@ -118,7 +118,7 @@
                                             </button>
                                             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                                                 <li role="presentation"><a role="menuitem" tabindex="-1"
-                                                        href="/board">My board</a></li>
+                                                        href="/user/board">My board</a></li>
                                                 <li role="presentation"><a role="menuitem" tabindex="-1"
                                                         href="/user/bookmarks">BookMarks</a></li>
                                                 <li role="presentation"><a role="menuitem" tabindex="-1"

@@ -25,5 +25,14 @@
 	) A
 
 </insert>
+	
+<select id="selectFeedBundle" parameterType="string" resultType="feedDrawings">
+	SELECT
+		PAGE_FILE AS page_file_output
+	FROM
+		FEED_DRAWINGS
+	ORDER BY
+		DRAWING_ID ASC
+</select>
 
 </mapper>

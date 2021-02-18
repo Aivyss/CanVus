@@ -3,23 +3,23 @@ package com.canvus.app.service;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import com.canvus.app.dao.FeedDAO;
+import com.canvus.app.util.PageNavigator;
+import com.canvus.app.vo.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.canvus.app.dao.UserDAO;
 import com.canvus.app.util.FileService;
-import com.canvus.app.vo.BookmarkVO;
-import com.canvus.app.vo.CanVusVOFactory;
-import com.canvus.app.vo.CanVusVOType;
-import com.canvus.app.vo.TransactionPixelVO;
-import com.canvus.app.vo.UserVO;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
@@ -29,12 +29,21 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 
 @Service
 public class UserService {
+	// 구글 로그인 API키
 	private final String CLIENT_ID = "1073968802049-evh62jql0f6gblp8din0t6rqv0sobg17.apps.googleusercontent.com";
+	// 페이징 처리
+	private final int COUNT_PER_PAGE = 6;
+	private final int PAGE_PER_GROUP = 5;
+	// 로거 객체
 	private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+	//프로필 업로드 경로
 	private String uploadPath = "/userProfile";
+
 	
 	@Autowired
 	private UserDAO userDAO;
+	@Autowired
+	private FeedDAO feedDAO;
 	
 	/**
 	 * login business logic
@@ -195,4 +204,31 @@ public class UserService {
 		return params; 
 	}
 
+	/**
+	 * 특정 회원의 보드로 이동하는 메소드
+	 * 작성일: 2021.02.18 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 *
+	 * @param page
+	 * @param user_id
+	 * @param model
+	 * @return
+	 */
+    public String board(String user_id, Model model) {
+    	String url = null;
+
+    	int totalRecordsCount = feedDAO.getFeedTotalCount(user_id);
+		PageNavigator pNav = new PageNavigator(COUNT_PER_PAGE, PAGE_PER_GROUP, 1, totalRecordsCount);
+
+		List<FeedComponentVO> bundle =  feedDAO.selectFeedBundle(user_id, pNav.getStartRecord(), COUNT_PER_PAGE);
+		model.addAttribute("bundle", bundle);
+
+		if (bundle != null) {
+			url = "user/board";
+		} else {
+			url = "redirect:/main";
+		}
+
+    	return url;
+    }
 }
