@@ -173,7 +173,8 @@ public class StompService {
 	 */
 	private Map<String, Object> createPageLayer(String room_Id, Map<String, Object> json) {
 		// 있어야할 내용: 페이지-레이어 번호(스트링 값으로 줘야함)
-
+		log.info("페이지 생성하는 소켓서비스 메소드 진입");
+		
 		drawingService.createPageLayer(room_Id, json);
 		
 		return json;

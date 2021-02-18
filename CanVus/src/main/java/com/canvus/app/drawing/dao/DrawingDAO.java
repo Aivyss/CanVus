@@ -89,6 +89,7 @@ public class DrawingDAO {
 	 * @return
 	 */
 	public boolean createPage(PageVO page) {
+		log.info("페이지를 생성하는 dao 메소드 진입");
 		boolean check = false;
 		
 		try {

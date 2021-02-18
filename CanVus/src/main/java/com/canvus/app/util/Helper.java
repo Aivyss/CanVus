@@ -1,10 +1,13 @@
 package com.canvus.app.util;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.canvus.app.dao.TagDAO;
@@ -54,5 +57,16 @@ public class Helper {
 		
 		// TODO 데이터베이스에 등록
 		return tif;
+	}
+
+	public static String uniqueIdGenerator () {
+		String uniqueId = "";
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+		Calendar cal = Calendar.getInstance();
+		uniqueId = sdf.format(cal.getTime());
+		uniqueId += ("_" + RandomStringUtils.randomAlphanumeric(12));
+
+		return uniqueId;
 	}
 }

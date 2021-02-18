@@ -46,9 +46,7 @@ public class DrawingService {
 		log.info("방만들기 service 시작");
 
 		// TODO 방 아이디 생성
-		UUID one = UUID.randomUUID();
-		log.info(one.toString());
-		roomInfo.setRoom_Id(one.toString());
+		roomInfo.setRoom_Id(Helper.uniqueIdGenerator()); // 오라클 30자 초과하면 안돼..
 		roomInfo.setAdmin((String) session.getAttribute("userId"));
 
 		// SQL 구문 성공여부 체크
