@@ -861,24 +861,12 @@ $(() => {
             $('.tab-pane').removeClass('active').addClass('fade');
             tabId=tabId.split('pli')[1];
             $('#Tp'+tabId).addClass('active').removeClass('fade');
-        }
-    });
 
-    $(document).on('click', 'ul.tab li', function () {
-        let activeTab = $(this).attr('data-tab');
-        $('ul.tab li').removeClass('current');
-        $('.tabcontent').removeClass('current');
-        $(this).addClass('current');
-        $('#' + activeTab).addClass('current');
+            // 레이어 리스트 박스를 초기화한다.
+            $('#itemBoxWrap').empty();
 
-        // 레이어 리스트 박스를 초기화한다.
-        $('#itemBoxWrap').empty();
-
-        // 클릭한 페이지 번호를 현재 페이지 번호로 가진다.
-        if (activeTab != "create") {
             bPageNum = pageNum; // 그전에 이전 레이어 번호로 넘긴다.
-            pageNum = parseInt(activeTab.substr(1, activeTab.length));
-            console.log(activeTab.substr(1, activeTab.length));
+            pageNum = parseInt(tabId);
 
             // z-index가 가장 큰 레이어 판단한다.
             let maxzNum = 0;
@@ -910,7 +898,7 @@ $(() => {
             }
 
             changeBrush();
-        } // if end
+        }
     });
 
     // ******************* 레인지바 초기설정함수 *****************//
@@ -966,12 +954,6 @@ $(() => {
         hexGlobal = $('#drawing-color').val() + Math.floor(opacityGlobal*255).toString(16);
 
         changeBrush();
-    });
-
-    // *************** 브러시 버튼 클릭 이벤트 ********************* //
-    // deprecated
-    $(document).on('click', '.brushElement', function (event) {
-
     });
 
     // ********************* 드로잉 권한부여 이벤트 *************************//
