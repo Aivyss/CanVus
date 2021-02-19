@@ -59,6 +59,13 @@ public class Helper {
 		return tif;
 	}
 
+	/**
+	 * 12버전 이하의 오라클 DB는 UUID를 primary key로 쓸수 없다. 11버전까지는 30바이트 이하의
+	 * 문자열만 가증하기 때문. 그래서 시간+랜덤스트링으로 보완하고자 하였다.
+	 * 작성일: 2021.02.19 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @return
+	 */
 	public static String uniqueIdGenerator () {
 		String uniqueId = "";
 

@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import com.canvus.app.dao.FeedDAO;
+import com.canvus.app.dao.FollowingsDAO;
 import com.canvus.app.util.PageNavigator;
 import com.canvus.app.vo.*;
 import org.slf4j.Logger;
@@ -44,6 +45,8 @@ public class UserService {
 	private UserDAO userDAO;
 	@Autowired
 	private FeedDAO feedDAO;
+	@Autowired
+	private FollowingsService followingsService;
 	
 	/**
 	 * login business logic
@@ -220,8 +223,17 @@ public class UserService {
     	int totalRecordsCount = feedDAO.getFeedTotalCount(user_id);
 		PageNavigator pNav = new PageNavigator(COUNT_PER_PAGE, PAGE_PER_GROUP, 1, totalRecordsCount);
 
+		// TODO 보드의 주인의 정보를 가져오는 파트
+		UserVO userInfo = userDAO.getUserInfo(user_id);
+		model.addAttribute("userInfo", userInfo);
+
+		// TODO 피드 정보를 받아오는 파트
 		List<FeedComponentVO> bundle =  feedDAO.selectFeedBundle(user_id, pNav.getStartRecord(), COUNT_PER_PAGE);
 		model.addAttribute("bundle", bundle);
+
+		// TODO 팔로우 정보를 받아오는 파트
+		Map<String, Object> followInfoPack = followingsService.getFollowInfo(user_id);
+		model.addAttribute("followInfoPack", followInfoPack);
 
 		if (bundle != null) {
 			url = "user/board";
