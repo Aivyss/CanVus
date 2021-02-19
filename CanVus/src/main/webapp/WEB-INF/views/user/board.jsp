@@ -19,6 +19,7 @@
 
     <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/resources/css/user/board.css">
 </head>
 <body>
 <!-- 유저보드 점보트론 -->
@@ -88,26 +89,32 @@
 </div>
 
 <!-- 피드 번들 파트 -->
-<div class="container-fluid">
-    <c:forEach items="${bundle}" var="oneFeed">
-        <div class="row">
-            <div class="col-sm-6 col-md-4" style="width: 250px; height:250px; margin:0px">
-                <div class="thumbnail" style="width:100%; height:100%;">
-                    <img src="<spring:url value='/userPicture/${oneFeed.pictures[0]}'/>"
-                         style="height:100%; width:100%; margin:0px">
-                    <div class="caption" style="position: absolute; left:10px; top: 200px;">
-                        <p><a href="#" class="btn btn-primary" role="button">Like</a>
-                        </p></div>
+<div class="container">
+    <div class="row">
+        <c:forEach items="${bundle}" var="oneFeed" varStatus="status">
+            <div class="col-xs-6 col-sm-3 hover-fade">
+                <a href="#">
+                    <img src="<spring:url value='/userPicture/${oneFeed.pictures[0]}'/>">
+                </a>
+                <div class="caption" style="position: absolute; left:30px; top: 200px;">
+                    <p>
+                        <a href="#" class="btn btn-primary" role="button">Like</a>
+                    </p>
+                </div>
+                <div class="panel panel-default text-center">
+                    <div class="panel-body" style="border:0px; margin:0px; padding:0px;">
+                        <h4>nickname Plate?</h4>
+                    </div>
                 </div>
             </div>
-        </div>
-    </c:forEach>
-
-    <!-- 테스트용 EL 표현식 -->
-    ${userInfo}
-    ${bundle}
-    ${followInfoPack}
+        </c:forEach>
+    </div>
 </div>
+
+<!-- 테스트용 EL 표현식 -->
+${userInfo}
+${bundle}
+${followInfoPack}
 
 </body>
 </html>

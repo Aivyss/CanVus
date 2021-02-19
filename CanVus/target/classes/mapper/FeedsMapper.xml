@@ -89,7 +89,6 @@
 				#{one.feed_id}
 			</foreach>
 		)
-
 </select>
 
 </mapper>
