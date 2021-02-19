@@ -10,12 +10,17 @@ $(() => {
     // 서치 컨트롤러
     const searchController = {
         doSearch : function(searchText) {
+            let url ='/search/result/?keyword=';
+
             if (searchText.substring(0,1) == '#'){
-                location.href = `/search/result/?keyword=${searchText.split('#')[1]}&type=0`;
+                // 태그서치
+                url += `${searchText.split('#')[1]}&type=0`;
             } else {
-                location.href = `/search/result/?keyword=${searchText}&type=1`;
+                // 유저서치
+                url += `/search/result/?keyword=${searchText}&type=1`;
             }
 
+            location.href = url;
         }
     }
 
