@@ -19,4 +19,6 @@ public interface FeedsMapper {
     int getFeedTotalCount(String user_id);
 
 	List<FeedComponentVO> selectFeedBundle(RowBounds rb, String user_id);
+
+    List<FeedComponentVO> getFeedsBundleByIdList(List<FeedComponentVO> idBundle);
 }

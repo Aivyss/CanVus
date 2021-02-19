@@ -3,6 +3,7 @@ package com.canvus.app.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.canvus.app.dao.mapper.TagsInFeedMapper;
 import com.canvus.app.drawing.vo.FeedVO;
 import com.canvus.app.vo.FeedComponentVO;
 import org.apache.ibatis.session.RowBounds;

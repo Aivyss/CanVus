@@ -28,14 +28,22 @@ public class SearchViewController {
 	public String search(String keyword, int type, Model model) {
 		log.info("s-controller 서치 실행메소드");
 		log.info(keyword);
+		String url = "";
 		
 		if (type == 0) {
-			model.addAttribute("searchTagList", searchService.tagSearch(keyword));
+			url = searchService.tagSearch("#"+keyword, model);
 		} else {
-			model.addAttribute("searchUserList", searchService.userSearch(keyword));
+			url = searchService.userSearch(keyword, model);
 		}
 		
-		return "/search/result";
+		return url;
+	}
+
+	@RequestMapping(value="/noResult", method = RequestMethod.GET)
+	public String noResult() {
+		log.info("검색결과가 없어서 가는 페이지");
+
+		return "search/noResult";
 	}
 	
 	/**

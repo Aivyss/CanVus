@@ -33,4 +33,22 @@
 		FEED_ID = #{string}
 </delete>
 
+<select id="feedCountReferToTag" parameterType="string" resultType="int">
+	SELECT
+		COUNT(*)
+	FROM
+		TAGS_IN_FEED
+	WHERE
+		TAG_NAME = #{string}
+</select>
+
+<select id="getFeedIdBundleByTag" parameterType="string" resultType="feedComponent">
+	SELECT
+		FEED_ID
+	FROM
+		TAGS_IN_FEED
+	WHERE
+		TAG_NAME = #{string}
+</select>
+
 </mapper>

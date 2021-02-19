@@ -72,4 +72,24 @@
 		INPUTDATE ASC
 </select>
 
+<select id="getFeedsBundleByIdList" parameterType="java.util.List" resultType="feedComponent">
+	SELECT
+		FEED_ID
+		 ,USER_ID1
+		 ,USER_ID2
+		 ,USER_ID3
+		 ,USER_ID4
+		 ,CONTEXT
+		 ,INPUTDATE
+	FROM
+		FEEDS
+	WHERE
+		FEED_ID IN (
+			<foreach collection="list" item="one" separator=",">
+				#{one.feed_id}
+			</foreach>
+		)
+
+</select>
+
 </mapper>
