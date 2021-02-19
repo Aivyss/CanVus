@@ -50,7 +50,7 @@ public class UserViewController {
 		} else {// 로그인인 경우
 			session.setAttribute("userId", userInfo.getUser_id());
 			session.setAttribute("userVO", userInfo);
-			url = "redirect:/main";
+			url = "redirect:/";
 		}
 		
 		return url;

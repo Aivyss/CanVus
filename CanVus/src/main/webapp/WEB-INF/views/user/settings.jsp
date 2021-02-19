@@ -495,7 +495,7 @@ ul.tabs li.current{
   
 </head>
 <body>
-   <jsp:include page="/WEB-INF/views/mainMenu.jsp"></jsp:include>
+   <jsp:include page="/WEB-INF/views/baseJSP/mainMenu.jsp"></jsp:include>
    
    <!-- 툴 텝 시작 -->
    <div class="toolBar" id="test">

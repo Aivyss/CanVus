@@ -21,20 +21,21 @@ public class SearchViewController {
 	 * 작성자: 이한결
 	 * 작성일: 2021.01.14 / 완성일: 2021.01.14 / 버그 검증완료:
 	 * 검색을 수행하는 컨트롤러
-	 * @param search
+	 * @param
 	 * @return
 	 */
-	@RequestMapping(value="/", method=RequestMethod.GET)
-	public String search(String search, Model model) {
+	@RequestMapping(value="/result", method=RequestMethod.GET)
+	public String search(String keyword, int type, Model model) {
 		log.info("s-controller 서치 실행메소드");
+		log.info(keyword);
 		
-		if (search.charAt(0) == '#') {
-			model.addAttribute("searchTagList", searchService.tagSearch(search));
+		if (type == 0) {
+			model.addAttribute("searchTagList", searchService.tagSearch(keyword));
 		} else {
-			model.addAttribute("searchUserList", searchService.userSearch(search));
+			model.addAttribute("searchUserList", searchService.userSearch(keyword));
 		}
 		
-		return "/searchResult";
+		return "/search/result";
 	}
 	
 	/**

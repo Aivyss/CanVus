@@ -26,7 +26,7 @@ function moveDrawingRoom(){
 
 <body>
 	
-	<jsp:include page="mainMenu.jsp"></jsp:include>
+	<jsp:include page="baseJSP/mainMenu.jsp"></jsp:include>
 
 	<table>
 

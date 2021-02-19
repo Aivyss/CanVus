@@ -34,7 +34,7 @@
 <%--<jsp:include page="/WEB-INF/views/mainMenu.jsp"></jsp:include>--%>
 <c:choose>
     <c:when test="${empty pwWrttenByUser && dbPassword != null}">
-        <jsp:include page="/WEB-INF/baseJSP/toolTop.jsp"></jsp:include>
+        <jsp:include page="/WEB-INF/views/baseJSP/toolTop.jsp?reload"></jsp:include>
         <script type="text/javascript" src="/resources/js/drawing/passwordCheck.js"></script>
 
         <div class="row g-3 align-items-center" id="passwordsetting">
@@ -48,7 +48,7 @@
     </c:when>
     <c:otherwise>
         <script src="/resources/js/drawing/drawingFunctionSet.js?reload"></script>
-        <jsp:include page="/WEB-INF/baseJSP/toolTop.jsp"></jsp:include>
+        <jsp:include page="/WEB-INF/views/baseJSP/toolTop.jsp"></jsp:include>
         <!-- 그리기 및 소켓관련 js -->
 
         <!-- 본격적인 드로잉 페이지 시작 -->
