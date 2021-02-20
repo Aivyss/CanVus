@@ -9,4 +9,6 @@ public interface FeedDrawingsMapper {
 	public boolean createFeedDrawingsRows(FeedDrawingsVO feedDrawings);
 
     List<FeedDrawingsVO> selectFeedBundle(String feed_id);
+
+    List<FeedDrawingsVO> readFeedPictures(String feed_id);
 }

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.canvus.app.dao.mapper.LikeMapper">
+
+<select id="getLikeCount" parameterType="string" resultType="int">
+	SELECT
+		COUNT(*)
+	FROM
+		LIKE_TABLE
+	WHERE
+		FEED_ID = #{string}
+</select>
+
+<select id="getisLiked" parameterType="like" resultType="like">
+	SELECT
+	    LIKE_ID
+		,USER_ID
+		,FEED_ID
+	FROM
+		LIKE_TABLE
+	WHERE
+		FEED_ID = #{feed_id}
+		AND
+	    USER_ID = #{user_id}
+
+</select>
+
+</mapper>

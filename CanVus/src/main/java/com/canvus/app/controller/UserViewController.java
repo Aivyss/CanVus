@@ -64,9 +64,10 @@ public class UserViewController {
 		if (vo != null) { // 회원가입 완료 validation check
 			session.setAttribute("userId", vo.getUser_id());
 			session.setAttribute("userVO", vo);
-			url = "redirect:/main";
+			url = "redirect:/";
 		} else { // 회원가입 실패
 			session.removeAttribute("userId");
+			session.removeAttribute("userVO");
 		}
 		
 		return url;

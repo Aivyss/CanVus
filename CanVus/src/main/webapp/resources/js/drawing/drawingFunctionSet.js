@@ -37,7 +37,7 @@ let authCount = 0;
 // 드로워 리스트
 let drawerNicknameList = [];
 let drawerIdList = [];
-let getPixelList = [0,0,0,0];
+let getPixelList = [0, 0, 0, 0];
 
 // 피드 저장용 전역변수
 let layerArry = [];
@@ -254,7 +254,7 @@ $(window).on('beforeunload', function () {
     disconnect();
 });
 
-function socketEntranceRepeater(){
+function socketEntranceRepeater() {
     try {
         const enterData = {
             user_id: "BOT",
@@ -376,6 +376,14 @@ function createLayer(isReceiver) {
         $('.upper-canvas').attr('class', layerId + 'u');
         $(`.${layerId}u`).addClass('drawReceiver');
     }
+    // 드로워에 해당하는 경우 display 숨김 속성을 지운다.
+    if (drawerIdList.length != 0) {
+        for (const drawer_id of drawerIdList) {
+            if (drawer_id == user_id)
+                $(`.${layerId}u`).css({'display': ""});
+        }
+    }
+
     $('#' + layerId).appendTo('#p' + pageNum);
     $('.' + layerId + 'u').appendTo('#p' + pageNum);
     $('#removeResidue').remove();
@@ -447,6 +455,14 @@ function initializeCreateLayer(pageNo) {
         $('.upper-canvas').attr('class', layerId + 'u');
         $(`.${layerId}u`).addClass('drawReceiver');
     }
+    // 드로워에 해당하는 경우 display 숨김 속성을 지운다.
+    if (drawerIdList.length != 0) {
+        for (const drawer_id of drawerIdList) {
+            if (drawer_id == user_id)
+                $(`.${layerId}u`).css({'display': ""});
+        }
+    }
+
     $('#' + layerId).appendTo('#p' + pageNo);
     $('.' + layerId + 'u').appendTo('#p' + pageNo);
     $('#removeResidue').remove();
@@ -492,6 +508,13 @@ function createPage(isReceiver) {
     } else {
         $('.upper-canvas').attr('class', pageId + 'l1u');
         $(`.${pageId}l1u`).addClass('drawReceiver');
+    }
+    // 드로워에 해당하는 경우 display 숨김 속성을 지운다.
+    if (drawerIdList.length != 0) {
+        for (const drawer_id of drawerIdList) {
+            if (drawer_id == user_id)
+                $(`.${layerId}u`).css({'display': ""});
+        }
     }
 
     // TODO 생성된 canvas 태그들에 z-index를 부여하고 zNumSet에 반영하는 프로세스
@@ -646,7 +669,7 @@ function createFeed() {
         $('body').append(content);
 
         // 오버레이 레이어버퍼 생성
-        for (let i=0; i<pageNo; i++) {
+        for (let i = 0; i < pageNo; i++) {
             const content = `
             <canvas class="buffer" id="buffer_${i}" width="600px" height="600px"></canvas>
         `;
@@ -658,9 +681,9 @@ function createFeed() {
         }
 
         // 오버레이 진행
-        for (let i=0; i<pageNo; i++) {
-            for (let j=0; j<layerSet[i].length; j++){
-                ctxArry[i].drawImage(document.getElementById(`p${i+1}l${j+1}`), 0, 0);
+        for (let i = 0; i < pageNo; i++) {
+            for (let j = 0; j < layerSet[i].length; j++) {
+                ctxArry[i].drawImage(document.getElementById(`p${i + 1}l${j + 1}`), 0, 0);
             }
 
             // base 64 추출
@@ -687,13 +710,13 @@ function createFeed() {
         const dialog = $('#content_div');
         const left = ($(window).scrollLeft() + ($(window).width() - dialog.width()) / 2);
         const top = ($(window).scrollTop() + ($(window).height() - dialog.height()) / 2);
-        dialog.css({ 'left': left, 'top': top });
+        dialog.css({'left': left, 'top': top});
     }
 }
 
 function makeFeedExecution() {
     // 어드민 아이디를 없애버리는 프로세스
-    for (let i=0; i<drawerIdList.length; i++) {
+    for (let i = 0; i < drawerIdList.length; i++) {
         if (drawerIdList[i] == admin_id) {
             drawerIdList.splice(i, 1);
             break;
@@ -701,11 +724,11 @@ function makeFeedExecution() {
     }
 
     const data = {
-        feed_id : room_Id,
-        admin : admin_id,
-        drawers : drawerIdList,
-        context : $('#pre-context').val(),
-        pages : imageBase64Arry
+        feed_id: room_Id,
+        admin: admin_id,
+        drawers: drawerIdList,
+        context: $('#pre-context').val(),
+        pages: imageBase64Arry
     };
 
     $.ajax({
@@ -713,16 +736,16 @@ function makeFeedExecution() {
         type: 'post',
         async: false,
         contentType: "application/json",
-        data : JSON.stringify(data),
-        success: function() {
+        data: JSON.stringify(data),
+        success: function () {
             console.log("전송성공");
 
             const message = {
-                message : 'Adminがフィードを作成してルームが閉まりました。'
+                message: 'Adminがフィードを作成してルームが閉まりました。'
             }
             sendMessage(message, "closeRoom");
         },
-        error : function() {
+        error: function () {
             console.log("전송실패");
         }
     });
@@ -730,13 +753,13 @@ function makeFeedExecution() {
 
 // 크리에이트 탭 버튼을 누를 시 나타나는 동적효과
 function createPageComponent(isReceiver) {
-   
+
     const totalPage = layerSet.length;
 
     let content = `
                 <div role="tabpanel" class="tab-pane fade" id="Tp${totalPage + 1}"></div>
                 `;
-    $('#tabPanes').append (content);
+    $('#tabPanes').append(content);
 
     createPage(isReceiver);
 
@@ -851,8 +874,8 @@ $(() => {
             createPageComponent();
         } else { // 페이지 열람의 경우
             $('.tab-pane').removeClass('active').addClass('fade');
-            tabId=tabId.split('pli')[1];
-            $('#Tp'+tabId).addClass('active').removeClass('fade');
+            tabId = tabId.split('pli')[1];
+            $('#Tp' + tabId).addClass('active').removeClass('fade');
 
             // 레이어 리스트 박스를 초기화한다.
             $('#itemBoxWrap').empty();
@@ -943,7 +966,7 @@ $(() => {
 
     // ***************** 색상 변경 이벤트  ************************//
     $('#drawing-color').on('change', function () {
-        hexGlobal = $('#drawing-color').val() + Math.floor(opacityGlobal*255).toString(16);
+        hexGlobal = $('#drawing-color').val() + Math.floor(opacityGlobal * 255).toString(16);
 
         changeBrush();
     });
@@ -952,7 +975,7 @@ $(() => {
     $(document).on('click', '.addAuthority', function (event) {
         if (authCount < 4) {
             let targetId = event.target.id;
-            let targetNickname = $('#'+targetId).parent().text();
+            let targetNickname = $('#' + targetId).parent().text();
             targetNickname = targetNickname.split('一緒に')[0];
             targetId = targetId.split('list')[1];
 
@@ -995,7 +1018,7 @@ $(() => {
     });
 
 //****************************** 브러시(만) 변경 이벤트  ****************************//
-    $('#brushTap').on('click', function(event){
+    $('#brushTap').on('click', function (event) {
         console.log("브러시 선택 버튼 클릭으로 인한 브러시 변경 이벤트 발생");
 
         let brushType = event.target.id;
@@ -1006,8 +1029,8 @@ $(() => {
         } else {
             const modeChecker = layerSet[0][0].isDrawingMode;
 
-            for (let i=0; i<layerSet.length; i++) {
-                for (let j=0; j<layerSet[i].length; j++) {
+            for (let i = 0; i < layerSet.length; i++) {
+                for (let j = 0; j < layerSet[i].length; j++) {
                     layerSet[i][j].isDrawingMode = !modeChecker;
                 }
             }
@@ -1022,10 +1045,10 @@ $(() => {
     socketEntranceRepeater();
 
     // ******************************** Edit 이벤트 *******************************//
-    $(document).on('click', '#Edit', function(event) {
+    $(document).on('click', '#Edit', function (event) {
         const eventId = $(event.target).parent().attr('id');
 
-        if (eventId == 'Edit-create-layer'){
+        if (eventId == 'Edit-create-layer') {
             createLayer();
         } else if (eventId == 'Edit-feed') {
             createFeed();
