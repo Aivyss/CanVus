@@ -17,6 +17,8 @@
 		<typeAlias type="com.canvus.app.drawing.vo.PageVO" alias="page" />
 		<typeAlias type="com.canvus.app.vo.TransactionPixelVO" alias="transPx" />
 		<typeAlias type="com.canvus.app.vo.FeedComponentVO" alias="feedComponent" />
+		<typeAlias type="com.canvus.app.vo.FeedCommentVO" alias="feedComment" />
+		<typeAlias type="com.canvus.app.vo.LikeVO" alias="like" />
 	</typeAliases>
 	
 	<mappers>
@@ -32,5 +34,7 @@
 		<mapper resource="mapper/FeedDrawingsMapper.xml" />
 		<mapper resource="mapper/TagsInFeedMapper.xml" />
 		<mapper resource="mapper/TransactionPixelMapper.xml" />
+		<mapper resource="mapper/FeedCommentMapper.xml" />
+		<mapper resource="mapper/LikeMapper.xml" />
 	</mappers>
 </configuration>

@@ -1,19 +1,21 @@
 package com.canvus.app.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.canvus.app.drawing.vo.FeedVO;
+import com.canvus.app.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.canvus.app.dao.FeedDAO;
 import com.canvus.app.dao.TagDAO;
 import com.canvus.app.util.Helper;
-import com.canvus.app.vo.CanVusVOFactory;
-import com.canvus.app.vo.CanVusVOType;
-import com.canvus.app.vo.TagsInFeedVO;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.ui.Model;
+
+import javax.servlet.http.HttpSession;
 
 @Service
 @Slf4j
@@ -68,4 +70,34 @@ public class FeedService {
 		return params;
 	}
 
+	/**
+	 * 피드를 열람하는 메소드
+	 * 작성일: 2021.02.20 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 * @param feed_id
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+    public String readFeed(String feed_id, HttpSession session, Model model) {
+		String url = "feed/view";
+		try {
+			FeedVO feedAbstract = feedDAO.readFeedAbstract(feed_id);
+			List<FeedDrawingsVO> feedPictures = feedDAO.readFeedPictures(feed_id);
+			List<FeedCommentVO> feedComments = feedDAO.readFeedComments(feed_id);
+			int likeCount = feedDAO.getLikeCount(feed_id);
+			boolean isLiked = feedDAO.getisLiked(feed_id, (String) session.getAttribute("user_id"));
+
+			model.addAttribute("feedAbstract", feedAbstract);
+			model.addAttribute("feedPictures", feedPictures);
+			model.addAttribute("feedComments", feedComments);
+			model.addAttribute("likeCount", likeCount);
+			model.addAttribute("isLiked", isLiked);
+		} catch (Exception e) {
+			log.info("sql문중에 하나 이상의 오류");
+			url = "redirect:/";
+		}
+
+		return url;
+    }
 }

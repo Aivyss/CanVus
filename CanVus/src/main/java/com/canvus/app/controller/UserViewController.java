@@ -50,7 +50,7 @@ public class UserViewController {
 		} else {// 로그인인 경우
 			session.setAttribute("userId", userInfo.getUser_id());
 			session.setAttribute("userVO", userInfo);
-			url = "redirect:/main";
+			url = "redirect:/";
 		}
 		
 		return url;
@@ -64,9 +64,10 @@ public class UserViewController {
 		if (vo != null) { // 회원가입 완료 validation check
 			session.setAttribute("userId", vo.getUser_id());
 			session.setAttribute("userVO", vo);
-			url = "redirect:/main";
+			url = "redirect:/";
 		} else { // 회원가입 실패
 			session.removeAttribute("userId");
+			session.removeAttribute("userVO");
 		}
 		
 		return url;
