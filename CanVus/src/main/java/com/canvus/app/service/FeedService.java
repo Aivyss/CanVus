@@ -3,6 +3,7 @@ package com.canvus.app.service;
 import java.util.List;
 import java.util.Map;
 
+import com.canvus.app.dao.UserDAO;
 import com.canvus.app.drawing.vo.FeedVO;
 import com.canvus.app.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ public class FeedService {
 	private FeedDAO feedDAO;
 	@Autowired
 	private TagDAO tagDAO;
+	@Autowired
+	private UserDAO userDAO;
 	
 	public Map<String, String> getContext(Map<String, String> params) {
 		log.info("getContext 서비스 메소드 진입");
@@ -83,10 +86,22 @@ public class FeedService {
 		String url = "feed/view";
 		try {
 			FeedVO feedAbstract = feedDAO.readFeedAbstract(feed_id);
+			// 유저 닉네임 추출
+			feedAbstract.setNickname1(userDAO.getUserNickname(feedAbstract.getUser_id1()));
+			if (feedAbstract.getUser_id2() != null) {
+				feedAbstract.setNickname2(userDAO.getUserNickname(feedAbstract.getUser_id2()));
+				if (feedAbstract.getUser_id3() != null) {
+					feedAbstract.setNickname3(userDAO.getUserNickname(feedAbstract.getUser_id3()));
+					if (feedAbstract.getUser_id4() != null) {
+						feedAbstract.setNickname4(userDAO.getUserNickname(feedAbstract.getUser_id4()));
+					}
+				}
+			}
 			List<FeedDrawingsVO> feedPictures = feedDAO.readFeedPictures(feed_id);
 			List<FeedCommentVO> feedComments = feedDAO.readFeedComments(feed_id);
+			log.info(feedComments.toString());
 			int likeCount = feedDAO.getLikeCount(feed_id);
-			boolean isLiked = feedDAO.getisLiked(feed_id, (String) session.getAttribute("user_id"));
+			boolean isLiked = feedDAO.getisLiked(feed_id, (String) session.getAttribute("userId"));
 
 			model.addAttribute("feedAbstract", feedAbstract);
 			model.addAttribute("feedPictures", feedPictures);

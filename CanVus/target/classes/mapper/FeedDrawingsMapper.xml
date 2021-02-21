@@ -37,4 +37,14 @@
 		DRAWING_ID ASC
 </select>
 
+<select id="readFeedPictures" parameterType="string" resultType="feedDrawings">
+	SELECT
+		FEED_ID
+		,PAGE_FILE AS page_file_output
+	FROM
+		FEED_DRAWINGS
+	WHERE
+		FEED_ID = #{string}
+</select>
+
 </mapper>

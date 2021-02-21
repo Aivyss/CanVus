@@ -103,13 +103,13 @@
                                                            placeholder="write the title">
                                                 </div>
                                                 <div class="form-group" style="padding: 10px 10px 0 10px;">
-                                                    <label for="exampleDropdownFormPassword1">Password</label>
+                                                    <label for="exampleDropdownFormPassword">Password</label>
                                                     <input type="password" class="form-control"
                                                            id="exampleDropdownFormPassword" name="password"
                                                            placeholder="Password">
                                                 </div>
                                                 <div class="form-group" style="padding: 10px 10px 0 10px;">
-                                                    <label for="exampleDropdownFormPassword1">No.Ppl</label>
+                                                    <label for="exampleDropdownFormNumberOfPpl">No.Ppl</label>
                                                     <input type="text" class="form-control"
                                                            id="exampleDropdownFormNumberOfPpl" name="user_no"
                                                            placeholder="write capacity of the room">

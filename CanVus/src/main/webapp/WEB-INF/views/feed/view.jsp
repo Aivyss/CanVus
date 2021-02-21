@@ -1,3 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: hklei
@@ -11,45 +14,73 @@
     <title>Title</title>
 </head>
 <body>
-<div class="container">
-    <div class="container height-100 d-flex justify-content-center align-items-center">
+<jsp:include page="/WEB-INF/views/baseJSP/mainMenu.jsp"></jsp:include>
+<div class="container" style="padding-top: 50px;">
+    <link rel="stylesheet" href="/resources/css/feed/feed.css?reload">
+    <div class="container feed-plate height-100 d-flex justify-content-center align-items-center">
         <div class="card card-border center-block">
             <div class="row center-block">
                 <!-- 컨텐츠 포지션 -->
-                <div class="col-xs-9">
-                    <!-- <iframe width="380" height="220" src="./testImage.png" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe> -->
-                    <img src="testImage.png" width="100%">
+                <div class="col-xs-9" style="margin-top: 5px;">
+                    <!-- 그림들 -->
+                    <c:forEach items="${feedPictures}" var="picture" varStatus="status">
+                        <c:choose>
+                            <c:when test="${status.index == 0}">
+                                <img src="<spring:url value='/userPicture/${picture.page_file_output}'/>" width="100%"
+                                     id="pictureContainer_${status.index}">
+                            </c:when>
+                            <c:otherwise>
+                                <img src="<spring:url value='/userPicture/${picture.page_file_output}'/>" width="100%"
+                                     id="pictureContainer_${status.index}" style="display: none;">
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+
                     <div class="p-3 content">
-                        <span>total 4pages</span>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                            ut
-                            labore
-                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                            laboris
-                            nisi
-                            ut
-                            aliquip ex ea commodo consequat.
-                        </p>
+                        <span>total ${fn:length(feedPictures)}pages</span>
+                        <p>${feedAbstract.context}</p>
                     </div>
                 </div>
+
                 <!-- 사이드 포지션 -->
-                <div class="col-xs-3 height-100 side-plate">
+                <div class="col-xs-3 height-100 side-plate" style="margin-top: 5px;">
                     <!-- 참여유저 목록 -->
                     <div class="list-group">
-                        <a href="#" class="list-group-item">유저1</a>
-                        <a href="#" class="list-group-item">유저2</a>
-                        <a href="#" class="list-group-item">유저3</a>
-                        <a href="#" class="list-group-item">유저4</a>
+                        <c:if test="${not empty feedAbstract.user_id1}">
+                            <a href="/user/board/?user_id=${feedAbstract.user_id1}"
+                               class="list-group-item">${feedAbstract.nickname1}</a>
+                        </c:if>
+                        <c:if test="${not empty feedAbstract.user_id2}">
+                            <a href="/user/board/?user_id=${feedAbstract.user_id2}"
+                               class="list-group-item">${feedAbstract.nickname2}</a>
+                        </c:if>
+                        <c:if test="${not empty feedAbstract.user_id3}">
+                            <a href="/user/board/?user_id=${feedAbstract.user_id3}"
+                               class="list-group-item">${feedAbstract.nickname3}</a>
+                        </c:if>
+                        <c:if test="${not empty feedAbstract.user_id4}">
+                            <a href="/user/board/?user_id=${feedAbstract.user_id4}"
+                               class="list-group-item">${feedAbstract.nickname4}</a>
+                        </c:if>
                     </div>
                     <br>
-                    <!-- like 관련 -->
+
+                    <!-- like 버튼 -->
                     <div>
-                        <button class="btn btn-primary" type="button">
-                            Like
-                            <span class="badge">25</span>
-                        </button>
+                        <c:choose>
+                            <c:when test="${isLiked}">
+                                <button class="btn btn-primary" type="button">
+                                    Unlike
+                                    <span class="badge">${likeCount}</span>
+                                </button>
+                            </c:when>
+                            <c:otherwise>
+                                <button class="btn btn-primary" type="button">
+                                    Like
+                                    <span class="badge">${likeCount}</span>
+                                </button>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                     <br>
 
@@ -58,7 +89,7 @@
                         <div class="dropdown">
                             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
                                     data-toggle="dropdown" aria-expanded="true">
-                                Dropdown
+                                bookmark
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
@@ -92,36 +123,33 @@
                             </span>
                     </div>
                 </div>
-
-                <br>
-                <div class="col-lg-6">
-                    <div class="media">
-                        <div class="media-left media-middle">
-                            <a href="#">
-                                <img class="media-object" src="./testImage.png" style="height:32px; width:32px;">
-                            </a>
+            </div>
+            <br>
+            <!-- 코멘트란 -->
+            <div class="row center-block">
+                <c:if test="${not empty feedComments}">
+                    <c:forEach items="${feedComments}" var="comment">
+                        <div class="col-lg-6">
+                            <div class="media">
+                                <div class="media-left media-middle">
+                                    <a href="#">
+                                        <img class="media-object"
+                                             src="<spring:url value='/userProfile/${comment.profile_photo}'/>"
+                                             style="height:32px; width:32px;">
+                                    </a>
+                                </div>
+                                <div class="media-body">
+                                    <h5 class="media-heading"><a
+                                            href="/user/board/?user_id=${comment.user_id}">${comment.nickname}</a></h5>
+                                        ${comment.feed_comment}
+                                </div>
+                            </div>
                         </div>
-                        <div class="media-body">
-                            <h5 class="media-heading"><a href="/user/board/?user_id=1234">닉네임1</a></h5>
-                            가나다라 마바사 아자차카타파
-                        </div>
-                    </div>
-                    <div class="media">
-                        <div class="media-left media-middle">
-                            <a href="#">
-                                <img class="media-object" src="./testImage.png" style="height:32px; width:32px;">
-                            </a>
-                        </div>
-                        <div class="media-body">
-                            <h5 class="media-heading"><a href="/user/board/?user_id=1234">닉네임2</a></h5>
-                            가나다라 마바사 아자차카타파
-                        </div>
-                    </div>
-                </div>
+                    </c:forEach>
+                </c:if>
             </div>
         </div>
     </div>
 </div>
-
 </body>
 </html>

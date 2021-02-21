@@ -7,15 +7,18 @@
 
 <select id="readFeedComments" parameterType="string" resultType="feedComment">
 	SELECT
-		USER_ID
-		,NICKNAME
-		,FEED_ID
-		,FEED_COMMENT
-		,TO_CHAR(INPUTDATE, 'yyyy-MM-dd') AS inputdate
+		F.USER_ID AS user_id
+		,F.FEED_ID	AS feed_id
+		,F.FEED_COMMENT	AS feed_comment
+	    ,U.PROFILE_PHOTO	AS profile_photo
+	    ,U.NICKNAME	AS nickname
+		,TO_CHAR(F.INPUTDATE, 'yyyy-MM-dd') AS inputdate
 	FROM
-		FEED_COMMENT
+		FEED_COMMENT F, USERS U
 	WHERE
-		FEED_ID = #{string}
+		F.FEED_ID = #{string}
+		AND
+	    U.USER_ID = F.USER_ID
 </select>
 
 </mapper>

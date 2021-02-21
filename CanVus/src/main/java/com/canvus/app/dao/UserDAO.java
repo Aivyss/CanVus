@@ -47,7 +47,7 @@ public class UserDAO {
 	
 	/**
 	 * 
-	 * @param user info
+	 * @param
 	 * @return user info in DB
 	 */
 	public boolean signup(UserVO vo) {
@@ -161,4 +161,24 @@ public class UserDAO {
 		return check;
 	}
 
+	/**
+	 * 유저 아이디로 유저 닉네임 셀렉하는 메소드(일단 막코딩 시간이 엄따)
+	 * 작성일: 2021.02.21
+	 * 작성자: 이한결
+	 * @param user_id
+	 * @return
+	 */
+	public String getUserNickname(String user_id) {
+		String nickname = null;
+
+		try {
+			UserMapper mapper = session.getMapper(UserMapper.class);
+			nickname = mapper.getUserNickname(user_id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("유저 닉네임 셀렉 sql오류");
+		}
+
+		return nickname;
+	}
 }

@@ -69,4 +69,13 @@
 		USER_ID = #{user_id}
 </update>
 
+<select id="getUserNickname" parameterType="string" resultType="string">
+	SELECT
+		NICKNAME
+	FROM
+		USERS
+	WHERE
+		USER_ID = #{string}
+</select>
+
 </mapper>
