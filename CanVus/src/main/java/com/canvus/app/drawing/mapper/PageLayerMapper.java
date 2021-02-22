@@ -15,4 +15,6 @@ public interface PageLayerMapper {
     public boolean deletePageLayer(PageVO page);
 
     public List<PageVO> getAllLayers(PageVO roomInfo);
+
+    void closeRoom(String room_id);
 }

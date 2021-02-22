@@ -20,4 +20,6 @@ public interface JoinListMapper {
 	public boolean quitRoom(DrawingUserVO quitedUser);
 
     public boolean addAuthority(DrawingUserVO targetUser);
+
+    void closeRoom(String room_id);
 }

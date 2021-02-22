@@ -89,13 +89,13 @@
                                 <div class="range-slider">
                                     <input type="range" orient="vertical" min="0" max="100"/>
                                     <div class="range-slider__bar theme1"></div>
-                                    <div class="range-slider__thumb" id="thicknessBar"></div>
+                                    <div class="range-slider__thumb" id="thicknessBar" style="bottom: 10%">10%</div>
                                 </div>
 
                                 <div class="range-slider">
                                     <input type="range" orient="vertical" min="0" max="100"/>
                                     <div class="range-slider__bar theme2"></div>
-                                    <div class="range-slider__thumb" id="opacityBar"></div>
+                                    <div class="range-slider__thumb" id="opacityBar" style="bottom: 10%">10%</div>
                                 </div>
                             </div>
                         </li>

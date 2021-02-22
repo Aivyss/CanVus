@@ -110,7 +110,6 @@ let socketFunctionSet = (function () {
                     </button>`;
                 $('#drawerList').append(content);
             }
-
         },
         quit: function (data) {
 
@@ -173,6 +172,11 @@ let socketFunctionSet = (function () {
                 ${targetNickname} <span class="badge">0</span>
             </button>`;
             $('#drawerList').append(content);
+        },
+        closeRoom: function () {
+            disconnect();
+            alert("Adminがフィードを作成してルームが閉まりました。");
+            location.href = "/";
         }
     }
 })();
@@ -282,6 +286,8 @@ function parser(data) {
         socketFunctionSet.deletePageLayer(data);
     } else if (type == "ADDAUTHORITY") {
         socketFunctionSet.addAuthority(data);
+    } else if (type == "CLOSEROOM") {
+        socketFunctionSet.closeRoom();
     }
 }
 
@@ -732,8 +738,11 @@ function makeFeedExecution() {
         data: JSON.stringify(data),
         success: function () {
             console.log("전송성공");
+            $('#content_div').remove();
+            $('#mask').remove();
 
             const message = {
+                room_Id: room_Id,
                 message: 'Adminがフィードを作成してルームが閉まりました。'
             }
             sendMessage(message, "closeRoom");
@@ -1022,7 +1031,7 @@ $(() => {
         } else if (eventId == 'Edit-feed') {
             createFeed();
         } else if (eventId == 'Edit-exit') {
-
+            disconnect();
         }
     })
 

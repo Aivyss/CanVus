@@ -51,9 +51,26 @@ public class StompService {
 			container = deletePageLayer(room_Id, json);
 		} else if (type.equals("ADDAUTHORITY")) {
 			container = addAuthoity(room_Id, json);
+		} else if (type.equals("CLOSEROOM")) {
+			container = closeRoom(room_Id, json);
 		}
 		
 		return container;
+	}
+
+	/**
+	 * 피드를 작성하여 모든 유저를 나가게 하고 데이터베이스 상에서 방을 삭제하는 메소드
+	 * 작성일: 2021.02.22
+	 * 작성자: 이한결
+	 * @param room_id
+	 * @param json
+	 * @return
+	 */
+	private Map<String, Object> closeRoom(String room_Id, Map<String, Object> json) {
+		log.info("방 폭파 소켓서비스 메소드");
+		drawingService.closeRoom(room_Id);
+
+		return json;
 	}
 
 	/**

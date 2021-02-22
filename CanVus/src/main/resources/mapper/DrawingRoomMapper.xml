@@ -33,5 +33,12 @@
 	WHERE
 		ROOM_ID = #{string}
 </select>
+	<delete id="closeRoom" parameterType="string">
+		DELETE
+			FROM
+				DRAWING_ROOMS
+			WHERE
+				ROOM_ID = #{string}
+	</delete>
 
 </mapper>

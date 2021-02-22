@@ -463,4 +463,17 @@ public class DrawingService {
 		String room_Id = (String) params.get("room_Id");
 		Base64ToImgDecoder.decoder(png, "/roomThumbnail", room_Id + "--Thumbnail--", "png");
     }
+
+	/**
+	 * 피드를 작성하여 모든 유저를 나가게 하고 데이터베이스 상에서 방을 삭제하는 메소드
+	 * 작성일: 2021.02.22
+	 * 작성자: 이한결
+	 * @param room_Id
+	 * @param json
+	 * @return
+	 */
+	public void closeRoom(String room_Id) {
+		log.info("방폭파 드로잉 서비스 메소드 진입");
+		drawingDAO.closeRoom(room_Id);
+	}
 }

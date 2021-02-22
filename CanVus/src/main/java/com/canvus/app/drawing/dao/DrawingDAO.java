@@ -306,4 +306,26 @@ public class DrawingDAO {
 
 		return check;
 	}
+
+	/**
+	 * 피드를 작성하여 모든 유저를 나가게 하고 데이터베이스 상에서 방을 삭제하는 메소드
+	 * 작성일: 2021.02.22
+	 * 작성자: 이한결
+	 * @param room_Id
+	 * @param json
+	 * @return
+	 */
+    public void closeRoom(String room_Id) {
+    	try {
+    		DrawingRoomMapper mapper1 = session.getMapper(DrawingRoomMapper.class);
+			JoinListMapper mapper2 = session.getMapper(JoinListMapper.class);
+			PageLayerMapper mapper3 = session.getMapper(PageLayerMapper.class);
+			mapper3.closeRoom(room_Id);
+			mapper2.closeRoom(room_Id); // 외래키 제약조건 때문에 이거먼저 지워야한다
+			mapper1.closeRoom(room_Id);
+		} catch (Exception e) {
+    		e.printStackTrace();
+    		log.info("방폭파 sql 오류");
+		}
+    }
 }

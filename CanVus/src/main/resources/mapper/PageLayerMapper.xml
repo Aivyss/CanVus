@@ -67,5 +67,12 @@
 	ORDER BY
 		PAGE_NO ASC
 </select>
+	<delete id="closeRoom" parameterType="string">
+		DELETE
+			FROM
+				PAGE_LAYER
+			WHERE
+				ROOM_ID = #{string}
+	</delete>
 
 </mapper>

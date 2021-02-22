@@ -86,4 +86,12 @@
 	    USER_ID = #{user_id}
 </update>
 
+	<delete id="closeRoom" parameterType="string">
+		DELETE
+			FROM
+				JOIN_LIST
+			WHERE
+				ROOM_ID = #{string}
+	</delete>
+
 </mapper>
