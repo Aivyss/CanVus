@@ -108,7 +108,7 @@
                                   area-expanded="false"></span>
                             <ul class="dropdown-menu custom-dropdown" role="menu" id="bms">
                                 <c:forEach items="${bookmarks}" var="bookmark">
-                                    <li id="bm-${bookmark.folder_id}"><a href="#">${bookmark.folder_name}</a></li>
+                                    <li><a id="bm-${bookmark.folder_id}" href="#">${bookmark.folder_name}</a></li>
                                 </c:forEach>
                             </ul>
                         </div>

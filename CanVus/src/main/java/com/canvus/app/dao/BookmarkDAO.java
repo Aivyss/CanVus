@@ -1,7 +1,9 @@
 package com.canvus.app.dao;
 
 import com.canvus.app.dao.mapper.BookmarkMapper;
+import com.canvus.app.dao.mapper.BookmarkedFeedMapper;
 import com.canvus.app.vo.BookmarkVO;
+import com.canvus.app.vo.BookmarkedFeedsVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,5 +102,25 @@ public class BookmarkDAO {
         }
 
         return bookmarkList;
+    }
+
+    /**
+     * AJAX 통신
+     * 북마크에 해당 피드를 추가하는 메소드
+     * 작성일: 2021.02.22
+     * 작성자: 이한결
+     */
+    public boolean addFeedIntoBookmark(BookmarkedFeedsVO bmfVO) {
+        boolean check = false;
+
+        try {
+            BookmarkedFeedMapper mapper = session.getMapper(BookmarkedFeedMapper.class);
+            check = mapper.addFeedIntoBookmark(bmfVO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("북마크에 추가하는 sql오류");
+        }
+
+        return check;
     }
 }

@@ -180,4 +180,36 @@ $(() => {
 
         isLiked = !isLiked;
     });
-})
+
+    // 북마크 등록 이벤트
+    $(document).on('click', '#bms', function(event) {
+        let eventTargetId = event.target.id;
+
+        if(eventTargetId.substr(0,3) == 'bm-') {
+            eventTargetId = parseInt(eventTargetId.split('bm-')[1]);
+
+            const data = {
+                folder_id : eventTargetId,
+                feed_id : feed_id
+            };
+
+            $.ajax({
+                url :'/bookmarkRest/addFeedIntoBookmark',
+                type:'post',
+                contentType:"application/json",
+                data: JSON.stringify(data),
+                dataType: 'json',
+                success : function (result) {
+                    if(result['isSuccess']) {
+                        alert("Bookmarked");
+                    } else {
+                        alert("Already Bookmarked");
+                    }
+                },
+                error : function () {
+                    alert("Bookmarking Failed");
+                }
+            });
+        }
+    })
+});

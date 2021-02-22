@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.canvus.app.dao.mapper.BookmarkedFeedMapper">
+
+	<insert id="addFeedIntoBookmark" parameterType="bmf">
+		INSERT INTO BOOKMARKED_FEEDS (
+			BKFS_ID
+			,FOLDER_ID
+			,FEED_ID
+		) VALUES (
+			BKFS_ID_SEQ.NEXTVAL
+			,#{folder_id}
+			,#{feed_id}
+		)
+	</insert>
+
+</mapper>

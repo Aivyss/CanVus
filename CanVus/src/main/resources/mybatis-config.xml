@@ -19,6 +19,7 @@
 		<typeAlias type="com.canvus.app.vo.FeedComponentVO" alias="feedComponent" />
 		<typeAlias type="com.canvus.app.vo.FeedCommentVO" alias="feedComment" />
 		<typeAlias type="com.canvus.app.vo.LikeVO" alias="like" />
+		<typeAlias type="com.canvus.app.vo.BookmarkedFeedsVO" alias="bmf" />
 	</typeAliases>
 	
 	<mappers>
@@ -29,6 +30,7 @@
 		<mapper resource="mapper/JoinListMapper.xml" />
 		<mapper resource="mapper/PageLayerMapper.xml" />
 		<mapper resource="mapper/BookmarkMapper.xml" />
+		<mapper resource="mapper/BookmarkedFeedMapper.xml" />
 		<mapper resource="mapper/FollowingsMapper.xml" />
 		<mapper resource="mapper/FeedsMapper.xml" />
 		<mapper resource="mapper/FeedDrawingsMapper.xml" />
