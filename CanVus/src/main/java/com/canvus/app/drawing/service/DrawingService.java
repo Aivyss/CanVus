@@ -449,4 +449,18 @@ public class DrawingService {
 
     	return drawingDAO.addAuthority(targetUser);
     }
+
+	/**
+	 * 10분 간격으로 1번 페이지를 저장하는 메소드 썸네일에 쓸 용도로 만들어진 메소드
+	 * 따로 데이터베이스에는 저장하지 않는다.
+	 * 작성일: 2021.02.22
+	 * 작성자: 이한결
+	 * @param params
+	 */
+    public void saveThumbnail(Map<String, Object> params) {
+		log.info("썸네일 전용 1page 저장 서비스 메소드 진입");
+		String png = (String) params.get("encodedStr");
+		String room_Id = (String) params.get("room_Id");
+		Base64ToImgDecoder.decoder(png, "/roomThumbnail", room_Id + "--Thumbnail--", "png");
+    }
 }

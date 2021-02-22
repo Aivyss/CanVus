@@ -25,12 +25,6 @@ let brushGlobal = "PencilBrush";
 let socketClient = null;
 let isInitialized = false;
 
-
-// 유저리스트 필터용 변수
-let filter;
-let list;
-let listItems = [];
-
 // 권한부여자 카운팅
 let authCount = 0;
 
@@ -87,12 +81,11 @@ let socketFunctionSet = (function () {
             if (admin_id == user_id) { // 어드민이 입장한 경우
                 for (const user of userList) {
                     if (user['user_type'] == 'VISITOR') { // 유저리스트의 유저가 방문자인 경우
-                        $('#canvus-list').append(`<li>${user['nickname']}<button class="addAuthority" id="list${user['user_id']}">一緒に</button></li>`);
+                        $('#canvus-list').append(`<li><a href="#">${user['nickname']}<button class="addAuthority" id="list${user['user_id']}">一緒に</button></a></li>`);
                     } else { // 유저 리스트의 유저가 drawer인 경우
                         drawerNicknameList.push(user['nickname']);
                         drawerIdList.push(user['user_id']);
-                        $('#canvus-list').append(`<li>${user['nickname']}</li>`);
-
+                        $('#canvus-list').append(`<li><a href="#">${user['nickname']}</a></li>`);
                         authCount++;
                     }
                 }
@@ -104,7 +97,7 @@ let socketFunctionSet = (function () {
                         drawerIdList.push(user['user_id']);
                     }
 
-                    $('#canvus-list').append(`<li>${user['nickname']}</li>`);
+                    $('#canvus-list').append(`<li><a href="#">${user['nickname']}</a></li>`);
                 }
             }
 
@@ -500,7 +493,7 @@ function createPage(isReceiver) {
     console.log(layerSet);
 
     // TODO canvas-container를 단 1개로 유지하기 위해 ID속성부여 프로세스
-    $('.canvas-container').attr('id', pageId).attr('class', 'pageId');
+    $('.canvas-container').attr('id', pageId).attr('class', 'pageBundle');
     $('.upper-canvas').attr('class', pageId + 'l1u');
     if (user_id != admin_id) {
         $('.upper-canvas').attr('class', pageId + 'l1u');
@@ -513,7 +506,7 @@ function createPage(isReceiver) {
     if (drawerIdList.length != 0) {
         for (const drawer_id of drawerIdList) {
             if (drawer_id == user_id)
-                $(`.${layerId}u`).css({'display': ""});
+                $(`.${pageId}l1u`).css({'display': ""});
         }
     }
 
@@ -591,7 +584,7 @@ function deletePage(isReceiver) {
 
 function createBox(layerId) {
     let contents
-        = `<div class='itemBox' id="${layerId}b" style="width:200px; height:60px; background-color:white;" >`
+        = `<div class='itemBox panel panel-default' id="${layerId}b" style="width:200px; height:60px; background-color:white;" >`
         + "<div style='float:left;'>"
         + "<span class='itemNum'></span> "
         + `<span name="item">Layer : ${layerId.split("l")[1]}</span>`
@@ -757,7 +750,7 @@ function createPageComponent(isReceiver) {
     const totalPage = layerSet.length;
 
     let content = `
-                <div role="tabpanel" class="tab-pane fade" id="Tp${totalPage + 1}"></div>
+                <div role="tabpanel" class="tab-pane figure figure_bg figure_bg_light center-block fade" id="Tp${totalPage + 1}"></div>
                 `;
     $('#tabPanes').append(content);
 
@@ -774,10 +767,6 @@ function createPageComponent(isReceiver) {
 
 /*********************** 이벤트 등록파트 *******************/
 $(() => {
-    // ************로딩후 사용할 수 있는 전역변수 ********************/
-    filter = document.getElementById('filter');
-    list = document.getElementById('list');
-
     // ************ 레이어 리스트 초기설정 *****************//
     $("#itemBoxWrap").sortable({
         placeholder: "itemBoxHighlight",
@@ -997,26 +986,6 @@ $(() => {
 
     });
 
-    // ****************** 우저리스트 필터 이벤트 ************************/
-    filter.addEventListener('keyup', function (e) {
-        listItems = list.querySelectorAll('li');
-        let val = new RegExp(e.target.value, 'gi');
-        for (let i = 0; i < listItems.length; i++) {
-            if (e.target.value.length > 0) {
-                let text = listItems[i].innerHTML;
-
-                if (!text.match(val)) {
-                    listItems[i].classList.add('is-hidden');
-                } else {
-                    listItems[i].classList.remove('is-hidden');
-                }
-            } else {
-                listItems[i].classList.remove('is-hidden');
-            }
-
-        }
-    });
-
 //****************************** 브러시(만) 변경 이벤트  ****************************//
     $('#brushTap').on('click', function (event) {
         console.log("브러시 선택 버튼 클릭으로 인한 브러시 변경 이벤트 발생");
@@ -1063,4 +1032,64 @@ $(() => {
         $('#mask').remove();
         $('#content_div').remove();
     });
+
+    /********************방찾기를 위해서 주기적으로 1page를 파일화하는 메소드 집합 ***********/
+    setInterval(sendOnePageIntegrationFunction, 5*60*1000) // 5분 간격으로 페이지 1번을 저장한다.
+
+    function onePageSaveEventFire() {
+        const onePageBuffer = $('#onePageBuffer');
+        const onePageObjArry = layerSet[0];
+        const content = `
+            <canvas class="buffer" id="buffer_one" width="600px" height="600px"></canvas>
+        `;
+
+        onePageBuffer.append(content);
+        const bufferOne = document.getElementById('buffer_one');
+        const ctx = bufferOne.getContext('2d');
+
+        for(let i=0; i<onePageObjArry.length; i++) {
+            ctx.drawImage(document.getElementById(`p1l${i + 1}`), 0, 0);
+        }
+
+        const base64 = bufferOne.toDataURL("image/png");
+        const data = {
+            encodedStr : base64,
+            room_Id : room_Id
+        };
+
+        $.ajax({
+            url: '/drawing/thumbnail',
+            type: 'post',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function () {
+                console.log("Success");
+            },
+            error: function () {
+                console.log("Fail");
+            }
+        });
+
+        onePageBuffer.empty();
+    }
+
+    function checkOnePageValidation() {
+        let check = false;
+
+        if (layerSet.length != 0) { // 하나도 생성 안한경우 false
+            if(layerSet[0].length != 0) { // 생성은 했으나 레이어 길이가 0인경우(사실 없음)
+                check = true;
+            }
+        }
+
+        return check;
+    }
+
+    function sendOnePageIntegrationFunction() {
+        const isValid = checkOnePageValidation();
+
+        if (isValid) {
+            onePageSaveEventFire();
+        }
+    }
 });

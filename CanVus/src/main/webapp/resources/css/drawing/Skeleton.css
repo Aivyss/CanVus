@@ -1,0 +1,42 @@
+.main-view {
+    border: 0;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.6);
+    background-color: lightseagreen;
+}
+.sidebar-view {
+    border: 0;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.6);
+    background-color: #dca7a7;
+    margin-right:20px;
+}
+
+.layer-view {
+    background-color: rebeccapurple;
+    border: 0;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.6);
+    margin-top: 20px;
+}
+.chat-view {
+    margin-top: 20px;
+}
+
+
+
+/** 캔버스들이 저장되는 곳의 디자인 **/
+.tab-pane {
+    border: 0;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.6);
+}
+
+.pageBundle{
+    border: 0;
+    border-radius: 1rem;
+    margin-left:auto;
+    margin-right:auto;
+    background-color: rgba(255,255,255,0.6);
+    box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.6);
+}

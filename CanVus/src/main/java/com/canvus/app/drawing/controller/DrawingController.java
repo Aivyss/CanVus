@@ -158,11 +158,24 @@ public class DrawingController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="getAllLayers", method=RequestMethod.POST)
+	@RequestMapping(value="/getAllLayers", method=RequestMethod.POST)
 	public List<PageVO> selectAllPages(@RequestBody Map<String, Object> params) {
 		log.info("모든 페이지-레이어 정보 불러오기 컨트롤러 메소드");
 		log.info((String) params.get("room_Id"));
 		
 		return drawingService.getAllLayers((String) params.get("room_Id"));
+	}
+
+	/**
+	 * 10분 간격으로 1번 페이지를 저장하는 메소드 썸네일에 쓸 용도로 만들어진 메소드
+	 * 작성일: 2021.02.22
+	 * 작성자: 이한결
+	 * @param params
+	 */
+	@ResponseBody
+	@RequestMapping(value="/thumbnail", method=RequestMethod.POST)
+	public void saveThumbnail(@RequestBody Map<String, Object> params) {
+		log.info("썸네일 전용 1page 저장 컨트롤러 메소드 진입");
+		drawingService.saveThumbnail(params);
 	}
 }

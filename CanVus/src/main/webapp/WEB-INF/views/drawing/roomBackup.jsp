@@ -53,26 +53,20 @@
 
         <!-- 본격적인 드로잉 페이지 시작 -->
 
-        <link rel="stylesheet" href="/resources/css/drawing/Skeleton.css?reload">
-        <link rel="stylesheet" href="/resources/css/drawing/pageTab.css?reload">
-        <link rel="stylesheet" href="/resources/css/drawing/layerList.css?reload">
+        <link rel="stylesheet" href="/resources/css/drawing/sideBar.css">
+        <link rel="stylesheet" href="/resources/css/drawing/pageTab.css">
+        <link rel="stylesheet" href="/resources/css/drawing/layerList.css">
 
-        <div class="container-fluid">
-            <!-- 사이드 바 시작 -->
-            <div class="col-xs-3 sidebar-view center-block">
-                <!-- 레이어 리스트 -->
-                <div class="row layer-view center-block">
-                    <div class="row center-block">
-                        <div class="page-header">
-                            <h4>Layer View</h4>
-                        </div>
-                        <div class="center-block" id="itemBoxWrap"
-                             style="overflow:auto; width:300px; height:300px;"></div>
-                    </div>
-                </div>
-                <!-- 채팅박스 -->
-                <div class="row chat-view center-block">
-                    <link rel="stylesheet" href="/resources/css/drawing/chat.css?reload">
+        <div class="skeleton" style="padding-top:5px;">
+            <div class="row-fluid">
+                <!-- 사이드 바 시작 -->
+                <div id="sidebar" class="span2">
+                    <!-- 사이드바 -->
+                    <!-- 레이어 리스트 -->
+                    <div id="itemBoxWrap" style="overflow:auto; width:300px; height:300px;"></div>
+
+                    <!-- 채팅박스 -->
+                    <link rel="stylesheet" href="/resources/css/drawing/chat.css">
                     <div class='chatbox' style="float:left">
                         <div class='chatbox__header'>
                         </div>
@@ -89,43 +83,61 @@
                             </button>
                         </div>
                     </div>
-                </div>
-                <script src="/resources/js/drawing/chat.js"></script>
-            </div><!-- 사이드바 엔드 -->
+                    <script src="/resources/js/drawing/chat.js"></script>
 
-            <!-- 메인창 시작 -->
-            <div class="col-xs-8 center-block main-view">
-                <!-- 드로워 리스트 -->
-                <div class="row">
+                    <!-- 유저 리스트 -->
+                    <link rel="stylesheet" href="/resources/css/drawing/userList.css">
+                    <div style="width:200px; float:left;">
+                        <section id="userListSection">
+                            <input type="text" id="filter" placeholder="Type to filter"/>
+                            <ul id="canvus-list" class="Canvus-List">
+
+                            </ul>
+                        </section>
+                    </div>
+                </div> <!-- 사이드바 앤드 -->
+
+                <div id="content" class="span7">
+                    <!-- 드로워 리스트 -->
                     <div class="btn-group btn-group-lg" role="group" aria-label="..." id="drawerList"
                          style="height:50px;">
                     </div>
-                </div>
 
-                <!-- 페이지 탭 -->
-                <div class="row">
+                    <!-- 페이지 탭 -->
                     <div role="tabpanel">
+
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs" role="tablist" id="tablist">
                             <li role="presentation" class="active" id="tabNav">
-                                <a href="#CreatePage" aria-controls="CreatePage" role="tab" data-toggle="tab"
-                                   id="CreatePage">Create Page</a>
+                                <a href="#CreatePage" aria-controls="CreatePage" role="tab" data-toggle="tab" id="CreatePage">Create Page</a>
                             </li>
                         </ul>
 
                         <!-- Tab panes -->
-                        <div class="tab-content center-block" id="tabPanes">
-                            <div role="tabpanel" class="tab-pane figure figure_bg figure_bg_light center-block in active" id="createPageTab">...</div>
+                        <div class="tab-content" id="tabPanes">
+                            <div role="tabpanel" class="tab-pane in active" id="createPageTab">...</div>
                         </div>
-                    </div>
-                </div>
-                <link rel="stylesheet" href="/resources/css/drawing/chessPattern.css">
 
-                <div id="onePageBuffer" style="display:none">
-                </div>
-            </div><!-- 메인창 엔드 -->
+                    </div>
+
+                    <div class="underContainer-Main">
+                    </div>
+                </div> <!-- end #content -->
+            </div> <!-- end .row-fluid -->
         </div>
-        <!-- 사실상 body end -->
+
+        <!-- 피드를 만들 당시에 사용하는 폼태그 depredcated -->
+
+        <%--        <form action="/drawing/makeFeed" method="post" id="feedForm">--%>
+        <%--            <input type="hidden" id="feed_id" name="feed_id">--%>
+        <%--            <input type="hidden" id="user_id1" name="user_id1">--%>
+        <%--            <input type="hidden" id="user_id2" name="user_id2">--%>
+        <%--            <input type="hidden" id="user_id3" name="user_id3">--%>
+        <%--            <input type="hidden" id="user_id4" name="user_id4">--%>
+        <%--            <input type="hidden" id="context" name="context">--%>
+        <%--            <input type="hidden" id="pages" name="pages">--%>
+        <%--        </form>--%>
+        <!-- end .container -->
     </c:otherwise>
 </c:choose>
 </body>
