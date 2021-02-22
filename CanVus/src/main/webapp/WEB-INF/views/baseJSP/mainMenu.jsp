@@ -45,7 +45,7 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <script src="/resources/js/baseJSP/mainMenu.js"></script>
+    <script src="/resources/js/baseJSP/mainMenu.js?reload"></script>
 </head>
 <body data-spy="scroll" data-target="#header">
 <!--Start Hedaer Section-->
@@ -66,7 +66,7 @@
                                 <span class="icon-bar"></span>
                             </button>
                             <a class="navbar-brand custom_navbar-brand" href="#">
-                                <img src="/resources/mainAsset/img/CanVus.png" alt="">
+                                <img class='navLogo' src="/resources/mainAsset/img/CanVus.png" alt="">
                             </a>
                             <!-- 검색창 파트 -->
                             <div class="input-group navbar-collapse" id="searchbar">

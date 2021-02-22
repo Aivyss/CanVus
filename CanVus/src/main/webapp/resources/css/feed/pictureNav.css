@@ -1,0 +1,41 @@
+.previous-btn {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    background-color: white;
+    font-size: 25px;
+    border: 1px solid #bbb;
+    line-height: 37px;
+    display: inline-block;
+    cursor: pointer;
+    transition: all 0.5s;
+    text-align: center;
+    padding: 5px;
+}
+
+.next-btn {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    background-color: white;
+    font-size: 25px;
+    border: 1px solid #bbb;
+    line-height: 37px;
+    display: inline-block;
+    cursor: pointer;
+    transition: all 0.5s;
+    text-align: center;
+    padding: 5px;
+}
+
+.previous-btn:hover {
+    color: #fff;
+    background-color: #FFD000;
+    border: 1px solid #FFD000;
+}
+
+.next-btn:hover {
+    color: #fff;
+    background-color: #255625;
+    border: 1px solid #255625;
+}

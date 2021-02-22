@@ -3,6 +3,7 @@ package com.canvus.app.service;
 import java.util.List;
 import java.util.Map;
 
+import com.canvus.app.dao.BookmarkDAO;
 import com.canvus.app.dao.UserDAO;
 import com.canvus.app.drawing.vo.FeedVO;
 import com.canvus.app.vo.*;
@@ -27,6 +28,8 @@ public class FeedService {
 	private TagDAO tagDAO;
 	@Autowired
 	private UserDAO userDAO;
+	@Autowired
+	private BookmarkDAO bookmarkDAO;
 	
 	public Map<String, String> getContext(Map<String, String> params) {
 		log.info("getContext 서비스 메소드 진입");
@@ -84,6 +87,8 @@ public class FeedService {
 	 */
     public String readFeed(String feed_id, HttpSession session, Model model) {
 		String url = "feed/view";
+		String user_id = (String) session.getAttribute("userId");
+
 		try {
 			FeedVO feedAbstract = feedDAO.readFeedAbstract(feed_id);
 			// 유저 닉네임 추출
@@ -99,15 +104,17 @@ public class FeedService {
 			}
 			List<FeedDrawingsVO> feedPictures = feedDAO.readFeedPictures(feed_id);
 			List<FeedCommentVO> feedComments = feedDAO.readFeedComments(feed_id);
+			List<BookmarkVO> bookmarks = bookmarkDAO.getBookmarkList(user_id);
 			log.info(feedComments.toString());
 			int likeCount = feedDAO.getLikeCount(feed_id);
-			boolean isLiked = feedDAO.getisLiked(feed_id, (String) session.getAttribute("userId"));
+			boolean isLiked = feedDAO.getisLiked(feed_id, user_id);
 
 			model.addAttribute("feedAbstract", feedAbstract);
 			model.addAttribute("feedPictures", feedPictures);
 			model.addAttribute("feedComments", feedComments);
 			model.addAttribute("likeCount", likeCount);
 			model.addAttribute("isLiked", isLiked);
+			model.addAttribute("bookmarks", bookmarks);
 		} catch (Exception e) {
 			log.info("sql문중에 하나 이상의 오류");
 			url = "redirect:/";
@@ -115,4 +122,37 @@ public class FeedService {
 
 		return url;
     }
+
+	/**
+	 * 특정 피드의 like를 증가시키는 메소드
+	 * 작성일: 2021.02.22
+	 * 작성자: 이한결
+	 * @param params
+	 */
+	public void addLike(Map<String, Object> params) {
+		log.info("피드의 like 증가 서비스 메소드 진입");
+		LikeVO likeVO = new LikeVO();
+
+		likeVO.setUser_id((String) params.get("user_id"));
+		likeVO.setFeed_id((String) params.get("feed_id"));
+
+		feedDAO.addLike(likeVO);
+	}
+
+	/**
+	 * AJAX 통신
+	 * 해당 피드에 like를 제거하는 메소드
+	 * 작성일: 2021.02.22
+	 * 작성자: 이한결
+	 * @param params
+	 */
+	public void deleteLike(Map<String, Object> params) {
+		log.info("피드의 like 삭제 서비스 메소드 진입");
+		LikeVO likeVO = new LikeVO();
+
+		likeVO.setUser_id((String) params.get("user_id"));
+		likeVO.setFeed_id((String) params.get("feed_id"));
+
+		feedDAO.deleteLike(likeVO);
+	}
 }

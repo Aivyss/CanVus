@@ -1,24 +1,57 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.canvus.app.dao.mapper.FeedCommentMapper">
 
-<select id="readFeedComments" parameterType="string" resultType="feedComment">
-	SELECT
-		F.USER_ID AS user_id
-		,F.FEED_ID	AS feed_id
-		,F.FEED_COMMENT	AS feed_comment
-	    ,U.PROFILE_PHOTO	AS profile_photo
-	    ,U.NICKNAME	AS nickname
-		,TO_CHAR(F.INPUTDATE, 'yyyy-MM-dd') AS inputdate
-	FROM
-		FEED_COMMENT F, USERS U
-	WHERE
-		F.FEED_ID = #{string}
-		AND
-	    U.USER_ID = F.USER_ID
-</select>
+    <select id="readFeedComments" parameterType="string" resultType="feedComment">
+        SELECT
+            F.USER_ID AS user_id
+             ,F.FEED_ID	AS feed_id
+             ,F.FEED_COMMENT	AS feed_comment
+             ,U.PROFILE_PHOTO	AS profile_photo
+             ,U.NICKNAME	AS nickname
+             ,TO_CHAR(F.INPUTDATE, 'yyyy-MM-dd') AS inputdate
+        FROM
+            FEED_COMMENT F, USERS U
+        WHERE
+            F.FEED_ID = #{string}
+          AND
+            U.USER_ID = F.USER_ID
+    </select>
+
+    <insert id="sendComment" parameterType="feedComment">
+        INSERT INTO FEED_COMMENT (
+        COMMENT_ID
+        ,USER_ID
+        ,FEED_ID
+        ,FEED_COMMENT
+        ) VALUES (
+        COMMENT_SEQ.NEXTVAL
+        ,#{user_id}
+        ,#{feed_id}
+        ,#{feed_comment}
+        )
+    </insert>
+
+    <select id="selectAdditionalCommentInfo" parameterType="feedComment" resultType="feedComment">
+        SELECT
+            F.COMMENT_ID    AS COMMENT_ID
+            ,TO_CHAR(F.INPUTDATE, 'yyyy-MM-dd') AS INPUTDATE
+            ,U.NICKNAME AS NICKNAME
+            ,U.PROFILE_PHOTO    AS PROFILE_PHOTO
+        FROM
+            FEED_COMMENT F, USERS U
+        WHERE
+            F.COMMENT_ID = (
+                SELECT
+                    MAX(FS.COMMENT_ID)
+                FROM
+                    FEED_COMMENT FS
+            )
+            AND
+            U.USER_ID = #{user_id}
+    </select>
 
 </mapper>

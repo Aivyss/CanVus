@@ -54,6 +54,12 @@ font-family: 'Roboto', sans-serif;
 
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic);
 
+/*
+폰트
+ */
+@import url('https://fonts.googleapis.com/css2?family=Stick&display=swap');
+
+
 /*UNIVERSAL CODE*/
 
 * {
@@ -117,7 +123,7 @@ p {
     padding: 0;
     margin: 0;
 }
-img {
+.navLogo {
     max-width: 100%;
     height: auto;
 }
@@ -1189,7 +1195,7 @@ ul.entry-meta {
     font-size: 14px;
     text-transform: uppercase;
     font-weight: 600;
-    font-family: 'Roboto Slab', serif;
+    font-family: 'Stick', sans-serif;
 }
 
 .dropdown-toggle{

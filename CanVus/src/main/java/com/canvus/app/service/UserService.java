@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import com.canvus.app.dao.BookmarkDAO;
 import com.canvus.app.dao.FeedDAO;
 import com.canvus.app.dao.FollowingsDAO;
 import com.canvus.app.util.PageNavigator;
@@ -46,7 +47,10 @@ public class UserService {
 	@Autowired
 	private FeedDAO feedDAO;
 	@Autowired
+	private BookmarkDAO bookmarkDAO;
+	@Autowired
 	private FollowingsService followingsService;
+
 	
 	/**
 	 * login business logic
@@ -151,15 +155,15 @@ public class UserService {
 		logger.info(inputInfo.getUser_id());
 		
 		// TODO 북마크 이름 중복체크
-		BookmarkVO dbData = userDAO.checkDoubleNameOfBookmark(inputInfo);
+		BookmarkVO dbData = bookmarkDAO.checkDoubleNameOfBookmark(inputInfo);
 		
 		if (dbData != null) { // 중복된 이름이 있는 경우
 			dbData = null;
 		} else {
-			boolean check = userDAO.makeFolder(inputInfo);
+			boolean check = bookmarkDAO.makeFolder(inputInfo);
 			
 			if (check) { // 생성이 완료됐으면 다시 더블첵 메소드를 활용해서 해당 북마크 정보를 불러옴.
-				dbData = userDAO.checkDoubleNameOfBookmark(inputInfo);
+				dbData = bookmarkDAO.checkDoubleNameOfBookmark(inputInfo);
 			}
 		}
 		
@@ -179,7 +183,7 @@ public class UserService {
 		
 		// TODO 세션의 아이디 정보를 inputInfo에 넣는 과정
 		
-		return userDAO.deleteFolder((Integer) params.get("folder_id"));
+		return bookmarkDAO.deleteFolder((Integer) params.get("folder_id"));
 	}
 
 	/** 

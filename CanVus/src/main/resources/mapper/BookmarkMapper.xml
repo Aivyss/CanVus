@@ -38,4 +38,15 @@ DELETE
 		FOLDER_ID = #{int}
 </delete>
 
+<select id="getBookmarkList" parameterType="string" resultType="bookmark">
+	SELECT
+		FOLDER_ID
+		,USER_ID
+		,FOLDER_NAME
+	FROM
+		BOOKMARK_FOLDER
+	WHERE
+		USER_ID = #{string}
+</select>
+
 </mapper>

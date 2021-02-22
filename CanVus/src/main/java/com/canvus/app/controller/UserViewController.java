@@ -138,6 +138,12 @@ public class UserViewController {
 		
 		return result;
 	}
+
+//	@ResponseBody
+//	@RequestMapping(value="/bookmarks/addFeed", method=RequestMethod.POST)
+//	public void addFeedToBookmark(@RequestBody Map<String, Object> params) {
+//
+//	}
 	
 	@RequestMapping(value="/pixelManagement", method=RequestMethod.GET)
 	public String pixelManagement() {

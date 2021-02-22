@@ -5,27 +5,47 @@
 
 <mapper namespace="com.canvus.app.dao.mapper.LikeMapper">
 
-<select id="getLikeCount" parameterType="string" resultType="int">
-	SELECT
-		COUNT(*)
-	FROM
-		LIKE_TABLE
-	WHERE
-		FEED_ID = #{string}
-</select>
+	<insert id="addLike" parameterType="like">
+		INSERT INTO LIKE_TABLE(
+			LIKE_ID
+			,FEED_ID
+			,USER_ID
+		) VALUES (
+			LIKE_SEQ.NEXTVAL
+			,#{feed_id}
+			,#{user_id}
+		)
+	</insert>
 
-<select id="getisLiked" parameterType="like" resultType="like">
-	SELECT
-	    LIKE_ID
-		,USER_ID
-		,FEED_ID
-	FROM
-		LIKE_TABLE
-	WHERE
-		FEED_ID = #{feed_id}
-		AND
-	    USER_ID = #{user_id}
+	<delete id="deleteLike" parameterType="like">
+		DELETE FROM
+			LIKE_TABLE
+		WHERE
+			FEED_ID = #{feed_id}
+			AND
+		    USER_ID = #{user_id}
+	</delete>
 
-</select>
+	<select id="getLikeCount" parameterType="string" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			LIKE_TABLE
+		WHERE
+			FEED_ID = #{string}
+	</select>
 
+	<select id="getisLiked" parameterType="like" resultType="like">
+		SELECT
+			LIKE_ID
+			,USER_ID
+			,FEED_ID
+		FROM
+			LIKE_TABLE
+		WHERE
+			FEED_ID = #{feed_id}
+			AND
+			USER_ID = #{user_id}
+
+	</select>
 </mapper>

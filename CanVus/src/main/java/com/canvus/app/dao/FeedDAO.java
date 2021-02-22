@@ -285,4 +285,40 @@ public class FeedDAO {
 
 		return isLiked;
 	}
+	/**
+	 * 특정 피드의 like를 증가시키는 메소드
+	 * 작성일: 2021.02.22
+	 * 작성자: 이한결
+	 * @param params
+	 */
+    public void addLike(LikeVO likeVO) {
+    	log.info("피드의 like를 증가시키는 dao 메소드 진입");
+
+    	try {
+			LikeMapper mapper = session.getMapper(LikeMapper.class);
+			mapper.addLike(likeVO);
+		} catch (Exception e) {
+    		e.printStackTrace();
+    		log.info("라이크 증가 sql오류");
+		}
+    }
+
+	/**
+	 * AJAX 통신
+	 * 해당 피드에 like를 제거하는 메소드
+	 * 작성일: 2021.02.22
+	 * 작성자: 이한결
+	 * @param params
+	 */
+	public void deleteLike(LikeVO likeVO) {
+		log.info("피드의 like를 제거시키는 dao 메소드 진입");
+
+		try {
+			LikeMapper mapper = session.getMapper(LikeMapper.class);
+			mapper.deleteLike(likeVO);
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.info("라이크 제거 sql오류");
+		}
+	}
 }
