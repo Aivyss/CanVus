@@ -8,9 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.RandomStringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import com.canvus.app.dao.TagDAO;
 import com.canvus.app.vo.CanVusVOFactory;
 import com.canvus.app.vo.CanVusVOType;
 import com.canvus.app.vo.TagsInFeedVO;

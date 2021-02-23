@@ -2,7 +2,6 @@ package com.canvus.app.controller;
 
 import com.canvus.app.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;

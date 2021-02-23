@@ -49,40 +49,4 @@ public class FollowingsDAO {
         return followerList;
 
     }
-
-    /**
-     * 팔로우한 인원수를 카운트하는 메소드
-     * @param
-     * @return
-     */
-    public int getFollowCount(String user_id) {
-        int cnt = 0;
-
-        try {
-            FollowingsMapper mapper = session.getMapper(FollowingsMapper.class);
-            cnt = mapper.getFollowCount(user_id);
-        } catch (Exception e) {
-            log.info("팔로우 인원수 카운트 sql 오류");
-        }
-
-        return cnt;
-    }
-
-    /**
-     * 팔로워 인원수를 카운트하는 메소드
-     * @param
-     * @return
-     */
-    public int getFollowerCount(String user_id) {
-        int cnt = 0;
-
-        try {
-            FollowingsMapper mapper = session.getMapper(FollowingsMapper.class);
-            cnt = mapper.getFollowerCount(user_id);
-        } catch (Exception e) {
-            log.info("팔로워 인원수 카운트 sql 오류");
-        }
-
-        return cnt;
-    }
 }

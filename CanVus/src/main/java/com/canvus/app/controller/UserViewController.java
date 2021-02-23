@@ -27,12 +27,11 @@ public class UserViewController {
 
 	
 	@RequestMapping(value="/loginForm", method=RequestMethod.GET)
-	public String login() {
+	public String loginForm() {
 		logger.info("로그인 폼으로 이동");
 		return "user/loginForm";
 	}
-	
-	
+
 	@RequestMapping(value="/loginProcess", method=RequestMethod.POST)
 	public String loginProcess(UserVO vo, HttpSession session, Model model) {
 		logger.info("로그인 프로세스 진입");
@@ -87,11 +86,11 @@ public class UserViewController {
 		return url;
 	}
 	
-	@RequestMapping(value="/bookmarks", method=RequestMethod.GET)
-	public String bookmarks() {
+	@RequestMapping(value="/bookmark", method=RequestMethod.GET)
+	public String bookmark() {
 		logger.info("bookmark로 이동");
 		
-		return "user/bookmarks";
+		return "user/bookmark";
 	}
 	
 	/**
@@ -138,12 +137,6 @@ public class UserViewController {
 		
 		return result;
 	}
-
-//	@ResponseBody
-//	@RequestMapping(value="/bookmarks/addFeed", method=RequestMethod.POST)
-//	public void addFeedToBookmark(@RequestBody Map<String, Object> params) {
-//
-//	}
 	
 	@RequestMapping(value="/pixelManagement", method=RequestMethod.GET)
 	public String pixelManagement() {
@@ -151,16 +144,18 @@ public class UserViewController {
 		
 		return "user/pixelManagement";
 	}
-	
-	@RequestMapping(value="/settings", method=RequestMethod.GET)
-	public String settings() {
-		logger.info("settings로 이동");
-		
-		return "user/settings";
-	}
-	
+
+	/**
+	 * 로그아웃 메소드
+	 * 작성일: 2021.02.23
+	 * 작성자: 이한결
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping(value="/logout", method=RequestMethod.GET)
-	public String logout() {
+	public String logout(HttpSession session) {
+		session.removeAttribute("userId");
+		session.removeAttribute("userVO");
 		
 		return "redirect:/";
 	}
@@ -179,5 +174,4 @@ public class UserViewController {
 		
 		return userService.presentPixel(params);
 	}
-	
 }

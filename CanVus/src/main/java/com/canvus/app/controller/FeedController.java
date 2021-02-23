@@ -43,31 +43,16 @@ public class FeedController {
 	@RequestMapping(value="/getContext")
 	public Map<String, String> getContext (@RequestBody Map<String, String> params) {
 		log.info("getContext 컨트롤러 메소드 진입");
-		
+
 		return feedService.getContext(params);
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value="/updateFeed")
 	public Map<String, String> updateFeed (@RequestBody Map<String, String> params) {
 		log.info("피드 수정 메소드 진입");
-		
+
 		return feedService.updateFeed(params);
-	}
-	
-	/**
-	 * AJAX 통신
-	 * 피드를 읽을 때 정보를 불러오는 메소드.
-	 * 작성일: 2021.01.24 / 완료일:
-	 * 작성자: 이한결
-	 * @param params
-	 * @return
-	 */
-	@ResponseBody
-	@RequestMapping(value="/readFeed")
-	public Map<String, Object> readFeed(@RequestBody Map<String, String> params) {
-		
-		return null;
 	}
 
 	/**

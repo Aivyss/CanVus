@@ -1,18 +1,14 @@
 package com.canvus.app.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.canvus.app.dao.FeedDAO;
 import com.canvus.app.util.PageNavigator;
 import com.canvus.app.vo.FeedComponentVO;
-import com.canvus.app.vo.TagsInFeedVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.canvus.app.dao.SearchDAO;
-import com.canvus.app.vo.TagVO;
 import com.canvus.app.vo.UserVO;
 
 import lombok.extern.slf4j.Slf4j;

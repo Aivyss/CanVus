@@ -8,9 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import com.canvus.app.dao.BookmarkDAO;
-import com.canvus.app.dao.FeedDAO;
-import com.canvus.app.dao.FollowingsDAO;
+import com.canvus.app.dao.*;
 import com.canvus.app.util.PageNavigator;
 import com.canvus.app.vo.*;
 import org.slf4j.Logger;
@@ -20,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.canvus.app.dao.UserDAO;
 import com.canvus.app.util.FileService;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
@@ -50,8 +47,9 @@ public class UserService {
 	private BookmarkDAO bookmarkDAO;
 	@Autowired
 	private FollowingsService followingsService;
+	@Autowired
+	private PixelDAO pixelDAO;
 
-	
 	/**
 	 * login business logic
 	 * 최초작성일: 2021.01.01 (?) / 수정일: 2021.01.23 / 완성일: / 버그검증일:
@@ -200,7 +198,7 @@ public class UserService {
 		transPx.setReceiver((String) params.get("receiver"));
 		transPx.setPixels_amount((Integer) params.get("pixel"));
 		
-		boolean success = userDAO.presentPixel(transPx);
+		boolean success = pixelDAO.presentPixel(transPx);
 		
 		if (success) {
 			params.put("result", true);

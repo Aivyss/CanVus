@@ -68,6 +68,4 @@ public class TagDAO {
 		
 		return check;
 	}
-	
-	
 }

@@ -29,6 +29,4 @@ public class FollowingsService {
 
         return infoPack;
     }
-
-
 }

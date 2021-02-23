@@ -35,7 +35,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
     <!--Main Stylesheet-->
-    <link href="/resources/mainAsset/css/style.css" rel="stylesheet">
+    <link href="/resources/css/baseJSP/style.css" rel="stylesheet">
 
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -65,8 +65,8 @@
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <a class="navbar-brand custom_navbar-brand" href="#">
-                                <img class='navLogo' src="/resources/mainAsset/img/CanVus.png" alt="">
+                            <a class="navbar-brand custom_navbar-brand" href="/">
+                                <img class='navLogo' src="/resources/images/baseJSP/CanVus.png" alt="">
                             </a>
                             <!-- 검색창 파트 -->
                             <div class="input-group navbar-collapse" id="searchbar">
@@ -83,9 +83,8 @@
                         <!-- Collect the nav links, forms, and other content for toggling -->
                         <div class="collapse navbar-collapse zero_mp" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav navbar-right main_menu">
-                                <li><a href="/">Home</a></li>
-                                <li><a href="/discovery">Discovery</a></li>
-                                <li><a href="/share">Share</a></li>
+                                <li><a href="/discover/main">Discover</a></li>
+                                <li><a href="/browse/main">Browse</a></li>
                                 <li>
                                     <div class="dropdown">
                                         <button class="btn btn-secondary dropdown-toggle" type="button"
@@ -132,16 +131,14 @@
                                         </button>
                                         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                                             <li role="presentation"><a role="menuitem" tabindex="-1"
-                                                                       href="/user/board">My board</a></li>
+                                                                       href="/user/board?user_id=${sessionScope.userVO.user_id}">My board</a></li>
                                             <li role="presentation"><a role="menuitem" tabindex="-1"
-                                                                       href="/user/bookmarks">BookMarks</a></li>
+                                                                       href="/user/bookmark">BookMark</a></li>
                                             <li role="presentation"><a role="menuitem" tabindex="-1"
                                                                        href="/user/pixelManagement">pixelManagement</a>
                                             </li>
                                             <li role="presentation"><a role="menuitem" tabindex="-1"
-                                                                       href="/user/settings">Settings</a></li>
-                                            <li role="presentation"><a role="menuitem" tabindex="-1"
-                                                                       href="/logout">Logout</a></li>
+                                                                       href="/user/logout">Logout</a></li>
                                         </ul>
                                     </div>
                                 </li>
@@ -159,12 +156,5 @@
     </div>
 </section>
 <!--End of Hedaer Section-->
-
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<!-- <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>-->
-<!-- <script src="/resources/mainAsset/js/jquery-1.12.3.min.js"></script> -->
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<%--    <script src="/resources/mainAsset/js/bootstrap.min.js"></script>--%>
-
 </body>
 </html>

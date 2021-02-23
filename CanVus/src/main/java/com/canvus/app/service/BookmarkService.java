@@ -1,7 +1,6 @@
 package com.canvus.app.service;
 
 import com.canvus.app.dao.BookmarkDAO;
-import com.canvus.app.vo.BookmarkVO;
 import com.canvus.app.vo.BookmarkedFeedsVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

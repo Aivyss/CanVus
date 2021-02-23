@@ -2,7 +2,6 @@ package com.canvus.app.dao;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.canvus.app.dao.mapper.*;
 import com.canvus.app.vo.*;
@@ -129,7 +128,6 @@ public class SearchDAO {
 				}
 
 				log.info(pictureURLs.toString());
-				// ??? 멀쩡히 나오는데 왜 넣지를 못해 왜 먹지를 못해 ㅠㅠㅠ....
 				one.setPictures(pictureURLs);
 			}
 		} catch (Exception e) {

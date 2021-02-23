@@ -22,7 +22,7 @@
             </div>
 
             <div id="content_div" style="z-index:150; display:none;">
-                <img id="loginLogo" src="/resources/images/CanVus.PNG"> <!-- 나중에 div에 이미지 넣는게 더 나으니 부탁함. -->
+                <img id="loginLogo" src="/resources/images/home/CanVus.png"> <!-- 나중에 div에 이미지 넣는게 더 나으니 부탁함. -->
                 <div>最高の絵を描きましょう。</div>
                 <div id="gLogin">
                     <div id="my-signin2" onclick="ClickLogin()"></div>
@@ -34,7 +34,7 @@
 
             <!-- 플로팅 배너를 위한 div -->
             <div class="header">
-                <img class="Logo" src="/resources/images/CanVus.PNG">
+                <img class="Logo" src="/resources/images/home/CanVus.png">
                 <button class="searchBtn"></button>
                 <input type="text" class="searchCntnr">
             </div>
@@ -42,13 +42,9 @@
 
             <h1>테스트란</h1>
             <ul>
-                <li><a href="/payment/module">결제창으로 이동</a></li>
-                <li><a href="/user/loginForm">로그인 창으로 이동</a></li>
-                <li><a href="/search/imageSearch">이미지 서칭</a></li>
-                <li><a href="main">메인이동</a></li>
-                <li><a href="intro-check-nickname">인트로 체크닉네임으로 이동</a></li>
-                <li><a href="intro-main">인트로 메인으로이동</a></li>
-
+                <li><a href="/payment/module">결제 테스트</a></li>
+                <li><a href="/user/loginForm">로그인 창으로 이동 테스트</a></li>
+                <li><a href="/search/imageSearch">이미지 서칭 테스트</a></li>
             </ul>
             <script src="/resources/js/home/autoLoginBlocker.js"></script>
         </c:when>

@@ -1,7 +1,6 @@
 package com.canvus.app.drawing.mapper;
 
 import java.util.List;
-import java.util.Map;
 
 import com.canvus.app.drawing.vo.DrawingUserVO;
 

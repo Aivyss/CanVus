@@ -3,7 +3,6 @@ package com.canvus.app.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.canvus.app.dao.mapper.TagsInFeedMapper;
 import com.canvus.app.dao.mapper.FeedCommentMapper;
 import com.canvus.app.dao.mapper.LikeMapper;
 import com.canvus.app.drawing.vo.FeedVO;

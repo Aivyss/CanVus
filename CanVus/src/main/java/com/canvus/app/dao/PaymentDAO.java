@@ -1,7 +1,5 @@
 package com.canvus.app.dao;
 
-import java.util.Map;
-
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
