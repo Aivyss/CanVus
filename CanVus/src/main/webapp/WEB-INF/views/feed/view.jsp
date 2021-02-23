@@ -89,14 +89,10 @@
                         <div class="col-lg-6" id="like-container">
                             <c:choose>
                                 <c:when test="${isLiked}">
-                                    <%--                                <div class="col-md-6">--%>
                                     <span class="thumb thumbs-up glyphicon glyphicon-heart" id="like" style="background-color: red"></span>
-                                    <%--                                </div>--%>
                                 </c:when>
                                 <c:otherwise>
-                                    <%--                                <div class="col-md-6">--%>
                                     <span class="thumb thumbs-up glyphicon glyphicon-heart" id="like"></span>
-                                    <%--                                </div>--%>
                                 </c:otherwise>
                             </c:choose>
                         </div>

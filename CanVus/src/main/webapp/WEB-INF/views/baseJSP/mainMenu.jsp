@@ -20,11 +20,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <title>Menu</title>
-
+    <!-- jQuery -->
+    <script src="/resources/js/jQuery/jquery-3.5.1.min.js"></script>
     <!-- Bootstrap -->
-    <%--    <link href="/resources/mainAsset/css/bootstrap.min.css" rel="stylesheet">--%>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <!-- 합쳐지고 최소화된 최신 CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 
@@ -71,7 +69,7 @@
                             <!-- 검색창 파트 -->
                             <div class="input-group navbar-collapse" id="searchbar">
 		                                <span class="input-group-btn">
-		                                    <button class="btn btn-default" type="button"
+		                                    <button class="btn btn-navv btn-default" type="button"
                                                     id="searchBtn">検索</button>
 		                                </span>
                                 <input type="text" class="form-control" placeholder="Search for..." id="searchText">
@@ -87,7 +85,7 @@
                                 <li><a href="/browse/main">Browse</a></li>
                                 <li>
                                     <div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button"
+                                        <button class="btn btn-navv btn-secondary dropdown-toggle dropdown-toggle-nav" type="button"
                                                 id="dropdownMenuButton"
                                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             Drawing
@@ -114,7 +112,7 @@
                                                            placeholder="write capacity of the room">
                                                 </div>
                                                 <div align="center">
-                                                    <button type="submit" class="btn btn-primary" style="width: 150px;">
+                                                    <button type="submit" class="btn btn-navv btn-primary" style="width: 150px;">
                                                         Create
                                                     </button>
                                                 </div>
@@ -124,7 +122,7 @@
                                 </li>
                                 <li>
                                     <div class="dropdown">
-                                        <button class="btn btn-default dropdown-toggle" type="button"
+                                        <button class="btn btn-navv btn-default dropdown-toggle dropdown-toggle-nav" type="button"
                                                 id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
                                             Profile
                                             <span class="caret"></span>

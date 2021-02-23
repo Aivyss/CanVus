@@ -227,15 +227,21 @@ public class UserService {
 
 		// TODO 보드의 주인의 정보를 가져오는 파트
 		UserVO userInfo = userDAO.getUserInfo(user_id);
-		model.addAttribute("userInfo", userInfo);
 
 		// TODO 피드 정보를 받아오는 파트
 		List<FeedComponentVO> bundle =  feedDAO.selectFeedBundle(user_id, pNav.getStartRecord(), COUNT_PER_PAGE);
-		model.addAttribute("bundle", bundle);
 
 		// TODO 팔로우 정보를 받아오는 파트
 		Map<String, Object> followInfoPack = followingsService.getFollowInfo(user_id);
+
+		// TODO 북마크 정보를 받아오는 파트
+		List<BookmarkVO> bookmarks = bookmarkDAO.getBookmarkList(user_id);
+
+		// TODO 받아온 정보를 모델에 넣는다.
+		model.addAttribute("userInfo", userInfo);
+		model.addAttribute("bundle", bundle);
 		model.addAttribute("followInfoPack", followInfoPack);
+		model.addAttribute("bookmarks", bookmarks);
 
 		if (bundle != null) {
 			url = "user/board";

@@ -184,7 +184,6 @@ body {
     min-height: 50px;
     background: #FBFBFB;
     border-bottom: 2px solid #F2F2F2;
-    padding-top: 15px;
 }
 #header .top_header .address {
     border-right: 1px solid #E6E5E5;
@@ -573,10 +572,6 @@ div#achivement {
     text-align: center;
     color: #fff;
 }*/
-section#counter {
-    background: url(../img/img1.jpg) no-repeat scroll top center / cover;
-    color: #fff;
-}
 .counter_img_overlay {
     position: relative;
     padding: 80px 0;
@@ -724,11 +719,6 @@ section#counter {
 }
 
 /*Testimonial*/
-
-#testimonial {
-    color: #fff;
-    background: url(../img/img3.jpg) no-repeat scroll top center / cover;
-}
 .testimonial_overlay {
     padding: 80px 0;
     position: relative;
@@ -1172,7 +1162,7 @@ ul.entry-meta {
     font-family: 'Roboto Slab', serif;
     font-weight: 700;
 }
-.btn.focus, .btn:focus, .btn:hover {
+.btn-navv.focus, .btn-navv:focus, .btn-navv:hover {
     color: #ffffff;
 }
 #commentform #comment {
@@ -1198,7 +1188,7 @@ ul.entry-meta {
     font-family: 'Stick', sans-serif;
 }
 
-.dropdown-toggle{
+.dropdown-toggle-nav{
     color: #393939;
     font-size: 14px;
     text-transform: uppercase;
