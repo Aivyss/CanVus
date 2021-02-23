@@ -320,4 +320,25 @@ public class FeedDAO {
 			log.info("라이크 제거 sql오류");
 		}
 	}
+
+	/**
+	 * 로그인 화면에서 보이는 프리뷰
+	 * 작성일:2021.02.24
+	 * 작성자: 이한결
+	 * @return
+	 * @param model
+	 */
+    public List<FeedComponentVO> homePreview() {
+		List<FeedComponentVO> preview = null;
+
+		try {
+			FeedsMapper mapper = session.getMapper(FeedsMapper.class);
+			preview = mapper.homePreview();
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.info("홈 프리뷰 sql 오류");
+		}
+
+		return preview;
+    }
 }

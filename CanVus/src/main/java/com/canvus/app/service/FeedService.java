@@ -155,4 +155,18 @@ public class FeedService {
 
 		feedDAO.deleteLike(likeVO);
 	}
+
+	/**
+	 * 로그인 화면에서 보이는 프리뷰
+	 * 작성일:2021.02.24
+	 * 작성자: 이한결
+	 * @return
+	 * @param model
+	 */
+    public void homePreview(Model model) {
+		List<FeedComponentVO> previews = feedDAO.homePreview();
+		
+		model.addAttribute("previews", previews);
+		log.info(previews.toString());
+    }
 }

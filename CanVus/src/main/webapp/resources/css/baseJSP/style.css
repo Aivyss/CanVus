@@ -65,6 +65,7 @@ font-family: 'Roboto', sans-serif;
 * {
     margin: 0;
     padding: 0;
+    font-family: 'Stick', sans-serif;
 }
 .alignleft {
     float: left;
@@ -192,12 +193,10 @@ body {
     font-size: 12px;
     padding-top: 2px;
     color: #646464;
-    font-family: 'Open Sans', sans-serif;
 }
 #header .top_header .phone p {
     color: #646464;
     font-size: 12px;
-    font-family: 'Open Sans', sans-serif;
     padding-top: 1px;
     display: inline-block;
 }
@@ -246,7 +245,6 @@ body {
     font-size: 14px;
     text-transform: uppercase;
     font-weight: 600;
-    font-family: 'Roboto Slab', serif;
 }
 #header .header_menu ul.main_menu li a:hover {
     color: #4DA91C;
@@ -292,7 +290,6 @@ body {
 }
 #slider .slider_text h3 {
     font-size: 45px;
-    font-family: 'Open Sans', sans-serif;
     color: #fff;
 }
 #slider .slider_text p {
@@ -389,7 +386,6 @@ body {
 }
 .wel_header p {
     font-size: 16px;
-    font-family: 'Open Sans', sans-serif;
 }
 #welcome .single_item {
     padding-top: 30px;
@@ -416,12 +412,10 @@ body {
     font-size: 18px;
     color: #393939;
     transition: 0.7s;
-    font-family: 'Roboto Slab', serif;
 }
 #welcome .item_list p {
     font-size: 14px;
     color: #646464;
-    font-family: 'Open Sans', sans-serif;
 }
 #welcome .item_list:hover .welcome_icon {
     background: #43a906;
@@ -447,7 +441,6 @@ body {
     font-weight: 700;
     color: #fff;
     padding-bottom: 10px;
-    font-family: 'Open Sans', sans-serif;
 }
 #volunteer .volunteer_content h3 span {
     color: #43a906;
@@ -455,7 +448,6 @@ body {
 #volunteer .volunteer_content p {
     font-size: 14px;
     color: #fff;
-    font-family: 'Open Sans', sans-serif;
 }
 #volunteer .join_us {
     padding-top: 55px;
@@ -472,7 +464,6 @@ body {
     text-transform: uppercase;
     font-size: 18px;
     font-weight: 700;
-    font-family: 'Open Sans', sans-serif;
 }
 
 /*Portfolio*/
@@ -487,7 +478,6 @@ body {
     font-weight: 700;
     text-transform: uppercase;
     padding-bottom: 15px;
-    font-family: 'Roboto Slab', serif;
     color: #222222;
 }
 #portfolio .portfolio_title p {
@@ -495,7 +485,6 @@ body {
     color: #393939;
     padding-bottom: 25px;
     padding-top: 0;
-    font-family: 'Open Sans', sans-serif;
 }
 
 /*Customise Portfolio*/
@@ -514,7 +503,6 @@ body {
     font-size: 12px;
     padding-top: 8px;
     border-radius: 4px;
-    font-family: 'Roboto', sans-serif;
 }
 #portfolio ul.portfolio_custom_menu li {
     padding: 10px 0px;
@@ -546,7 +534,6 @@ body {
     opacity: 0;
     transition: 0.7s;
     font-size: 16px;
-    font-family: 'Roboto Slab', serif;
     font-weight: 400;
 }
 #portfolio .notes .note:hover .img_overlay,
@@ -585,12 +572,10 @@ div#achivement {
     font-size: 36px;
     font-weight: 700;
     padding-bottom: 10px;
-    font-family: 'Roboto Slab', serif;
 }
 .counter_header p {
     font-size: 16px;
     padding-bottom: 60px;
-    font-family: 'Open Sans', sans-serif;
     padding-top: 15px;
 }
 .counter_text {
@@ -614,7 +599,6 @@ div#achivement {
     font-size: 32px;
     border-bottom: 1px solid;
     padding-bottom: 10px;
-    font-family: 'Roboto Slab', serif;
     font-weight: 600;
 }
 .counter_text p {
@@ -622,7 +606,6 @@ div#achivement {
     text-transform: uppercase;
     font-weight: 400;
     padding-top: 10px;
-    font-family: 'Roboto Slab', serif;
     color: #ffffff;
     margin-top: 10px;
 }
@@ -643,13 +626,11 @@ div#achivement {
     font-weight: 700;
     padding-bottom: 20px;
     text-transform: uppercase;
-    font-family: 'Roboto Slab', serif;
     color: #222222;
 }
 .event_header.text-center p {
     color: #393939;
     font-size: 16px;
-    font-family: 'Open Sans', sans-serif;
 }
 #event .event_text {
     padding: 30px 30px 0;
@@ -668,19 +649,16 @@ div#achivement {
     padding-bottom: 15px;
     font-weight: 700;
     color: #454444;
-    font-family: 'Roboto Slab', serif;
 }
 #event .event_text h6 {
     padding-bottom: 20px;
     font-size: 14px;
     color: #6c6b6b;
-    font-family: 'Roboto Slab', serif;
 }
 #event .event_text p {
     font-size: 14px;
     color: #646464;
     padding-bottom: 35px;
-    font-family: 'Open Sans', sans-serif;
 }
 #event a.event_btn {
     background: #101010;
@@ -690,7 +668,6 @@ div#achivement {
     font-weight: 700;
     border-radius: 2px;
     transition: 0.7s ease;
-    font-family: 'Open Sans', sans-serif;
 }
 #event a.event_btn:hover {
     background: #43a906;
@@ -705,14 +682,12 @@ div#achivement {
 .event_news_text h4 {
     color: #454444;
     font-size: 18px;
-    font-family: 'Roboto Slab', serif;
     font-weight: 700;
 }
 #event .event_news_text p {
     padding-top: 10px;
     font-size: 14px;
     color: #646464;
-    font-family: 'Open Sans', sans-serif;
 }
 #event .event_news_img {
     padding-right: 10px;
@@ -733,13 +708,11 @@ div#achivement {
     font-weight: 700;
     text-transform: uppercase;
     padding-bottom: 20px;
-    font-family: 'Roboto Slab', serif;
     color: #fff;
 }
 #testimonial .testimonial_header p {
     font-size: 16px;
     color: #fff;
-    font-family: 'Open Sans', sans-serif;
 }
 
 /*Latest Blog*/
@@ -758,14 +731,12 @@ div#achivement {
     font-size: 36px;
     font-weight: 700;
     text-transform: uppercase;
-    font-family: 'Roboto Slab', serif;
     color: #222222;
 }
 #blog .latest_blog p {
     padding-bottom: 45px;
     font-size: 16px;
     color: #646464;
-    font-family: 'Open Sans', sans-serif;
 }
 #blog .single_blog_item {
     border: 1px solid #d1d3d1;
@@ -779,7 +750,6 @@ div#achivement {
     font-weight: 400;
     padding-bottom: 10px;
     color: #454444;
-    font-family: 'Roboto Slab', serif;
 }
 #blog .expert {
     padding-bottom: 20px;
@@ -793,7 +763,6 @@ div#achivement {
     padding-left: 5px;
     color: #aeadad;
     font-size: 13px;
-    font-family: 'Open Sans', sans-serif;
     font-weight: 700;
 }
 #blog .blog_news .blog_img img {
@@ -803,7 +772,6 @@ div#achivement {
 #blog .blog_news span.right_msg span {
     font-size: 14px;
     color: #aeadad;
-    font-family: 'Roboto Slab', serif;
     font-weight: 400;
 }
 #blog .expert a {
@@ -816,7 +784,6 @@ div#achivement {
     color: #646464;
     font-size: 14px;
     padding-bottom: 15px;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 #blog a.blog_link {
     text-transform: uppercase;
@@ -824,7 +791,6 @@ div#achivement {
     color: #545353;
     transition: 0.7s;
     font-size: 14px;
-    font-family: 'Roboto', sans-serif;
 }
 #blog a.blog_link:hover {
     color: #43a906;
@@ -848,7 +814,6 @@ section#market {
 #purches h2.purches_title {
     font-size: 36px;
     padding-top: 80px;
-    font-family: 'Roboto Slab', serif;
     font-weight: 700;
     color: #ffffff;
 }
@@ -861,7 +826,6 @@ section#market {
     text-transform: uppercase;
     font-weight: 700;
     border-radius: 2px;
-    font-family: 'Roboto Slab', serif;
     font-size: 18px;
 }
 div#market-place {
@@ -904,7 +868,6 @@ input#subject{
     background: #d4d4d4;
     font-style: italic;
     color: #696969;
-    font-family: 'Open Sans', sans-serif;
 }
 li.fw-flash-message {
     color: red;
@@ -915,7 +878,6 @@ li.fw-flash-message {
     text-transform: uppercase;
     font-weight: 400;
     padding-bottom: 20px;
-    font-family: 'Roboto Slab', serif;
     color: #222222;
 }
 .custom-btn {
@@ -928,7 +890,6 @@ li.fw-flash-message {
     border-radius: 2px;
     letter-spacing: 5px;
     font-size: 14px;
-    font-family: 'Roboto Slab', serif;
     outline: 0 !important;
 }
 .office {
@@ -939,14 +900,12 @@ li.fw-flash-message {
     font-weight: 400;
     text-transform: uppercase;
     padding-bottom: 20px;
-    font-family: 'Roboto Slab', serif;
     color: #222222;
 }
 .office_location i span {
     padding-left: 15px;
     color: #696969;
     font-size: 14px;
-    font-family: 'Open Sans', sans-serif;
 }
 .office_location i {
     padding-bottom: 15px;
@@ -960,12 +919,10 @@ li.fw-flash-message {
     font-weight: 700;
     text-transform: uppercase;
     color: #222222;
-    font-family: 'Roboto Slab', serif;
 }
 .contact_area p {
     font-size: 16px;
     color: #646464;
-    font-family: 'Open Sans', sans-serif;
 }
 #map {
     width: 100%;
@@ -998,7 +955,6 @@ li.fw-flash-message {
 #footer .designer a {
     font-size: 14px;
     color: #ffffff;
-    font-family: 'Open Sans', sans-serif;
     padding-left: 3px;
 }
 
@@ -1114,7 +1070,6 @@ li.fw-flash-message {
     font-weight: 700;
     text-transform: uppercase;
     color: #222222;
-    font-family: 'Roboto Slab', serif;
 
 }
 
@@ -1124,7 +1079,6 @@ li.fw-flash-message {
     font-weight: 400;
     text-transform: uppercase;
     padding-bottom: 20px;
-    font-family: 'Roboto Slab', serif;
     color: #222222;
     padding-top: 0px
 }
@@ -1135,7 +1089,6 @@ li.fw-flash-message {
     padding-left: 15px;
     color: #696969;
     font-size: 14px;
-    font-family: 'Open Sans', sans-serif;
 }
 
 #contact-us .form-group {
@@ -1159,7 +1112,6 @@ ul.entry-meta {
     background-color: #43a906;
     padding: 10px 30px;
     font-size: 16px;
-    font-family: 'Roboto Slab', serif;
     font-weight: 700;
 }
 .btn-navv.focus, .btn-navv:focus, .btn-navv:hover {
@@ -1170,7 +1122,6 @@ ul.entry-meta {
     margin-top: 10px;
 }
 .widget_search .search-form input[type="submit"], .widget_search input[type="submit"] {
-    font-family: 'Roboto Slab', serif;
     font-weight: 700;
 }
 .widget_search .search-form input[type="search"], .widget_search input[type="search"] {
@@ -1185,7 +1136,6 @@ ul.entry-meta {
     font-size: 14px;
     text-transform: uppercase;
     font-weight: 600;
-    font-family: 'Stick', sans-serif;
 }
 
 .dropdown-toggle-nav{
@@ -1193,7 +1143,6 @@ ul.entry-meta {
     font-size: 14px;
     text-transform: uppercase;
     font-weight: 600;
-    font-family: 'Roboto Slab', serif;
     padding: 15px;
     border:0px;
     margin: 0px;

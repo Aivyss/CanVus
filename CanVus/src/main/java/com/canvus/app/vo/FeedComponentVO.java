@@ -17,5 +17,6 @@ public class FeedComponentVO {
     // Feeds table 이외의 컬럼
     private int like;
     private List<String> pictures;
+    private String preview;
     private List<String> tags;
 }

@@ -106,4 +106,28 @@
 		FEED_ID = #{string}
 </select>
 
+	<!-- 성능 고려해서 오라클 함수를 만들어서 구성 -->
+	<select id="homePreview" resultType="feedComponent">
+		SELECT
+			feed_id
+			,preview
+			,inputdate
+		FROM
+		(
+			SELECT
+				FD.FEED_ID  AS  feed_id
+				,FD.PAGE_FILE   AS  preview
+				,F.INPUTDATE AS  inputdate
+			FROM
+				FEED_DRAWINGS FD, FEEDS F
+			WHERE
+				FUNC_SPLIT(FD.PAGE_FILE, '--divide--', 1) = '1.png'
+			AND
+				F.FEED_ID = FD.FEED_ID
+			ORDER BY
+				inputdate DESC
+		)
+		WHERE
+			ROWNUM &lt;= 5 <!-- &lt; 는 <를 의미한다 -->
+	</select>
 </mapper>

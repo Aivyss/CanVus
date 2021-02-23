@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <html>
@@ -7,46 +8,42 @@
     <meta name="google-signin-client_id"
           content="1073968802049-evh62jql0f6gblp8din0t6rqv0sobg17.apps.googleusercontent.com">
     <script defer src="https://apis.google.com/js/platform.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 
 <body>
     <jsp:include page="/WEB-INF/views/baseJSP/mainMenu.jsp"></jsp:include>
     <c:choose>
         <c:when test="${empty userVO}"> <!-- 로그인 전 -->
-            <script src="/resources/js/home/loginMask.js"></script>
-            <link rel="stylesheet" href="/resources/css/home/loginMask.css">
+            <link rel="stylesheet" href="/resources/css/home/loginSkeleton.css">
+            <link rel="stylesheet" href="/resources/css/home/gallarySkeleton.css">
 
-            <!--▽ 로그인을 위한 가림패널 ▽ -->
-            <div id="mask" style="z-index:100;">
-            </div>
+            <!-- 공간 벌려주기 용 -->
+            <div class="container" style="margin-top:20px;"></div>
 
-            <div id="content_div" style="z-index:150; display:none;">
-                <img id="loginLogo" src="/resources/images/home/CanVus.png"> <!-- 나중에 div에 이미지 넣는게 더 나으니 부탁함. -->
-                <div>最高の絵を描きましょう。</div>
-                <div id="gLogin">
-                    <div id="my-signin2" onclick="ClickLogin()"></div>
+            <!-- login panel -->
+            <div class="container center-block" id="logreg-forms">
+                <div class="col-xs-12 form-signin block-center">
+                    <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Sign in</h1>
+                    <div class="social-login">
+                        <div id="my-signin2" onclick="ClickLogin();"></div>
+                        <script src="https://apis.google.com/js/platform.js?onload=renderButton"></script>
+                    </div>
                 </div>
-                <script src="https://apis.google.com/js/platform.js?onload=renderButton" defer></script>
-            </div>
-            <!--▲ 로그인을 위한 가림패널 ▲ -->
-
-
-            <!-- 플로팅 배너를 위한 div -->
-            <div class="header">
-                <img class="Logo" src="/resources/images/home/CanVus.png">
-                <button class="searchBtn"></button>
-                <input type="text" class="searchCntnr">
+                <script src="/resources/js/home/autoLoginBlocker.js?reload"></script>
             </div>
 
-
-            <h1>테스트란</h1>
-            <ul>
-                <li><a href="/payment/module">결제 테스트</a></li>
-                <li><a href="/user/loginForm">로그인 창으로 이동 테스트</a></li>
-                <li><a href="/search/imageSearch">이미지 서칭 테스트</a></li>
-            </ul>
-            <script src="/resources/js/home/autoLoginBlocker.js"></script>
+            <!-- feed preview -->
+            <div class="container center-block logreg-forms">
+                <div class="col-sm-12 center-block">
+                    <c:forEach items="${previews}" var="preview">
+                        <div class="col-sm-2 hover-fade feed-gallary">
+                            <a href="#">
+                                <img src="<spring:url value='/userPicture/${preview.preview}'/>">
+                            </a>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
         </c:when>
         <c:otherwise> <!-- 로그인 후 -->
             <p>로그인 완료. 여기 다시 짤 예정</p>

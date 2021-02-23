@@ -1,5 +1,7 @@
 var clicked = false;//Global Variable
 
+// 구글 로그인 버튼을 중앙으로 배치시키는 과정
+
 function ClickLogin() {
     // Automatic Login deny!
     clicked = true;
@@ -50,7 +52,7 @@ function onFailure(error) {
     console.log(error);
 }
 
-function renderButton() {
+$(()=> {
     gapi.signin2.render('my-signin2', {
         'scope': 'profile email',
         'width': 200,
@@ -60,4 +62,28 @@ function renderButton() {
         'onsuccess': onSuccess,
         'onfailure': onFailure
     });
-}
+
+
+
+    try {
+        alignCenter();
+    } catch (e) {
+        setTimeout(alignCenter, 500);
+    }
+
+    function alignCenter() {
+        try {
+            // 구글 로그인 버튼을 중앙으로 배치시키는 과정
+            const children = $('#my-signin2').children();
+            const firstChild = children.eq(0);
+            const firstchildClassName = firstChild.attr('class');
+            if (firstchildClassName == undefined) {
+                throw "응 안만들어졌어";
+            }
+            const addClass = firstChild.addClass('center-block');
+        } catch (e) {
+            console.log(e);
+            setTimeout(alignCenter, 500);
+        }
+    }
+});

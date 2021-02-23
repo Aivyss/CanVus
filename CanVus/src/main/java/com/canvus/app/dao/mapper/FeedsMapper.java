@@ -23,4 +23,6 @@ public interface FeedsMapper {
     List<FeedComponentVO> getFeedsBundleByIdList(List<FeedComponentVO> idBundle);
 
     FeedVO readFeedAbstract(String feed_id);
+
+    List<FeedComponentVO> homePreview();
 }
