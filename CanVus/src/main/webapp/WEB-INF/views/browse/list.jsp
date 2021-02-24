@@ -64,7 +64,7 @@
             <td>${room.NICKNAME}</td>
             <td>${room.USER_COUNT}</td>
             <td>${room.USER_NO}</td>
-            <td><img src="<spring:url value='/roomThumbnail/${room.ROOM_ID}--Thumbnail--.png'/>" alt="No Thumbnail Yet" ></td>
+            <td><img src="<spring:url value='/roomThumbnail/${room.ROOM_ID}--Thumbnail--.png'/>"></td>
         </tr>
     </c:forEach>
 </table>
