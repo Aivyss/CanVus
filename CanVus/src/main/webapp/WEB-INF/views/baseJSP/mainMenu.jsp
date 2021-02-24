@@ -70,10 +70,11 @@
                             </a>
                             <!-- 검색창 파트 -->
                             <div class="input-group navbar-collapse" id="searchbar">
-		                                <span class="input-group-btn">
-		                                    <button class="btn btn-default" type="button"
-                                                    id="searchBtn">検索</button>
-		                                </span>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" id="searchBtn">
+                                        <img src="/resources/images/browse/search.png" width="18px" cursor="pointer">
+                                    </button>
+                                </span>
                                 <input type="text" class="form-control" placeholder="Search for..." id="searchText">
                             </div>
                             <!-- 검색창 파트 끝 -->
@@ -84,7 +85,7 @@
                         <div class="collapse navbar-collapse zero_mp" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav navbar-right main_menu">
                                 <li><a href="/discover/main">Discover</a></li>
-                                <li><a href="/browse/main">Browse</a></li>
+                                <li><a href="/browse/list">Browse</a></li>
                                 <li>
                                     <div class="dropdown">
                                         <button class="btn btn-secondary dropdown-toggle" type="button"
