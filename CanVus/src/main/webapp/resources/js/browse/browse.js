@@ -1,7 +1,7 @@
 $(() => {
 
     /******************************** 호이스팅 함수부 ************************************/
-    function doSearch(searchTitle){
+    function doSearchRoom(searchTitle){
         location.href = '/browse/list/?title='+searchTitle;
     }
 
@@ -17,7 +17,7 @@ $(() => {
             const keyword = $('#searchTitle').val();
 
             if(keyword.length != 0){
-                doSearch(keyword);
+                doSearchRoom(keyword);
                 $('#searchTitle').val("");
             }
         }
