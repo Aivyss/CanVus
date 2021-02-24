@@ -81,7 +81,6 @@
                                 <!-- 검색창 파트 끝 -->
                             </div>
                         </div>
-
                         <div class="col-xs-5">
                             <!-- Collect the nav links, forms, and other content for toggling -->
                             <div class="collapse navbar-collapse zero_mp" id="bs-example-navbar-collapse-1">

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.canvus.app.dao.mapper.BrowseMapper">
+
+<select id="getRoomsByTitle" parameterType="string" resultType="hashmap">
+SELECT
+    D.ROOM_ID, D.TITLE, D.ADMIN, D.PASSWORD, D.USER_NO, COUNT(J.joinlist_id) AS USER_COUNT
+FROM
+    DRAWING_ROOMS D, JOIN_LIST J
+WHERE
+    D.ROOM_ID = J.ROOM_ID
+
+    <if test="_parameter != null and !_parameter.equals('')">
+    AND
+    D.TITLE = #{string}
+    </if>
+    
+
+GROUP BY
+    D.ROOM_ID, D.TITLE, D.ADMIN, D.PASSWORD, D.USER_NO
+ORDER BY
+    USER_COUNT DESC
+</select>
+
+<select id="getRoomCount" parameterType="string" resultType="int">
+SELECT COUNT(D.ROOM_ID) AS COUNT
+FROM DRAWING_ROOMS D, JOIN_LIST J
+WHERE
+    D.ROOM_ID = J.ROOM_ID
+    AND
+    J.USER_TYPE = 'ADMIN'
+    <if test="_parameter != null and !_parameter.equals('')">
+    AND
+    D.TITLE = #{string}
+    </if>
+
+
+</select>
+
+
+
+</mapper>

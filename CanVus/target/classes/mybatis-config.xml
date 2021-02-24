@@ -38,5 +38,6 @@
 		<mapper resource="mapper/TransactionPixelMapper.xml" />
 		<mapper resource="mapper/FeedCommentMapper.xml" />
 		<mapper resource="mapper/LikeMapper.xml" />
+		<mapper resource="mapper/BrowseMapper.xml"/>
 	</mappers>
 </configuration>
