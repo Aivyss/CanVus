@@ -76,7 +76,7 @@
             <td>${room.ADMIN}</td>
             <td>${room.USER_COUNT}</td>
             <td>${room.USER_NO}</td>
-            <td><img src="<spring:url value='/roomThumbnail/20210223191530807_RNgKyPjLojXh--Thumbnail--.png'/>"></td>
+            <td><img src="<spring:url value='/roomThumbnail/${room.ROOM_ID}--Thumbnail--.png'/>"></td>
         </tr>
     </c:forEach>
 
@@ -115,8 +115,6 @@
     </c:choose>
 
 </div>
-
-<img src="<spring:url value='/roomThumbnail/a.png'/>" width="100%">
 
 </body>
 </html>

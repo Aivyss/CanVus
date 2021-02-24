@@ -16,7 +16,7 @@
 	<resources mapping="/resources/**" location="/resources/" />
 	<resources mapping="/userPicture/**" location="file:///C:/userPicture/"/>
 	<resources mapping="/userProfile/**" location="file:///C:/userProfile/"/>
-	<resources mapping="/userProfile/**" location="file:///C:/roomThumbnail/"/>
+	<resources mapping="/roomThumbnail/**" location="file:///C:/roomThumbnail/"/>
 
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
