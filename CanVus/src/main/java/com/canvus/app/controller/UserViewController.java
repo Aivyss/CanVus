@@ -86,57 +86,50 @@ public class UserViewController {
 		return url;
 	}
 	
-	@RequestMapping(value="/bookmark", method=RequestMethod.GET)
-	public String bookmark() {
-		logger.info("bookmark로 이동");
-		
-		return "user/bookmark";
-	}
-	
-	/**
-	 * 북마크를 생성하는 프로세스로 진입. ajax 통신방식으로 생성
-	 * 작성일: 2021.01.22 / 완성일: / 버그검증일:
-	 * 작성자: 이한결
-	 * 
-	 * @param session
-	 * @return
-	 */
-	@ResponseBody
-	@RequestMapping(value="/bookmarks/makeFolder", method=RequestMethod.POST)
-	public BookmarkVO makeFolder(BookmarkVO inputInfo, HttpSession session) {
-		logger.info("북마크 생성 프로세스 진입 controller");
-	
-		// TODO 북마크 생성 (중복체크 실시 후 중복이 없을 시 생성)
-		BookmarkVO bookmark = userService.makeFolder(session, inputInfo);
-		
-		return bookmark;
-	}
-	
-	/**
-	 * 기존에 존재하는 북마크를 제거하는 메소드
-	 * 작성일: 2021.01.22 / 완성일: / 버그검증일:
-	 * 작성자: 이한결
-	 * @param inputInfo
-	 * @param session
-	 * @return
-	 */
-	@ResponseBody
-	@RequestMapping(value="/bookmarks/deleteFolder", method=RequestMethod.POST)
-	public Map<String, String> deleteFolder(@RequestBody Map<String, Object> params) {
-		logger.info("북마크 폴더삭제 컨트롤러 메소드 진입");
-		
-		// TODO 북마크 폴더 제거
-		boolean check = userService.deleteFolder(params);
-		
-		Map<String, String> result = new HashMap<String, String>();
-		if (check) {
-			result.put("result", "success");
-		} else {
-			result.put("result", "fail");
-		}
-		
-		return result;
-	}
+//	/**
+//	 * 북마크를 생성하는 프로세스로 진입. ajax 통신방식으로 생성
+//	 * 작성일: 2021.01.22 / 완성일: / 버그검증일:
+//	 * 작성자: 이한결
+//	 *
+//	 * @param session
+//	 * @return
+//	 */
+//	@ResponseBody
+//	@RequestMapping(value="/bookmarks/makeFolder", method=RequestMethod.POST)
+//	public BookmarkVO makeFolder(BookmarkVO inputInfo, HttpSession session) {
+//		logger.info("북마크 생성 프로세스 진입 controller");
+//
+//		// TODO 북마크 생성 (중복체크 실시 후 중복이 없을 시 생성)
+//		BookmarkVO bookmark = userService.makeFolder(session, inputInfo);
+//
+//		return bookmark;
+//	}
+//
+//	/**
+//	 * 기존에 존재하는 북마크를 제거하는 메소드
+//	 * 작성일: 2021.01.22 / 완성일: / 버그검증일:
+//	 * 작성자: 이한결
+//	 * @param inputInfo
+//	 * @param session
+//	 * @return
+//	 */
+//	@ResponseBody
+//	@RequestMapping(value="/bookmarks/deleteFolder", method=RequestMethod.POST)
+//	public Map<String, String> deleteFolder(@RequestBody Map<String, Object> params) {
+//		logger.info("북마크 폴더삭제 컨트롤러 메소드 진입");
+//
+//		// TODO 북마크 폴더 제거
+//		boolean check = userService.deleteFolder(params);
+//
+//		Map<String, String> result = new HashMap<String, String>();
+//		if (check) {
+//			result.put("result", "success");
+//		} else {
+//			result.put("result", "fail");
+//		}
+//
+//		return result;
+//	}
 	
 	@RequestMapping(value="/pixelManagement", method=RequestMethod.GET)
 	public String pixelManagement() {

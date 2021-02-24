@@ -2,6 +2,7 @@ package com.canvus.app.dao;
 
 import com.canvus.app.dao.mapper.BookmarkMapper;
 import com.canvus.app.dao.mapper.BookmarkedFeedMapper;
+import com.canvus.app.dao.mapper.HistoriesMapper;
 import com.canvus.app.vo.BookmarkVO;
 import com.canvus.app.vo.BookmarkedFeedsVO;
 import lombok.extern.slf4j.Slf4j;
@@ -122,5 +123,57 @@ public class BookmarkDAO {
         }
 
         return check;
+    }
+
+    /**
+     * 페이징을 위해서 전체 레코드 수를 불러오는 메소드
+     * 작성일: 2021.02.25
+     * 작성자: 이한결
+     * @param user_id
+     * @return
+     */
+    public int getTotalRecordsOnHistories(String user_id) {
+        int totalRecords = 0;
+
+        try {
+            HistoriesMapper mapper = session.getMapper(HistoriesMapper.class);
+            totalRecords = mapper.getTotalRecordsOnHistories(user_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("토탈 레코드 수 불러오기 sql오류");
+        }
+
+        return totalRecords;
+    }
+
+    /**
+     * 히스토리 페이징
+     * @param user_id
+     * @param startRecord
+     * @param countPerPage
+     */
+    public void getPageOfHistory(String user_id, int startRecord, int countPerPage) {
+
+    }
+
+    /**
+     * bookmark absract 리스트를 뽑아내는 메소드
+     * 2021.02.25
+     * 이한결
+     * @param user_id
+     * @return
+     */
+    public List<BookmarkVO> getBookmarkFolderAbstractList(String user_id) {
+        List<BookmarkVO> abstractList = null;
+
+        try {
+            BookmarkMapper mapper = session.getMapper(BookmarkMapper.class);
+            abstractList = mapper.getBookmarkFolderAbstractList(user_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("bookmark abstract select SQL error");
+        }
+
+        return abstractList;
     }
 }
