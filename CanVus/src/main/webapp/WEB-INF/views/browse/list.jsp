@@ -14,16 +14,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-
-
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Browse List</title>
-
-
-
 
     <!-- Bootstrap -->
     <%--    <link href="/resources/mainAsset/css/bootstrap.min.css" rel="stylesheet">--%>
@@ -41,9 +34,6 @@
     <link rel="stylesheet" href="/resources/css/browse/searchBar.css?reload">
 
     <script src="/resources/js/browse/browse.js?reload"></script>
-
-
-
 </head>
 
 
@@ -52,9 +42,7 @@
 
 <div class="input-group navbar-collapse" id="searchTitleBar">
     <span class="input-group-btn">
-        <button class="btn btn-default" type="button" onclick="searchFnc(1)">
-            <!--<img id="searchImg" alt="Search" src="/resources/images/browse/search.png">-->
-            <!--Search-->
+        <button class="btn btn-default" type="button">
             <img src="/resources/images/browse/search.png" width="18px" cursor="pointer">
         </button>
     </span>
@@ -64,7 +52,7 @@
 <table border="1">
     <tr>
         <th>Title</th>
-        <th>Admin</th>
+        <th>Nickname</th>
         <th>Members</th>
         <th>Capacity</th>
         <th>Thumbnail</th>
@@ -73,13 +61,12 @@
     <c:forEach items="${list }" var="room">
         <tr>
             <td>${room.TITLE}</td>
-            <td>${room.ADMIN}</td>
+            <td>${room.NICKNAME}</td>
             <td>${room.USER_COUNT}</td>
             <td>${room.USER_NO}</td>
-            <td><img src="<spring:url value='/roomThumbnail/20210223191530807_RNgKyPjLojXh--Thumbnail--.png'/>"></td>
+            <td><img src="<spring:url value='/roomThumbnail/${room.ROOM_ID}--Thumbnail--.png'/>" alt="No Thumbnail Yet" ></td>
         </tr>
     </c:forEach>
-
 </table>
 
 <div>
@@ -104,7 +91,6 @@
         </c:choose>
     </c:forEach>
 
-
     <c:choose>
         <c:when test="${navi.currentPage == navi.totalPageCount}">
             <button type="button" id="nextPage" disabled="disabled">▶</button>
@@ -115,8 +101,6 @@
     </c:choose>
 
 </div>
-
-<img src="<spring:url value='/roomThumbnail/a.png'/>" width="100%">
 
 </body>
 </html>

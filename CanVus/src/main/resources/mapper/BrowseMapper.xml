@@ -7,12 +7,13 @@
 
 <select id="getRoomsByTitle" parameterType="string" resultType="hashmap">
 SELECT
-    D.ROOM_ID, D.TITLE, D.ADMIN, D.PASSWORD, D.USER_NO, COUNT(J.joinlist_id) AS USER_COUNT
+    D.ROOM_ID, D.TITLE, D.ADMIN, D.PASSWORD, D.USER_NO, U.NICKNAME, COUNT(J.joinlist_id) AS USER_COUNT
 FROM
-    DRAWING_ROOMS D, JOIN_LIST J
+    DRAWING_ROOMS D, JOIN_LIST J, USERS U
 WHERE
     D.ROOM_ID = J.ROOM_ID
-
+    AND
+    D.ADMIN = U.USER_ID
     <if test="_parameter != null and !_parameter.equals('')">
     AND
     D.TITLE = #{string}
@@ -20,7 +21,7 @@ WHERE
     
 
 GROUP BY
-    D.ROOM_ID, D.TITLE, D.ADMIN, D.PASSWORD, D.USER_NO
+    D.ROOM_ID, D.TITLE, D.ADMIN, D.PASSWORD, D.USER_NO, U.NICKNAME
 ORDER BY
     USER_COUNT DESC
 </select>
@@ -36,8 +37,6 @@ WHERE
     AND
     D.TITLE = #{string}
     </if>
-
-
 </select>
 
 
