@@ -17,28 +17,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Browse List</title>
-
-    <!-- Bootstrap -->
-    <%--    <link href="/resources/mainAsset/css/bootstrap.min.css" rel="stylesheet">--%>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <!-- 합쳐지고 최소화된 최신 CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-
-    <!-- 부가적인 테마 -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-
-    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-
     <link rel="stylesheet" href="/resources/css/browse/card.css?reload">
     <link rel="stylesheet" href="/resources/css/browse/searchBar.css?reload">
-
-    <script src="/resources/js/browse/browse.js?reload"></script>
 </head>
 
 
 <body data-spy="scroll" data-target="#header">
 <jsp:include page="/WEB-INF/views/baseJSP/mainMenu.jsp"></jsp:include>
+<script src="/resources/js/browse/browse.js?reload"></script>
 
 <div class="input-group navbar-collapse" id="searchTitleBar">
     <span class="input-group-btn">
@@ -64,7 +50,8 @@
             <td>${room.NICKNAME}</td>
             <td>${room.USER_COUNT}</td>
             <td>${room.USER_NO}</td>
-            <td><img src="<spring:url value='/roomThumbnail/${room.ROOM_ID}--Thumbnail--.png'/>"></td>
+            <td><img src="<spring:url value='/roomThumbnail/${room.ROOM_ID}--Thumbnail--.png'/>"
+                    onerror="this.src='<spring:url value="/roomThumbnail/defaultRoom.jpg"/>'"></td>
         </tr>
     </c:forEach>
 </table>
