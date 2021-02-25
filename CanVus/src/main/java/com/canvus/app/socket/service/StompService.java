@@ -74,58 +74,48 @@ public class StompService {
 	}
 
 	/**
-	 * 드로잉 권한부여 처리과정
+	 * 드로잉 권한부여 처리과정 --> 비동기
 	 * 작성일: 2021.02.15 / 완성일: / 버그검증일: 
 	 * 작성자: 이한결
 	 * @param room_id
 	 * @param json
 	 * @return
 	 */
-	@Async("threadPoolTaskExecutor")
 	public Map<String, Object> addAuthoity(String room_Id, Map<String, Object> json) {
 		log.info("권한부여 소켓 서비스 진입");
-		boolean check = drawingService.addAuthoity(room_Id, json);
+		drawingService.addAuthoity(room_Id, json);
 
-		if (check) {
-			return json;
-		} else {
-			return null;
-		}
+		return json;
 	}
 
 	/**
-	 * 레이어를 지우는 메소드
+	 * 레이어를 지우는 메소드 -> 비동기
 	 * 작성일: 2021.02.13 / 완성일: / 버그검증일:
 	 * 작성자: 이한결
 	 * @param room_id
 	 * @param json
 	 * @return
 	 */
-	@Async("threadPoolTaskExecutor")
 	public Map<String, Object> deletePageLayer(String room_Id, Map<String, Object> json) {
 		log.info("레이어를 지우는 소켓 서비스메소드 진입");
 
 		json.put("room_Id", room_Id);
 		
-		boolean check = drawingService.deletePageLayer(room_Id, json);
-		
-		if (!check) {
-			json = null;
-		}
-		
+		drawingService.deletePageLayer(room_Id, json);
+
 		return json;
 	}
 
-	@Async("threadPoolTaskExecutor")
+	/**
+	 * 드로잉을 처리하는 메소드 -> 비동기
+	 * @param room_Id
+	 * @param json
+	 * @return
+	 */
 	public Map<String, Object> drawing(String room_Id, Map<String, Object> json) {
 		log.info("드로잉을 처리하는 서비스 메소드");
 
-		boolean check = drawingService.updatePage(json, room_Id);
-
-		if (!check) {
-			// 성공하지 못했다면 json 보내지마
-			json = null;
-		}
+		drawingService.updatePage(json, room_Id);
 
 		return json;
 	}
@@ -137,7 +127,6 @@ public class StompService {
 	 * @param message
 	 * @return
 	 */
-	@Async("threadPoolTaskExecutor")
 	public Map<String, Object> commonChat(Map<String, Object> json) {
 
 		return json;
@@ -151,7 +140,6 @@ public class StompService {
 	 * @param message
 	 * @return
 	 */
-	@Async("threadPoolTaskExecutor")
 	public Map<String, Object> enter(String room_Id, Map<String, Object> json) {
 		// message에 있어야할 내용: 아이디, 닉네임
 		List<DrawingUserVO> userListInRoom = drawingService.getRoomUserList(room_Id);
@@ -169,7 +157,6 @@ public class StompService {
 	 * @param message
 	 * @return
 	 */
-	@Async("threadPoolTaskExecutor")
 	public Map<String, Object> quit(String room_Id, Map<String, Object> json) {
 		log.info("퇴장 처리 서비스 메소드 진입");
 		
@@ -188,14 +175,13 @@ public class StompService {
 	}
 	
 	/**
-	 * 페이지-레이어를 생성하는 서비스 메소드
+	 * 페이지-레이어를 생성하는 서비스 메소드 --> 비동기
 	 * 작성일: 2021.02.08 / 완성일: / 버그검증일:
 	 * 작성자: 이한결
 	 * @param room_Id
 	 * @param message
 	 * @return
 	 */
-	@Async("threadPoolTaskExecutor")
 	public Map<String, Object> createPageLayer(String room_Id, Map<String, Object> json) {
 		// 있어야할 내용: 페이지-레이어 번호(스트링 값으로 줘야함)
 		log.info("페이지 생성하는 소켓서비스 메소드 진입");
@@ -213,7 +199,6 @@ public class StompService {
 	 * @param message
 	 * @return
 	 */
-	@Async("threadPoolTaskExecutor")
 	public Map<String, Object> presentPixel(Map<String, Object> json) {
 		// 있어야할 내용: 보낸사람-받는사람-픽셀수
 		// 전송은 이미 AJAX로 해서 DAO를 거치지 않아도 된다.

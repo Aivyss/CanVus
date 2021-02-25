@@ -8,4 +8,7 @@ public class BookmarkedFeedsVO {
     private int folder_id;
     private String feed_id;
     private String bookmark_indate;
+
+    // 편의성을 위해 추가한 메소드
+    private String preview;
 }

@@ -138,4 +138,24 @@ public class BookmarkService {
 
         return bookmarkDAO.deleteFolder((Integer) params.get("folder_id"));
     }
+
+    /**
+     * 특정 폴더 아이디의 북마크 내역을 보는 페이지로 이동
+     * 20210225
+     * 이한결
+     * @param folder_id
+     * @return
+     */
+    public String bookMarkDetail(Model model, int folder_id, int pageNo) {
+        String url = "bookmark/detail";
+        int totalRecords = bookmarkDAO.getTotalRecordsOnBookmark(folder_id);
+        PageNavigator nav = new PageNavigator(COUNT_PER_PAGE, PAGE_PER_GROUP, pageNo, totalRecords);
+
+        List<BookmarkedFeedsVO> bookmarkedFeedList = bookmarkDAO.bookMarkDetail(folder_id, nav.getStartRecord(), nav.getCountPerPage());
+        log.info(bookmarkedFeedList.toString());
+        model.addAttribute("bookmarkedFeedList", bookmarkedFeedList);
+        model.addAttribute("pageNav", nav);
+
+        return url;
+    }
 }

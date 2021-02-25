@@ -14,7 +14,8 @@
 <body>
 <!-- 네비바 -->
 <jsp:include page="/WEB-INF/views/baseJSP/mainMenu.jsp"></jsp:include>
-<link rel="stylesheet" href="/resources/css/user/bookmark/bookmarkSkeleton.css">
+<link rel="stylesheet" href="/resources/css/bookmark/bookmarkSkeleton.css">
+<script src="/resources/js/bookmark/bookmark.js"></script>
 
 <!-- 테스트 구역 -->
 ${historyRecordCount}

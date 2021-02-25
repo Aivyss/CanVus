@@ -175,8 +175,11 @@ let socketFunctionSet = (function () {
         },
         closeRoom: function () {
             disconnect();
-            alert("Adminがフィードを作成してルームが閉まりました。");
-            location.href = "/";
+            if (confirm("Adminがフィードを作成してルームが閉まりました。")){
+                location.href = "/";
+            } else {
+                location.href = "/";
+            }
         }
     }
 })();
@@ -313,104 +316,107 @@ function colorChangeGlobal(opacity, thickness, rgb) {
 }
 
 function changeBrush() {
-    if (brushGlobal == 'PencilBrush') {
-        currlayer.freeDrawingBrush = new fabric.PencilBrush(currlayer);
-    } else if (brushGlobal == "SprayBrush") {
-        currlayer.freeDrawingBrush = new fabric.SprayBrush(currlayer);
-    } else if (brushGlobal == "CircleBrush") {
-        currlayer.freeDrawingBrush = new fabric.CircleBrush(currlayer);
-    } else if (brushGlobal == "EraserBrush") {
-        currlayer.freeDrawingBrush = new fabric.PencilBrush(currlayer);
-        currlayer.freeDrawingBrush.globalCompositeOperation = 'destination-out';
-        currlayer.freeDrawingBrush.id = 'erasure';
-    } else if (brushGlobal == "SquareBrush") {
-        currlayer.freeDrawingBrush = new fabric.SquareBrush(currlayer);
+    try {
+        if (brushGlobal == 'PencilBrush') {
+            currlayer.freeDrawingBrush = new fabric.PencilBrush(currlayer);
+        } else if (brushGlobal == "SprayBrush") {
+            currlayer.freeDrawingBrush = new fabric.SprayBrush(currlayer);
+        } else if (brushGlobal == "CircleBrush") {
+            currlayer.freeDrawingBrush = new fabric.CircleBrush(currlayer);
+        } else if (brushGlobal == "EraserBrush") {
+            currlayer.freeDrawingBrush = new fabric.PencilBrush(currlayer);
+            currlayer.freeDrawingBrush.globalCompositeOperation = 'destination-out';
+            currlayer.freeDrawingBrush.id = 'erasure';
+        } else if (brushGlobal == "SquareBrush") {
+            currlayer.freeDrawingBrush = new fabric.SquareBrush(currlayer);
+        }
+
+        currlayer.freeDrawingBrush.color = hexGlobal;
+        currlayer.freeDrawingBrush.width = thicknessGlobal;
+    } catch (e) {
+        console.log("currentLayer가 타게팅 되지 않음");
     }
-
-    console.log(typeof hexGlobal);
-    console.log(hexGlobal);
-    console.log(typeof thicknessGlobal);
-
-    currlayer.freeDrawingBrush.color = hexGlobal;
-    currlayer.freeDrawingBrush.width = thicknessGlobal;
 }
 
 function createLayer(isReceiver) {
-    const totalNumOfLayer = layerSet[pageNum - 1].length;
-    let layerId = 'p' + pageNum + 'l' + (totalNumOfLayer + 1);
+    try {
+        const totalNumOfLayer = layerSet[pageNum - 1].length;
+        let layerId = 'p' + pageNum + 'l' + (totalNumOfLayer + 1);
 
-    // 이부분에 canvas 태그를 생성하는 구문을 넣어줄 것 아이디는 layerId로 준다.
-    let contents = `<canvas id="${layerId}" width="600px" height="600px"></canvas>`;
-    $(`#p${pageNum}`).append(contents);
+        // 이부분에 canvas 태그를 생성하는 구문을 넣어줄 것 아이디는 layerId로 준다.
+        let contents = `<canvas id="${layerId}" width="600px" height="600px"></canvas>`;
+        $(`#p${pageNum}`).append(contents);
 
-    ///////////////////////////////////////////////////////////////
-    // TODO fabric 객체를 만들고 객체배열에 추가하는 프로세스
-    let newLayer = new fabric.Canvas(layerId);
-    newLayer.isDrawingMode = true;
-    newLayer.freeDrawingBrush.width = thicknessGlobal;
-    newLayer.freeDrawingBrush.color = hexGlobal;
-    newLayer.freeDrawingBrush.opacity = opacityGlobal;
-    layerSet[pageNum - 1].push(newLayer);
-    console.log(layerSet);
+        ///////////////////////////////////////////////////////////////
+        // TODO fabric 객체를 만들고 객체배열에 추가하는 프로세스
+        let newLayer = new fabric.Canvas(layerId);
+        newLayer.isDrawingMode = true;
+        newLayer.freeDrawingBrush.width = thicknessGlobal;
+        newLayer.freeDrawingBrush.color = hexGlobal;
+        newLayer.freeDrawingBrush.opacity = opacityGlobal;
+        layerSet[pageNum - 1].push(newLayer);
+        console.log(layerSet);
 
-    // TODO 이벤트객체를 이벤트배열에 추가하는 프로세스.
-    const eventObj = newLayer.on('mouse:up', function () {
-        const message = {
-            user_id: user_id,
-            page_no: pageNum,
-            layer_no: totalNumOfLayer + 1,
-            stringify: JSON.stringify(newLayer)
-        };
-        sendMessage(message, "drawing"); // 예: 2번 페이지는 1번 인덱스이다.
-    });
-    eventSet[pageNum - 1].push(eventObj);
-    console.log(eventSet);
-
-    //TODO 부가적으로 생성된 canvas-container를 지우는 프로세스
-    $('.canvas-container').attr('id', 'removeResidue');
-    if (user_id != admin_id) {
-        $('.upper-canvas').attr('class', layerId + 'u');
-        $(`.${layerId}u`).css({'display': 'none'}).addClass('drawReceiver');
-    } else {
-        $('.upper-canvas').attr('class', layerId + 'u');
-        $(`.${layerId}u`).addClass('drawReceiver');
-    }
-    // 드로워에 해당하는 경우 display 숨김 속성을 지운다.
-    if (drawerIdList.length != 0) {
-        for (const drawer_id of drawerIdList) {
-            if (drawer_id == user_id)
-                $(`.${layerId}u`).css({'display': ""});
-        }
-    }
-
-    $('#' + layerId).appendTo('#p' + pageNum);
-    $('.' + layerId + 'u').appendTo('#p' + pageNum);
-    $('#removeResidue').remove();
-
-    // TODO z-index CSS 속성을 부여하고 Z-INDEX 배열에 추가하는 프로세스
-    $('#' + layerId).css({'z-index': totalNumOfLayer + 1});
-    $('.' + layerId + 'u').css({'z-index': totalNumOfLayer + 1});
-    zNumSet[pageNum - 1].push(totalNumOfLayer + 1);
-    console.log(zNumSet);
-
-    // TODO 레이어 리스트에 추가하는 메소드
-    createItem(layerId);
-
-    ///////////////////////////////////////////////////////////////
-
-    // 소켓에 레이어를 생성했다는 정보를 쏴주는 구문 (이니셜라이즈 문제가 있어 isInitialized 도입)
-    if (isInitialized) {
-        if (isReceiver == undefined) {
+        // TODO 이벤트객체를 이벤트배열에 추가하는 프로세스.
+        const eventObj = newLayer.on('mouse:up', function () {
             const message = {
                 user_id: user_id,
                 page_no: pageNum,
-                layer_no: totalNumOfLayer + 1
+                layer_no: totalNumOfLayer + 1,
+                stringify: JSON.stringify(newLayer)
             };
+            sendMessage(message, "drawing"); // 예: 2번 페이지는 1번 인덱스이다.
+        });
+        eventSet[pageNum - 1].push(eventObj);
+        console.log(eventSet);
 
-            sendMessage(message, 'CREATEPAGELAYER');
+        //TODO 부가적으로 생성된 canvas-container를 지우는 프로세스
+        $('.canvas-container').attr('id', 'removeResidue');
+        if (user_id != admin_id) {
+            $('.upper-canvas').attr('class', layerId + 'u');
+            $(`.${layerId}u`).css({'display': 'none'}).addClass('drawReceiver');
+        } else {
+            $('.upper-canvas').attr('class', layerId + 'u');
+            $(`.${layerId}u`).addClass('drawReceiver');
         }
-    }
+        // 드로워에 해당하는 경우 display 숨김 속성을 지운다.
+        if (drawerIdList.length != 0) {
+            for (const drawer_id of drawerIdList) {
+                if (drawer_id == user_id)
+                    $(`.${layerId}u`).css({'display': ""});
+            }
+        }
 
+        $('#' + layerId).appendTo('#p' + pageNum);
+        $('.' + layerId + 'u').appendTo('#p' + pageNum);
+        $('#removeResidue').remove();
+
+        // TODO z-index CSS 속성을 부여하고 Z-INDEX 배열에 추가하는 프로세스
+        $('#' + layerId).css({'z-index': totalNumOfLayer + 1});
+        $('.' + layerId + 'u').css({'z-index': totalNumOfLayer + 1});
+        zNumSet[pageNum - 1].push(totalNumOfLayer + 1);
+        console.log(zNumSet);
+
+        // TODO 레이어 리스트에 추가하는 메소드
+        createItem(layerId);
+
+        ///////////////////////////////////////////////////////////////
+
+        // 소켓에 레이어를 생성했다는 정보를 쏴주는 구문 (이니셜라이즈 문제가 있어 isInitialized 도입)
+        if (isInitialized) {
+            if (isReceiver == undefined) {
+                const message = {
+                    user_id: user_id,
+                    page_no: pageNum,
+                    layer_no: totalNumOfLayer + 1
+                };
+
+                sendMessage(message, 'CREATEPAGELAYER');
+            }
+        }
+    } catch (e) {
+        alert("現在ページが選択されていません。まず、ページを選んでください。");
+    }
     ///////////////////////////////////////////////////////////////
 }
 
@@ -660,8 +666,12 @@ function createItem(layerId) {
 /****************************** 피드 생성 메소드 ******************************/
 function createFeed() {
     if (user_id == admin_id) { // 어드민에게만 허용하기 위해 추가한 조건문
-        const pageNo = layerSet.length;
+        if (layerSet.length == 0) {
+            alert('何も描きませんでした。ページを作って絵を描いてください。');
+            return;
+        }
 
+        const pageNo = layerSet.length;
 
         // 레이어 오버레이 버퍼div style="display:none"
         const content = `<div id="buffer" style="display: none;"></div>`;
@@ -710,6 +720,8 @@ function createFeed() {
         const left = ($(window).scrollLeft() + ($(window).width() - dialog.width()) / 2);
         const top = ($(window).scrollTop() + ($(window).height() - dialog.height()) / 2);
         dialog.css({'left': left, 'top': top});
+    } else { // Admin이 아닌경우
+        alert("すみませんが、アドミンだけの機能です。");
     }
 }
 
@@ -839,80 +851,114 @@ $(() => {
     // Layer Explorer를 클릭시 현재 페이지번호, 레이어번호를 업데이트하고 현재 바라보는 레이어를 설정.
     $(document).on('click', '#itemBoxWrap', function (event) {
         console.log("레이어 타게팅 체인지 함수");
-        let layerBoxId = event.target.id;
-        // 전 단계 페이지 레이어 번호 지정 및 z인덱스
-        bPageNum = pageNum;
-        bLayerNum = layerNum;
-        const bPageLayer = "p" + bPageNum + "l" + bLayerNum;
-        // 전 단계 upper-canvas의 z-index를 원상복구한다.
-        $('#' + bPageLayer + 'u').css({"z-index": zNumSet[bPageNum - 1][bLayerNum - 1]});
 
-        // 현 단계 페이지 번호 지정
-        layerBoxId = layerBoxId.split('b')[0];
-        layerBoxId = layerBoxId.split('p');
-        layerBoxId = layerBoxId[1].split('l');
-        pageNum = parseInt(layerBoxId[0]);
-        layerNum = parseInt(layerBoxId[1]);
-        console.log(pageNum);
-        console.log(layerNum);
-        const pageLayer = "p" + pageNum + "l" + layerNum;
+        try {
+            let layerBoxId = event.target.id;
+            // 전 단계 페이지 레이어 번호 지정 및 z인덱스
+            bPageNum = pageNum;
+            bLayerNum = layerNum;
+            const bPageLayer = "p" + bPageNum + "l" + bLayerNum;
+            // 전 단계 upper-canvas의 z-index를 원상복구한다.
+            $('#' + bPageLayer + 'u').css({"z-index": zNumSet[bPageNum - 1][bLayerNum - 1]});
 
-        // 레이어 타게팅
-        currlayer = layerSet[pageNum - 1][layerNum - 1];
-        changeBrush();
-        // 타게팅한 레이어를 그릴수 있는 upper-canvas를 가장 위에둔다.
-        $('.' + pageLayer + "u").css({"z-index": 10000});
+            // 현 단계 페이지 번호 지정
+            layerBoxId = layerBoxId.split('b')[0];
+            layerBoxId = layerBoxId.split('p');
+            layerBoxId = layerBoxId[1].split('l');
+            pageNum = parseInt(layerBoxId[0]);
+            layerNum = parseInt(layerBoxId[1]);
+            console.log(pageNum);
+            console.log(layerNum);
+            const pageLayer = "p" + pageNum + "l" + layerNum;
+
+            // 레이어 타게팅
+            currlayer = layerSet[pageNum - 1][layerNum - 1];
+            changeBrush();
+            // 타게팅한 레이어를 그릴수 있는 upper-canvas를 가장 위에둔다.
+            $('.' + pageLayer + "u").css({"z-index": 10000});
+        } catch (e) {
+            console.log("page번호가 지정되지 않아 레이어를 바꿀 수 없음");
+            if (layerSet.length != 0) {
+                if (layerSet[0].length != 0) {
+                    bPageNum = 1;
+                    bLayerNum = 1;
+                    const bPageLayer = "p" + bPageNum + "l" + bLayerNum;
+                    // 전 단계 upper-canvas의 z-index를 원상복구한다.
+                    $('#' + bPageLayer + 'u').css({"z-index": zNumSet[bPageNum - 1][bLayerNum - 1]});
+
+                    // 현 단계 페이지 번호 지정
+                    pageNum = 1
+                    layerNum = layerSet[0].length - 1;
+                    const pageLayer = "p" + pageNum + "l" + layerNum;
+
+                    // 레이어 타게팅
+                    currlayer = layerSet[pageNum - 1][layerNum - 1];
+                    changeBrush();
+                    // 타게팅한 레이어를 그릴수 있는 upper-canvas를 가장 위에둔다.
+                    $('.' + pageLayer + "u").css({"z-index": 10000});
+                }
+            }
+        }
     });
 
     // ************ 페이지텝 이벤트 *********/
     $(document).on('click', '#tablist a', function (e) {
         e.preventDefault();
         let tabId = e.target.id;
+
         if (tabId == 'CreatePage') { // 페이지 생성의 경우
             createPageComponent();
+            const maxPage = layerSet.length;
+            $('#tablist').children().removeClass('active');
+            $('#tablist').children().last().addClass('active');
+            pageSwitching('pli'+maxPage);
         } else { // 페이지 열람의 경우
-            $('.tab-pane').removeClass('active').addClass('fade');
-            tabId = tabId.split('pli')[1];
-            $('#Tp' + tabId).addClass('active').removeClass('fade');
-
-            // 레이어 리스트 박스를 초기화한다.
-            $('#itemBoxWrap').empty();
-
-            bPageNum = pageNum; // 그전에 이전 레이어 번호로 넘긴다.
-            pageNum = parseInt(tabId);
-
-            // z-index가 가장 큰 레이어 판단한다.
-            let maxzNum = 0;
-            let maxL = 0;
-            for (let i = 1; i <= layerSet[pageNum - 1].length; i++) {
-                let zNum = $(`.p${pageNum}l${i}u`).css('z-index');
-
-                if (zNum > maxzNum) {
-                    maxzNum = zNum;
-                    maxL = i;
-                }
-            }
-            // 현재 레이어를 z-index가 가장 큰 레이어로 한다.
-            layerNum = maxL;
-            currlayer = layerSet[pageNum - 1][maxL - 1];
-
-            // 레이어 리오더링
-            let numOfLayer = layerSet[pageNum - 1].length;
-            for (let j = 1; j <= numOfLayer; j++) {
-                for (let k = 0; k < numOfLayer; k++) {
-                    if (zNumSet[pageNum - 1][k] == j) {
-                        if (layerSet[pageNum - 1][k] != null) {
-                            const layerId = "p" + pageNum + "l" + (k + 1);
-                            createItem(layerId);
-                        }
-                        break;
-                    }
-                }
-            }
-
-            changeBrush();
+            pageSwitching(tabId);
         }
     });
+
+    function pageSwitching(tabId) {
+        $('.tab-pane').removeClass('active').addClass('fade');
+        tabId = tabId.split('pli')[1];
+        $('#Tp' + tabId).addClass('active').removeClass('fade');
+
+        // 레이어 리스트 박스를 초기화한다.
+        $('#itemBoxWrap').empty();
+
+        bPageNum = pageNum; // 그전에 이전 레이어 번호로 넘긴다.
+        pageNum = parseInt(tabId);
+
+        // z-index가 가장 큰 레이어 판단한다.
+        let maxzNum = 0;
+        let maxL = 0;
+        for (let i = 1; i <= layerSet[pageNum - 1].length; i++) {
+            let zNum = $(`.p${pageNum}l${i}u`).css('z-index');
+
+            if (zNum > maxzNum) {
+                maxzNum = zNum;
+                maxL = i;
+            }
+        }
+        // 현재 레이어를 z-index가 가장 큰 레이어로 한다.
+        layerNum = maxL;
+        currlayer = layerSet[pageNum - 1][maxL - 1];
+
+        // 레이어 리오더링
+        let numOfLayer = layerSet[pageNum - 1].length;
+        for (let j = 1; j <= numOfLayer; j++) {
+            for (let k = 0; k < numOfLayer; k++) {
+                if (zNumSet[pageNum - 1][k] == j) {
+                    if (layerSet[pageNum - 1][k] != null) {
+                        const layerId = "p" + pageNum + "l" + (k + 1);
+                        createItem(layerId);
+                    }
+                    break;
+                }
+            }
+        }
+
+        changeBrush();
+    }
 
     // ******************* 레인지바 초기설정함수 *****************//
     (function initAndSetupTheSliders() {
@@ -991,8 +1037,6 @@ $(() => {
         } else {
             alert('권한은 최대 4명만 부여 가능합니다.');
         }
-
-
     });
 
 //****************************** 브러시(만) 변경 이벤트  ****************************//
@@ -1005,12 +1049,16 @@ $(() => {
             brushGlobal = brushType;
             changeBrush();
         } else {
-            const modeChecker = layerSet[0][0].isDrawingMode;
+            try {
+                const modeChecker = layerSet[0][0].isDrawingMode;
 
-            for (let i = 0; i < layerSet.length; i++) {
-                for (let j = 0; j < layerSet[i].length; j++) {
-                    layerSet[i][j].isDrawingMode = !modeChecker;
+                for (let i = 0; i < layerSet.length; i++) {
+                    for (let j = 0; j < layerSet[i].length; j++) {
+                        layerSet[i][j].isDrawingMode = !modeChecker;
+                    }
                 }
+            } catch (e) {
+                alert("ページが一つもありません。");
             }
         }
 
@@ -1043,7 +1091,7 @@ $(() => {
     });
 
     /********************방찾기를 위해서 주기적으로 1page를 파일화하는 메소드 집합 ***********/
-    setInterval(sendOnePageIntegrationFunction, 5*60*1000) // 5분 간격으로 페이지 1번을 저장한다.
+    setInterval(sendOnePageIntegrationFunction, 5 * 60 * 1000) // 5분 간격으로 페이지 1번을 저장한다.
 
     function onePageSaveEventFire() {
         const onePageBuffer = $('#onePageBuffer');
@@ -1056,14 +1104,14 @@ $(() => {
         const bufferOne = document.getElementById('buffer_one');
         const ctx = bufferOne.getContext('2d');
 
-        for(let i=0; i<onePageObjArry.length; i++) {
+        for (let i = 0; i < onePageObjArry.length; i++) {
             ctx.drawImage(document.getElementById(`p1l${i + 1}`), 0, 0);
         }
 
         const base64 = bufferOne.toDataURL("image/png");
         const data = {
-            encodedStr : base64,
-            room_Id : room_Id
+            encodedStr: base64,
+            room_Id: room_Id
         };
 
         $.ajax({
@@ -1086,7 +1134,7 @@ $(() => {
         let check = false;
 
         if (layerSet.length != 0) { // 하나도 생성 안한경우 false
-            if(layerSet[0].length != 0) { // 생성은 했으나 레이어 길이가 0인경우(사실 없음)
+            if (layerSet[0].length != 0) { // 생성은 했으나 레이어 길이가 0인경우(사실 없음)
                 check = true;
             }
         }
