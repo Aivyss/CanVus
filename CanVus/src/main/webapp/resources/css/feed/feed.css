@@ -66,3 +66,7 @@ body {
     margin: 2px;
     background-color: white;
 }
+
+#feed-text {
+    font-size: 25px;
+}

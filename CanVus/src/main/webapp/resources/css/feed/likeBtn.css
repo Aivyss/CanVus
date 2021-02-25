@@ -9,6 +9,8 @@
     display: inline-block;
     cursor: pointer;
     transition: all 0.5s;
+    text-align: center;
+    padding: 5px;
 }
 
 .fw-500 {
