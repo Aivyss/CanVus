@@ -34,4 +34,21 @@
             AND
             FEED_ID = #{feed_id}
     </delete>
+
+    <select id="historyDetail" parameterType="string" resultType="history">
+        SELECT
+            H.FEED_ID	AS feed_id
+             ,TO_CHAR(H.HISTORY_INDATE, 'yyyy-MM-dd')	AS history_indate
+             ,FD.PAGE_FILE AS preview
+        FROM
+            HISTORIES H, FEED_DRAWINGS FD
+        WHERE
+            H.USER_ID = #{string}
+          AND
+            FD.FEED_ID = H.FEED_ID
+          AND
+            FUNC_SPLIT(FD.PAGE_FILE, '--divide--', 1) = '1.png'
+        ORDER BY
+            H.HISTORY_INDATE DESC
+    </select>
 </mapper>

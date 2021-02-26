@@ -15,4 +15,6 @@ public interface BookmarkMapper {
 	List<BookmarkVO> getBookmarkList(String user_id);
 
 	List<BookmarkVO> getBookmarkFolderAbstractList(String user_id);
+
+    int checkDuplicateAndCreate(BookmarkVO bmVO);
 }

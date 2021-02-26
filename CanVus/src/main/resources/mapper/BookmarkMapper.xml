@@ -66,7 +66,27 @@ DELETE
 		WHERE
 		    B.USER_ID = #{user_id}
 			AND
-			C.FOLDER_ID = B.FOLDER_ID
+			C.FOLDER_ID(+) = B.FOLDER_ID
+		ORDER BY
+			B.FOLDER_ID ASC
 	</select>
+
+	<insert id="checkDuplicateAndCreate" parameterType="bookmark">
+		<selectKey keyProperty="folder_id" resultType="int" order="BEFORE">
+			SELECT
+				FOLDER_ID_SEQ.NEXTVAL
+			FROM
+			    DUAL
+		</selectKey>
+		INSERT INTO BOOKMARK_FOLDER (
+			FOLDER_ID
+			,USER_ID
+			,FOLDER_NAME
+		) VALUES (
+			#{folder_id}
+			,#{user_id}
+			,#{folder_name}
+		)
+	</insert>
 
 </mapper>

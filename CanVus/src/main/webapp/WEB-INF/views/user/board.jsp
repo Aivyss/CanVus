@@ -24,6 +24,7 @@
 
 <!-- statics -->
 <link rel="stylesheet" href="/resources/css/user/board/Skeleton.css">
+<link rel="stylesheet" href="/resources/css/universal/gallarySkeleton.css">
 <link rel="stylesheet" href="/resources/css/user/board/bookmarkshape.css">
 <link rel="stylesheet" href="/resources/css/user/board/likeBtn.css?reload">
 <link rel="stylesheet" href="/resources/css/user/board/board.css">

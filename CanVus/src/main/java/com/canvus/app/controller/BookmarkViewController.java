@@ -65,10 +65,10 @@ public class BookmarkViewController {
      * @param pageNo
      * @return
      */
-    @RequestMapping(value="/history", method = RequestMethod.GET)
-    public String historyFolder(HttpSession session, Model model, int pageNo) {
+    @RequestMapping(value="/historyDetail", method = RequestMethod.GET)
+    public String historyDetail(HttpSession session, Model model, int pageNo) {
         log.info("history 페이지 컨트롤러 메소드 진입");
 
-        return bookmarkService.historyFolder(session, model, pageNo);
+        return bookmarkService.historyDetail(session, model, pageNo);
     }
 }

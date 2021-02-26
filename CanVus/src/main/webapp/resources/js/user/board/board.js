@@ -24,15 +24,15 @@ $(()=>{
                 const container = $('#feeds-container');
 
                 for (const oneFeed of bundle) {
-                    let content = `
+                    let content =`
                         <div class="col-xs-6 col-sm-3 hover-fade feed-gallary">
-                            <a href="#">
-                                <img src="/userPicture/${oneFeed.pictures[0]}">
+                            <a href="javascript:createModal('/feed/view/?feed_id=${oneFeed['feed_id']}')">
+                                <img src="/userPicture/${oneFeed['pictures'][0]}">
                             </a>
                             <div class="caption" style="position:absolute; left:0px; top:70px;">
                                 <div class="col-lg-6" id="like-container-board">
                                     <div id="likeDiv">
-                                        <span class="thumb thumbs-up glyphicon glyphicon-heart" id="like-${oneFeed.feed_id}"
+                                        <span class="thumb thumbs-up glyphicon glyphicon-heart" id="like-${oneFeed[feed_id]}"
                                               style="display:block"></span>
                                     </div>
 

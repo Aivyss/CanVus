@@ -5,18 +5,18 @@
 <%--
   Created by IntelliJ IDEA.
   User: hklei
-  Date: 2/25/2021
-  Time: 11:20 AM
+  Date: 2/26/2021
+  Time: 14:18 AM
   To change this template use File | Settings | File Templates.
 --%>
 <html>
 <head>
-    <title>Bookmark Details</title>
+    <title>History</title>
     <script>
-        // 페이지에서 쓰일 전역변수 셋
-        const folder_id = ${folder_id};
+        // 페이지에서 쓰일 전역변수 셋 히스토리는 폴더번호가 아니므로 대강 넣음.
+        const folder_id = "";
     </script>
-    <link rel="stylesheet" href="/resources/css/bookmark/gallarySkeleton.css?reload">
+    <link rel="stylesheet" href="/resources/css/universal/gallarySkeleton.css?reload">
     <link rel="stylesheet" href="/resources/css/universal/overlay.css?reload">
     <style>
         .pagination > li > a {
@@ -25,19 +25,20 @@
             background-color: white;
         }
     </style>
+
 </head>
 <body>
 <!-- 네비파트 -->
 <jsp:include page="/WEB-INF/views/baseJSP/mainMenu.jsp"></jsp:include>
 
 <!-- pageination JS -->
-<script src="/resources/js/bookmark/pagenation.js"></script>
+<script src="/resources/js/bookmark/pagenation.js?reload"></script>
 
 <div class="container-fluid">
     <div class="col-sm-12 center-block" style="margin-top:20px;">
         <!-- 피드 번들 파트-->
         <div class="row center-block">
-            <c:forEach items="${bookmarkedFeedList}" var="oneFeed" varStatus="status">
+            <c:forEach items="${historyFeedList}" var="oneFeed" varStatus="status">
                 <div class="col-xs-6 col-sm-2 hover-fade feed-gallary">
                     <a href="javascript:createModal('/feed/view/?feed_id=${oneFeed.feed_id}')">
                         <img src="<spring:url value='/userPicture/${oneFeed.preview}'/>">

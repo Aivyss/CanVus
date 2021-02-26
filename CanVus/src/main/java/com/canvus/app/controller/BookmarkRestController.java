@@ -58,7 +58,6 @@ public class BookmarkRestController {
      * @param
      * @return
      */
-    @ResponseBody
     @RequestMapping(value="/deleteFolder", method=RequestMethod.POST)
     public Map<String, String> deleteFolder(@RequestBody Map<String, Object> params) {
         log.info("북마크 폴더삭제 컨트롤러 메소드 진입");
@@ -74,5 +73,17 @@ public class BookmarkRestController {
         }
 
         return result;
+    }
+
+    /**
+     * 폴더 이름 중복체크
+     * 20210226
+     * 이한결
+     * @param params
+     * @return
+     */
+    @RequestMapping(value="/checkDuplicateAndCreate", method=RequestMethod.POST)
+    public Map<String, Object> checkDuplicateAndCreate(@RequestBody Map<String, Object> params) {
+        return bookmarkService.checkDuplicateAndCreate(params);
     }
 }

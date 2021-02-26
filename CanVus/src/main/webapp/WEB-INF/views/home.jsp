@@ -15,7 +15,7 @@
     <c:choose>
         <c:when test="${empty userVO}"> <!-- 로그인 전 -->
             <link rel="stylesheet" href="/resources/css/home/loginSkeleton.css">
-            <link rel="stylesheet" href="/resources/css/home/gallarySkeleton.css">
+            <link rel="stylesheet" href="/resources/css/universal/gallarySkeleton.css">
 
             <!-- 공간 벌려주기 용 -->
             <div class="container" style="margin-top:20px;"></div>
