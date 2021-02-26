@@ -1,26 +1,37 @@
-var previousPage = 0;
-var currentPage = 0;
-
-function testFunc() {
+function createModal(url) {
     $.ajax({
-        url: '/feed/view/?feed_id=20210224160129978_L2smEKoEoMeN',
+        url: url,
         type: 'get',
         dataType: 'text',
-        success: function(result) {
-            const refined = $('#feed-overlay').append(result).find('#feed-body');
+        success: function (result) {
+            let content = `
+                <a href="#"><span id="modalClose" style="width:20px; height:20px;background-color: white;">X</span></a>
+            `;
+            let refined = $(result).append(result).find('#feed-body');
+            content = content + refined.html();
             $('#feed-overlay').empty();
-            $('#feed-overlay').append(refined);
-            $('#feed-overlay').css({'display':"block"});
+            $('#feed-overlay').append(content);
+            $('#feed-overlay').css({'display': "block"});
+
+            imageLength = parseInt($('#imageLengthVal').val());
+            user_id_feed = $('#user_idVal').val();
+            feed_id = $('#feed_idVal').val();
+            isLiked = $('#isLikeVal').val();
+            likeCount = parseInt($('#likeCountVal').val());
+            commentCount = parseInt($('#commentCountVal').val());
+            previousPage = 1;
+            currentPage = 1;
+            bookmarkSwitch = true;
         },
-        error: function(){
+        error: function () {
             console.log("통신에러");
         }
-    })
+    });
 }
 
-$(()=> {
-   $(document).on('click', '#feed-overlay', function(){
-      $('#feed-overlay').empty();
-      $('#feed-overlay').css({'display':'none'});
-   });
+$(() => {
+    $(document).on('click', '#modalClose', function () {
+        $('#feed-overlay').empty();
+        $('#feed-overlay').css({'display': 'none'});
+    });
 });
