@@ -23,6 +23,52 @@
 <body data-spy="scroll" data-target="#header">
 <!-- 네비 바 -->
 <jsp:include page="/WEB-INF/views/baseJSP/mainMenu.jsp"></jsp:include>
+<<<<<<< HEAD
+<script src="/resources/js/browse/browse.js?reload"></script>
+
+<div class="input-group navbar-collapse" id="searchTitleBar">
+    <span class="input-group-btn">
+        <button class="btn btn-default" type="button">
+            <img src="/resources/images/browse/search.png" width="18px" cursor="pointer">
+        </button>
+    </span>
+    <input type="text" class="form-control" placeholder="Search for..." id="searchTitle">
+</div>
+
+<table border="1">
+    <tr>
+        <th>Title</th>
+        <th>Nickname</th>
+        <th>Members</th>
+        <th>Capacity</th>
+        <th>Thumbnail</th>
+    </tr>
+
+    <c:forEach items="${list }" var="room">
+        <tr>
+            <td>${room.TITLE}</td>
+            <td>${room.NICKNAME}</td>
+            <td>${room.USER_COUNT}</td>
+            <td>${room.USER_NO}</td>
+            <td><img src="<spring:url value='/roomThumbnail/${room.ROOM_ID}--Thumbnail--.png'/>"
+                    onerror="this.src='<spring:url value="/roomThumbnail/defaultRoom.jpg"/>'"></td>
+        </tr>
+    </c:forEach>
+</table>
+
+<div>
+
+    <c:choose>
+        <c:when test="${navi.currentPage == 1}">
+            <button type="button" id="previousPage" disabled="disabled">◀</button>
+        </c:when>
+        <c:otherwise>
+            <button type="button" id="previousPage" value="${navi.currentPage-1}">◀</button>
+        </c:otherwise>
+    </c:choose>
+
+    <c:forEach begin="${navi.startPageGroup }" end="${navi.endPageGroup }" var="counter">
+=======
 <script src="/resources/js/browse/browse.js?after"></script>
 
 <!-- hidden values -->
@@ -31,6 +77,7 @@
 <!-- Body part -->
 <div class="container-fluid center-block">
     <div class="jumbotron">
+>>>>>>> d7bba915b0e35bf82631987f4f8099cb4610d7f5
         <c:choose>
             <c:when test="${empty title}">
                 <h1>一緒に描きましょう。</h1>
@@ -41,6 +88,19 @@
                 <p>下の方をご覧ください。</p>
             </c:otherwise>
         </c:choose>
+<<<<<<< HEAD
+    </c:forEach>
+
+    <c:choose>
+        <c:when test="${navi.currentPage == navi.totalPageCount}">
+            <button type="button" id="nextPage" disabled="disabled">▶</button>
+        </c:when>
+        <c:otherwise>
+            <button type="button" id="nextPage" value="${navi.currentPage+1}">▶</button>
+        </c:otherwise>
+    </c:choose>
+
+=======
         <!-- 방 검색 창 -->
         <div class="row">
             <div class="input-group navbar-collapse" id="room-search-bar">
@@ -146,6 +206,7 @@
         <input type="hidden" id="room-modal-exact-pw">
         <input type="hidden" id="room-modal-id">
     </div>
+>>>>>>> d7bba915b0e35bf82631987f4f8099cb4610d7f5
 </div>
 </body>
 </html>
