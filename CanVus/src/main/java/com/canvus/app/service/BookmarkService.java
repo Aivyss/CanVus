@@ -1,6 +1,7 @@
 package com.canvus.app.service;
 
 import com.canvus.app.dao.BookmarkDAO;
+import com.canvus.app.dao.HistoryDAO;
 import com.canvus.app.util.PageNavigator;
 import com.canvus.app.vo.BookmarkVO;
 import com.canvus.app.vo.BookmarkedFeedsVO;
@@ -19,11 +20,13 @@ import java.util.Map;
 @Service
 public class BookmarkService {
     // 페이징 처리
-    private final int COUNT_PER_PAGE = 6;
+    private final int COUNT_PER_PAGE = 10;
     private final int PAGE_PER_GROUP = 5;
 
     @Autowired
     private BookmarkDAO bookmarkDAO;
+    @Autowired
+    private HistoryDAO historyDAO;
 
     /**
      * AJAX 통신
@@ -42,26 +45,6 @@ public class BookmarkService {
         params.put("isSuccess", isSuccess);
 
         return params;
-    }
-
-    /**
-     * 히스토리 폴더 내부로 이동하는 서비스 메소드
-     * 작성일: 2021.02.25
-     * 작성자: 이한결
-     * @param session
-     * @param model
-     * @return
-     */
-    public String historyFolder(HttpSession session, Model model, int pageNo) {
-        String user_id = (String) session.getAttribute("userId");
-        int totalRecords = bookmarkDAO.getTotalRecordsOnHistories(user_id);
-        String url = "user/history";
-
-        PageNavigator nav = new PageNavigator(COUNT_PER_PAGE, PAGE_PER_GROUP, pageNo, totalRecords);
-
-        bookmarkDAO.getPageOfHistory(user_id, nav.getStartRecord(), nav.getCountPerPage());
-
-        return url;
     }
 
     /**
@@ -155,7 +138,57 @@ public class BookmarkService {
         log.info(bookmarkedFeedList.toString());
         model.addAttribute("bookmarkedFeedList", bookmarkedFeedList);
         model.addAttribute("pageNav", nav);
+        model.addAttribute("folder_id", folder_id);
 
         return url;
+    }
+
+    /**
+     * 히스토리 폴더 내부로 이동하는 서비스 메소드
+     * 작성일: 2021.02.25
+     * 작성자: 이한결
+     * @param session
+     * @param model
+     * @return
+     */
+    public String historyDetail(HttpSession session, Model model, int pageNo) {
+        String url = "bookmark/historyDetail";
+        String user_id = (String) session.getAttribute("userId");
+        int totalRecords = bookmarkDAO.getTotalRecordsOnHistories(user_id);
+
+        PageNavigator nav = new PageNavigator(COUNT_PER_PAGE, PAGE_PER_GROUP, pageNo, totalRecords);
+
+        List<HistoryVO> historyFeedList = historyDAO.historyDetail(user_id, nav.getStartRecord(), nav.getCountPerPage());
+        log.info(historyFeedList.toString());
+        model.addAttribute("historyFeedList", historyFeedList);
+        model.addAttribute("pageNav", nav);
+
+        return url;
+    }
+
+    /**
+     * 폴더 이름 중복체크 및 생성
+     * 20210226
+     * 이한결
+     * @param params
+     * @return
+     */
+    public Map<String, Object> checkDuplicateAndCreate(Map<String, Object> params) {
+        String folder_name = (String) params.get("folder_name");
+        String user_id = (String) params.get("user_id");
+        BookmarkVO bmVO = new BookmarkVO();
+        bmVO.setFolder_name(folder_name);
+        bmVO.setUser_id(user_id);
+
+        int folder_id = bookmarkDAO.checkDuplicateAndCreate(bmVO);
+        boolean isSuccess = false;
+
+        if(folder_id > 0) {
+            isSuccess = true;
+            params.put("folder_id", folder_id);
+        }
+        params.put("isSuccess", isSuccess);
+
+        return params;
     }
 }
