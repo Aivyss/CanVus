@@ -12,15 +12,14 @@ import java.util.HashMap;
 @Slf4j
 @Service
 public class BrowseService {
-
     @Autowired
     private BrowseDAO dao;
 
-    public ArrayList<HashMap<String, Object>> getRoomsByTitle(String title, int startRecord, int countPerPage){
+    public ArrayList<HashMap<String, Object>> getRoomsByTitle(String title, int startRecord, int countPerPage) {
         return dao.getRoomsByTitle(title, startRecord, countPerPage);
     }
 
-    public int getRoomCount(String title){
+    public int getRoomCount(String title) {
         return dao.getRoomCount(title);
     }
 

@@ -13,7 +13,7 @@ create table USERS (
     USER_ID varchar2(50) primary key,  
     NICKNAME varchar2(50) not null,  
     SIGN_IN_DATE date default sysdate,  
-    PROFILE_PHOTO varchar2(1000) not null,  
+    PROFILE_PHOTO varchar2(1000),  
     EMAIL varchar2(500) NOT NULL,  
     FAMILY_NAME varchar2(100),    
     GIVEN_NAME varchar2(100),
