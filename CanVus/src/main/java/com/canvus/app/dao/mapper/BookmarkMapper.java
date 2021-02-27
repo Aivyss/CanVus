@@ -13,4 +13,8 @@ public interface BookmarkMapper {
 	public boolean deleteFolder(int folder_id);
 
 	List<BookmarkVO> getBookmarkList(String user_id);
+
+	List<BookmarkVO> getBookmarkFolderAbstractList(String user_id);
+
+    int checkDuplicateAndCreate(BookmarkVO bmVO);
 }

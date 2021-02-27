@@ -1,17 +1,19 @@
 /****************************** 전역변수 ******************************************/
-
-// const imageLength = ${fn:length(feedPictures)};
-// const user_id = "${userId}";
-// const feed_id = "${feedAbstract.feed_id}";
-// let isLiked = ${isLiked};
-// let commentCount = ${fn:length(feedComments)};
-// let likeCount = ${likeCount};
-let previousPage = 0;
-let currentPage = 0;
+let imageLength = parseInt($('#imageLengthVal').val());
+let user_id_feed = $('#user_idVal').val();
+let feed_id = $('#feed_idVal').val();
+let isLiked = $('#isLikeVal').val();
+let likeCount = parseInt($('#likeCountVal').val());
+let commentCount = parseInt($('#commentCountVal').val());
+let previousPage = 1;
+let currentPage = 1;
+let bookmarkSwitch = true;
 
 $(() => {
+
     /******************************* 호이스팅 함수 ************************************/
-    function successSendCommentProcess (result) {
+    // 코멘트의 작성이 완성되고 화면단에 결과를 반영하는 메소드
+    function successSendCommentProcess(result) {
         const content = `
             <div class="col-lg-12">
                 <div class="media">
@@ -36,6 +38,7 @@ $(() => {
         console.log('댓글추가 완료');
     }
 
+    // 코멘트 입력이 빈칸인지 아닌지 판단하는 메소드
     function checkValidationAndSendComment() {
         const commentContent = $('#comment-input').val();
 
@@ -45,40 +48,42 @@ $(() => {
         }
     }
 
+    // 코멘트 작성 내용을 서버단으로 보내는 메소드
     function sendComment(commentContent) {
         const params = {
-            user_id : user_id,
-            feed_id : feed_id,
-            comment : commentContent
+            user_id: user_id_feed,
+            feed_id: feed_id,
+            comment: commentContent
         };
 
         $.ajax({
-            url:'/comment/sendComment',
-            type:"POST",
+            url: '/comment/sendComment',
+            type: "POST",
             dataType: "json",
             contentType: "application/json",
             data: JSON.stringify(params),
-            success: function(result) {
+            success: function (result) {
                 console.log("전송성공");
                 console.log(result);
                 successSendCommentProcess(result);
             },
-            error: function() {
+            error: function () {
                 console.log("전송실패");
             }
         });
     }
 
+    // like를 추가하는 메소드
     function addLike() {
         $.ajax({
-            url:"/feed/addLike",
-            type:"post",
+            url: "/feed/addLike",
+            type: "post",
             contentType: "application/json",
             data: JSON.stringify({
-                user_id : user_id,
-                feed_id : feed_id,
+                user_id: user_id_feed,
+                feed_id: feed_id,
             }),
-            success: function() {
+            success: function () {
                 console.log("라이크 증가 성공");
             },
             error: function () {
@@ -89,14 +94,14 @@ $(() => {
 
     function deleteLike() {
         $.ajax({
-            url:"/feed/deleteLike",
-            type:"post",
+            url: "/feed/deleteLike",
+            type: "post",
             contentType: "application/json",
             data: JSON.stringify({
-                user_id : user_id,
-                feed_id : feed_id,
+                user_id: user_id_feed,
+                feed_id: feed_id,
             }),
-            success: function() {
+            success: function () {
                 console.log("라이크 삭제 성공");
             },
             error: function () {
@@ -107,109 +112,136 @@ $(() => {
 
     /****************************** 이벤트 등록부 ************************************/
     // 이전 그림보기 버튼 클릭 이벤트
-    $('#previous-btn').on('click', function() {
+    $(document).on('click', '#previous-btn' ,function () {
         console.log("이전페이지 보기 버튼 클릭");
-        
-        if (currentPage != 0) {
+
+        if (currentPage != 1) {
             // 현재 페이지의 수를 하나 줄인다.
             previousPage = currentPage;
             currentPage -= 1;
             // 게이지 업데이트
-            $('#picture-bar').css({'min-width' : `${(currentPage+1)*100/imageLength}%`});
+            $('#picture-bar').css({'min-width': `${(currentPage) * 100 / imageLength}%`});
             // 그림을 다가린다
-            $(`.pictures`).css({'display' : 'none'});
+            $(`.pictures`).css({'display': 'none'});
             // 타게팅된 그림만 보이게 한다
-            $(`#pictureContainer_${currentPage+1}`).css({'display':''});
+            $(`#pictureContainer_${currentPage}`).css({'display': ''});
         }
     });
 
     // 다음 그림보기 버튼 클릭 이벤트
-    $('#next-btn').on('click', function() {
+    $(document).on('click', '#next-btn' ,function () {
         console.log("다음페이지 보기 버튼 클릭");
-        
-        if (currentPage != imageLength-1) {
+
+        if (currentPage != imageLength) {
             // 현재 페이지의 수를 하나 줄인다.
             previousPage = currentPage;
             currentPage += 1;
             // 게이지 업데이트
-            $('#picture-bar').css({'min-width' : `${(currentPage+1)*100/imageLength}%`});
+            $('#picture-bar').css({'min-width': `${(currentPage) * 100 / imageLength}%`});
             // 그림을 다가린다
-            $(`.pictures`).css({'display' : 'none'});
+            $(`.pictures`).css({'display': 'none'});
             // 타게팅된 그림만 보이게 한다
-            $(`#pictureContainer_${currentPage+1}`).css({'display':''});
+            $(`#pictureContainer_${currentPage}`).css({'display': ''});
         }
     });
 
     // 엔터를 이용한 코멘트 작성 이벤트
-    $('#comment-input').keydown(function(key) {
-        if(key.keyCode == 13) {
+    $(document).on('keydown', '#comment-input', function (key) {
+        if (key.keyCode == 13) {
             checkValidationAndSendComment();
         }
     });
 
     // 버튼 클릭을 이용한 코멘트 작성 이벤트
-    $('#comment-btn').on('click', function() {
+    $(document).on('click', '#comment-btn' ,function () {
         checkValidationAndSendComment();
     });
 
     // 라이크 풀기 라이크 걸기
-    $(document).on('click', '#like', function() {
+    $(document).on('click', '#like', function () {
+        if (user_id_feed == undefined || user_id_feed == null || user_id_feed.length == 0) {
+            alert("ログインしたユーザー専用の機能です。");
+            return;
+        }
+
         const likeContainer = $('#like-container');
         const likeCountDOM = $('#like-count');
         let content = '';
 
         likeContainer.empty();
 
-        if (isLiked) {
+        if (isLiked == 'true') {
             content = `
                 <span class="thumb thumbs-up glyphicon glyphicon-heart" id="like"></span>
             `;
             deleteLike();
             likeCountDOM.text("");
-            likeCountDOM.text(`${likeCount-1}`);
+            likeCount--;
+            likeCountDOM.text(`${likeCount}`);
+            isLiked = 'false';
         } else {
             content = `
                 <span class="thumb thumbs-up glyphicon glyphicon-heart" id="like" style="background-color: red"></span>
             `;
             addLike();
             likeCountDOM.text("");
-            likeCountDOM.text(`${likeCount+1}`);
+            likeCount++;
+            likeCountDOM.text(`${likeCount}`);
+            isLiked = 'true';
         }
 
         likeContainer.append(content);
-
-        isLiked = !isLiked;
     });
 
     // 북마크 등록 이벤트
-    $(document).on('click', '#bms', function(event) {
+    $(document).on('click', '#bms', function (event) {
+        if (user_id_feed == undefined || user_id_feed == null || user_id_feed.length == 0) {
+            alert("ログインしたユーザー専用の機能です。");
+            return;
+        }
+
         let eventTargetId = event.target.id;
 
-        if(eventTargetId.substr(0,3) == 'bm-') {
+        if (eventTargetId.substr(0, 3) == 'bm-') {
             eventTargetId = parseInt(eventTargetId.split('bm-')[1]);
 
             const data = {
-                folder_id : eventTargetId,
-                feed_id : feed_id
+                folder_id: eventTargetId,
+                feed_id: feed_id
             };
 
             $.ajax({
-                url :'/bookmarkRest/addFeedIntoBookmark',
-                type:'post',
-                contentType:"application/json",
+                url: '/bookmarkRest/addFeedIntoBookmark',
+                type: 'post',
+                contentType: "application/json",
                 data: JSON.stringify(data),
                 dataType: 'json',
-                success : function (result) {
-                    if(result['isSuccess']) {
+                success: function (result) {
+                    if (result['isSuccess']) {
                         alert("Bookmarked");
                     } else {
                         alert("Already Bookmarked");
                     }
                 },
-                error : function () {
+                error: function () {
                     alert("Bookmarking Failed");
                 }
             });
         }
-    })
+    });
+
+    // 북마크 활성화 이벤트
+    $(document).on('click', '#bmsIcon' ,function () {
+        if (user_id_feed == undefined || user_id_feed == null || user_id_feed.length == 0) {
+            alert("ログインしたユーザー専用の機能です。");
+            return;
+        }
+
+        if (bookmarkSwitch) {
+            $('#bms').css({'display':"block"});
+        } else {
+            $('#bms').css({'display':"none"});
+        }
+        bookmarkSwitch = !bookmarkSwitch
+    });
 });

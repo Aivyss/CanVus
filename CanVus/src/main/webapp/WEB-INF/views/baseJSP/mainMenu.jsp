@@ -129,7 +129,7 @@
                                     </li>
                                     <li>
                                         <div class="dropdown">
-                                            <button class="btn btn-navv btn-default dropdown-toggle dropdown-toggle-nav"
+                                            <button class="dropdown-toggle dropdown-toggle-nav"
                                                     type="button"
                                                     id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
                                                 Profile
@@ -140,7 +140,7 @@
                                                                            href="/user/board?user_id=${sessionScope.userVO.user_id}">My
                                                     board</a></li>
                                                 <li role="presentation"><a role="menuitem" tabindex="-1"
-                                                                           href="/user/bookmark">BookMark</a></li>
+                                                                           href="/bookmark">BookMark</a></li>
                                                 <li role="presentation"><a role="menuitem" tabindex="-1"
                                                                            href="/user/pixelManagement">pixelManagement</a>
                                                 </li>

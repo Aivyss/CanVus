@@ -26,9 +26,6 @@ public class SocketRoomController {
 	 * 드로잉 룸 채팅 메세지는 데이터베이스에 저장하지 않는다.
 	 * 작성일: 2021.02.05 / 완성일: / 버그검증일:
 	 * 작성자: 이한결
-	 * @param room_Id
-	 * @param json
-	 * @return
 	 */
 	@MessageMapping("/drawing/room/{room_Id}")
 	@SendTo("/subscribe/drawing/room/{room_Id}")

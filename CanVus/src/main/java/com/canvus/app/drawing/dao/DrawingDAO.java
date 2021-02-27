@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 
 import com.canvus.app.drawing.mapper.DrawingRoomMapper;
@@ -86,19 +87,17 @@ public class DrawingDAO {
 	 * @param page
 	 * @return
 	 */
-	public boolean createPage(PageVO page) {
+	@Async("threadPoolTaskExecutor")
+	public void createPage(PageVO page) {
 		log.info("페이지를 생성하는 dao 메소드 진입");
-		boolean check = false;
-		
+
 		try {
 			PageLayerMapper mapper = session.getMapper(PageLayerMapper.class);
-			check = mapper.createPage(page);
+			mapper.createPage(page);
 		} catch (Exception e) {
 			log.info("레이어 생성 sql오류");
 			e.printStackTrace();
 		}
-		
-		return check;
 	}
 	
 	/**
@@ -148,19 +147,16 @@ public class DrawingDAO {
 	 * @param page
 	 * @return
 	 */
-	public boolean updatePage(PageVO page) {
+	public void updatePage(PageVO page) {
 		log.info("페이지 업데이트 dao 메소드");
-		boolean check = false;
-		
+
 		try {
 			PageLayerMapper mapper = session.getMapper(PageLayerMapper.class);
-			check = mapper.updatePage(page);
+			mapper.updatePage(page);
 		} catch (Exception e) {
 			log.info("페이지 업데이트 sql오류");
 			e.printStackTrace();
 		}
-		
-		return check;
 	}
 	
 	/**
@@ -242,22 +238,17 @@ public class DrawingDAO {
 	 * 레이어를 삭제하는 메소드
 	 * 작성일:2021.02.13 / 완성일: / 버그검증일:
 	 * 작성자: 이한결
-	 * @param page
-	 * @return
 	 */
-    public boolean deletePageLayer(PageVO page) {
+    public void deletePageLayer(PageVO page) {
     	log.info("레이어삭제 dao 메소드 진입");
-    	boolean check = false;
 
     	try {
     		PageLayerMapper mapper = session.getMapper(PageLayerMapper.class);
-    		check = mapper.deletePageLayer(page);
+    		mapper.deletePageLayer(page);
 		} catch (Exception e) {
     		log.info("레이어 삭제 sql오류");
     		e.printStackTrace();
 		}
-
-    	return check;
     }
 
 	/**
@@ -289,20 +280,16 @@ public class DrawingDAO {
 	 * @param targetUser
 	 * @return
 	 */
-	public boolean addAuthority(DrawingUserVO targetUser) {
+	public void addAuthority(DrawingUserVO targetUser) {
 		log.info("권한부여 drawing dao 메소드 진입");
-		boolean check = false;
 
 		try {
 			JoinListMapper mapper = session.getMapper(JoinListMapper.class);
-			check = mapper.addAuthority(targetUser);
+			mapper.addAuthority(targetUser);
 		} catch (Exception e) {
 			log.info("권한정보 수정 sql 오류");
-
 			e.printStackTrace();
 		}
-
-		return check;
 	}
 
 	/**

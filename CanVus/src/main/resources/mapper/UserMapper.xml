@@ -4,78 +4,87 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.canvus.app.dao.mapper.UserMapper">
-<!-- 회원등록을 위한 인서트문 -->
-<insert id="signup" parameterType="user">
-	INSERT INTO USERS(
-	    USER_ID
-	    ,GIVEN_NAME
-	    ,FAMILY_NAME
-	    ,PROFILE_PHOTO
-	    ,EMAIL
-	    ,NICKNAME
-	    ,INTRODUCTION
-	) values (
-	    #{user_id}
-	    ,#{given_name}
-	    ,#{family_name}
-	    ,#{profile_photo}
-	    ,#{email}
-	    ,#{nickname}
-	    ,#{introduction}
-	)
-</insert>
+	<!-- 회원등록을 위한 인서트문 -->
+	<insert id="signup" parameterType="user">
+		INSERT INTO USERS(
+			USER_ID
+			,GIVEN_NAME
+			,FAMILY_NAME
+			,PROFILE_PHOTO
+			,EMAIL
+			,NICKNAME
+			,INTRODUCTION
+		) values (
+			#{user_id}
+			,#{given_name}
+			,#{family_name}
+			,#{profile_photo}
+			,#{email}
+			,#{nickname}
+			,#{introduction}
+		)
+	</insert>
 
-<!-- 로그인 및 유저정보를 얻기 위한 셀렉트문 -->
-<select id="getUserInfo" parameterType="string" resultType="user">
-	SELECT
-		USER_ID
-		,NICKNAME
-		,PROFILE_PHOTO
-		,PIXELS
-		,ACCUMULATEDPIXELS
-		,INTRODUCTION
-	FROM
-		USERS
-	WHERE
-		USER_ID = #{string}
-</select>
+	<!-- 로그인 및 유저정보를 얻기 위한 셀렉트문 -->
+	<select id="getUserInfo" parameterType="string" resultType="user">
+		SELECT
+			USER_ID
+			,NICKNAME
+			,PROFILE_PHOTO
+			,PIXELS
+			,ACCUMULATEDPIXELS
+			,INTRODUCTION
+		FROM
+			USERS
+		WHERE
+			USER_ID = #{string}
+	</select>
 
-<select id="userSearch" parameterType="string" resultType="user">
-	SELECT
-		USER_ID
-		,PROFILE_PHOTO
-		,NICKNAME
-		,INTRODUCTION
-	FROM
-		USERS
-	WHERE
-		USER_ID LIKE '%' || #{string} || '%'
-	ODER BY
-		NICKNAME ASC
+	<select id="userSearch" parameterType="string" resultType="user">
+		SELECT
+			USER_ID
+			,PROFILE_PHOTO
+			,NICKNAME
+			,INTRODUCTION
+		FROM
+			USERS
+		WHERE
+			USER_ID LIKE '%' || #{string} || '%'
+		ODER BY
+			NICKNAME ASC
 
-</select>
+	</select>
 
-<update id="withdrawPixel" parameterType="user">
-	UPDATE USERS
-		SET PIXELS = PIXELS - #{pixels}
-	WHERE
-		USER_ID = #{user_id}
-</update>
+	<update id="withdrawPixel" parameterType="user">
+		UPDATE USERS
+			SET PIXELS = PIXELS - #{pixels}
+		WHERE
+			USER_ID = #{user_id}
+	</update>
 
-<update id="depositPixel" parameterType="user">
-	UPDATE USERS
-		SET PIXELS = PIXELS + #{pixels}
-	WHERE
-		USER_ID = #{user_id}
-</update>
+	<update id="depositPixel" parameterType="user">
+		UPDATE USERS
+			SET PIXELS = PIXELS + #{pixels}
+		WHERE
+			USER_ID = #{user_id}
+	</update>
 
-<select id="getUserNickname" parameterType="string" resultType="string">
-	SELECT
-		NICKNAME
-	FROM
-		USERS
-	WHERE
-		USER_ID = #{string}
-</select>
+	<select id="getUserNickname" parameterType="string" resultType="string">
+		SELECT
+			NICKNAME
+		FROM
+			USERS
+		WHERE
+			USER_ID = #{string}
+	</select>
+
+	<select id="checkDuplicateNickname" parameterType="string" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			USERS
+		WHERE
+			NICKNAME = #{string}
+	</select>
 
 </mapper>

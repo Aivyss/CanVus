@@ -5,7 +5,8 @@
     background-color: white;
     font-size: 25px;
     border: 1px solid #bbb;
-    line-height: 37px;
+    line-height: 48px;
+    padding-left: 11px;
     display: inline-block;
     cursor: pointer;
     transition: all 0.5s;

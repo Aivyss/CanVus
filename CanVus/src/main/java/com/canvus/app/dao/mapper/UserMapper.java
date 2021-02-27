@@ -17,4 +17,6 @@ public interface UserMapper {
 	public boolean depositPixel(UserVO receiver);
 
     String getUserNickname(String user_id);
+
+    int checkDuplicateNickname(String nickname);
 }

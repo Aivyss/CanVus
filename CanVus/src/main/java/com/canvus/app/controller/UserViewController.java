@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,23 +19,23 @@ import com.canvus.app.service.UserService;
 import com.canvus.app.vo.BookmarkVO;
 import com.canvus.app.vo.UserVO;
 
+@Slf4j
 @Controller
 @RequestMapping(value="/user")
 public class UserViewController {
-	private static final Logger logger = LoggerFactory.getLogger(UserViewController.class);
 	@Autowired
 	private UserService userService;
 
 	
 	@RequestMapping(value="/loginForm", method=RequestMethod.GET)
 	public String loginForm() {
-		logger.info("로그인 폼으로 이동");
+		log.info("로그인 폼으로 이동");
 		return "user/loginForm";
 	}
 
 	@RequestMapping(value="/loginProcess", method=RequestMethod.POST)
 	public String loginProcess(UserVO vo, HttpSession session, Model model) {
-		logger.info("로그인 프로세스 진입");
+		log.info("로그인 프로세스 진입");
 
 		UserVO userInfo = null;
 		String idToken = vo.getIdToken();
@@ -43,7 +44,7 @@ public class UserViewController {
 		userInfo = userService.login(idToken);
 		
 		if (userInfo == null) {// 로그인 시도결과 로그인이 아닌 경우 -> 회원가입
-			logger.info("회원이 아님 회원가입 프로세스 진행");
+			log.info("회원이 아님 회원가입 프로세스 진행");
 			model.addAttribute("idToken", idToken);
 			url = "/user/signup";
 		} else {// 로그인인 경우
@@ -85,62 +86,70 @@ public class UserViewController {
 
 		return url;
 	}
-	
-	@RequestMapping(value="/bookmark", method=RequestMethod.GET)
-	public String bookmark() {
-		logger.info("bookmark로 이동");
-		
-		return "user/bookmark";
-	}
-	
+
 	/**
-	 * 북마크를 생성하는 프로세스로 진입. ajax 통신방식으로 생성
-	 * 작성일: 2021.01.22 / 완성일: / 버그검증일:
-	 * 작성자: 이한결
-	 * 
-	 * @param session
+	 * 더보기 버튼을 누를 시 피드 번들을 하나 더 가지고 오는 메소드
+	 * 20210225
+	 * 이한결
+	 * @param params
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="/bookmarks/makeFolder", method=RequestMethod.POST)
-	public BookmarkVO makeFolder(BookmarkVO inputInfo, HttpSession session) {
-		logger.info("북마크 생성 프로세스 진입 controller");
-	
-		// TODO 북마크 생성 (중복체크 실시 후 중복이 없을 시 생성)
-		BookmarkVO bookmark = userService.makeFolder(session, inputInfo);
-		
-		return bookmark;
+	@RequestMapping(value="/board/seeMore", method=RequestMethod.POST)
+	public Map<String, Object> restSeeMore(@RequestBody Map<String, Object> params) {
+		log.info("더불러오기 컨트롤러 메소드 진입");
+
+		return userService.restSeeMore(params);
 	}
 	
-	/**
-	 * 기존에 존재하는 북마크를 제거하는 메소드
-	 * 작성일: 2021.01.22 / 완성일: / 버그검증일:
-	 * 작성자: 이한결
-	 * @param inputInfo
-	 * @param session
-	 * @return
-	 */
-	@ResponseBody
-	@RequestMapping(value="/bookmarks/deleteFolder", method=RequestMethod.POST)
-	public Map<String, String> deleteFolder(@RequestBody Map<String, Object> params) {
-		logger.info("북마크 폴더삭제 컨트롤러 메소드 진입");
-		
-		// TODO 북마크 폴더 제거
-		boolean check = userService.deleteFolder(params);
-		
-		Map<String, String> result = new HashMap<String, String>();
-		if (check) {
-			result.put("result", "success");
-		} else {
-			result.put("result", "fail");
-		}
-		
-		return result;
-	}
+//	/**
+//	 * 북마크를 생성하는 프로세스로 진입. ajax 통신방식으로 생성
+//	 * 작성일: 2021.01.22 / 완성일: / 버그검증일:
+//	 * 작성자: 이한결
+//	 *
+//	 * @param session
+//	 * @return
+//	 */
+//	@ResponseBody
+//	@RequestMapping(value="/bookmarks/makeFolder", method=RequestMethod.POST)
+//	public BookmarkVO makeFolder(BookmarkVO inputInfo, HttpSession session) {
+//		logger.info("북마크 생성 프로세스 진입 controller");
+//
+//		// TODO 북마크 생성 (중복체크 실시 후 중복이 없을 시 생성)
+//		BookmarkVO bookmark = userService.makeFolder(session, inputInfo);
+//
+//		return bookmark;
+//	}
+//
+//	/**
+//	 * 기존에 존재하는 북마크를 제거하는 메소드
+//	 * 작성일: 2021.01.22 / 완성일: / 버그검증일:
+//	 * 작성자: 이한결
+//	 * @param inputInfo
+//	 * @param session
+//	 * @return
+//	 */
+//	@ResponseBody
+//	@RequestMapping(value="/bookmarks/deleteFolder", method=RequestMethod.POST)
+//	public Map<String, String> deleteFolder(@RequestBody Map<String, Object> params) {
+//		logger.info("북마크 폴더삭제 컨트롤러 메소드 진입");
+//
+//		// TODO 북마크 폴더 제거
+//		boolean check = userService.deleteFolder(params);
+//
+//		Map<String, String> result = new HashMap<String, String>();
+//		if (check) {
+//			result.put("result", "success");
+//		} else {
+//			result.put("result", "fail");
+//		}
+//
+//		return result;
+//	}
 	
 	@RequestMapping(value="/pixelManagement", method=RequestMethod.GET)
 	public String pixelManagement() {
-		logger.info("pixel management로 이동");
+		log.info("pixel management로 이동");
 		
 		return "user/pixelManagement";
 	}
@@ -170,8 +179,16 @@ public class UserViewController {
 	@ResponseBody
 	@RequestMapping(value="/presentPixel", method=RequestMethod.POST)
 	public Map<String, Object> presentPixel(@RequestBody Map<String, Object> params) {
-		logger.info("픽셀 전물하기 컨트롤러");
+		log.info("픽셀 전물하기 컨트롤러");
 		
 		return userService.presentPixel(params);
+	}
+
+	@ResponseBody
+	@RequestMapping(value="/checkDuplicateNickname", method=RequestMethod.POST)
+	public Map<String, Object> checkDuplicateNickname(@RequestBody Map<String, Object> params) {
+		params.put("isDuplicate", userService.checkDuplicateNickname(params));
+
+		return params;
 	}
 }

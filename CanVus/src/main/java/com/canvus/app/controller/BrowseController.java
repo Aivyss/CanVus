@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -21,7 +22,7 @@ public class BrowseController {
     @Autowired
     private BrowseService service;
 
-    private final int countPerPage = 2;
+    private final int countPerPage = 3;
     private final int pagePerGroup = 5;
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -43,7 +44,6 @@ public class BrowseController {
 
         log.info("list size : {}", list.size());
         log.info("list info : {}", list);
-
 
         model.addAttribute("list", list);
         model.addAttribute("title", title);

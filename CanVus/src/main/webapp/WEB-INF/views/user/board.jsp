@@ -10,17 +10,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Board</title>
+    <script>
+        // 페이지에서 쓰일 전역변수 셋
+        var user_id = "${userInfo.user_id}";
+        var pageNo = 1;
+        var totalPageCount;
+    </script>
 </head>
 
 <body>
-<!-- 상단 네비 -->
+<!-- top nav -->
 <jsp:include page="/WEB-INF/views/baseJSP/mainMenu.jsp"></jsp:include>
+
+<!-- statics -->
 <link rel="stylesheet" href="/resources/css/user/board/Skeleton.css">
+<link rel="stylesheet" href="/resources/css/universal/gallarySkeleton.css">
 <link rel="stylesheet" href="/resources/css/user/board/bookmarkshape.css">
-<link rel="stylesheet" href="/resources/css/user/board/likeBtn.css">
+<link rel="stylesheet" href="/resources/css/user/board/likeBtn.css?reload">
 <link rel="stylesheet" href="/resources/css/user/board/board.css">
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<script src="/resources/js/user/board/board.js"></script>
 
+<!-- rendering part -->
 <div class="container bootdey">
     <div class="content-page">
         <!-- 유저 개요( 프로필 사진 및 닉네임 표시 -->
@@ -29,7 +40,7 @@
             <div class="col-sm-3 avatar-container">
                 <img src="<spring:url value='/userProfile/${userInfo.profile_photo}'/>"
                      class="img-circle profile-avatar"
-                     alt="User avatar">
+                     onerror="this.src='/resources/iamges/defaults/profileDefault.png'">
             </div>
             <div class="col-sm-12 profile-actions text-right">
                 <div class="nickname-header">
@@ -113,36 +124,30 @@
                     </div>
                 </div> <!-- 유저 정보 리스트 끝 -->
 
-                <!-- 피드 번들 파트-->
+
                 <div class="col-sm-9 center-block" style="margin-top:20px;">
-                    <div class="row center-block">
-                        <!-- 피드 반복 생성 -->
+                    <!-- 피드 번들 파트-->
+                    <div class="row center-block" id="feeds-container">
                         <c:forEach items="${bundle}" var="oneFeed" varStatus="status">
                             <div class="col-xs-6 col-sm-3 hover-fade feed-gallary">
-                                <a href="#">
+                                <a href="javascript:createModal('/feed/view/?feed_id=${oneFeed.feed_id}');">
                                     <img src="<spring:url value='/userPicture/${oneFeed.pictures[0]}'/>">
                                 </a>
                                 <div class="caption" style="position:absolute; left:0px; top:70px;">
-                                    <div class="col-lg-6" id="like-container">
+                                    <div class="col-lg-6" id="like-container-board">
                                         <div id="likeDiv">
-                                            <span class="thumb thumbs-up glyphicon glyphicon-heart" id="like"
+                                            <span class="thumb thumbs-up glyphicon glyphicon-heart" id="like-${oneFeed.feed_id}"
                                                   style="display:block"></span>
                                         </div>
-                                        <span class="glyphicon glyphicon-bookmark bookmarkCSS" data-toggle="dropdown"
-                                              area-expanded="false"></span>
-                                        <ul class="dropdown-menu custom-dropdown" role="menu" id="bms">
-                                            <c:forEach items="${bookmarks}" var="bookmark">
-                                                <li>
-                                                    <a id="bm-${bookmark.folder_id}" href="#">
-                                                            ${bookmark.folder_name}
-                                                    </a>
-                                                </li>
-                                            </c:forEach>
-                                        </ul>
                                     </div>
                                 </div>
                             </div>
                         </c:forEach>
+                    </div>
+
+                    <!-- See more 파트 -->
+                    <div class="row center-block" style="margin-top:50px; margin-bottom:50px;">
+                        <button class="btn btn-info btn-lg btn-block" id="more-btn">もっとみる！</button>
                     </div>
                 </div>
             </div>
@@ -150,11 +155,12 @@
     </div>
 </div>
 
-
-<!-- 테스트용 EL 표현식 -->
-${userInfo}
-${bundle}
-${followInfoPack}
-
+<!-- feed view overlay -->
+<div id="feed-overlay" class="text-right" style="display: none;">
+    <!-- 이곳에 피드를 불러온다. -->
+</div>
+<link rel="stylesheet" href="/resources/css/universal/overlay.css?reload">
+<script src="/resources/js/feed/feed.js?reload"></script>
+<script src="/resources/js/universal/modal.js?reload"></script>
 </body>
 </html>

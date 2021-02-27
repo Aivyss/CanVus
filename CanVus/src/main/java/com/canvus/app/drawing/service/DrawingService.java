@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import com.canvus.app.drawing.vo.FeedVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.canvus.app.dao.FeedDAO;
@@ -68,7 +69,8 @@ public class DrawingService {
 	 * @param params
 	 * @return
 	 */
-	public boolean createPageLayer(String room_Id, Map<String, Object> json) {
+	@Async("threadPoolTaskExecutor")
+	public void createPageLayer(String room_Id, Map<String, Object> json) {
 		PageVO page = CanVusVOFactory.newInstance(CanVusVOType.PageVO);
 		Map<String, Object> message = (Map) json.get("message");
 		// 페이지를 만들 당시 프론트 단에서는 페이지 넘버와 레이어 넘버를 주어야 한다.
@@ -77,9 +79,7 @@ public class DrawingService {
 		page.setLayer_no((Integer) message.get("layer_no"));
 		page.setStringify("{\"version\":\"4.3.0\",\"objects\":[]}");
 
-		boolean check = drawingDAO.createPage(page);
-
-		return check;
+		drawingDAO.createPage(page);
 	}
 
 	/**
@@ -238,7 +238,8 @@ public class DrawingService {
 	 * @param room_Id
 	 * @return
 	 */
-	public boolean updatePage(Map<String, Object> json, String room_Id) {
+	@Async("threadPoolTaskExecutor")
+	public void updatePage(Map<String, Object> json, String room_Id) {
 		log.info("페이지-레이어 업데이트");
 		Map<String, Object> message = (Map) json.get("message");
 		PageVO page = CanVusVOFactory.newInstance(CanVusVOType.PageVO);
@@ -247,10 +248,8 @@ public class DrawingService {
 		page.setPage_no((Integer) message.get("page_no"));
 		page.setLayer_no((Integer) message.get("layer_no"));
 		page.setStringify((String) message.get("stringify"));
-		
-		
-		
-		return drawingDAO.updatePage(page);
+
+		drawingDAO.updatePage(page);
 	}
 
 	/**
@@ -341,7 +340,7 @@ public class DrawingService {
 		// TODO 이미 멤버인지 아닌지 확인
 		if (isMember) {
 			// TODO 기존 방 멤버이다. 기존 방 멤버는 하나의 창만 들어갈 수 있다.
-			url = "redirect:/main";
+			url = "redirect:/";
 		} else {
 			model.addAttribute("room_Id", room_Id);
 			model.addAttribute("adminId", roomInfo.getAdmin());
@@ -418,7 +417,8 @@ public class DrawingService {
 	 * @param json
 	 * @return
 	 */
-	public boolean deletePageLayer(String room_Id, Map<String, Object> json) {
+	@Async("threadPoolTaskExecutor")
+	public void deletePageLayer(String room_Id, Map<String, Object> json) {
 		log.info("레이어를 지우는 서비스 메소드 진입");
 		Map<String, Object> message = (Map) json.get("message");
 
@@ -427,7 +427,7 @@ public class DrawingService {
 		page.setPage_no((Integer) message.get("page_no"));
 		page.setLayer_no((Integer) message.get("layer_no"));
 
-		return drawingDAO.deletePageLayer(page);
+		drawingDAO.deletePageLayer(page);
 	}
 
 	/**
@@ -438,7 +438,8 @@ public class DrawingService {
 	 * @param json
 	 * @return
 	 */
-    public boolean addAuthoity(String room_Id, Map<String, Object> json) {
+	@Async("threadPoolTaskExecutor")
+	public void addAuthoity(String room_Id, Map<String, Object> json) {
     	log.info("권한부여 드로잉 서비스 메소드 진입");
     	DrawingUserVO targetUser = new DrawingUserVO();
     	Map<String, Object> message = (Map) json.get("message");
@@ -447,7 +448,7 @@ public class DrawingService {
     	targetUser.setUser_type("DRAWER");
     	log.info(targetUser.toString());
 
-    	return drawingDAO.addAuthority(targetUser);
+    	drawingDAO.addAuthority(targetUser);
     }
 
 	/**
