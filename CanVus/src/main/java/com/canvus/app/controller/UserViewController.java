@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,23 +19,23 @@ import com.canvus.app.service.UserService;
 import com.canvus.app.vo.BookmarkVO;
 import com.canvus.app.vo.UserVO;
 
+@Slf4j
 @Controller
 @RequestMapping(value="/user")
 public class UserViewController {
-	private static final Logger logger = LoggerFactory.getLogger(UserViewController.class);
 	@Autowired
 	private UserService userService;
 
 	
 	@RequestMapping(value="/loginForm", method=RequestMethod.GET)
 	public String loginForm() {
-		logger.info("로그인 폼으로 이동");
+		log.info("로그인 폼으로 이동");
 		return "user/loginForm";
 	}
 
 	@RequestMapping(value="/loginProcess", method=RequestMethod.POST)
 	public String loginProcess(UserVO vo, HttpSession session, Model model) {
-		logger.info("로그인 프로세스 진입");
+		log.info("로그인 프로세스 진입");
 
 		UserVO userInfo = null;
 		String idToken = vo.getIdToken();
@@ -43,7 +44,7 @@ public class UserViewController {
 		userInfo = userService.login(idToken);
 		
 		if (userInfo == null) {// 로그인 시도결과 로그인이 아닌 경우 -> 회원가입
-			logger.info("회원이 아님 회원가입 프로세스 진행");
+			log.info("회원이 아님 회원가입 프로세스 진행");
 			model.addAttribute("idToken", idToken);
 			url = "/user/signup";
 		} else {// 로그인인 경우
@@ -84,6 +85,21 @@ public class UserViewController {
 		String url = userService.board(user_id, model);
 
 		return url;
+	}
+
+	/**
+	 * 더보기 버튼을 누를 시 피드 번들을 하나 더 가지고 오는 메소드
+	 * 20210225
+	 * 이한결
+	 * @param params
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/board/seeMore", method=RequestMethod.POST)
+	public Map<String, Object> restSeeMore(@RequestBody Map<String, Object> params) {
+		log.info("더불러오기 컨트롤러 메소드 진입");
+
+		return userService.restSeeMore(params);
 	}
 	
 //	/**
@@ -133,7 +149,7 @@ public class UserViewController {
 	
 	@RequestMapping(value="/pixelManagement", method=RequestMethod.GET)
 	public String pixelManagement() {
-		logger.info("pixel management로 이동");
+		log.info("pixel management로 이동");
 		
 		return "user/pixelManagement";
 	}
@@ -163,7 +179,7 @@ public class UserViewController {
 	@ResponseBody
 	@RequestMapping(value="/presentPixel", method=RequestMethod.POST)
 	public Map<String, Object> presentPixel(@RequestBody Map<String, Object> params) {
-		logger.info("픽셀 전물하기 컨트롤러");
+		log.info("픽셀 전물하기 컨트롤러");
 		
 		return userService.presentPixel(params);
 	}

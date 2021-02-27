@@ -6,13 +6,13 @@ import com.canvus.app.drawing.vo.PageVO;
 
 public interface PageLayerMapper {
 
-	public boolean createPage(PageVO page);
+	public void createPage(PageVO page);
 
-	public boolean updatePage(PageVO page);
+	public void updatePage(PageVO page);
 
 	public List<PageVO> selectAllPages(String room_Id);
 
-    public boolean deletePageLayer(PageVO page);
+    public void deletePageLayer(PageVO page);
 
     public List<PageVO> getAllLayers(PageVO roomInfo);
 

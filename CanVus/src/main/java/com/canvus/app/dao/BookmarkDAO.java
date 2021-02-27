@@ -6,6 +6,7 @@ import com.canvus.app.dao.mapper.HistoriesMapper;
 import com.canvus.app.vo.BookmarkVO;
 import com.canvus.app.vo.BookmarkedFeedsVO;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -175,5 +176,52 @@ public class BookmarkDAO {
         }
 
         return abstractList;
+    }
+
+    /**
+     * 특정 폴더의 총 row수를 산출하는 메소드
+     * 20210225
+     * 이한결
+     * @param folder_id
+     * @return
+     */
+    public int getTotalRecordsOnBookmark(int folder_id) {
+        int count = 0;
+
+        try {
+            BookmarkedFeedMapper mapper = session.getMapper(BookmarkedFeedMapper.class);
+            count = mapper.getTotalRecordsOnBookmark(folder_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("특정 폴더 row 수 산출 sql오류");
+        }
+
+        return count;
+    }
+
+    /**
+     * 북마크 폴더안 프리뷰 셀렉
+     * 20210225
+     * 이한결
+     * @param folder_id
+     * @param startRecord
+     * @param countPerPage
+     * @return
+     */
+    public List<BookmarkedFeedsVO> bookMarkDetail(int folder_id, int startRecord, int countPerPage) {
+        List<BookmarkedFeedsVO> bookmarkedFeedList = null;
+
+        RowBounds rb = new RowBounds(startRecord, countPerPage);
+        log.info(startRecord+"");
+        log.info(countPerPage+"");
+
+        try {
+            BookmarkedFeedMapper mapper = session.getMapper(BookmarkedFeedMapper.class);
+            bookmarkedFeedList = mapper.bookMarkDetail(rb, folder_id);
+        } catch (Exception e) {
+            log.info("북마크 폴더안 SQL 셀렉 오류");
+        }
+
+        return bookmarkedFeedList;
     }
 }

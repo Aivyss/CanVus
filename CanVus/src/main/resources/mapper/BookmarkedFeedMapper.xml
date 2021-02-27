@@ -17,4 +17,30 @@
 		)
 	</insert>
 
+	<select id="getTotalRecordsOnBookmark" parameterType="int" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			BOOKMARKED_FEEDS
+		WHERE
+			FOLDER_ID = #{folder_id}
+	</select>
+
+	<select id="bookMarkDetail" parameterType="int" resultType="bmf">
+		SELECT
+			BF.FOLDER_ID AS folder_id
+			,BF.FEED_ID	AS feed_id
+			,TO_CHAR(BF.BOOKMARK_INDATE, 'yyyy-MM-dd')	AS bookmark_indate
+			,FD.PAGE_FILE AS preview
+		FROM
+			BOOKMARKED_FEEDS BF, FEED_DRAWINGS FD
+		WHERE
+			FOLDER_ID = #{int}
+			AND
+		    FD.FEED_ID = BF.FEED_ID
+			AND
+			FUNC_SPLIT(FD.PAGE_FILE, '--divide--', 1) = '1.png'
+		ORDER BY
+			BF.BOOKMARK_INDATE DESC
+	</select>
 </mapper>
