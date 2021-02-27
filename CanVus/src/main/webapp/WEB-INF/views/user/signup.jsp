@@ -22,7 +22,7 @@
         <!-- profile preview-->
         <div class="col-md-5 avatar-container text-center"
              style="order: 1; vertical-align: middle; display: table-cell;">
-            <img src="/resources/images/defaults/profileDefualt.png"
+            <img src="/resources/images/defaults/profileDefault.png"
                  class="img-circle profile-avatar"
                  alt="プロフィール" style="margin:50% 0; width:250px; height:250px; background-color:white;" id="photo-preview">
         </div>

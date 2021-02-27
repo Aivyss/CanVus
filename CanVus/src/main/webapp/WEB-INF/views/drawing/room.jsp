@@ -53,25 +53,39 @@
 
         <!-- 본격적인 드로잉 페이지 시작 -->
 
-        <link rel="stylesheet" href="/resources/css/drawing/Skeleton.css?reload">
+        <link rel="stylesheet" href="/resources/css/drawing/Skeleton.css?after">
         <link rel="stylesheet" href="/resources/css/drawing/pageTab.css?reload">
-        <link rel="stylesheet" href="/resources/css/drawing/layerList.css?reload">
 
         <div class="container-fluid">
             <!-- 사이드 바 시작 -->
-            <div class="col-xs-3 sidebar-view center-block">
+            <div class="col-md-3 center-block">
                 <!-- 레이어 리스트 -->
-                <div class="row layer-view center-block">
-                    <div class="row center-block">
-                        <div class="page-header">
-                            <h4>Layer View</h4>
+                <div class="row">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <span class="glyphicon glyphicon-list"></span>Layer bar
+                            <div class="pull-right action-buttons">
+                                <div class="btn-group pull-right">
+                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle"
+                                            data-toggle="dropdown">
+                                        <span class="glyphicon glyphicon-cog" style="margin-right: 0px;"></span>
+                                    </button>
+                                    <ul class="dropdown-menu slidedown">
+                                        <!-- 레이어 생성 버튼 -->
+                                        <li><a href="#" id="create-layer-btn"><span class="glyphicon glyphicon-plus"></span>Create layer</a></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
-                        <div class="center-block" id="itemBoxWrap"
-                             style="overflow:auto; width:300px; height:300px;"></div>
+                        <div class="panel-body">
+                            <ul class="list-group" id="list-container">
+                                <!-- 레이어 리스트 시작부 -->
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <!-- 채팅박스 -->
-                <div class="row chat-view center-block">
+                <div class="row">
                     <link rel="stylesheet" href="/resources/css/drawing/chat.css?reload">
                     <div class='chatbox' style="float:left">
                         <div class='chatbox__header'>
@@ -94,7 +108,7 @@
             </div><!-- 사이드바 엔드 -->
 
             <!-- 메인창 시작 -->
-            <div class="col-xs-8 center-block main-view">
+            <div class="col-md-7 col-md-offset-1 main-view">
                 <!-- 드로워 리스트 -->
                 <div class="row">
                     <div class="btn-group btn-group-lg" role="group" aria-label="..." id="drawerList"
