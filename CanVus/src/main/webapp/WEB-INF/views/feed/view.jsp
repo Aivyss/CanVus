@@ -23,8 +23,6 @@
     <input type="hidden" value="${likeCount}" id="likeCountVal">
     <input type="hidden" value="${fn:length(feedComments)}" id="commentCountVal">
 
-    <script src="/resources/js/feed/feed.js?reload"></script>
-
     <div class="container container-feed feed-plate height-100 d-flex justify-content-center align-items-center">
         <div class="card card-border center-block" style="background-color: navajowhite;">
             <div class="row center-block">
@@ -105,27 +103,22 @@
                             </c:otherwise>
                         </c:choose>
 
-                        <link rel="stylesheet" href="/resources/css/feed/likeBtn.css">
-
                         <!-- 북마크 파트 -->
-
-                        <a href="#" id="bmsIcon"><span class="glyphicon glyphicon-bookmark bookmarkCSS" data-toggle="dropdown"
-                                          area-expanded="false"></span>
+                        <a href="#" id="bmsIcon"><span class="glyphicon glyphicon-bookmark bookmarkCSS"></span>
                         </a>
-                        <c:if test="${not empty sessionScope.userId}">
-                            <ul class="dropdown-menu custom-dropdown" role="menu" id="bms">
-                                <c:forEach items="${bookmarks}" var="bookmark">
-                                    <li><a id="bm-${bookmark.folder_id}" href="#">${bookmark.folder_name}</a></li>
-                                </c:forEach>
-                            </ul>
-                        </c:if>
-                        <script>
-                            $('#bmsIcon').on('click', function(){
-                               $('#bms').addClass('open');
-                            });
-                        </script>
+                        <div class="row" id="bookmarkListup">
+                            <c:if test="${not empty sessionScope.userId}">
+                                <ul class="dropdown-menu custom-dropdown open" role="menu" id="bms">
+                                    <c:forEach items="${bookmarks}" var="bookmark">
+                                        <li><a id="bm-${bookmark.folder_id}" href="#">${bookmark.folder_name}</a></li>
+                                    </c:forEach>
+                                </ul>
+                            </c:if>
+                        </div>
 
-                        <link rel="stylesheet" href="/resources/css/feed/bookmarkshape.css">
+                        <script>
+
+                        </script>
                     </div>
 
                     <br><br>
@@ -147,7 +140,6 @@
                                 <a href="#"><span class="glyphicon glyphicon-arrow-left previous-btn"
                                                   id="previous-btn"></span></a>
                                 <a href="#"><span class="glyphicon glyphicon-arrow-right next-btn" id="next-btn"></span></a>
-                                <link rel="stylesheet" href="/resources/css/feed/pictureNav.css">
                             </div>
                         </div>
                     </div>
@@ -205,6 +197,10 @@
         </div>
     </div>
     <link rel="stylesheet" href="/resources/css/feed/feed.css?reload">
+    <link rel="stylesheet" href="/resources/css/feed/likeBtn.css">
+    <link rel="stylesheet" href="/resources/css/feed/bookmarkshape.css">
+    <link rel="stylesheet" href="/resources/css/feed/pictureNav.css">
 </div>
+<script src="/resources/js/feed/feed.js?reload"></script>
 </body>
 </html>

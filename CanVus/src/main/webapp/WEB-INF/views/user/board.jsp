@@ -15,12 +15,6 @@
         var user_id = "${userInfo.user_id}";
         var pageNo = 1;
         var totalPageCount;
-        var imageLength;
-        var user_id_feed;
-        var feed_id;
-        var isLiked;
-        var likeCount;
-        var commentCount;
     </script>
 </head>
 
@@ -135,7 +129,7 @@
                     <div class="row center-block" id="feeds-container">
                         <c:forEach items="${bundle}" var="oneFeed" varStatus="status">
                             <div class="col-xs-6 col-sm-3 hover-fade feed-gallary">
-                                <a href="/feed/view/?feed_id=${oneFeed.feed_id}">
+                                <a href="javascript:createModal('/feed/view/?feed_id=${oneFeed.feed_id}');">
                                     <img src="<spring:url value='/userPicture/${oneFeed.pictures[0]}'/>">
                                 </a>
                                 <div class="caption" style="position:absolute; left:0px; top:70px;">
@@ -161,11 +155,11 @@
 </div>
 
 <!-- feed view overlay -->
-<div id="feed-overlay" style="display: none;">
+<div id="feed-overlay" class="text-right" style="display: none;">
     <!-- 이곳에 피드를 불러온다. -->
 </div>
 <link rel="stylesheet" href="/resources/css/universal/overlay.css?reload">
-<input type="button" value="test버튼" onclick="testFunc();">
-<script src="/resources/js/universal/modal.js"></script>
+<script src="/resources/js/feed/feed.js?reload"></script>
+<script src="/resources/js/universal/modal.js?reload"></script>
 </body>
 </html>
