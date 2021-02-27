@@ -6,7 +6,7 @@
 <mapper namespace="com.canvus.app.dao.mapper.BrowseMapper">
 
 <select id="getRoomsByTitle" parameterType="string" resultType="hashmap">
-<<<<<<< HEAD
+
 SELECT
     D.ROOM_ID, D.TITLE, D.ADMIN, D.PASSWORD, D.USER_NO, U.NICKNAME, COUNT(J.joinlist_id) AS USER_COUNT
 FROM
@@ -17,40 +17,13 @@ WHERE
     D.ADMIN = U.USER_ID
     <if test="_parameter != null and !_parameter.equals('')">
     AND
-    D.TITLE = #{string}
+    D.TITLE LIKE '%' || #{string} || '%'
     </if>
-    
-
 GROUP BY
     D.ROOM_ID, D.TITLE, D.ADMIN, D.PASSWORD, D.USER_NO, U.NICKNAME
 ORDER BY
     USER_COUNT DESC
-=======
-    SELECT
-        D.ROOM_ID
-        ,D.TITLE
-        ,U.NICKNAME
-        ,D.PASSWORD
-        ,D.USER_NO
-        ,(
-            SELECT
-                COUNT(*)
-            FROM
-                JOIN_LIST JJ
-            WHERE
-                JJ.ROOM_ID = D.ROOM_ID
-        )   AS  USER_COUNT
-    FROM
-        DRAWING_ROOMS D, USERS U
-    WHERE
-        U.USER_ID = D.ADMIN
-        <if test="_parameter != null and !_parameter.equals('')">
-        AND
-        D.TITLE LIKE '%' || #{string} || '%'
-        </if>
-    ORDER BY
-        USER_COUNT DESC
->>>>>>> d7bba915b0e35bf82631987f4f8099cb4610d7f5
+
 </select>
 
 <select id="getRoomCount" parameterType="string" resultType="int">
