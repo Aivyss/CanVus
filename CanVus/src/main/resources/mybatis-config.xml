@@ -20,6 +20,7 @@
 		<typeAlias type="com.canvus.app.vo.FeedCommentVO" alias="feedComment" />
 		<typeAlias type="com.canvus.app.vo.LikeVO" alias="like" />
 		<typeAlias type="com.canvus.app.vo.BookmarkedFeedsVO" alias="bmf" />
+		<typeAlias type="com.canvus.app.vo.HistoryVO" alias="history" />
 	</typeAliases>
 	
 	<mappers>
@@ -39,5 +40,6 @@
 		<mapper resource="mapper/FeedCommentMapper.xml" />
 		<mapper resource="mapper/LikeMapper.xml" />
 		<mapper resource="mapper/BrowseMapper.xml"/>
+		<mapper resource="mapper/HistoriesMapper.xml"/>
 	</mappers>
 </configuration>

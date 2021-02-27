@@ -49,4 +49,24 @@ DELETE
 		USER_ID = #{string}
 </select>
 
+	<select id="getBookmarkFolderAbstractList" parameterType="string" resultType="bookmark">
+		SELECT
+			B.FOLDER_ID	AS folder_id
+			,B.FOLDER_NAME	AS folder_name
+			,C.FEED_COUNT	AS feed_count
+		FROM
+		     BOOKMARK_FOLDER B
+			 ,(
+				 SELECT
+					COUNT(*) AS FEED_COUNT
+				 	,FOLDER_ID AS FOLDER_ID
+				 FROM BOOKMARKED_FEEDS
+				 GROUP BY FOLDER_ID
+			 ) C
+		WHERE
+		    B.USER_ID = #{user_id}
+			AND
+			C.FOLDER_ID = B.FOLDER_ID
+	</select>
+
 </mapper>
