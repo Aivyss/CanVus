@@ -15,7 +15,6 @@ import java.util.HashMap;
 @Slf4j
 @Repository
 public class BrowseDAO {
-
     @Autowired
     private SqlSession session;
 

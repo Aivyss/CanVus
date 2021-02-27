@@ -78,7 +78,7 @@ public class UserService {
 		vo.setFamily_name((String) payload.get("family_name"));
 		vo.setGiven_name((String) payload.get("given_name"));
 		if (photo_upload.isEmpty()) {
-			vo.setProfile_photo((String) payload.get("picture"));
+			vo.setProfile_photo("");
 		} else {
 			String saved_file = FileService.saveFile(photo_upload, uploadPath, (String) payload.getSubject());
 			vo.setProfile_photo(saved_file);
@@ -229,5 +229,17 @@ public class UserService {
 		log.info(bookmarks.toString());
 
 		return params;
+	}
+
+	/**
+	 * 닉네임 중복검사 서비스 메소드
+	 * 20210227
+	 * 이한결
+	 * @param params
+	 * @return
+	 */
+	public boolean checkDuplicateNickname(Map<String, Object> params) {
+		String nickname = (String) params.get("nickname");
+		return userDAO.checkDuplicateNickname(nickname);
 	}
 }

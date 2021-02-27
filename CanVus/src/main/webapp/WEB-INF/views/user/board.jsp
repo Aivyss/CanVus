@@ -40,7 +40,7 @@
             <div class="col-sm-3 avatar-container">
                 <img src="<spring:url value='/userProfile/${userInfo.profile_photo}'/>"
                      class="img-circle profile-avatar"
-                     alt="User avatar">
+                     onerror="this.src='/resources/iamges/defaults/profileDefault.png'">
             </div>
             <div class="col-sm-12 profile-actions text-right">
                 <div class="nickname-header">

@@ -129,7 +129,7 @@
                                     </li>
                                     <li>
                                         <div class="dropdown">
-                                            <button class="btn btn-navv btn-default dropdown-toggle dropdown-toggle-nav"
+                                            <button class="dropdown-toggle dropdown-toggle-nav"
                                                     type="button"
                                                     id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
                                                 Profile

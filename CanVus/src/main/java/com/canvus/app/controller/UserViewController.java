@@ -183,4 +183,12 @@ public class UserViewController {
 		
 		return userService.presentPixel(params);
 	}
+
+	@ResponseBody
+	@RequestMapping(value="/checkDuplicateNickname", method=RequestMethod.POST)
+	public Map<String, Object> checkDuplicateNickname(@RequestBody Map<String, Object> params) {
+		params.put("isDuplicate", userService.checkDuplicateNickname(params));
+
+		return params;
+	}
 }
