@@ -4,6 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.canvus.app.dao.mapper.HistoriesMapper">
+
     <select id="getTotalRecordsOnHistories" parameterType="string" resultType="int">
         SELECT
             COUNT(*)
@@ -12,4 +13,25 @@
         WHERE
             USER_ID = #{string}
     </select>
+
+    <insert id="addHistory" parameterType="history">
+        INSERT INTO HISTORIES (
+            HISTORY_ID
+            ,USER_ID
+            ,FEED_ID
+        ) VALUES (
+            HISTORY_ID_SEQ.NEXTVAL
+            ,#{user_id}
+            ,#{feed_id}
+        )
+    </insert>
+
+    <delete id="deleteHistory" parameterType="history">
+        DELETE FROM
+            HISTORIES
+        WHERE
+            USER_ID = #{user_id}
+            AND
+            FEED_ID = #{feed_id}
+    </delete>
 </mapper>

@@ -3,15 +3,12 @@ package com.canvus.app.service;
 import java.util.List;
 import java.util.Map;
 
-import com.canvus.app.dao.BookmarkDAO;
-import com.canvus.app.dao.UserDAO;
+import com.canvus.app.dao.*;
 import com.canvus.app.drawing.vo.FeedVO;
 import com.canvus.app.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.canvus.app.dao.FeedDAO;
-import com.canvus.app.dao.TagDAO;
 import com.canvus.app.util.Helper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +27,8 @@ public class FeedService {
 	private UserDAO userDAO;
 	@Autowired
 	private BookmarkDAO bookmarkDAO;
+	@Autowired
+	private HistoryDAO historyDAO;
 	
 	public Map<String, String> getContext(Map<String, String> params) {
 		log.info("getContext 서비스 메소드 진입");
@@ -85,13 +84,13 @@ public class FeedService {
 	 * @param model
 	 * @return
 	 */
-    public String readFeed(String feed_id, HttpSession session, Model model) {
+	public String readFeed(String feed_id, HttpSession session, Model model) {
 		String url = "feed/view";
 		String user_id = (String) session.getAttribute("userId");
 
 		try {
 			FeedVO feedAbstract = feedDAO.readFeedAbstract(feed_id);
-			// 유저 닉네임 추출
+			// TODO 유저 닉네임 추출
 			feedAbstract.setNickname1(userDAO.getUserNickname(feedAbstract.getUser_id1()));
 			if (feedAbstract.getUser_id2() != null) {
 				feedAbstract.setNickname2(userDAO.getUserNickname(feedAbstract.getUser_id2()));
@@ -102,19 +101,36 @@ public class FeedService {
 					}
 				}
 			}
+			// TODO 피드 그림들 불러오기
 			List<FeedDrawingsVO> feedPictures = feedDAO.readFeedPictures(feed_id);
+			// TODO 피드에 달린 코멘트 불러오기
 			List<FeedCommentVO> feedComments = feedDAO.readFeedComments(feed_id);
-			List<BookmarkVO> bookmarks = bookmarkDAO.getBookmarkList(user_id);
-			log.info(feedComments.toString());
+			List<BookmarkVO> bookmarks = null;
+			boolean isLiked = false;
+			if (user_id != null) {
+				// TODO 유저의 북마크 리스트 불러오기
+				bookmarks = bookmarkDAO.getBookmarkList(user_id);
+				// TODO 히스토리에 열람 이력 추가 메소드
+				HistoryVO hisVO = new HistoryVO();
+				hisVO.setUser_id(user_id);
+				hisVO.setFeed_id(feed_id);
+				historyDAO.addHistory(hisVO);
+				// TODO 라이크 판단 여부
+				isLiked = feedDAO.getisLiked(feed_id, user_id);
+			}
 			int likeCount = feedDAO.getLikeCount(feed_id);
-			boolean isLiked = feedDAO.getisLiked(feed_id, user_id);
 
+
+
+			// TODO 모델에 값넣기
 			model.addAttribute("feedAbstract", feedAbstract);
 			model.addAttribute("feedPictures", feedPictures);
 			model.addAttribute("feedComments", feedComments);
 			model.addAttribute("likeCount", likeCount);
 			model.addAttribute("isLiked", isLiked);
-			model.addAttribute("bookmarks", bookmarks);
+			if (bookmarks != null) {
+				model.addAttribute("bookmarks", bookmarks);
+			}
 		} catch (Exception e) {
 			log.info("sql문중에 하나 이상의 오류");
 			url = "redirect:/";

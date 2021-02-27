@@ -1,16 +1,17 @@
 /****************************** 전역변수 ******************************************/
 
-// const imageLength = ${fn:length(feedPictures)};
-// const user_id = "${userId}";
-// const feed_id = "${feedAbstract.feed_id}";
-// let isLiked = ${isLiked};
-// let commentCount = ${fn:length(feedComments)};
-// let likeCount = ${likeCount};
-let previousPage = 0;
-let currentPage = 0;
+var imageLength = parseInt($('#imageLengthVal').val());
+var user_id_feed = $('#user_idVal').val();
+var feed_id = $('#feed_idVal').val();
+var isLiked = $('#isLikeVal').val();
+var likeCount = parseInt($('#likeCountVal').val());
+var commentCount = parseInt($('#commentCountVal').val());
+var previousPage = 1;
+var currentPage = 1;
 
 $(() => {
     /******************************* 호이스팅 함수 ************************************/
+    // 코멘트의 작성이 완성되고 화면단에 결과를 반영하는 메소드
     function successSendCommentProcess (result) {
         const content = `
             <div class="col-lg-12">
@@ -36,6 +37,7 @@ $(() => {
         console.log('댓글추가 완료');
     }
 
+    // 코멘트 입력이 빈칸인지 아닌지 판단하는 메소드
     function checkValidationAndSendComment() {
         const commentContent = $('#comment-input').val();
 
@@ -45,9 +47,10 @@ $(() => {
         }
     }
 
+    // 코멘트 작성 내용을 서버단으로 보내는 메소드
     function sendComment(commentContent) {
         const params = {
-            user_id : user_id,
+            user_id : user_id_feed,
             feed_id : feed_id,
             comment : commentContent
         };
@@ -69,13 +72,14 @@ $(() => {
         });
     }
 
+    // like를 추가하는 메소드
     function addLike() {
         $.ajax({
             url:"/feed/addLike",
             type:"post",
             contentType: "application/json",
             data: JSON.stringify({
-                user_id : user_id,
+                user_id : user_id_feed,
                 feed_id : feed_id,
             }),
             success: function() {
@@ -93,7 +97,7 @@ $(() => {
             type:"post",
             contentType: "application/json",
             data: JSON.stringify({
-                user_id : user_id,
+                user_id : user_id_feed,
                 feed_id : feed_id,
             }),
             success: function() {
@@ -110,16 +114,16 @@ $(() => {
     $('#previous-btn').on('click', function() {
         console.log("이전페이지 보기 버튼 클릭");
         
-        if (currentPage != 0) {
+        if (currentPage != 1) {
             // 현재 페이지의 수를 하나 줄인다.
             previousPage = currentPage;
             currentPage -= 1;
             // 게이지 업데이트
-            $('#picture-bar').css({'min-width' : `${(currentPage+1)*100/imageLength}%`});
+            $('#picture-bar').css({'min-width' : `${(currentPage)*100/imageLength}%`});
             // 그림을 다가린다
             $(`.pictures`).css({'display' : 'none'});
             // 타게팅된 그림만 보이게 한다
-            $(`#pictureContainer_${currentPage+1}`).css({'display':''});
+            $(`#pictureContainer_${currentPage}`).css({'display':''});
         }
     });
 
@@ -127,16 +131,16 @@ $(() => {
     $('#next-btn').on('click', function() {
         console.log("다음페이지 보기 버튼 클릭");
         
-        if (currentPage != imageLength-1) {
+        if (currentPage != imageLength) {
             // 현재 페이지의 수를 하나 줄인다.
             previousPage = currentPage;
             currentPage += 1;
             // 게이지 업데이트
-            $('#picture-bar').css({'min-width' : `${(currentPage+1)*100/imageLength}%`});
+            $('#picture-bar').css({'min-width' : `${(currentPage)*100/imageLength}%`});
             // 그림을 다가린다
             $(`.pictures`).css({'display' : 'none'});
             // 타게팅된 그림만 보이게 한다
-            $(`#pictureContainer_${currentPage+1}`).css({'display':''});
+            $(`#pictureContainer_${currentPage}`).css({'display':''});
         }
     });
 
@@ -154,6 +158,11 @@ $(() => {
 
     // 라이크 풀기 라이크 걸기
     $(document).on('click', '#like', function() {
+        if(user_id_feed == undefined || user_id_feed == null ||user_id_feed.length == 0) {
+            alert("ログインしたユーザー専用の機能です。");
+            return;
+        }
+
         const likeContainer = $('#like-container');
         const likeCountDOM = $('#like-count');
         let content = '';
@@ -166,14 +175,16 @@ $(() => {
             `;
             deleteLike();
             likeCountDOM.text("");
-            likeCountDOM.text(`${likeCount-1}`);
+            likeCount--;
+            likeCountDOM.text(`${likeCount}`);
         } else {
             content = `
                 <span class="thumb thumbs-up glyphicon glyphicon-heart" id="like" style="background-color: red"></span>
             `;
             addLike();
             likeCountDOM.text("");
-            likeCountDOM.text(`${likeCount+1}`);
+            likeCount++;
+            likeCountDOM.text(`${likeCount}`);
         }
 
         likeContainer.append(content);
@@ -183,6 +194,11 @@ $(() => {
 
     // 북마크 등록 이벤트
     $(document).on('click', '#bms', function(event) {
+        if(user_id_feed == undefined || user_id_feed == null ||user_id_feed.length == 0) {
+            alert("ログインしたユーザー専用の機能です。");
+            return;
+        }
+
         let eventTargetId = event.target.id;
 
         if(eventTargetId.substr(0,3) == 'bm-') {
@@ -211,5 +227,5 @@ $(() => {
                 }
             });
         }
-    })
+    });
 });

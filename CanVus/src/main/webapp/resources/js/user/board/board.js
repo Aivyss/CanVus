@@ -30,28 +30,14 @@ $(()=>{
                                 <img src="/userPicture/${oneFeed.pictures[0]}">
                             </a>
                             <div class="caption" style="position:absolute; left:0px; top:70px;">
-                                <div class="col-lg-6" id="like-container">
+                                <div class="col-lg-6" id="like-container-board">
                                     <div id="likeDiv">
-                                        <span class="thumb thumbs-up glyphicon glyphicon-heart" id="like"
+                                        <span class="thumb thumbs-up glyphicon glyphicon-heart" id="like-${oneFeed.feed_id}"
                                               style="display:block"></span>
                                     </div>
-                                    <span class="glyphicon glyphicon-bookmark bookmarkCSS" data-toggle="dropdown"
-                                          area-expanded="false"></span>
-                                    <ul class="dropdown-menu custom-dropdown" role="menu" id="bms">
-                    `;
 
-                    let temp = "";
-                    for (const bookmark of bookmarks) {
-                        temp += `
-                            <li>
-                                <a id="bm-${bookmark['folder_id']}" href="#">
-                                    ${bookmark['folder_name']}
-                                </a>
-                            </li>    
-                        `;
-                    }
-                    content += temp;
-                    content += `</ul></div></div></div>`;
+                    `;
+                    content += "</div></div></div>";
                     container.append(content);
                 }
             },

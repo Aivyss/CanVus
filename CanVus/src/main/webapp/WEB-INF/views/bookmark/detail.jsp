@@ -41,7 +41,7 @@
         <div class="row center-block">
             <c:forEach items="${bookmarkedFeedList}" var="oneFeed" varStatus="status">
                 <div class="col-xs-6 col-sm-2 hover-fade feed-gallary">
-                    <a href="#">
+                    <a href="/feed/view/?feed_id${oneFeed.feed_id}">
                         <img src="<spring:url value='/userPicture/${oneFeed.preview}'/>">
                     </a>
                 </div>
