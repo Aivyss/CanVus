@@ -48,8 +48,6 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                        aria-expanded="false">Edit<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu" id="Edit">
-                        <li id="Edit-create-layer"><a href="#">create layer</a></li>
-                        <li class="divider"></li>
                         <li id="Edit-feed"><a href="#">write a feed</a></li>
                         <li id="Edit-exit"><a href="#">exit</a></li>
                     </ul>

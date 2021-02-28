@@ -30,10 +30,8 @@ public class TagDAO {
 			TagMapper mapper1 = session.getMapper(TagMapper.class);
 			check = mapper1.addTags(tif);
 
-			if (check) {
-				TagsInFeedMapper mapper2 = session.getMapper(TagsInFeedMapper.class);
-				check = mapper2.inputTags(tif);
-			}
+			TagsInFeedMapper mapper2 = session.getMapper(TagsInFeedMapper.class);
+			check = mapper2.inputTags(tif);
 		} catch (Exception e) {
 			log.info("태그넣기 sql오류");
 		}

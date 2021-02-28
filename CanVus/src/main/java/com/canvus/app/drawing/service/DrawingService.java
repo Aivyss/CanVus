@@ -350,16 +350,13 @@ public class DrawingService {
 				if (roomInfo.getPassword() == null) {
 					if (userId.equals(roomInfo.getAdmin())) {
 						enterRoom(room_Id, session, "ADMIN");
-
-						// 어드민은 비밀번호 검증이 필요 없다.
-						model.addAttribute("pwWrttenByUser", "None");
-						model.addAttribute("dbPassword", "None");
 					} else {
-						// 방 비번이 필요 없으니까 통일한다.
-						model.addAttribute("pwWrttenByUser", "None");
-						model.addAttribute("dbPassword", "None");
+						enterRoom(room_Id, session, "VISITOR");
 					}
 
+					// 방 비번이 필요 없으니까 통일한다.
+					model.addAttribute("pwWrttenByUser", "None");
+					model.addAttribute("dbPassword", "None");
 					url = "drawing/room";
 				} else {
 					// TODO 비밀번호 검증

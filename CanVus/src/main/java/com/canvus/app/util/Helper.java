@@ -74,4 +74,22 @@ public class Helper {
 
 		return uniqueId;
 	}
+
+	/**
+	 * 머천트 아이디를 생성하는 헬퍼메소드
+	 * 20210228
+	 * 이한결
+	 * @param userId
+	 * @param pixel
+	 * @return
+	 */
+	public static String merchantIdGenerator (String userId, int pixel) {
+		String uniqueId = "";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+		Calendar cal = Calendar.getInstance();
+
+		uniqueId = userId + "-" + pixel + "-" + sdf.format(cal.getTime());
+
+		return uniqueId;
+	}
 }

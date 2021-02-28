@@ -31,6 +31,9 @@
 			USER_ID
 			,NICKNAME
 			,PROFILE_PHOTO
+			,GIVEN_NAME
+			,FAMILY_NAME
+			,EMAIL
 			,PIXELS
 			,ACCUMULATEDPIXELS
 			,INTRODUCTION
@@ -49,10 +52,9 @@
 		FROM
 			USERS
 		WHERE
-			USER_ID LIKE '%' || #{string} || '%'
-		ODER BY
+			NICKNAME LIKE '%' || #{string} || '%'
+		ORDER BY
 			NICKNAME ASC
-
 	</select>
 
 	<update id="withdrawPixel" parameterType="user">
@@ -86,5 +88,14 @@
 		WHERE
 			NICKNAME = #{string}
 	</select>
+
+	<update id="updatePaymentPixels" parameterType="bill">
+		UPDATE
+		    USERS
+		SET
+			PIXELS = PIXELS + #{pixel}
+		WHERE
+			USER_ID = #{user_id}
+	</update>
 
 </mapper>

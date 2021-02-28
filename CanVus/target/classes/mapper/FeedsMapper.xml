@@ -125,9 +125,9 @@
 			AND
 				F.FEED_ID = FD.FEED_ID
 			ORDER BY
-				inputdate DESC
+				inputdate DESC <!-- 상위 5개를 뽑아내려면 서브쿼리로 전체셀렉을 할 수 밖에 없다 -->
 		)
 		WHERE
-			ROWNUM &lt;= 5 <!-- &lt; 는 <를 의미한다 -->
+			ROWNUM &lt;= 3 <!-- &lt; 는 <를 의미한다 -->
 	</select>
 </mapper>

@@ -47,7 +47,8 @@
             <span class="input-group-btn">
                 <button class="btn btn-navv btn-default" type="button" id=room-search>検索</button>
             </span>
-                <input type="text" val="${title}" class="form-control" placeholder="Search for..." id="room-search-text">
+                <input type="text" val="${title}" class="form-control" placeholder="Search for..."
+                       id="room-search-text">
             </div>
         </div>
     </div>

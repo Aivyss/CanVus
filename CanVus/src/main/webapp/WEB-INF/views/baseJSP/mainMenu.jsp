@@ -46,7 +46,7 @@
 
     <script src="/resources/js/baseJSP/mainMenu.js?reload"></script>
 </head>
-<body data-spy="scroll" data-target="#header">
+<body data-spy="scroll" data-target="#header" style="padding-bottom: 50px;">
 <!--Start Hedaer Section-->
 <section id="header">
     <div class="header-area">
