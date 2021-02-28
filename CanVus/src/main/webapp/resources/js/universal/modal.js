@@ -4,14 +4,14 @@ function createModal(url) {
         type: 'get',
         dataType: 'text',
         success: function (result) {
-            let content = `
-                <a href="#"><span id="modalClose" style="width:20px; height:20px;background-color: white;">X</span></a>
-            `;
             let refined = $(result).append(result).find('#feed-body');
-            content = content + refined.html();
+
             $('#feed-overlay').empty();
-            $('#feed-overlay').append(content);
-            $('#feed-overlay').css({'display': "block"});
+            $('#feed-overlay').append(refined.html());
+            $('.container-feed').css({'margin-top': '200px'});
+            const feedHeight = $('.container-feed').css('height');
+            $('.modal-backdrop').css({"height":`${feedHeight+200}px`});
+            $('#feed-overlay').modal('show');
 
             imageLength = parseInt($('#imageLengthVal').val());
             user_id_feed = $('#user_idVal').val();

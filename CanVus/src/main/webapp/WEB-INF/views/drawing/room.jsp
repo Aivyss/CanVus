@@ -154,7 +154,7 @@
 </c:choose>
 
 <!-- 픽셀선물 모달파트 -->
-<div class="modal" tabindex="-1" role="dialog" id="present-pixel-modal">
+<div class="modal fade" tabindex="-1" role="dialog" id="present-pixel-modal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -209,6 +209,10 @@
                     <h4>あなたが持っているピックセルの数です。</h4>
                     <input type="text" id="my-pixel" class="form-control" readonly="readonly">
                 </div>
+
+                <!-- 히든 벨류 -->
+                <input type="hidden" id="target-drawer-id">
+                <input tye="hidden" id="target-drawer-nickname">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">戻る</button>
@@ -219,7 +223,7 @@
 </div>
 
 <!-- 픽셀결제 모달파트 -->
-<div class="modal" tabindex="-1" role="dialog" id="present-pixel-modal">
+<div class="modal fade" tabindex="-1" role="dialog" id="present-pixel-modal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">

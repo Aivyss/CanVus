@@ -30,7 +30,7 @@
         </div>
 
         <!-- 북마크 생성 모달파트 -->
-        <div class="modal" tabindex="-1" role="dialog" id="createFolderForm">
+        <div class="modal fade" tabindex="-1" role="dialog" id="createFolderForm">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">

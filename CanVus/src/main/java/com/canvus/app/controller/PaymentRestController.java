@@ -58,4 +58,18 @@ public class PaymentRestController {
 
         return output;
     }
+
+    /**
+     * 픽셀을 선물하는 메소드
+     * 작성일: 2021.02.08 / 완성일: / 버그검증일:
+     * 작성자: 이한결
+     * @param params (key: sender, receiver, pixel)
+     * @return
+     */
+    @RequestMapping(value="/presentPixel", method=RequestMethod.POST)
+    public Map<String, Object> presentPixel(@RequestBody Map<String, Object> params) {
+        log.info("픽셀 선물하기 컨트롤러");
+
+        return paymentService.presentPixel(params);
+    }
 }

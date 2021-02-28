@@ -834,6 +834,7 @@ const thumbnailFunctionSet = (function () {
 // ************* 결제 관련 함수셋 ***************** //
 const paymentFunctionSet = (function () {
     return {
+        // 지불절차를 수행하는 메소드
         entrancePayment: function (selectedPixelVal, myPixel) {
             // 결제에 필요한 변수셋
             const IMP = window.IMP;
@@ -910,6 +911,10 @@ const paymentFunctionSet = (function () {
                 alert(msg);
             });
         }, // entrancePayment end
+        // 픽셀을 선물하는 메소드
+        presentPixel: function () {
+            
+        },
     }
 })();
 
@@ -967,6 +972,7 @@ $(() => {
     // 방입장 메세지 전송파트 (소켓 연결은 비동기 이기 때문에 언제 연결될지 모른다)
     socketSenderFunctionSet.socketEntranceRepeater();
 
+    //***************** 이벤트 등록 리스트 ************************//
     const dynamicEvents = [
         // 레이어 생성
         $('#create-layer-btn').on('click', function () {
@@ -1108,7 +1114,7 @@ $(() => {
             targetId = targetId.split('drawerTop-')[1];
             let drawer_nickname = '';
 
-            // 선물하려는 대상의 아이디 추출
+            // TODO 선물하려는 대상의 아이디 추출
             for (let i = 0; i < drawerIdList.length; i++) {
                 if (targetId == drawerIdList[i]) {
                     drawer_nickname = drawerNicknameList[i];
@@ -1116,8 +1122,12 @@ $(() => {
                 }
             }
 
+            // TODO 동적으로 모달 내 텍스트 값을 변경
+            $('#target-drawer-id').val(targetId);
+            $('#target-drawer-nickname').val(drawer_nickname);
             $('.modal-title').text(`${drawer_nickname}さんにプレゼントしましょう。`);
 
+            // TODO 현재 자신이 보유중인 픽셀의 수를 산출하는 메소드
             $.ajax({
                 url: '/user/getPixelAmount',
                 type: 'post',
@@ -1146,6 +1156,46 @@ $(() => {
                 } else {
                     alert('数を少なくしてください。');
                 }
+            }
+        }),
+        // 픽셀 선물하기 수행버튼 클릭시 이벤트
+        $('#execute-present').on('click', function(){
+            const selectedPixel = parseInt($('input[name=pixel-amount-list]').val());
+            const myPixel = parseInt($('#my-pixel').val());
+            const targetId = $('#target-drawer-id').val();
+            const targetNick = $('#target-drawer-nickname').val();
+
+            const data = {
+                sender: user_id,
+                senderNickname: mynickname,
+                receiver: targetId,
+                receiverNickname: targetNick,
+                pixel: selectedPixel
+            };
+
+            if (selectedPixel > myPixel) {
+                alert("持っているピックセルより多いので、プレゼントが出来ませんでした。");
+            } else {
+                $.ajax({
+                    url:'payment/presentPixel',
+                    type:'post',
+                    dataType:'json',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json',
+                    success: function(result) {
+                        const isSuccess = result['result'];
+
+                        if (isSuccess) {
+                            alert("プレゼントしました！");
+                            socketSenderFunctionSet.sendMessage(data, 'PRESENTPIXEL');
+                        } else {
+                            alert("サーバーの問題で、プレゼントが出来ませんでした。");
+                        }
+                    },
+                    error: function() {
+                        console.log("통신실패");
+                    }
+                });
             }
         }),
     ];

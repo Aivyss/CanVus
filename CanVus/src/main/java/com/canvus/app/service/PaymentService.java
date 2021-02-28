@@ -3,6 +3,7 @@ package com.canvus.app.service;
 import java.util.Map;
 
 import com.canvus.app.util.Helper;
+import com.canvus.app.vo.TransactionPixelVO;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,5 +58,31 @@ public class PaymentService {
 		vo.setInputdate((Integer) params.get("inputdate"));
 
 		return paymentDAO.paymentSubmit(vo);
+	}
+
+	/**
+	 * 픽셀을 선물하는 메소드
+	 * 작성일: 2021.02.08 / 완성일: / 버그검증일:
+	 * 작성자: 이한결
+	 *
+	 * @param params (key: sender, receiver, pixel)
+	 * @return
+	 */
+	public Map<String, Object> presentPixel(Map<String, Object> params) {
+		TransactionPixelVO transPx = CanVusVOFactory.newInstance(CanVusVOType.TransactionPixelVO);
+
+		transPx.setSender((String) params.get("sender"));
+		transPx.setReceiver((String) params.get("receiver"));
+		transPx.setPixels_amount((Integer) params.get("pixel"));
+
+		boolean success = paymentDAO.presentPixel(transPx);
+
+		if (success) {
+			params.put("result", true);
+		} else {
+			params.put("result", false);
+		}
+
+		return params;
 	}
 }

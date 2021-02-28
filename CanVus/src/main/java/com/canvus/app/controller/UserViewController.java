@@ -26,13 +26,6 @@ public class UserViewController {
 	@Autowired
 	private UserService userService;
 
-	
-	@RequestMapping(value="/loginForm", method=RequestMethod.GET)
-	public String loginForm() {
-		log.info("로그인 폼으로 이동");
-		return "user/loginForm";
-	}
-
 	@RequestMapping(value="/loginProcess", method=RequestMethod.POST)
 	public String loginProcess(UserVO vo, HttpSession session, Model model) {
 		log.info("로그인 프로세스 진입");
@@ -124,21 +117,6 @@ public class UserViewController {
 		return "redirect:/";
 	}
 	
-	/**
-	 * 픽셀을 선물하는 메소드
-	 * 작성일: 2021.02.08 / 완성일: / 버그검증일:
-	 * 작성자: 이한결
-	 * @param params (key: sender, receiver, pixel)
-	 * @return
-	 */
-	@ResponseBody
-	@RequestMapping(value="/presentPixel", method=RequestMethod.POST)
-	public Map<String, Object> presentPixel(@RequestBody Map<String, Object> params) {
-		log.info("픽셀 선물하기 컨트롤러");
-		
-		return userService.presentPixel(params);
-	}
-
 	/**
 	 * 현재 보유중인 픽셀 수를 얻어내는 메소드
 	 * 20210228

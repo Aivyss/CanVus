@@ -147,10 +147,10 @@
 </div>
 
 <!-- feed view overlay -->
-<div id="feed-overlay" class="modal fade" tabindex="-1" role="dialog">
+<div id="feed-overlay" class="text-right" style="display: none;">
     <!-- 이곳에 피드를 불러온다. -->
 </div>
-
+<link rel="stylesheet" href="/resources/css/universal/overlay.css?reload">
 <script src="/resources/js/feed/feed.js?reload"></script>
 <script src="/resources/js/universal/modal.js?reload"></script>
 </body>

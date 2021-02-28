@@ -50,8 +50,6 @@ public class UserService {
     private BookmarkDAO bookmarkDAO;
     @Autowired
     private FollowingsService followingsService;
-    @Autowired
-    private PixelDAO pixelDAO;
 
     /**
      * login business logic
@@ -137,31 +135,6 @@ public class UserService {
         return token.getPayload();
     }
 
-    /**
-     * 픽셀을 선물하는 메소드
-     * 작성일: 2021.02.08 / 완성일: / 버그검증일:
-     * 작성자: 이한결
-     *
-     * @param params (key: sender, receiver, pixel)
-     * @return
-     */
-    public Map<String, Object> presentPixel(Map<String, Object> params) {
-        TransactionPixelVO transPx = CanVusVOFactory.newInstance(CanVusVOType.TransactionPixelVO);
-
-        transPx.setSender((String) params.get("sender"));
-        transPx.setReceiver((String) params.get("receiver"));
-        transPx.setPixels_amount((Integer) params.get("pixel"));
-
-        boolean success = pixelDAO.presentPixel(transPx);
-
-        if (success) {
-            params.put("result", true);
-        } else {
-            params.put("result", false);
-        }
-
-        return params;
-    }
 
     /**
      * 특정 회원의 보드로 이동하는 메소드
