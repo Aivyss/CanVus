@@ -546,11 +546,24 @@ const drawingFunctionSet = (function () {
 
             const layerList = layerSet[pageNum - 1];
 
+            // drawer인지 확인
+            let isDrawer = false;
+            for (const drawerId of drawerIdList) {
+                if(drawerId == user_id) {
+                    isDrawer = true;
+                    break;
+                }
+            }
+            
             for (let i = 0; i < layerList.length; i++) {
                 if (layerList[i] != null) {
                     drawingFunctionSet.createlayerList(`p${pageNum}l${i + 1}`);
                     $(`#p${pageNum}l${i+1}`).css({'opacity': '1'});
-                    $(`.p${pageNum}l${i+1}u`).css({'display':"block"});
+                    if(isDrawer) {
+                        $(`.p${pageNum}l${i+1}u`).css({'display':"block"});
+                    } else {
+                        $(`.p${pageNum}l${i+1}u`).css({'display':"none"});
+                    }
                 }
             }
 

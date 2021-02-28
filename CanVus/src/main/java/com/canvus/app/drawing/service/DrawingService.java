@@ -380,6 +380,7 @@ public class DrawingService {
 						model.addAttribute("dbPassword", roomInfo.getPassword()); // 방 비번
 					} else {
 						//비밀번호가 틀렸다.
+						session.removeAttribute("pwWrttenByUser");
 						model.addAttribute("dbPassword", roomInfo.getPassword());
 					}
 
@@ -387,7 +388,7 @@ public class DrawingService {
 				}
 			} else {
 				// 방인원수를 초과했다. 입장불가.
-				url = "redirect:/main";
+				url = "redirect:/";
 			}
 		}
 
