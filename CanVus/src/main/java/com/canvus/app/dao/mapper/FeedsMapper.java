@@ -25,4 +25,6 @@ public interface FeedsMapper {
     FeedVO readFeedAbstract(String feed_id);
 
     List<FeedComponentVO> homePreview();
+
+    int getFeedCountAboutSpecificUser(String user_id);
 }

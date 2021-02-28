@@ -81,8 +81,8 @@ public class UserViewController {
 	 * @return
 	 */
 	@RequestMapping(value="/board", method=RequestMethod.GET)
-	public String board(String user_id, Model model) {
-		String url = userService.board(user_id, model);
+	public String board(String user_id, Model model, HttpSession session) {
+		String url = userService.board(user_id, model, session);
 
 		return url;
 	}

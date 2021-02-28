@@ -19,7 +19,6 @@ public class FollowingsDAO {
      * 팔로우 정보를 DB로부터 가져오는 메소드
      * 작성일: 2021.01.23 / 완성일: / 버그검증일:
      * 작성자: 이한결
-     * @param id
      */
     public List<FollowingsVO> getFollow(String user_id) {
         List<FollowingsVO> followList = null;
@@ -48,5 +47,47 @@ public class FollowingsDAO {
 
         return followerList;
 
+    }
+
+    /**
+     * 팔로잉을 지우는 DAO메소드
+     * 20210228
+     * 이한결
+     * @param fVO
+     * @return
+     */
+    public boolean deleteFollowing(FollowingsVO fVO) {
+        boolean check = false;
+
+        try {
+            FollowingsMapper mapper = session.getMapper(FollowingsMapper.class);
+            check = mapper.deleteFollowing(fVO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("팔로잉 삭제 sql오류");
+        }
+
+        return check;
+    }
+
+    /**
+     * 팔로잉을 추가하는 DAO메소드
+     * 20210228
+     * 이한결
+     * @param fVO
+     * @return
+     */
+    public boolean addFollowing(FollowingsVO fVO) {
+        boolean check = false;
+
+        try {
+            FollowingsMapper mapper = session.getMapper(FollowingsMapper.class);
+            check = mapper.addFollowing(fVO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("팔로잉 추가 메소드 sql오류");
+        }
+
+        return check;
     }
 }

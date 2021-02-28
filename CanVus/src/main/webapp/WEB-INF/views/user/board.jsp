@@ -14,7 +14,8 @@
         // 페이지에서 쓰일 전역변수 셋
         var user_id = "${userInfo.user_id}";
         var pageNo = 1;
-        var totalPageCount;
+        var totalPageCount = ${totalPageCount};
+        var my_id = "${sessionScope.userId}";
     </script>
 </head>
 
@@ -40,7 +41,8 @@
             <div class="col-sm-3 avatar-container">
                 <img src="<spring:url value='/userProfile/${userInfo.profile_photo}'/>"
                      class="img-circle profile-avatar"
-                     onerror="this.src='/resources/iamges/defaults/profileDefault.png'">
+                     onerror="this.src='/resources/iamges/defaults/profileDefault.png'"
+                     style="width: 200px; height: 200px;">
             </div>
             <div class="col-sm-12 profile-actions text-right">
                 <div class="nickname-header">
@@ -54,34 +56,35 @@
                 <!-- 유저 정보 리스트 -->
                 <div class="col-sm-3">
                     <div class="text-center user-profile-2" style="margin-top:120px">
+                        <div class="row" id="follow-btn-container">
+                            <c:if test="${not empty sessionScope.userId}">
+                                <c:if test="${userInfo.user_id != sessionScope.userId}">
+                                    <c:if test="${!isFollower}">
+                                        <button id="follow-btn" type="button" class="btn btn-success">
+                                            フォロー
+                                        </button>
+                                    </c:if>
+                                </c:if>
+                            </c:if>
+                        </div>
+
                         <ul class="list-group">
                             <!-- 팔로워 리스트 -->
                             <div class="btn-group" style="width:100%;">
                                 <button class="btn list-group-item dropdown-toggle" type="button"
                                         data-toggle="dropdown" aria-expanded="false" style="width: 100%">
-                                    Follower
+                                    フォロワー
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu follow-list" role="menu"
                                     style="width:100%; text-align:center;">
-                                    <li>
-                                        <a href="/user/board/?user_id=${following.following_id}" class="text-right">
-                                            테스트 닉네임1
-                                            <button type="button" class="btn btn-default btn-sm"
-                                                    aria-label="followers">
-                                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                                            </button>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/user/board/?user_id=${following.following_id}" class="text-right">
-                                            테스트 닉네임2
-                                            <button type="button" class="btn btn-default btn-sm"
-                                                    aria-label="followers">
-                                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                                            </button>
-                                        </a>
-                                    </li>
+                                    <c:forEach items="${followInfoPack.followerList}" var="follower">
+                                        <li>
+                                            <a href="/user/board/?user_id=${follower.user_id}" class="text-right">
+                                                    ${follower.nickname}
+                                            </a>
+                                        </li>
+                                    </c:forEach>
                                 </ul>
                             </div>
 
@@ -89,35 +92,24 @@
                             <div class="btn-group" style="width:100%;">
                                 <button class="btn list-group-item dropdown-toggle" type="button"
                                         data-toggle="dropdown" aria-expanded="false" style="width: 100%">
-                                    Follow
+                                    フォロ
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu follow-list" role="menu"
                                     style="width:100%; text-align:center;">
-                                    <li>
-                                        <a href="/user/board/?user_id=${following.following_id}" class="text-right">
-                                            테스트 닉네임1
-                                            <button type="button" class="btn btn-default btn-sm"
-                                                    aria-label="followers">
-                                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                                            </button>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/user/board/?user_id=${following.following_id}" class="text-right">
-                                            테스트 닉네임2
-                                            <button type="button" class="btn btn-default btn-sm"
-                                                    aria-label="followers">
-                                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                                            </button>
-                                        </a>
-                                    </li>
+                                    <c:forEach items="${followInfoPack.followList}" var="following">
+                                        <li>
+                                            <a href="/user/board/?user_id=${following.following_id}" class="text-right">
+                                                    ${following.nickname}
+                                            </a>
+                                        </li>
+                                    </c:forEach>
                                 </ul>
                             </div>
 
                             <!-- 누적 픽셀 정보 -->
                             <li class="list-group-item">
-                                <span class="badge">245</span>
+                                <span class="badge">${userInfo.accumulatedpixels}</span>
                                 Accumulated Pixel
                             </li>
                         </ul>
@@ -129,25 +121,24 @@
                     <!-- 피드 번들 파트-->
                     <div class="row center-block" id="feeds-container">
                         <c:forEach items="${bundle}" var="oneFeed" varStatus="status">
-                            <div class="col-xs-6 col-sm-3 hover-fade feed-gallary">
+                            <div class="col-xs-6 col-sm-3 col-sm-offset-1 hover-fade feed-gallary">
                                 <a href="javascript:createModal('/feed/view/?feed_id=${oneFeed.feed_id}');">
                                     <img src="<spring:url value='/userPicture/${oneFeed.pictures[0]}'/>">
                                 </a>
-                                <div class="caption" style="position:absolute; left:0px; top:70px;">
-                                    <div class="col-lg-6" id="like-container-board">
-                                        <div id="likeDiv">
-                                            <span class="thumb thumbs-up glyphicon glyphicon-heart" id="like-${oneFeed.feed_id}"
-                                                  style="display:block"></span>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </c:forEach>
                     </div>
 
                     <!-- See more 파트 -->
                     <div class="row center-block" style="margin-top:50px; margin-bottom:50px;">
-                        <button class="btn btn-info btn-lg btn-block" id="more-btn">もっとみる！</button>
+                        <c:choose>
+                            <c:when test="${totalPageCount > 0}">
+                                <button class="btn btn-info btn-lg btn-block" id="more-btn">もっとみる！</button>
+                            </c:when>
+                            <c:otherwise>
+                                <h1>ユーザーが描いた絵がありません。</h1>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                 </div>
             </div>

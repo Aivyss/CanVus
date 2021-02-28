@@ -30,17 +30,15 @@
                     </div>
                 </div>
                 <script src="/resources/js/home/autoLoginBlocker.js?reload"></script>
-            </div>
 
-            <!-- feed preview -->
-            <div class="container center-block logreg-forms">
-                <div class="col-sm-12 center-block">
+                <div class="row" style="margin-top: 200px;">
                     <c:forEach items="${previews}" var="preview">
-                        <div class="col-sm-2 hover-fade feed-gallary">
+                        <div class="col-sm-2 col-sm-offset-1 hover-fade feed-gallary">
                             <a href="#">
                                 <img src="<spring:url value='/userPicture/${preview.preview}'/>">
                             </a>
                         </div>
+                        <div class="col-sm-1"></div>
                     </c:forEach>
                 </div>
             </div>
