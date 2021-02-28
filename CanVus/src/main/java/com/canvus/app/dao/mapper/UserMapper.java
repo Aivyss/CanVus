@@ -2,6 +2,7 @@ package com.canvus.app.dao.mapper;
 
 import java.util.List;
 
+import com.canvus.app.vo.BillVO;
 import com.canvus.app.vo.UserVO;
 
 public interface UserMapper {
@@ -19,4 +20,6 @@ public interface UserMapper {
     String getUserNickname(String user_id);
 
     int checkDuplicateNickname(String nickname);
+
+    boolean updatePaymentPixels(BillVO vo);
 }

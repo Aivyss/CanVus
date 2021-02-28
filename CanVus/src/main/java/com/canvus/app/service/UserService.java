@@ -3,6 +3,7 @@ package com.canvus.app.service;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -261,6 +262,24 @@ public class UserService {
      */
     public boolean checkDuplicateNickname(Map<String, Object> params) {
         String nickname = (String) params.get("nickname");
+
         return userDAO.checkDuplicateNickname(nickname);
+    }
+
+    /**
+     * 현재 픽셀 수를 산출하는 메소드(AJAX)
+     * 20210228
+     * 이한결
+     * @param session
+     * @return
+     */
+    public Map<String, Object> getPixelAmount(HttpSession session) {
+        UserVO user = userDAO.getUserInfo((String) session.getAttribute("userId"));
+        int pixel = user.getPixels();
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("pixel", pixel);
+
+        return result;
     }
 }

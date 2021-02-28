@@ -10,7 +10,7 @@ let messageController = (function(){
                 message: $('#chatContainer').val()
             };
 
-            sendMessage(data,'COMMONCHAT');
+            socketSenderFunctionSet.sendMessage(data,'COMMONCHAT');
             $('#chatContainer').val("");
         },
         chatReply: function(result){

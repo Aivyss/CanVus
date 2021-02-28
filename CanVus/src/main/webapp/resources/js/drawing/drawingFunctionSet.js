@@ -255,7 +255,7 @@ const socketSenderFunctionSet = (function () {
     }
 })();
 
-// ********** fabric 관련 함수 ********** //
+// ********** fabric 관련 함수셋 ********** //
 const drawingFunctionSet = (function () {
     return {
         changeBrush: function () {
@@ -549,6 +549,8 @@ const drawingFunctionSet = (function () {
             for (let i = 0; i < layerList.length; i++) {
                 if (layerList[i] != null) {
                     drawingFunctionSet.createlayerList(`p${pageNum}l${i + 1}`);
+                    $(`#p${pageNum}l${i+1}`).css({'opacity': '1'});
+                    $(`.p${pageNum}l${i+1}u`).css({'display':"block"});
                 }
             }
 
@@ -607,10 +609,10 @@ const drawingFunctionSet = (function () {
                         <label for="checkbox" id="${layerId}-label">
                             layer ${layerId.split('l')[1]}
                         </label>
-                    </div>
-                    <div class="pull-right action-buttons">
-                        <a href="#" class="trash"><span class="glyphicon glyphicon-trash" id="${layerId}-del"></span></a>
-                        <a href="#" class="flag"><span class="glyphicon glyphicon-eye-open" id="${layerId}-visible"></span></a>
+                        <div class="pull-right action-buttons">
+                            <a href="#" class="trash"><span class="glyphicon glyphicon-trash" id="${layerId}-del"></span></a>
+                            <a href="#" class="flag"><span class="glyphicon glyphicon-eye-open" id="${layerId}-visible"></span></a>
+                        </div>
                     </div>
                 </li>
             `;
@@ -657,13 +659,14 @@ const drawingFunctionSet = (function () {
                     if (drawerIdListElement == user_id) { // 드로워나 admin인 경우
                         $upperlayer.css({'display': visibility});
                         break;
-                    } 
+                    }
                 }
             }
         },
     }
 })();
 
+// ************ 피드 생성 관련 함수셋 ************* //
 const createFeedController = (function () {
     return {
         createFeed: function () {
@@ -768,7 +771,149 @@ const createFeedController = (function () {
     } // 함수집합 엔드
 })();
 
-// 레인지바 객체
+// ************ 썸네일 생성 관련 함수셋 ************ //
+const thumbnailFunctionSet = (function () {
+    return {
+        sendOnePageIntegrationFunction: function () {
+            const isValid = thumbnailFunctionSet.checkOnePageValidation();
+
+            if (isValid) {
+                thumbnailFunctionSet.onePageSaveEventFire();
+            }
+        },
+        onePageSaveEventFire: function () {
+            const onePageBuffer = $('#onePageBuffer');
+            const onePageObjArry = layerSet[0];
+            const content = `
+               <canvas class="buffer" id="buffer_one" width="600px" height="600px"></canvas>
+           `;
+
+            onePageBuffer.append(content);
+            const bufferOne = document.getElementById('buffer_one');
+            const ctx = bufferOne.getContext('2d');
+
+            for (let i = 0; i < onePageObjArry.length; i++) {
+                ctx.drawImage(document.getElementById(`p1l${i + 1}`), 0, 0);
+            }
+
+            const base64 = bufferOne.toDataURL("image/png");
+            const data = {
+                encodedStr: base64,
+                room_Id: room_Id
+            };
+
+            $.ajax({
+                url: '/drawing/thumbnail',
+                type: 'post',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function () {
+                    console.log("Success");
+                },
+                error: function () {
+                    console.log("Fail");
+                }
+            });
+
+            onePageBuffer.empty();
+        },
+        checkOnePageValidation: function () {
+            let check = false;
+
+            if (layerSet.length != 0) { // 하나도 생성 안한경우 false
+                if (layerSet[0].length != 0) { // 생성은 했으나 레이어 길이가 0인경우(사실 없음)
+                    check = true;
+                }
+            }
+
+            return check;
+        },
+    }
+});
+
+// ************* 결제 관련 함수셋 ***************** //
+const paymentFunctionSet = (function () {
+    return {
+        entrancePayment: function (selectedPixelVal, myPixel) {
+            // 결제에 필요한 변수셋
+            const IMP = window.IMP;
+            IMP.init("imp01277842"); // 가맹점 식별코드
+            const pg = 'html5_inicis'; //결제 pg사 선택
+            const pay_method = 'card'; // 결제종류
+            let merchant_uid = '';
+            const productName = `Pixel: ${selectedPixelVal}`; // 상품명
+            const amount = `${selectedPixelVal}`; // 가격(원)
+
+            // merchant_uid 파싱
+            $.ajax({
+                url: '/payment/parseMerchantUid',
+                type: "POST",
+                dataType: "json",
+                async: false, // 이항목을 넣지 않으면 비동기식으로 코드 절차를 따라가지 않는다.
+                contentType: "application/json",
+                data: JSON.stringify({
+                    pixel: selectedPixelVal,
+                }),
+                success: function (result) {
+                    merchant_uid = result['merchant_uid'];
+                    console.log(merchant_uid);
+                },
+                error: function () {
+                    console.log("merhcant uid 파싱에러");
+                }
+            });
+
+            //거래 시작
+            IMP.request_pay({
+                pg: "html5_inicis",
+                pay_method: pay_method,
+                merchant_uid: merchant_uid,
+                name: productName,
+                buyer_email: email,
+                buyer_name: family_name + given_name,
+                amount: amount,
+            }, function (rsp) {
+                if (rsp.success) {
+                    const pixel = productName.split(': ')[1];
+                    console.log(pixel);
+
+                    const paymentData = {
+                        'imp_uid': rsp.imp_uid, // 고유 ID
+                        'merchant_uid': rsp.merchant_uid, // 상점거래 ID
+                        'paid_amount': rsp.paid_amount, // 결제 금액
+                        'apply_num': rsp.apply_num, // 카드 승인번호
+                        'user_id': user_id, // 거래한 유저 아이디
+                        'pixel': selectedPixelVal, // 구입한 pixel 양
+                        'inputdate': rsp.paid_at // 구매시각
+                    };
+
+                    $.ajax({ // 결제 내역 전송
+                        url: '/payment/paymentSubmit',
+                        type: "POST",
+                        dataType: "json",
+                        contentType: "application/json",
+                        data: JSON.stringify(paymentData),
+                        success: function (result) {
+                            console.log(result['result']);
+                            $('#my-pixel').val(myPixel + selectedPixelVal);
+                        }, error: function () {
+                            console.log("통신실패 관리자에게 문의");
+                        }
+                    });
+
+                    var msg = '결제가 완료되었습니다.';
+                } else {
+                    var msg = '결제에 실패하였습니다.';
+                    msg += '에러내용 : ' + rsp.error_msg;
+                }
+
+                alert(msg);
+            });
+        }, // entrancePayment end
+    }
+})();
+
+// ************ 레인지바 객체 ********************* //
 const sliderObj = {
     updateSlider: function (element) {
         if (element) {
@@ -819,46 +964,191 @@ $(() => {
     // ********** 레이어 이니셜라이저 실행  ***************//
     drawingFunctionSet.initializer();
 
-    $('#create-layer-btn').on('click', function () {
-        drawingFunctionSet.createLayer();
-    });
+    // 방입장 메세지 전송파트 (소켓 연결은 비동기 이기 때문에 언제 연결될지 모른다)
+    socketSenderFunctionSet.socketEntranceRepeater();
 
-    // Layer Explorer를 클릭시 현재 페이지번호, 레이어번호를 업데이트하고 현재 바라보는 레이어를 설정.
-    $(document).on('click', '#list-container', function () {
-        try {
-            let eventId = event.target.id;
-            const layerId = eventId.split('-')[0];
-            const action = eventId.split('-')[1];
+    const dynamicEvents = [
+        // 레이어 생성
+        $('#create-layer-btn').on('click', function () {
+            drawingFunctionSet.createLayer();
+        }),
+        // Layer Explorer를 클릭시 현재 페이지번호, 레이어번호를 업데이트하고 현재 바라보는 레이어를 설정.
+        $(document).on('click', '#list-container', function () {
+            try {
+                let eventId = event.target.id;
+                const layerId = eventId.split('-')[0];
+                const action = eventId.split('-')[1];
 
-            if (action == 'box' || action == 'label') {
-                drawingFunctionSet.changeLayerTarget(layerId);
-            } else if (action == 'del') {
-                drawingFunctionSet.deleteLayer(layerId); // 소켓으로 보내는 쪽이라 isReceiver가 undefined
-            } else if (action == 'visible') {
-                drawingFunctionSet.changeVisibility(layerId);
-            } else {
-                console.log('아무것도 안함');
+                if (action == 'box' || action == 'label') {
+                    drawingFunctionSet.changeLayerTarget(layerId);
+                } else if (action == 'del') {
+                    drawingFunctionSet.deleteLayer(layerId); // 소켓으로 보내는 쪽이라 isReceiver가 undefined
+                } else if (action == 'visible') {
+                    drawingFunctionSet.changeVisibility(layerId);
+                } else {
+                    console.log('아무것도 안함');
+                }
+            } catch (e) {
+                console.log('페이지 번호가 지정되지 않은 상황');
             }
-        } catch (e) {
-            console.log('페이지 번호가 지정되지 않은 상황');
-        }
-    });
+        }),
+        // 페이지텝 이벤트
+        $(document).on('click', '#tablist a', function (e) {
+            e.preventDefault();
+            let tabId = e.target.id;
 
-    // ************ 페이지텝 이벤트 *********/
-    $(document).on('click', '#tablist a', function (e) {
-        e.preventDefault();
-        let tabId = e.target.id;
+            if (tabId == 'CreatePage') { // 페이지 생성의 경우
+                drawingFunctionSet.createPageComponent();
+                const maxPage = layerSet.length;
+                $('#tablist').children().removeClass('active');
+                $('#tablist').children().last().addClass('active');
+                drawingFunctionSet.pageSwitching('pli' + maxPage);
+            } else { // 페이지 열람의 경우
+                drawingFunctionSet.pageSwitching(tabId);
+            }
+        }),
+        // 레인지바 이벤트
+        $(document).on('mouseup', '.range-container', function () {
+            console.log("레인지바 이벤트 작동");
 
-        if (tabId == 'CreatePage') { // 페이지 생성의 경우
-            drawingFunctionSet.createPageComponent();
-            const maxPage = layerSet.length;
-            $('#tablist').children().removeClass('active');
-            $('#tablist').children().last().addClass('active');
-            drawingFunctionSet.pageSwitching('pli' + maxPage);
-        } else { // 페이지 열람의 경우
-            drawingFunctionSet.pageSwitching(tabId);
-        }
-    });
+            const MAX_THICKNESS = 20;
+            const MAX_OPACITY = 1;
+
+            let thickness = $('#thicknessBar').text();
+            thickness = parseInt(thickness.split('%')[0]);
+            thickness = MAX_THICKNESS * (thickness / 100);
+            let opacity = $('#opacityBar').text();
+            opacity = parseInt(opacity.split('%')[0]);
+            opacity = MAX_OPACITY * (opacity / 100);
+
+            console.log(typeof thickness);
+            console.log(thickness);
+            console.log(opacity);
+
+            hexGlobal = $('#drawing-color').val() + Math.floor(opacity * 255).toString(16);
+
+            thicknessGlobal = thickness;
+            opacityGlobal = opacity;
+
+            drawingFunctionSet.changeBrush();
+        }),
+        // 색상 변경 이벤트
+        $('#drawing-color').on('change', function () {
+            hexGlobal = $('#drawing-color').val() + Math.floor(opacityGlobal * 255).toString(16);
+
+            drawingFunctionSet.changeBrush();
+        }),
+        // 드로잉 권한부여 이벤트
+        $(document).on('click', '.addAuthority', function (event) {
+            if (authCount < 4) {
+                let targetId = event.target.id;
+                let targetNickname = $('#' + targetId).parent().text();
+                targetNickname = targetNickname.split('一緒に')[0];
+                targetId = targetId.split('list')[1];
+
+                const message = {
+                    user_id: user_id,
+                    targetId: targetId,
+                    targetNickname: targetNickname
+                };
+
+                $(`#${event.target.id}`).remove();
+
+                socketSenderFunctionSet.sendMessage(message, 'ADDAUTHORITY');
+
+                authCount++;
+            } else {
+                alert('권한은 최대 4명만 부여 가능합니다.');
+            }
+        }),
+        // 브러시 변경텝 클릭 이벤트
+        $('#brushTap').on('click', function (event) {
+            console.log("브러시 선택 버튼 클릭으로 인한 브러시 변경 이벤트 발생");
+
+            let brushType = event.target.id;
+
+            if (brushType != 'selector') {
+                brushGlobal = brushType;
+                drawingFunctionSet.changeBrush();
+            } else {
+                try {
+                    const modeChecker = layerSet[0][0].isDrawingMode;
+
+                    for (let i = 0; i < layerSet.length; i++) {
+                        for (let j = 0; j < layerSet[i].length; j++) {
+                            layerSet[i][j].isDrawingMode = !modeChecker;
+                        }
+                    }
+                } catch (e) {
+                    alert("ページが一つもありません。");
+                }
+            }
+            // dropdown이 클릭하더라도 닫히지 않도록 이벤트 버블링 차단(range bar 편의성을 위해)
+            event.stopPropagation();
+        }),
+        // 에딧탭 클릭 이벤트
+        $(document).on('click', '#Edit', function (event) {
+            const eventId = $(event.target).parent().attr('id');
+
+            if (eventId == 'Edit-feed') {
+                createFeedController.createFeed();
+            } else if (eventId == 'Edit-exit') {
+                socketSenderFunctionSet.disconnect();
+            }
+        }),
+        // 피드작성 취소 이벤트
+        $(document).on("click", "#mask", function () {
+            console.log("마스크 클릭 감지 및 처리");
+            $('#mask').remove();
+            $('#content_div').remove();
+        }),
+        // 픽셀 선물 모달창 띄우기 이벤트
+        $(document).on('click', '#drawerList', function (event) {
+            let targetId = event.target.id;
+            targetId = targetId.split('drawerTop-')[1];
+            let drawer_nickname = '';
+
+            // 선물하려는 대상의 아이디 추출
+            for (let i = 0; i < drawerIdList.length; i++) {
+                if (targetId == drawerIdList[i]) {
+                    drawer_nickname = drawerNicknameList[i];
+                    break;
+                }
+            }
+
+            $('.modal-title').text(`${drawer_nickname}さんにプレゼントしましょう。`);
+
+            $.ajax({
+                url: '/user/getPixelAmount',
+                type: 'post',
+                async: false,
+                contentType: 'application/json',
+                success: function (result) {
+                    const pixel = result['pixel'];
+                    $('#my-pixel').val(pixel);
+                },
+                error: function () {
+                    console.log("통신오류");
+                }
+            });
+
+            $('#present-pixel-modal').modal('toggle');
+        }),
+        // 픽셀 선물 목록 클릭시 이벤트
+        $('input[name=pixel-amount-list]').click(function () {
+            const selectedVal = parseInt(this.value);
+            const myPixel = parseInt($('#my-pixel').val());
+
+            if (selectedVal > myPixel) {
+                if (confirm('持っている数より多いです。ピックセルを課金しませんか。')) {
+                    console.log("결제파트");
+                    paymentFunctionSet.entrancePayment(selectedVal, myPixel);
+                } else {
+                    alert('数を少なくしてください。');
+                }
+            }
+        }),
+    ];
 
     // ******************* 레인지바 초기설정함수 *****************//
     (function initAndSetupTheSliders() {
@@ -881,168 +1171,4 @@ $(() => {
             });
         });
     })();
-
-    //******************* 색, 굵기, 투명도 변경과 관련된 이벤트 ********//
-    $(document).on('mouseup', '.range-container', function () {
-        console.log("레인지바 이벤트 작동");
-
-        const MAX_THICKNESS = 20;
-        const MAX_OPACITY = 1;
-
-        let thickness = $('#thicknessBar').text();
-        thickness = parseInt(thickness.split('%')[0]);
-        thickness = MAX_THICKNESS * (thickness / 100);
-        let opacity = $('#opacityBar').text();
-        opacity = parseInt(opacity.split('%')[0]);
-        opacity = MAX_OPACITY * (opacity / 100);
-
-        console.log(typeof thickness);
-        console.log(thickness);
-        console.log(opacity);
-
-        hexGlobal = $('#drawing-color').val() + Math.floor(opacity * 255).toString(16);
-
-        thicknessGlobal = thickness;
-        opacityGlobal = opacity;
-
-        drawingFunctionSet.changeBrush();
-    });
-
-    // ***************** 색상 변경 이벤트  ************************//
-    $('#drawing-color').on('change', function () {
-        hexGlobal = $('#drawing-color').val() + Math.floor(opacityGlobal * 255).toString(16);
-
-        drawingFunctionSet.changeBrush();
-    });
-
-    // ********************* 드로잉 권한부여 이벤트 *************************//
-    $(document).on('click', '.addAuthority', function (event) {
-        if (authCount < 4) {
-            let targetId = event.target.id;
-            let targetNickname = $('#' + targetId).parent().text();
-            targetNickname = targetNickname.split('一緒に')[0];
-            targetId = targetId.split('list')[1];
-
-            const message = {
-                user_id: user_id,
-                targetId: targetId,
-                targetNickname: targetNickname
-            };
-
-            $(`#${event.target.id}`).remove();
-
-            socketSenderFunctionSet.sendMessage(message, 'ADDAUTHORITY');
-
-            authCount++;
-        } else {
-            alert('권한은 최대 4명만 부여 가능합니다.');
-        }
-    });
-
-//****************************** 브러시(만) 변경 이벤트  ****************************//
-    $('#brushTap').on('click', function (event) {
-        console.log("브러시 선택 버튼 클릭으로 인한 브러시 변경 이벤트 발생");
-
-        let brushType = event.target.id;
-
-        if (brushType != 'selector') {
-            brushGlobal = brushType;
-            drawingFunctionSet.changeBrush();
-        } else {
-            try {
-                const modeChecker = layerSet[0][0].isDrawingMode;
-
-                for (let i = 0; i < layerSet.length; i++) {
-                    for (let j = 0; j < layerSet[i].length; j++) {
-                        layerSet[i][j].isDrawingMode = !modeChecker;
-                    }
-                }
-            } catch (e) {
-                alert("ページが一つもありません。");
-            }
-        }
-        // dropdown이 클릭하더라도 닫히지 않도록 이벤트 버블링 차단(range bar 편의성을 위해)
-        event.stopPropagation();
-    });
-
-    // 방입장 메세지 전송파트 (소켓 연결은 비동기 이기 때문에 언제 연결될지 모른다)
-    socketSenderFunctionSet.socketEntranceRepeater();
-
-    // ******************************** Edit 이벤트 *******************************//
-    $(document).on('click', '#Edit', function (event) {
-        const eventId = $(event.target).parent().attr('id');
-
-        if (eventId == 'Edit-feed') {
-            createFeedController.createFeed();
-        } else if (eventId == 'Edit-exit') {
-            socketSenderFunctionSet.disconnect();
-        }
-    })
-
-    // *******************      피드 작성 취소 이벤트 ************************/
-    $('#mask').click(function () {
-        console.log("마스크 클릭 감지 및 처리");
-        $('#mask').remove();
-        $('#content_div').remove();
-    });
-
-    /********************방찾기를 위해서 주기적으로 1page를 파일화하는 메소드 집합 ***********/
-    setInterval(sendOnePageIntegrationFunction, 5 * 60 * 1000) // 5분 간격으로 페이지 1번을 저장한다.
-
-    function onePageSaveEventFire() {
-        const onePageBuffer = $('#onePageBuffer');
-        const onePageObjArry = layerSet[0];
-        const content = `
-            <canvas class="buffer" id="buffer_one" width="600px" height="600px"></canvas>
-        `;
-
-        onePageBuffer.append(content);
-        const bufferOne = document.getElementById('buffer_one');
-        const ctx = bufferOne.getContext('2d');
-
-        for (let i = 0; i < onePageObjArry.length; i++) {
-            ctx.drawImage(document.getElementById(`p1l${i + 1}`), 0, 0);
-        }
-
-        const base64 = bufferOne.toDataURL("image/png");
-        const data = {
-            encodedStr: base64,
-            room_Id: room_Id
-        };
-
-        $.ajax({
-            url: '/drawing/thumbnail',
-            type: 'post',
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            success: function () {
-                console.log("Success");
-            },
-            error: function () {
-                console.log("Fail");
-            }
-        });
-
-        onePageBuffer.empty();
-    }
-
-    function checkOnePageValidation() {
-        let check = false;
-
-        if (layerSet.length != 0) { // 하나도 생성 안한경우 false
-            if (layerSet[0].length != 0) { // 생성은 했으나 레이어 길이가 0인경우(사실 없음)
-                check = true;
-            }
-        }
-
-        return check;
-    }
-
-    function sendOnePageIntegrationFunction() {
-        const isValid = checkOnePageValidation();
-
-        if (isValid) {
-            onePageSaveEventFire();
-        }
-    }
 });

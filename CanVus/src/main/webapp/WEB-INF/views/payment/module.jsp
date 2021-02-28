@@ -24,12 +24,12 @@
 			var productName='';
 			const userId = document.getElementById('userId').value;
 			const IMP = window.IMP;
-	 		IMP.init("imp01277842"); // 가맹점 식별코드
-	 		const pg = 'html5_inicis'; //결제 pg사 선택
-	 		const pay_method = 'card'; // 결제종류
+			IMP.init("imp01277842"); // 가맹점 식별코드
+			const pg = 'html5_inicis'; //결제 pg사 선택
+			const pay_method = 'card'; // 결제종류
 			var merchant_uid = '';
-	 		const name = productName; // 상품명
-	 		var amount = '100'; // 가격(원)
+			const name = productName; // 상품명
+			var amount = '100'; // 가격(원)
 			const buyer_email = 'hklee6417@gmail.com';
 			const buyer_name = '이한결';
 			const buyer_tel = '010-6664-7104';

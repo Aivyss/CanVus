@@ -5,28 +5,25 @@
 
 <mapper namespace="com.canvus.app.dao.mapper.PaymentMapper">
 
-<insert id="paymentSubmit" parameterType="bill">
-	insert into canvuspayment (
-		bill_num
-		,imp_uid
-		,merchant_uid
-		,apply_num
-		,paid_amount
-		,pixel
-		,billdate
-		,user_id
-	) values (
-		bill_seq.nextval
-		,#{imp_uid}
-		,#{merchant_uid}
-		,#{apply_num}
-		,#{paid_amount}
-		,#{pixel}
-		,#{billDate}
-		,#{user_id}
-	)
-
-</insert>
+	<insert id="paymentSubmit" parameterType="bill">
+		INSERT INTO PAYMENT_TABLE (
+			IMP_UID
+			,MERCHANT_UID
+			,PAID_AMOUNT
+			,USER_ID
+			,PIXEL
+			,APPLY_NUM
+			,INPUTDATE
+		) VALUES (
+			#{imp_uid}
+			,#{merchant_uid}
+			,#{paid_amount}
+			,#{user_id}
+			,#{pixel}
+			,#{apply_num}
+			,#{inputdate}
+		)
+	</insert>
 
 
 </mapper>
