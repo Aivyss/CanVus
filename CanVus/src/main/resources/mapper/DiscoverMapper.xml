@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.canvus.app.dao.mapper.DiscoverMapper">
+
+<select id="getRecommendationTag" resultType="string">
+    SELECT T.TAG_NAME
+    FROM
+        HISTORIES H,
+        FEEDS F,
+        TAGS_IN_FEED T
+    WHERE
+        H.FEED_ID = F.FEED_ID
+      AND
+        F.FEED_ID = T.FEED_ID
+      AND
+        H.USER_ID = #{userId}
+    GROUP BY
+        T.TAG_NAME
+    ORDER BY
+        COUNT(T.TAG_NAME) DESC,
+        T.TAG_NAME
+</select>
+
+
+
+
+
+
+
+
+</mapper>

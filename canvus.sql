@@ -4,10 +4,15 @@ drop table tags;
 drop table tags_in_feed;
 DROP TABLE FEED_DRAWINGS;
 drop table bookmark_folder;
+drop table bookmarked_feeds;
 drop table drawing_rooms;
 drop table followings;
 drop table join_list;
 drop table page_layer;
+drop table feed_comment;
+drop table like_table;
+drop table transaction_pixel;
+drop table histories;
 
 create table USERS (  
     USER_ID varchar2(50) primary key,  
@@ -151,7 +156,7 @@ ALTER TABLE BOOKMARKED_FEEDS ADD CONSTRAINT BOOKMARKED_FEEDS_FOLDER_ID_FK FOREIG
 ALTER TABLE BOOKMARKED_FEEDS ADD CONSTRAINT BOOKMARKED_FEEDS_PK PRIMARY KEY(FOLDER_ID, FEED_ID);
 CREATE SEQUENCE BKFS_ID_SEQ;
 
--- ìŠ¤í”Œë¦¿ í•¨ìˆ˜
+-- ?Š¤?”Œë¦? ?•¨?ˆ˜
 CREATE OR REPLACE FUNCTION FUNC_SPLIT(COLNAME VARCHAR, SEP VARCHAR, NUM NUMBER)
 	RETURN VARCHAR
 IS

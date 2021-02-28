@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -85,7 +86,7 @@
                             <!-- Collect the nav links, forms, and other content for toggling -->
                             <div class="collapse navbar-collapse zero_mp" id="bs-example-navbar-collapse-1">
                                 <ul class="nav navbar-nav navbar-right main_menu">
-                                    <li><a href="/discover/main">Discover</a></li>
+                                    <li><a href="/discover/" >Discover</a></li>
                                     <li><a href="/browse/list">Browse</a></li>
                                     <li>
                                         <div class="dropdown">

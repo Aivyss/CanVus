@@ -8,6 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public interface BrowseMapper {
-    public ArrayList<HashMap<String, Object>> getRoomsByTitle(RowBounds rb, String title);
     public int getRoomCount(String title);
+    public ArrayList<HashMap<String, Object>> getRoomsByTitle(RowBounds rb, String title);
 }

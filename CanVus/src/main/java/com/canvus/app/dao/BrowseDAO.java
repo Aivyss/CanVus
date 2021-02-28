@@ -18,6 +18,19 @@ public class BrowseDAO {
     @Autowired
     private SqlSession session;
 
+    public int getRoomCount(String title){
+        int count = 0;
+
+        try {
+            BrowseMapper mapper = session.getMapper(BrowseMapper.class);
+            count = mapper.getRoomCount(title);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return count;
+    }
+
     public ArrayList<HashMap<String, Object>> getRoomsByTitle(String title, int startRecord, int countPerPage){
         ArrayList<HashMap<String, Object>> list = null;
 
@@ -34,17 +47,6 @@ public class BrowseDAO {
         return list;
     }
 
-    public int getRoomCount(String title){
-        int count = 0;
 
-        try {
-            BrowseMapper mapper = session.getMapper(BrowseMapper.class);
-            count = mapper.getRoomCount(title);
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        return count;
-    }
 
 }
