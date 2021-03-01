@@ -9,4 +9,8 @@ public class TransactionPixelVO implements CanVusVOs {
 	private String receiver;
 	private int pixels_amount;
 	private String transaction_date;
+
+	// 편의성 추가 메소드
+	private String sender_nickname;
+	private String receiver_nickname;
 }

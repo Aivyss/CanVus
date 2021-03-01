@@ -18,5 +18,37 @@
 		,#{pixels_amount}
 	)
 </insert>
+	<select id="getTransactionHistory" parameterType="string" resultType="transPx">
+		SELECT
+			TRANSACTION_ID
+			 ,T.SENDER	AS sender
+			 ,U.NICKNAME	AS sender_nickname
+			 ,T.RECEIVER	AS receiver
+			 ,UU.NICKNAME   AS  receiver_nickname
+			 ,T.PIXELS_AMOUNT	AS pixels_amount
+			 ,TO_CHAR(T.TRANSACTION_DATE, 'MM-DD')	AS transaction_date
+		FROM
+			TRANSACTION_PIXEL T, USERS U, USERS UU
+		WHERE
+			T.TRANSACTION_DATE BETWEEN  (
+				SELECT
+					TO_DATE(TO_CHAR(ADD_MONTHS(LAST_DAY(SYSDATE)+1,-1),'YYYYMMDD'), 'YY-MM-DD') AS MONTH_FIRST_DAY
+				FROM
+					DUAL
+			) AND (
+				SELECT
+					LAST_DAY(SYSDATE) AS  LAST_DAY
+				FROM
+					DUAL
+			)
+		  AND
+			(
+			    (T.SENDER = #{string} AND U.USER_ID = T.SENDER AND UU.USER_ID = T.RECEIVER)
+			    OR
+			    (T.RECEIVER = #{string} AND U.USER_ID = T.SENDER AND UU.USER_ID = T.RECEIVER)
+			)
+		ORDER BY
+			T.TRANSACTION_DATE ASC
+	</select>
 
 </mapper>

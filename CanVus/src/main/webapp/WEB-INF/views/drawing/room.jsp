@@ -10,6 +10,10 @@
     <!-- basic JS -->
     <!-- jQuery -->
     <script src="/resources/js/jQuery/jquery-3.5.1.min.js"></script>
+    <!-- BootStrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <!-- fabricJS -->
     <script src="/resources/js/fabric/dist/fabric.js"></script>
     <!-- custom brushes -->
@@ -47,21 +51,55 @@
 <%--<jsp:include page="/WEB-INF/views/mainMenu.jsp"></jsp:include>--%>
 <c:choose>
     <c:when test="${empty pwWrttenByUser && dbPassword != null}">
+        <script>
+            const wrttenPw = "${pwWrttenByUser}";
+        </script>
         <script type="text/javascript" src="/resources/js/drawing/passwordCheck.js"></script>
-
-        <div class="row g-3 align-items-center" id="passwordsetting">
-            <label for="inputPassword5" class="form-label">Password</label>
-            <input type="password" id="inputPassword5" name="password" class="form-control"
-                   aria-describedby="passwordHelpBlock">
-            <div>
-                <input type="button" value="입력" id="pwCheck">
+        <!-- 비밀번호 입력 모달파트 data-backdrop="static"(검은 배경을 눌러도 안닫히게) data-keyboard="false"(esc 눌러도 안닫히게) -->
+        <div class="modal fade" tabindex="-1" role="dialog" id="entrance-modal" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title">パスワードを入力てください。</h2>
+                    </div>
+                    <div class="modal-body">
+                        <p>このルームはパスワードが設定されていますので、パスワードを確認させていただきます。</p>
+                        <div class="form-group">
+                            <label for="pwCheck"></label>
+                            <input id="pwCheck" type="password" class="form-control" placeholder="フォルダ名">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="cancel-entrance" type="button" class="btn btn-secondary" data-dismiss="modal">戻る</button>
+                        <button id="execute-entrance" type="button" class="btn btn-primary">入室</button>
+                    </div>
+                </div>
             </div>
         </div>
     </c:when>
     <c:otherwise>
         <script src="/resources/js/drawing/drawingFunctionSet.js?reload"></script>
         <jsp:include page="/WEB-INF/views/baseJSP/toolTop.jsp"></jsp:include>
-        <!-- 그리기 및 소켓관련 js -->
+
+        <!-- 픽셀선물 토스트 -->
+        <div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 1px; z-index:9999;">
+            <!-- Position it -->
+            <div id="toasts-container" style="position: absolute; top: 0; right: 0;">
+                <!-- Then put toasts within -->
+<%--                <div id= "noti-userid-1" class="toast" role="alert" aria-live="assertive" aria-atomic="true">--%>
+<%--                    <div class="toast-header">--%>
+<%--                        <strong class="mr-auto">Aivyss -> ???</strong>--%>
+<%--                        <small class="text-muted">500Pixel</small>--%>
+<%--                        <button id="noti-userId-1-btn" type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">--%>
+<%--                            <span aria-hidden="true">&times;</span>--%>
+<%--                        </button>--%>
+<%--                    </div>--%>
+<%--                    <div class="toast-body">--%>
+<%--                        이거 줄게 먹고 떨어져1--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+            </div>
+        </div>
 
         <!-- 본격적인 드로잉 페이지 시작 -->
         <div class="container-fluid">
@@ -208,11 +246,13 @@
                 <div class="row">
                     <h4>あなたが持っているピックセルの数です。</h4>
                     <input type="text" id="my-pixel" class="form-control" readonly="readonly">
+                    <h4>下にメッセージを作成したください。</h4>
+                    <input type="text" id="present-message" class="form-control">
                 </div>
 
                 <!-- 히든 벨류 -->
                 <input type="hidden" id="target-drawer-id">
-                <input tye="hidden" id="target-drawer-nickname">
+                <input type="hidden" id="target-drawer-nickname">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">戻る</button>

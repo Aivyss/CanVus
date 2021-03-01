@@ -13,6 +13,8 @@ import org.springframework.stereotype.Repository;
 import com.canvus.app.dao.mapper.PaymentMapper;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Slf4j
 @Repository
 public class PaymentDAO {
@@ -68,5 +70,47 @@ public class PaymentDAO {
 		}
 
 		return check;
+	}
+
+	/**
+	 * 당월 결제내역 조회
+	 * 20210301
+	 * 이한결
+	 * @param userId
+	 * @return
+	 */
+    public List<BillVO> getPaymentHistory(String userId) {
+		List<BillVO> billList = null;
+		
+		try {
+			PaymentMapper mapper = session.getMapper(PaymentMapper.class);
+			billList = mapper.getPaymentHistory(userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.info("당월 결제 내역 sql조회 실패");
+		}
+
+		return billList;
+    }
+
+	/**
+	 * 당월 픽셀 이동 내역 조회
+	 * 20210301
+	 * 이한결
+	 * @param userId
+	 * @return
+	 */
+	public List<TransactionPixelVO> getTransactionHistory(String userId) {
+		List<TransactionPixelVO> trnxList = null;
+
+		try {
+			TransactionPixelMapper mapper = session.getMapper(TransactionPixelMapper.class);
+			trnxList = mapper.getTransactionHistory(userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.info("이동내역 조회 실패");
+		}
+
+		return trnxList;
 	}
 }

@@ -11,4 +11,7 @@ public class BillVO implements CanVusVOs {
 	private int pixel;
 	private String apply_num;
 	private int inputdate;
+
+	// 유닉스 타임스탬프로 인해 이중화
+	private String output_date;
 }

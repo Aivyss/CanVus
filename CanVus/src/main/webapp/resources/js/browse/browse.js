@@ -11,6 +11,35 @@ function pagenation(title, pageNo, totalPage) {
     }
 }
 
+function executeEntrance() {
+    const written_pw = $('#input-room-password').val();
+    const room_id = $('#room-modal-id').val();
+
+    const data = {
+        "pwWrttenByUser": written_pw,
+        "room_Id": room_id
+    };
+
+    $.ajax({
+        url: "/drawing/passwordCheck",
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success: function (result) {
+            if (result["result"] == "success") {
+                console.log("성공");
+                location.href = "/drawing/room/?room_Id=" + room_id;
+            } else {
+                alert("パスワードが違いますので、入室ができませんでした。");
+            }
+        },
+        error: function (request, status, error) {
+            alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+        }
+    });
+}
+
 $(() => {
     /******************************** 호이스팅 함수부 ************************************/
     function doSearchRoom(searchTitle, pageNo) {
@@ -52,16 +81,7 @@ $(() => {
 
     // 모달 execute 이벤트 비밀번호 확인 후 입장한다.
     $('#execute-enter-room').click(function(){
-        const exact_pw = $('#room-modal-exact-pw').val();
-        const written_pw = $('#input-room-password').val();
-        const room_id = $('#room-modal-id').val();
-
-        if(exact_pw === written_pw) {
-            sessionStorage.setItem('pwWrttenByUser', written_pw);
-            location.href=`/drawing/room/?room_Id=${room_id}`;
-        } else {
-            alert("パスワードが一致されていません。");
-        }
+        executeEntrance();
     });
 });
 
