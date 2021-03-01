@@ -1049,7 +1049,7 @@ $(() => {
             if (tabId == 'CreatePage') { // 페이지 생성의 경우
                 let isDrawer = false;
                 for (const drawerId of drawerIdList) {
-                    if (drawer == user_id){
+                    if (drawerId == user_id){
                         isDrawer = true;
                         break;
                     }
