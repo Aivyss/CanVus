@@ -38,6 +38,9 @@ let layerArry = [];
 let ctxArry = [];
 let imageBase64Arry = [];
 
+// 픽셀선물 인덱싱
+let pixelIndex = 0;
+
 // ********** 소켓 수신부 함수셋 ******************//
 const socketFunctionSet = (function () {
     return {
@@ -100,7 +103,34 @@ const socketFunctionSet = (function () {
 
         },
         presentPixel: function (data) {
+            const message = data['message'];
+            const senderNick = message['senderNickname'];
+            const receiverNick = message['receiverNickname'];
+            const sender = message['sender'];
+            const receiver = message['receiver'];
+            const pixel = message['pixel'];
+            const text = message['message'];
+            const pixelIndex = message['pixelIndex'];
 
+            const content = `
+                <div id= "noti-${sender}-${pixelIndex}" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <strong class="mr-auto">${senderNick} -> ${receiverNick}</strong>
+                        <small class="text-muted">  ${pixel} ピックセル!!</small>
+                        <button type="button" 
+                                class="ml-2 mb-1 close" 
+                                data-dismiss="toast" 
+                                aria-label="Close"
+                                onclick="paymentFunctionSet.deleteNoti('noti-${sender}-${pixelIndex}');">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="toast-body">
+                        ${text}
+                    </div>
+                </div>
+            `;
+            $('#toasts-container').append(content);
         },
         createPageLayer: function (data) {
             const message = data['message'];
@@ -925,8 +955,8 @@ const paymentFunctionSet = (function () {
             });
         }, // entrancePayment end
         // 픽셀을 선물하는 메소드
-        presentPixel: function () {
-            
+        deleteNoti: function (id) {
+            $(`#${id}`).remove();
         },
     }
 })();
@@ -1173,24 +1203,27 @@ $(() => {
         }),
         // 픽셀 선물하기 수행버튼 클릭시 이벤트
         $('#execute-present').on('click', function(){
-            const selectedPixel = parseInt($('input[name=pixel-amount-list]').val());
+            const selectedPixel = parseInt($('input[name=pixel-amount-list]:checked').val());
             const myPixel = parseInt($('#my-pixel').val());
             const targetId = $('#target-drawer-id').val();
             const targetNick = $('#target-drawer-nickname').val();
 
+            pixelIndex++;
             const data = {
                 sender: user_id,
                 senderNickname: mynickname,
                 receiver: targetId,
                 receiverNickname: targetNick,
-                pixel: selectedPixel
+                pixel: selectedPixel,
+                message: $('#present-message').val(),
+                pixelIndex: pixelIndex
             };
 
             if (selectedPixel > myPixel) {
                 alert("持っているピックセルより多いので、プレゼントが出来ませんでした。");
             } else {
                 $.ajax({
-                    url:'payment/presentPixel',
+                    url:'/payment/presentPixel',
                     type:'post',
                     dataType:'json',
                     data: JSON.stringify(data),
@@ -1200,19 +1233,21 @@ $(() => {
 
                         if (isSuccess) {
                             alert("プレゼントしました！");
+                            $('#present-pixel-modal').modal('hide');
                             socketSenderFunctionSet.sendMessage(data, 'PRESENTPIXEL');
                         } else {
+                            pixelIndex--;
                             alert("サーバーの問題で、プレゼントが出来ませんでした。");
                         }
                     },
                     error: function() {
+                        pixelIndex--;
                         console.log("통신실패");
                     }
                 });
             }
         }),
     ];
-
     // ******************* 레인지바 초기설정함수 *****************//
     (function initAndSetupTheSliders() {
         var inputs = [].slice.call(document.querySelectorAll('.range-slider input'));

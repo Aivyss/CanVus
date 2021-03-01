@@ -80,7 +80,26 @@
     <c:otherwise>
         <script src="/resources/js/drawing/drawingFunctionSet.js?reload"></script>
         <jsp:include page="/WEB-INF/views/baseJSP/toolTop.jsp"></jsp:include>
-        <!-- 그리기 및 소켓관련 js -->
+
+        <!-- 픽셀선물 토스트 -->
+        <div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 1px; z-index:9999;">
+            <!-- Position it -->
+            <div id="toasts-container" style="position: absolute; top: 0; right: 0;">
+                <!-- Then put toasts within -->
+<%--                <div id= "noti-userid-1" class="toast" role="alert" aria-live="assertive" aria-atomic="true">--%>
+<%--                    <div class="toast-header">--%>
+<%--                        <strong class="mr-auto">Aivyss -> ???</strong>--%>
+<%--                        <small class="text-muted">500Pixel</small>--%>
+<%--                        <button id="noti-userId-1-btn" type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">--%>
+<%--                            <span aria-hidden="true">&times;</span>--%>
+<%--                        </button>--%>
+<%--                    </div>--%>
+<%--                    <div class="toast-body">--%>
+<%--                        이거 줄게 먹고 떨어져1--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+            </div>
+        </div>
 
         <!-- 본격적인 드로잉 페이지 시작 -->
         <div class="container-fluid">
@@ -227,6 +246,8 @@
                 <div class="row">
                     <h4>あなたが持っているピックセルの数です。</h4>
                     <input type="text" id="my-pixel" class="form-control" readonly="readonly">
+                    <h4>下にメッセージを作成したください。</h4>
+                    <input type="text" id="present-message" class="form-control">
                 </div>
 
                 <!-- 히든 벨류 -->
