@@ -1047,11 +1047,23 @@ $(() => {
             let tabId = e.target.id;
 
             if (tabId == 'CreatePage') { // 페이지 생성의 경우
-                drawingFunctionSet.createPageComponent();
-                const maxPage = layerSet.length;
-                $('#tablist').children().removeClass('active');
-                $('#tablist').children().last().addClass('active');
-                drawingFunctionSet.pageSwitching('pli' + maxPage);
+                let isDrawer = false;
+                for (const drawerId of drawerIdList) {
+                    if (drawer == user_id){
+                        isDrawer = true;
+                        break;
+                    }
+                }
+
+                if (isDrawer) {
+                    drawingFunctionSet.createPageComponent();
+                    const maxPage = layerSet.length;
+                    $('#tablist').children().removeClass('active');
+                    $('#tablist').children().last().addClass('active');
+                    drawingFunctionSet.pageSwitching('pli' + maxPage);
+                } else {
+                    alert("許可されたDrawer専用の機能です。");
+                }
             } else { // 페이지 열람의 경우
                 drawingFunctionSet.pageSwitching(tabId);
             }

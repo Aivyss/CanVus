@@ -50,6 +50,8 @@ public class UserService {
     private BookmarkDAO bookmarkDAO;
     @Autowired
     private FollowingsService followingsService;
+    @Autowired
+    private PaymentDAO paymentDAO;
 
     /**
      * login business logic
@@ -254,5 +256,25 @@ public class UserService {
         result.put("pixel", pixel);
 
         return result;
+    }
+
+    /**
+     * 픽셀 매니지먼트로 이동하는 서비스 메소드
+     * 20210301
+     * 이한결
+     * @param session
+     * @param model
+     * @return
+     */
+    public String pixelManagement(HttpSession session, Model model) {
+        String userId= (String) session.getAttribute("userId");
+
+        List<BillVO> billList = paymentDAO.getPaymentHistory(userId);
+        List<TransactionPixelVO> trnxList = paymentDAO.getTransactionHistory(userId);
+
+        log.info(billList.toString());
+        log.info(trnxList.toString());
+
+        return "user/pixelManagement";
     }
 }

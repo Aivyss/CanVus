@@ -11,6 +11,7 @@
     <title>Title</title>
 </head>
 <body>
-
+<jsp:include page="/WEB-INF/views/baseJSP/mainMenu.jsp"></jsp:include>
+<h1>SQL 성공</h1>
 </body>
 </html>

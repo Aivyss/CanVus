@@ -25,5 +25,37 @@
 		)
 	</insert>
 
+	<select id="getPaymentHistory" parameterType="string" resultType="bill">
+		SELECT
+			P.MERCHANT_UID	AS merchant_uid
+			 ,P.USER_ID	AS user_id
+			 ,P.PAID_AMOUNT	AS paid_amount
+			 ,P.PIXEL	AS pixel
+			 ,TO_CHAR(TMP.PAYMENTTIME, 'MM-DD')  AS  output_date
+		FROM
+			PAYMENT_TABLE P, (
+			SELECT
+				TO_DATE(TO_CHAR(TO_DATE('19700101090000', 'YYYYMMDDHH24MISS') + (PP.INPUTDATE/86400), 'YYYYMMDDHH24MISS'), 'YYYYMMDDHH24MISS') AS PAYMENTTIME
+			FROM
+				PAYMENT_TABLE PP
+		) TMP
+		WHERE
+			TMP.PAYMENTTIME BETWEEN  (
+				SELECT
+					TO_DATE(TO_CHAR(ADD_MONTHS(LAST_DAY(SYSDATE)+1,-1),'YYYYMMDD'), 'YY-MM-DD') AS MONTH_FIRST_DAY
+				FROM
+					DUAL
+			) AND (
+				SELECT
+					LAST_DAY(SYSDATE) AS  LAST_DAY
+				FROM
+					DUAL
+			)
+		  AND
+			P.USER_ID = #{string}
+		ORDER BY
+			TMP.PAYMENTTIME ASC
+	</select>
+
 
 </mapper>

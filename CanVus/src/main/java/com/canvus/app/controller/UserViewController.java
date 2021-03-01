@@ -94,12 +94,21 @@ public class UserViewController {
 
 		return userService.restSeeMore(params);
 	}
-	
+
+	/**
+	 * 픽셀 매니지먼트로 이동하는 컨트롤러
+	 * 20210301
+	 * 이한결
+	 * @param session
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value="/pixelManagement", method=RequestMethod.GET)
-	public String pixelManagement() {
+	public String pixelManagement(HttpSession session, Model model) {
 		log.info("pixel management로 이동");
+
 		
-		return "user/pixelManagement";
+		return userService.pixelManagement(session, model);
 	}
 
 	/**
