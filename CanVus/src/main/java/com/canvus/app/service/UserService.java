@@ -272,8 +272,12 @@ public class UserService {
         List<BillVO> billList = paymentDAO.getPaymentHistory(userId);
         List<TransactionPixelVO> trnxList = paymentDAO.getTransactionHistory(userId);
 
-        log.info(billList.toString());
-        log.info(trnxList.toString());
+        for(BillVO bill : billList) {
+            bill.setMerchant_uid(bill.getMerchant_uid().split("-")[2]);
+        }
+
+        model.addAttribute("billList", billList);
+        model.addAttribute("trnxList", trnxList);
 
         return "user/pixelManagement";
     }
