@@ -24,6 +24,8 @@ public class DiscoverService {
 
     public String view(Model model, HttpSession session){
 
+        log.info("Service 진입");
+
         ArrayList<String> tagList = dao.getRecommendationTag((String) session.getAttribute("userId"));
 
         model.addAttribute("tagList", tagList);
@@ -48,4 +50,5 @@ public class DiscoverService {
         return param;
 
     }
+
 }

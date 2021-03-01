@@ -31,6 +31,8 @@ public class DiscoverDAO {
 
         ArrayList<String> tagList = null;
 
+        log.info("DAO 진입");
+
         try {
             DiscoverMapper mapper = session.getMapper(DiscoverMapper.class);
             tagList = mapper.getRecommendationTag(userId);
@@ -43,6 +45,7 @@ public class DiscoverDAO {
         return tagList;
 
     }
+
 
     public int getFeedCount(String header, String tag, String userId){
 
@@ -74,6 +77,7 @@ public class DiscoverDAO {
         return list;
 
     }
+
 
 
 }

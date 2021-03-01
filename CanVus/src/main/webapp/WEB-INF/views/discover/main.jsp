@@ -9,6 +9,9 @@
 <body>
 <jsp:include page="/WEB-INF/views/baseJSP/mainMenu.jsp"></jsp:include>
 
+${tagList}
+
+
 
 
 

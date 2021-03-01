@@ -31,10 +31,12 @@ public class DiscoverController {
     public String view(Model model, HttpSession session){
 
         log.info("DiscoverController view 진입");
+        log.info("userId : {}", session.getAttribute("userId"));
+
+
 
         return service.view(model, session);
     }
-
 
     //피드 갖고오기, 페이징
     @RequestMapping(value = "tag", method = RequestMethod.POST)
@@ -55,4 +57,6 @@ public class DiscoverController {
     //모델은 페이지가 옮겨갈 때 사용할 수 있다.
 
     //tag로 트랜딩을 구분하면 안 된다
+
+
 }

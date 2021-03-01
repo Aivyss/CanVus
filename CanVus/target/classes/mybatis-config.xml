@@ -40,6 +40,7 @@
 		<mapper resource="mapper/FeedCommentMapper.xml" />
 		<mapper resource="mapper/LikeMapper.xml" />
 		<mapper resource="mapper/BrowseMapper.xml"/>
+		<mapper resource="mapper/DiscoverMapper.xml"/>
 		<mapper resource="mapper/HistoriesMapper.xml"/>
 	</mappers>
 </configuration>

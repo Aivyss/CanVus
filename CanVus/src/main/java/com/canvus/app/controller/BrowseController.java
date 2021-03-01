@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -26,6 +28,8 @@ public class BrowseController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(Model model, @RequestParam(defaultValue = "") String title,
                        @RequestParam(defaultValue = "1")int page){
+
+        log.info("BrowseController 진입");
 
         log.info("keyword : {}", title);
         //인원, 사진, 호스트, 방제목, Room ID, 인수 제한
