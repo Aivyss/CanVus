@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.canvus.app.dao.mapper.DiscoverMapper">
 
-<select id="getRecommendationTag" resultType="string">
-SELECT
-    *
-FROM
-    (
+    <select id="getRecommendationTag" resultType="string">
         SELECT
             T.TAG_NAME AS TAG
         FROM
@@ -27,120 +23,89 @@ FROM
         ORDER BY
             COUNT(T.TAG_NAME) DESC,
             T.TAG_NAME
-    )
-WHERE
-    ROWNUM &lt;=5
+    </select>
 
-</select>
-
-<select id="getFeedCount" resultType="int">
-    <choose>
-        <when test='header == "trending"'>
-            SELECT
+    <select id="getFeedCount" resultType="int">
+        <choose>
+            <when test='header == "trending"'>
+                SELECT
                 COUNT(DISTINCT F.FEED_ID) AS COUNT
-            FROM
+                FROM
                 FEEDS F,
                 LIKE_TABLE L
-            WHERE
+                WHERE
                 F.FEED_ID = L.FEED_ID
-            AND
+                AND
                 (SYSDATE - F.INPUTDATE) &lt;= 31
-        </when>
-        <otherwise>
-            SELECT
+            </when>
+            <otherwise>
+                SELECT
                 COUNT(DISTINCT FD.FEED_ID) AS COUNT
-            FROM
+                FROM
                 FEEDS FD,
                 TAGS_IN_FEED T,
                 LIKE_TABLE L
-            WHERE
+                WHERE
                 FD.FEED_ID = T.FEED_ID
-            AND
+                AND
                 FD.FEED_ID = L.FEED_ID
-            AND
+                AND
                 T.TAG_NAME = #{tag}
-            AND
+                AND
                 (SYSDATE - FD.INPUTDATE) &lt;= 31
-            AND
+                AND
                 FD.FEED_ID NOT IN(
-            SELECT
-                FD1.FEED_ID
-            FROM
-                FEEDS FD1
-            WHERE
-                FD1.USER_ID1 = #{userId}
-                OR
-                FD1.USER_ID2 = #{userId}
-                OR
-                FD1.USER_ID3 = #{userId}
-                OR
-                FD1.USER_ID4 = #{userId}
+                SELECT FD1.FEED_ID
+                FROM FEEDS FD1
+                WHERE
+                #{userId} IN (
+                FD1.USER_ID1, FD1.USER_ID2, FD1.USER_ID3, FD1.USER_ID4
+                )
                 )
                 AND
-                FD.USER_ID1 NOT IN(
-                    SELECT
-                        FL1.FOLLOWING_ID
-                    FROM
-                        FOLLOWINGS FL1
-                    WHERE
-                        FL1.USER_ID = #{userId}
+                FD.FEED_ID NOT IN(
+                SELECT FD2.FEED_ID
+                FROM
+                FEEDS FD2,
+                FOLLOWINGS FL
+                WHERE
+                FL.FOLLOWING_ID IN(
+                FD2.USER_ID1, FD2.USER_ID2, FD2.USER_ID3, FD2.USER_ID4
                 )
                 AND
-                FD.USER_ID2 NOT IN(
-                    SELECT
-                        FL2.FOLLOWING_ID
-                    FROM
-                        FOLLOWINGS FL2
-                    WHERE
-                        FL2.USER_ID = #{userId}
+                FL.USER_ID = #{userId}
                 )
-                AND
-                FD.USER_ID3 NOT IN(
-                    SELECT
-                        FL3.FOLLOWING_ID
-                    FROM
-                        FOLLOWINGS FL3
-                    WHERE
-                        FL3.USER_ID = #{userId}
-                )
-                AND
-                FD.USER_ID4 NOT IN(
-                    SELECT
-                        FL4.FOLLOWING_ID
-                    FROM
-                        FOLLOWINGS FL4
-                    WHERE
-                        FL4.USER_ID = #{userId}
-                )
-        </otherwise>
-    </choose>
-</select>
 
-<select id="getFeedsByTag" resultType="hashmap">
-    <choose>
-        <when test='header == "trending"'>
-            SELECT
+
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="getFeedsByTag" resultType="hashmap">
+        <choose>
+            <when test='header == "trending"'>
+                SELECT
                 DISTINCT(F.FEED_ID) AS FEED_ID, CONCAT(F.FEED_ID, '--divide--1.png') AS PREVIEW
-            FROM
+                FROM
                 FEEDS F,
                 LIKE_TABLE L
-            WHERE
+                WHERE
                 F.FEED_ID = L.FEED_ID
-            AND
+                AND
                 (SYSDATE - F.INPUTDATE) &lt;= 31
-            GROUP BY
+                GROUP BY
                 F.FEED_ID
-            ORDER BY
+                ORDER BY
                 COUNT(L.FEED_ID) DESC
-        </when>
-        <otherwise>
-            SELECT
+            </when>
+            <otherwise>
+                SELECT
                 DISTINCT(FD.FEED_ID) AS FEED_ID, CONCAT(FD.FEED_ID, '--divide--1.png') AS PREVIEW
-            FROM
+                FROM
                 FEEDS FD,
                 TAGS_IN_FEED T,
                 LIKE_TABLE L
-            WHERE
+                WHERE
                 FD.FEED_ID = T.FEED_ID
                 AND
                 FD.FEED_ID = L.FEED_ID
@@ -150,62 +115,33 @@ WHERE
                 (SYSDATE - FD.INPUTDATE) &lt;= 31
                 AND
                 FD.FEED_ID NOT IN(
-                    SELECT
-                        FD1.FEED_ID
-                    FROM
-                        FEEDS FD1
-                    WHERE
-                        FD1.USER_ID1 = #{userId}
-                        OR
-                        FD1.USER_ID2 = #{userId}
-                        OR
-                        FD1.USER_ID3 = #{userId}
-                        OR
-                        FD1.USER_ID4 = #{userId}
+                SELECT FD1.FEED_ID
+                FROM FEEDS FD1
+                WHERE
+                #{userId} IN (
+                FD1.USER_ID1, FD1.USER_ID2, FD1.USER_ID3, FD1.USER_ID4
+                )
                 )
                 AND
-                FD.USER_ID1 NOT IN(
-                    SELECT
-                        FL1.FOLLOWING_ID
-                    FROM
-                        FOLLOWINGS FL1
-                    WHERE
-                        FL1.USER_ID = #{userId}
+                FD.FEED_ID NOT IN(
+                SELECT FD2.FEED_ID
+                FROM
+                FEEDS FD2,
+                FOLLOWINGS FL
+                WHERE
+                FL.FOLLOWING_ID IN(
+                FD2.USER_ID1, FD2.USER_ID2, FD2.USER_ID3, FD2.USER_ID4
                 )
                 AND
-                FD.USER_ID2 NOT IN(
-                    SELECT
-                        FL2.FOLLOWING_ID
-                    FROM
-                        FOLLOWINGS FL2
-                    WHERE
-                        FL2.USER_ID = #{userId}
+                FL.USER_ID = #{userId}
                 )
-                AND
-                FD.USER_ID3 NOT IN(
-                    SELECT
-                        FL3.FOLLOWING_ID
-                    FROM
-                        FOLLOWINGS FL3
-                    WHERE
-                        FL3.USER_ID = #{userId}
-                )
-                AND
-                FD.USER_ID4 NOT IN(
-                    SELECT
-                        FL4.FOLLOWING_ID
-                    FROM
-                        FOLLOWINGS FL4
-                    WHERE
-                        FL4.USER_ID = #{userId}
-                )
-            GROUP BY
+                GROUP BY
                 FD.FEED_ID
-            ORDER BY
+                ORDER BY
                 COUNT(L.LIKE_ID) DESC
-        </otherwise>
-    </choose>
-</select>
+            </otherwise>
+        </choose>
+    </select>
 
 
 
