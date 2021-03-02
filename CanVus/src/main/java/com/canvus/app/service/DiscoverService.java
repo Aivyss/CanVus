@@ -20,7 +20,7 @@ public class DiscoverService {
     @Autowired
     private DiscoverDAO dao;
 
-    private final int countPerPage = 3;
+    private final int countPerPage = 8;
     private final int pagePerGroup = 5;
 
 

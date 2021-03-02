@@ -8,7 +8,7 @@ function createModal(url) {
 
             $('#feed-overlay').empty();
             $('#feed-overlay').append(refined.html());
-            $('.container-feed').css({'margin-top': '200px'});
+            $('.container-feed').css({'margin-top': '80px'});
             const feedHeight = $('.container-feed').css('height');
             $('.modal-backdrop').css({"height":`${feedHeight+200}px`});
             $('#feed-overlay').modal('show');

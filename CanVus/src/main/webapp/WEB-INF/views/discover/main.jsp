@@ -13,43 +13,49 @@
 <jsp:include page="/WEB-INF/views/baseJSP/mainMenu.jsp"></jsp:include>
 <script src="/resources/js/discover/discover.js"></script>
 
-${tagList}
 <div class="container-fluid">
-    <div class="col-md-1"></div>
-    <div class="col-md-10">
-        <div class="row">
-            <div role="tabpanel">
-                <!-- Nav tabs -->
-                <ul class="nav nav-tabs" role="tablist" id="taglist">
-                    <li role="presentation" class="active" id="tab-trending">
-                        <a aria-controls="CreatePage" role="tab" data-toggle="tab"
-                           id="tab-a-trending">#trending</a>
-                    </li>
-                    <c:forEach items="${tagList}" var="tag">
-                        <li role="presentation" class="" id="tab-${tag}">
-                            <a aria-controls="${tag}" role="tab" data-toggle="tab"
-                               id="tab-a-${tag}">${tag}</a>
+    <!-- 프리뷰 파트 -->
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <div class="row">
+                <div role="tabpanel">
+                    <!-- 탭 파트 -->
+                    <ul class="nav nav-tabs" role="tablist" id="taglist" style="font-size:24px;">
+                        <li role="presentation" class="active" id="tab-trending">
+                            <a aria-controls="trending" role="tab" data-toggle="tab"
+                               id="tab-a-trending">#trending</a>
                         </li>
-                    </c:forEach>
-                </ul>
+                        <c:forEach items="${tagList}" var="tag">
+                            <li role="presentation" class="" id="tab-${tag}">
+                                <a aria-controls="${tag}" role="tab" data-toggle="tab"
+                                   id="tab-a-${tag}">#${tag}</a>
+                            </li>
+                        </c:forEach>
+                    </ul>
 
-                <!-- Tab panes -->
-                <div class="tab-content center-block" id="tabPanes">
-                    <div role="tabpanel"
-                         class="tab-pane figure figure_bg figure_bg_light center-block in active"
-                         id="pane-trending">
-                    </div>
-                    <c:forEach items="${tagList}" var="tag">
+                    <!-- pane 파트 -->
+                    <div class="tab-content center-block" id="tabPanes">
                         <div role="tabpanel"
-                             class="tab-pane figure figure_bg figure_bg_light center-block"
-                             id="pane-${tag}">
+                             class="tab-pane figure figure_bg figure_bg_light center-block in active"
+                             id="pane-trending">
                         </div>
-                    </c:forEach>
+                        <c:forEach items="${tagList}" var="tag">
+                            <div role="tabpanel"
+                                 class="tab-pane figure figure_bg figure_bg_light center-block"
+                                 id="pane-${tag}">
+                            </div>
+                        </c:forEach>
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="col-md-1"></div>
     </div>
-    <div class="col-md-1"></div>
+    <!-- 페이지네이션 파트 -->
+    <div class="row" id="pagination-container">
+
+    </div>
 </div>
 
 <!-- feed view overlay -->

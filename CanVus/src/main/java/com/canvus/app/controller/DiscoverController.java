@@ -33,8 +33,6 @@ public class DiscoverController {
         log.info("DiscoverController view 진입");
         log.info("userId : {}", session.getAttribute("userId"));
 
-
-
         return service.view(model, session);
     }
 

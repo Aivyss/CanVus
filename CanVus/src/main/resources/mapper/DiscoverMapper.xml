@@ -7,22 +7,28 @@
 
     <select id="getRecommendationTag" resultType="string">
         SELECT
-            T.TAG_NAME AS TAG
-        FROM
-            HISTORIES H,
-            FEEDS F,
-            TAGS_IN_FEED T
+            *
+        FROM (
+             SELECT
+                 T.TAG_NAME AS TAG
+             FROM
+                 HISTORIES H,
+                 FEEDS F,
+                 TAGS_IN_FEED T
+             WHERE
+                 H.FEED_ID = F.FEED_ID
+               AND
+                 F.FEED_ID = T.FEED_ID
+               AND
+                 H.USER_ID = #{userId}
+             GROUP BY
+                 T.TAG_NAME
+             ORDER BY
+                 COUNT(T.TAG_NAME) DESC,
+                 T.TAG_NAME
+        )
         WHERE
-            H.FEED_ID = F.FEED_ID
-          AND
-            F.FEED_ID = T.FEED_ID
-          AND
-            H.USER_ID = #{userId}
-        GROUP BY
-            T.TAG_NAME
-        ORDER BY
-            COUNT(T.TAG_NAME) DESC,
-            T.TAG_NAME
+            ROWNUM &lt;= 5
     </select>
 
     <select id="getFeedCount" resultType="int">
