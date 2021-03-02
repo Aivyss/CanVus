@@ -36,7 +36,7 @@ public class DiscoverDAO {
         try {
             DiscoverMapper mapper = session.getMapper(DiscoverMapper.class);
             tagList = mapper.getRecommendationTag(userId);
-            tagList.add(0,"#trending");
+            //tagList.add(0,"#trending");
         }
         catch (Exception e){
             e.printStackTrace();
@@ -69,6 +69,7 @@ public class DiscoverDAO {
         try {
             DiscoverMapper mapper = session.getMapper(DiscoverMapper.class);
             list = mapper.getFeedsByTag(header, tag, userId, rb);
+
         }
         catch (Exception e){
             e.printStackTrace();

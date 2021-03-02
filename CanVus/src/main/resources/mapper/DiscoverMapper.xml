@@ -7,22 +7,30 @@
 
 <select id="getRecommendationTag" resultType="string">
 SELECT
-    T.TAG_NAME AS TAG
+    *
 FROM
-    HISTORIES H,
-    FEEDS F,
-    TAGS_IN_FEED T
+    (
+        SELECT
+            T.TAG_NAME AS TAG
+        FROM
+            HISTORIES H,
+            FEEDS F,
+            TAGS_IN_FEED T
+        WHERE
+            H.FEED_ID = F.FEED_ID
+          AND
+            F.FEED_ID = T.FEED_ID
+          AND
+            H.USER_ID = #{userId}
+        GROUP BY
+            T.TAG_NAME
+        ORDER BY
+            COUNT(T.TAG_NAME) DESC,
+            T.TAG_NAME
+    )
 WHERE
-    H.FEED_ID = F.FEED_ID
-    AND
-    F.FEED_ID = T.FEED_ID
-    AND
-    H.USER_ID = #{userId}
-GROUP BY
-    T.TAG_NAME
-ORDER BY
-    COUNT(T.TAG_NAME) DESC,
-    T.TAG_NAME
+    ROWNUM &lt;=5
+
 </select>
 
 <select id="getFeedCount" resultType="int">
@@ -112,7 +120,7 @@ ORDER BY
     <choose>
         <when test='header == "trending"'>
             SELECT
-                DISTINCT(F.FEED_ID) AS FEED_ID, CONCAT(F.FEED_ID, 'divide1.png') AS PREVIEW
+                DISTINCT(F.FEED_ID) AS FEED_ID, CONCAT(F.FEED_ID, '--divide--1.png') AS PREVIEW
             FROM
                 FEEDS F,
                 LIKE_TABLE L
@@ -127,7 +135,7 @@ ORDER BY
         </when>
         <otherwise>
             SELECT
-                DISTINCT(FD.FEED_ID) AS FEED_ID, CONCAT(FD.FEED_ID, 'divide1.png') AS PREVIEW
+                DISTINCT(FD.FEED_ID) AS FEED_ID, CONCAT(FD.FEED_ID, '--divide--1.png') AS PREVIEW
             FROM
                 FEEDS FD,
                 TAGS_IN_FEED T,

@@ -39,11 +39,14 @@ public class DiscoverController {
     }
 
     //피드 갖고오기, 페이징
-    @RequestMapping(value = "tag", method = RequestMethod.POST)
+    @RequestMapping(value = "/tag", method = RequestMethod.POST)
     @ResponseBody
     public HashMap<String, Object> getPage( HttpSession session,
                                             @RequestBody HashMap<String, Object> param){
         log.info("페이징 메소드 진입");
+
+        log.info("controller param {}", param.toString());
+
         return service.getTagPage(param, session);
     }
 
