@@ -44,7 +44,7 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <script src="/resources/js/baseJSP/mainMenu.js?reload"></script>
+    <script src="/resources/js/baseJSP/mainMenu.js?after"></script>
 </head>
 <body data-spy="scroll" data-target="#header" style="padding-bottom: 50px;">
 <!--Start Hedaer Section-->
@@ -99,28 +99,29 @@
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <form class="px-4 py-3 " style="width: 350px;"
                                                       action="/drawing/createRoom"
-                                                      method="post">
+                                                      method="post" id="create-room-form">
                                                     <div class="form-group" style="padding: 10px 10px 0 10px;">
-                                                        <label for="exampleDropdownFormTitle">Title</label>
+                                                        <label for="exampleDropdownFormTitle">ルームの名</label>
                                                         <input type="text" class="form-control"
                                                                id="exampleDropdownFormTitle" name="title"
                                                                placeholder="write the title">
                                                     </div>
                                                     <div class="form-group" style="padding: 10px 10px 0 10px;">
-                                                        <label for="exampleDropdownFormPassword">Password</label>
+                                                        <label for="exampleDropdownFormPassword">パスワード</label>
                                                         <input type="password" class="form-control"
                                                                id="exampleDropdownFormPassword" name="password"
                                                                placeholder="Password">
                                                     </div>
                                                     <div class="form-group" style="padding: 10px 10px 0 10px;">
-                                                        <label for="exampleDropdownFormNumberOfPpl">No.Ppl</label>
+                                                        <label for="exampleDropdownFormNumberOfPpl">人数</label>
                                                         <input type="text" class="form-control"
                                                                id="exampleDropdownFormNumberOfPpl" name="user_no"
                                                                placeholder="write capacity of the room">
                                                     </div>
                                                     <div align="center">
-                                                        <button type="submit" class="btn btn-navv btn-primary"
-                                                                style="width: 150px;">
+                                                        <button type="button" class="btn btn-navv btn-primary"
+                                                                style="width: 150px;"
+                                                                id="create-room-btn">
                                                             Create
                                                         </button>
                                                     </div>
