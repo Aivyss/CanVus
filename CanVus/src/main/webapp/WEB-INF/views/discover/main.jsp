@@ -11,7 +11,7 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/baseJSP/mainMenu.jsp"></jsp:include>
-<script src="/resources/js/discover/discover.js"></script>
+<script src="/resources/js/discover/discover.js?reload"></script>
 
 <div class="container-fluid">
     <!-- 프리뷰 파트 -->
