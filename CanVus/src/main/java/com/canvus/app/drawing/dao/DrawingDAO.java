@@ -219,19 +219,16 @@ public class DrawingDAO {
 	 * @param quitedUser
 	 * @return
 	 */
-	public boolean quitRoom(DrawingUserVO quitedUser) {
-		boolean check = false;
+	public void quitRoom(DrawingUserVO quitedUser) {
 		log.info("방퇴장 sql 처리과정에 들어오는지 확인");
 		
 		try {
 			JoinListMapper mapper = session.getMapper(JoinListMapper.class);
-			check = mapper.quitRoom(quitedUser);
+			mapper.quitRoom(quitedUser);
 		} catch (Exception e) {
 			log.info("퇴장처리 sql오류");
 			e.printStackTrace();
 		}
-		
-		return check;
 	}
 
 	/**

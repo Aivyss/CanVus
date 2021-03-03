@@ -94,13 +94,62 @@ const socketFunctionSet = (function () {
             for (let i = 0; i < numOfDrawers; i++) {
                 const content = `
                     <button class="btn btn-primary" type="button" id="drawerTop-${drawerIdList[i]}">
-                        ${drawerNicknameList[i]} <span class="badge">0</span>
+                        ${drawerNicknameList[i]}
                     </button>`;
                 $('#drawerList').append(content);
             }
         },
         quit: function (data) {
+            messageController.chatReply(data);
+            const userList = data['userListInRoom'];
 
+            $('#canvus-list').empty();
+            $('#drawerList').empty();
+            authCount = 0;
+            drawerNicknameList = [];
+            drawerIdList = [];
+
+            // 전체 유저리스트 생성
+            if (admin_id == user_id) { // 어드민이 입장한 경우
+                for (const user of userList) {
+                    if (user['user_type'] == 'VISITOR') { // 유저리스트의 유저가 방문자인 경우
+                        $('#canvus-list').append(
+                            `<li>
+                                <a href="#">
+                                    ${user['nickname']}
+                                    <button type="button" class="btn btn-success addAuthority" id="list${user['user_id']}">
+                                        一緒に
+                                    </button>
+                                </a>
+                            </li>`);
+                    } else { // 유저 리스트의 유저가 drawer인 경우
+                        drawerNicknameList.push(user['nickname']);
+                        drawerIdList.push(user['user_id']);
+                        $('#canvus-list').append(`<li><a href="#">${user['nickname']}</a></li>`);
+                        authCount++;
+                    }
+                }
+            } else { //  VISITOR와 DRAWER가 입장한 경우
+                for (const user of userList) {
+                    // 드로워 추출
+                    if (user['user_type'] != 'VISITOR') {
+                        drawerNicknameList.push(user['nickname']);
+                        drawerIdList.push(user['user_id']);
+                    }
+
+                    $('#canvus-list').append(`<li><a href="#">${user['nickname']}</a></li>`);
+                }
+            }
+
+            // 드로워 리스트 생성
+            const numOfDrawers = drawerIdList.length;
+            for (let i = 0; i < numOfDrawers; i++) {
+                const content = `
+                    <button class="btn btn-primary" type="button" id="drawerTop-${drawerIdList[i]}">
+                        ${drawerNicknameList[i]}
+                    </button>`;
+                $('#drawerList').append(content);
+            }
         },
         presentPixel: function (data) {
             const message = data['message'];
@@ -193,7 +242,7 @@ const socketFunctionSet = (function () {
             drawerNicknameList.push(targetNickname);
         },
         closeRoom: function () {
-            socketSenderFunctionSet.disconnect();
+            socketSenderFunctionSet.disconnect(room_Id, user_id);
             if (confirm("Adminがフィードを作成してルームが閉まりました。")) {
                 location.href = "/";
             } else {
@@ -1004,7 +1053,7 @@ socketSenderFunctionSet.connect(); // 소켓 커넥트 실시
 // ********** 소켓 전송과 관련된 이벤트 ********** //
 // 페이지 종료 이벤트 --> 소켓종료
 $(window).on('beforeunload', function () {
-    socketSenderFunctionSet.disconnect();
+    socketSenderFunctionSet.disconnect(room_Id, user_id);
 });
 
 /*********************** ready 파트 및 이벤트 등록파트 *******************/
@@ -1154,7 +1203,7 @@ $(() => {
             if (eventId == 'Edit-feed') {
                 createFeedController.createFeed();
             } else if (eventId == 'Edit-exit') {
-                socketSenderFunctionSet.disconnect();
+                socketSenderFunctionSet.disconnect(room_Id, user_id);
             }
         }),
         // 피드작성 취소 이벤트

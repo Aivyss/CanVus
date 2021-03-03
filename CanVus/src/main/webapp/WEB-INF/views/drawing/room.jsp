@@ -56,7 +56,8 @@
         </script>
         <script type="text/javascript" src="/resources/js/drawing/passwordCheck.js"></script>
         <!-- 비밀번호 입력 모달파트 data-backdrop="static"(검은 배경을 눌러도 안닫히게) data-keyboard="false"(esc 눌러도 안닫히게) -->
-        <div class="modal fade" tabindex="-1" role="dialog" id="entrance-modal" data-backdrop="static" data-keyboard="false">
+        <div class="modal fade" tabindex="-1" role="dialog" id="entrance-modal" data-backdrop="static"
+             data-keyboard="false">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -70,7 +71,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button id="cancel-entrance" type="button" class="btn btn-secondary" data-dismiss="modal">戻る</button>
+                        <button id="cancel-entrance" type="button" class="btn btn-secondary" data-dismiss="modal">戻る
+                        </button>
                         <button id="execute-entrance" type="button" class="btn btn-primary">入室</button>
                     </div>
                 </div>
@@ -86,18 +88,18 @@
             <!-- Position it -->
             <div id="toasts-container" style="position: absolute; top: 0; right: 0;">
                 <!-- Then put toasts within -->
-<%--                <div id= "noti-userid-1" class="toast" role="alert" aria-live="assertive" aria-atomic="true">--%>
-<%--                    <div class="toast-header">--%>
-<%--                        <strong class="mr-auto">Aivyss -> ???</strong>--%>
-<%--                        <small class="text-muted">500Pixel</small>--%>
-<%--                        <button id="noti-userId-1-btn" type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">--%>
-<%--                            <span aria-hidden="true">&times;</span>--%>
-<%--                        </button>--%>
-<%--                    </div>--%>
-<%--                    <div class="toast-body">--%>
-<%--                        이거 줄게 먹고 떨어져1--%>
-<%--                    </div>--%>
-<%--                </div>--%>
+                    <%--                <div id= "noti-userid-1" class="toast" role="alert" aria-live="assertive" aria-atomic="true">--%>
+                    <%--                    <div class="toast-header">--%>
+                    <%--                        <strong class="mr-auto">Aivyss -> ???</strong>--%>
+                    <%--                        <small class="text-muted">500Pixel</small>--%>
+                    <%--                        <button id="noti-userId-1-btn" type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">--%>
+                    <%--                            <span aria-hidden="true">&times;</span>--%>
+                    <%--                        </button>--%>
+                    <%--                    </div>--%>
+                    <%--                    <div class="toast-body">--%>
+                    <%--                        이거 줄게 먹고 떨어져1--%>
+                    <%--                    </div>--%>
+                    <%--                </div>--%>
             </div>
         </div>
 
@@ -177,7 +179,11 @@
                         <div class="tab-content center-block" id="tabPanes">
                             <div role="tabpanel"
                                  class="tab-pane figure figure_bg figure_bg_light center-block in active"
-                                 id="createPageTab">...
+                                 id="createPageTab">
+                                <div class="jumbotron">
+                                    <h1>絵をかきましょう！</h1>
+                                    <p>Create Pageボータンを押してページを作ってみましょう。</p>
+                                </div>
                             </div>
                         </div>
                     </div>

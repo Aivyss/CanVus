@@ -160,17 +160,19 @@ public class StompService {
 	public Map<String, Object> quit(String room_Id, Map<String, Object> json) {
 		log.info("퇴장 처리 서비스 메소드 진입");
 		
-		// message에 있어야할 내용 : 퇴장하는 유저의 아이디	
+		// TODO message에 있어야할 내용 : 퇴장하는 유저의 아이디
 		Map<String, Object> message = (Map) json.get("message");
 		String userId = (String) message.get("userId");
 		List<DrawingUserVO> userListInRoom = null;
-		// 방을 퇴장시킨다.
-		boolean quitSuccess = drawingService.quitRoom(room_Id, userId);
-		
-		if (quitSuccess) {
-			json.put("userListInRoom", userListInRoom);
-		}
-		
+
+		// TODO 방을 퇴장시킨다.
+		drawingService.quitRoom(room_Id, userId);
+
+		// TODO 방 인원수를 다시 산출한다
+		userListInRoom = drawingService.getRoomUserList(room_Id);
+
+		json.put("userListInRoom", userListInRoom);
+
 		return json;
 	}
 	
