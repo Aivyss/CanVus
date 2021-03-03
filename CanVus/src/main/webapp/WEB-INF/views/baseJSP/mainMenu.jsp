@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 
@@ -86,71 +87,74 @@
                             <!-- Collect the nav links, forms, and other content for toggling -->
                             <div class="collapse navbar-collapse zero_mp" id="bs-example-navbar-collapse-1">
                                 <ul class="nav navbar-nav navbar-right main_menu">
-                                    <li><a href="/discover/" >Discover</a></li>
-                                    <li><a href="/browse/list">Browse</a></li>
-                                    <li>
-                                        <div class="dropdown">
-                                            <button class="btn btn-navv btn-secondary dropdown-toggle dropdown-toggle-nav"
-                                                    type="button"
-                                                    id="dropdownMenuButton"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Drawing
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <form class="px-4 py-3 " style="width: 350px;"
-                                                      action="/drawing/createRoom"
-                                                      method="post" id="create-room-form">
-                                                    <div class="form-group" style="padding: 10px 10px 0 10px;">
-                                                        <label for="exampleDropdownFormTitle">ルームの名</label>
-                                                        <input type="text" class="form-control"
-                                                               id="exampleDropdownFormTitle" name="title"
-                                                               placeholder="write the title">
-                                                    </div>
-                                                    <div class="form-group" style="padding: 10px 10px 0 10px;">
-                                                        <label for="exampleDropdownFormPassword">パスワード</label>
-                                                        <input type="password" class="form-control"
-                                                               id="exampleDropdownFormPassword" name="password"
-                                                               placeholder="Password">
-                                                    </div>
-                                                    <div class="form-group" style="padding: 10px 10px 0 10px;">
-                                                        <label for="exampleDropdownFormNumberOfPpl">人数</label>
-                                                        <input type="text" class="form-control"
-                                                               id="exampleDropdownFormNumberOfPpl" name="user_no"
-                                                               placeholder="write capacity of the room">
-                                                    </div>
-                                                    <div align="center">
-                                                        <button type="button" class="btn btn-navv btn-primary"
-                                                                style="width: 150px;"
-                                                                id="create-room-btn">
-                                                            Create
-                                                        </button>
-                                                    </div>
-                                                </form>
+                                    <c:if test="${not empty sessionScope.userVO}">
+                                        <li><a href="/discover/" >Discover</a></li>
+                                        <li><a href="/browse/list">Browse</a></li>
+                                        <li>
+                                            <div class="dropdown">
+                                                <button class="btn btn-navv btn-secondary dropdown-toggle dropdown-toggle-nav"
+                                                        type="button"
+                                                        id="dropdownMenuButton"
+                                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Drawing
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <form class="px-4 py-3 " style="width: 350px;"
+                                                          action="/drawing/createRoom"
+                                                          method="post" id="create-room-form">
+                                                        <div class="form-group" style="padding: 10px 10px 0 10px;">
+                                                            <label for="exampleDropdownFormTitle">ルームの名</label>
+                                                            <input type="text" class="form-control"
+                                                                   id="exampleDropdownFormTitle" name="title"
+                                                                   placeholder="write the title">
+                                                        </div>
+                                                        <div class="form-group" style="padding: 10px 10px 0 10px;">
+                                                            <label for="exampleDropdownFormPassword">パスワード</label>
+                                                            <input type="password" class="form-control"
+                                                                   id="exampleDropdownFormPassword" name="password"
+                                                                   placeholder="Password">
+                                                        </div>
+                                                        <div class="form-group" style="padding: 10px 10px 0 10px;">
+                                                            <label for="exampleDropdownFormNumberOfPpl">人数</label>
+                                                            <input type="text" class="form-control"
+                                                                   id="exampleDropdownFormNumberOfPpl" name="user_no"
+                                                                   placeholder="write capacity of the room">
+                                                        </div>
+                                                        <div align="center">
+                                                            <button type="button" class="btn btn-navv btn-primary"
+                                                                    style="width: 150px;"
+                                                                    id="create-room-btn">
+                                                                Create
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="dropdown">
-                                            <button class="dropdown-toggle dropdown-toggle-nav"
-                                                    type="button"
-                                                    id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-                                                Profile
-                                                <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                                                <li role="presentation"><a role="menuitem" tabindex="-1"
-                                                                           href="/user/board?user_id=${sessionScope.userVO.user_id}">My
-                                                    board</a></li>
-                                                <li role="presentation"><a role="menuitem" tabindex="-1"
-                                                                           href="/bookmark">BookMark</a></li>
-                                                <li role="presentation"><a role="menuitem" tabindex="-1"
-                                                                           href="/user/pixelManagement">pixelManagement</a>
-                                                </li>
-                                                <li role="presentation"><a role="menuitem" tabindex="-1"
-                                                                           href="/user/logout">Logout</a></li>
-                                            </ul>
-                                        </div>
-                                    </li>
+                                        </li>
+                                        <li>
+                                            <div class="dropdown">
+                                                <button class="dropdown-toggle dropdown-toggle-nav"
+                                                        type="button"
+                                                        id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                                                    Profile
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                                    <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                                               href="/user/board?user_id=${sessionScope.userVO.user_id}">My
+                                                        board</a></li>
+                                                    <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                                               href="/bookmark">BookMark</a></li>
+                                                    <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                                               href="/user/pixelManagement">pixelManagement</a>
+                                                    </li>
+                                                    <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                                               href="/user/logout">Logout</a></li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    </c:if>
+
                                 </ul>
                             </div>
                             <!-- /.navbar-collapse -->
