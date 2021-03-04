@@ -269,7 +269,7 @@
 </div>
 
 <!-- 픽셀결제 모달파트 -->
-<div class="modal fade" tabindex="-1" role="dialog" id="present-pixel-modal">
+<div class="modal fade" tabindex="-1" role="dialog" id="pixel-product-modal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -323,6 +323,30 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">戻る</button>
                 <button type="button" class="btn btn-primary" id="execute-payment">支払う</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 피드작성 모달파트 -->
+<div class="modal fade" tabindex="-1" role="dialog" id="make-feed-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title">
+                    フィードの内容とタグを入力してください
+                    <small>タグは前に#をつけて作ることができます。</small>
+                </h1>
+            </div>
+            <div class="modal-body">
+                <!-- content part -->
+                <div class="row">
+                    <textarea id="pre-context" rows="20" style="width: 100%; resize: none;"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">戻る</button>
+                <button type="button" class="btn btn-primary" onclick="createFeedController.makeFeedExecution();">アップロード</button>
             </div>
         </div>
     </div>

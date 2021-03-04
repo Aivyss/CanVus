@@ -17,6 +17,7 @@ local.properties
 Servers/
 *.properties
 
+
 # IDE-specific (Eclipse Java Develpment Tools)
 .classpath
 
@@ -106,5 +107,6 @@ target/
 out/
 .idea/
 app.iml
+classes/
 
 # End of https://www.toptal.com/developers/gitignore/api/java,eclipse

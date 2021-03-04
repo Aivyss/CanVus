@@ -188,6 +188,7 @@ const socketFunctionSet = (function () {
             if (sender != user_id) {
                 const page_no = message['page_no'];
                 const layer_no = message['layer_no'];
+                const layerId = `p${page_no}l${layer_no}`;
 
                 if (layer_no == 1) {
                     // 페이지 생성 + 1번 레이어 생성
@@ -196,15 +197,18 @@ const socketFunctionSet = (function () {
                     // 레이어 생성 (초기화용 함수였지만 원하는 기능이 같아서 이용)
                     drawingFunctionSet.initializeCreateLayer(page_no);
                 }
+
+                drawingFunctionSet.changeLayerTarget(layerId);
             }
         },
         deletePageLayer: function (data) {
             const message = data['message'];
             const sender = message['user_id'];
 
+            const layerId = `p${message['page_no']}l${message['layer_no']}`;
+            $(`#${layerId}-box`).remove();
+
             if (sender != user_id) {
-                const layerId = `p${message['page_no']}l${message['layer_no']}`;
-                $(`#${layerId}b`).remove();
                 drawingFunctionSet.deleteLayer(layerId, 'receiver');
             }
         },
@@ -291,7 +295,7 @@ const socketSenderFunctionSet = (function () {
             };
 
             socketSenderFunctionSet.sendMessage(message, 'quit');
-
+            location.href = "/";
             socketClient.disconnect();
         },
         socketEntranceRepeater: function () {
@@ -718,7 +722,15 @@ const drawingFunctionSet = (function () {
             const page = parseInt(temp[0].split('p')[1]);
 
             currlayer = layerSet[page - 1][layer - 1];
-            $(`.${layerId}u`).attr({'z-index': '9999'});
+            // TODO z-index Reset
+            for (let i=0; i<layerSet[page-1].length; i++) {
+                $(`.p${page}l${i+1}u`).css({'z-index':i+1});
+                $(`#p${page}l${i+1}-box`).css({'background-color':'white'});
+            }
+            // TODO Targetting
+            $(`.${layerId}u`).css({'z-index': 9999});
+            $(`#${layerId}-box`).css({'background-color':'rgb(33 138 241 / 46%)'});
+
             drawingFunctionSet.changeBrush();
         },
         changeVisibility: function (layerId) {
@@ -763,18 +775,17 @@ const createFeedController = (function () {
     return {
         createFeed: function () {
             if (user_id == admin_id) { // 어드민에게만 허용하기 위해 추가한 조건문
-                if (layerSet.length == 0) {
+                const pageNo = layerSet.length;
+                if (pageNo == 0) {
                     alert('何も描きませんでした。ページを作って絵を描いてください。');
                     return;
                 }
-
-                const pageNo = layerSet.length;
 
                 // 레이어 오버레이 버퍼div style="display:none"
                 const content = `<div id="buffer" style="display: none;"></div>`;
                 $('body').append(content);
 
-                // 오버레이 레이어버퍼 생성
+                // TODO 오버레이 레이어버퍼 생성
                 for (let i = 0; i < pageNo; i++) {
                     const content = `
                         <canvas class="buffer" id="buffer_${i}" width="600px" height="600px"></canvas>
@@ -786,37 +797,21 @@ const createFeedController = (function () {
                     ctxArry.push(oneLayer.getContext('2d'));
                 }
 
-                // 오버레이 진행
+                // TODO 오버레이 진행
                 for (let i = 0; i < pageNo; i++) {
                     for (let j = 0; j < layerSet[i].length; j++) {
-                        ctxArry[i].drawImage(document.getElementById(`p${i + 1}l${j + 1}`), 0, 0);
+                        if (layerSet[i][j] != null) {
+                            ctxArry[i].drawImage(document.getElementById(`p${i + 1}l${j + 1}`), 0, 0);
+                        }
                     }
 
                     // base 64 추출
                     imageBase64Arry.push(layerArry[i].toDataURL("image/png"));
                 }
 
-                const makeFeedPanel = `
-                    <div id="mask" style="z-index: 10000;"></div>
-                    <div id="content_div" style="z-index: 15000;">
-                        <div class="container" id="feedPanel">
-                            <div class="page-header">
-                                <h1>あなたのフィード <small>ハッシュタグは前に＃を付けて置いてください。</small></h1>
-                            </div>
-                            <textarea class="form-control col-sm-5" id="pre-context" rows="20"></textarea>
-                            <button type="button" class="btn btn-info btn-lg" onclick="createFeedController.makeFeedExecution();">
-                                <span class="glyphicon glyphicon-send" aria-hidden="true"></span> Star
-                            </button>
-                        </div>
-                    </div>  
-                `;
-                $('body').append(makeFeedPanel);
-
-                // 보기 좋으라고 css 조정하여 배치하는 구문
-                const dialog = $('#content_div');
-                const left = ($(window).scrollLeft() + ($(window).width() - dialog.width()) / 2);
-                const top = ($(window).scrollTop() + ($(window).height() - dialog.height()) / 2);
-                dialog.css({'left': left, 'top': top});
+                //TODO 피드 작성 모달 토글링
+                $('#make-feed-modal').modal('toggle');
+                
             } else { // Admin이 아닌경우
                 alert("すみませんが、アドミンだけの機能です。");
             }
@@ -1255,8 +1250,9 @@ $(() => {
 
             if (selectedVal > myPixel) {
                 if (confirm('持っている数より多いです。ピックセルを課金しませんか。')) {
-                    console.log("결제파트");
-                    paymentFunctionSet.entrancePayment(selectedVal, myPixel);
+                    console.log("결제파트 진입");
+                    $('#present-pixel-modal').modal('toggle');
+                    $('#pixel-product-modal').modal('toggle');
                 } else {
                     alert('数を少なくしてください。');
                 }
@@ -1307,6 +1303,13 @@ $(() => {
                     }
                 });
             }
+        }),
+        // 픽셀 결제 수량 체크 후 결정시 이벤트
+        $('#execute-payment').on('click', function() {
+            const selectedPixelVal = parseInt($('input[name=pixel-product-list]:checked').val());
+            const myPixel = parseInt($('#my-pixel').val());
+
+            paymentFunctionSet.entrancePayment(selectedPixelVal, myPixel);
         }),
     ];
     // ******************* 레인지바 초기설정함수 *****************//
