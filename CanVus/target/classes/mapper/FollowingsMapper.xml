@@ -29,4 +29,26 @@
           AND F.USER_ID = U.USER_ID
     </select>
 
+    <insert id="addFollowing" parameterType="followUnit">
+        INSERT INTO FOLLOWINGS (
+            F_ID
+            ,USER_ID
+            ,FOLLOWING_ID
+        ) VALUES (
+            F_ID_SEQ.NEXTVAL
+            ,#{user_id}
+            ,#{following_id}
+        )
+    </insert>
+
+    <delete id="deleteFollowing" parameterType="followUnit">
+        DELETE
+            FROM
+                FOLLOWINGS
+            WHERE
+                USER_ID = #{user_id}
+                AND
+                FOLLOWING_ID = #{following_id}
+
+    </delete>
 </mapper>

@@ -24,13 +24,13 @@
 <jsp:include page="/WEB-INF/views/baseJSP/mainMenu.jsp"></jsp:include>
 
 <!-- statics -->
-<link rel="stylesheet" href="/resources/css/user/board/Skeleton.css">
-<link rel="stylesheet" href="/resources/css/universal/gallarySkeleton.css">
-<link rel="stylesheet" href="/resources/css/user/board/bookmarkshape.css">
+<link rel="stylesheet" href="/resources/css/user/board/Skeleton.css?reload">
+<link rel="stylesheet" href="/resources/css/universal/gallarySkeleton.css?reload">
+<link rel="stylesheet" href="/resources/css/user/board/bookmarkshape.css?reload">
 <link rel="stylesheet" href="/resources/css/user/board/likeBtn.css?reload">
-<link rel="stylesheet" href="/resources/css/user/board/board.css">
+<link rel="stylesheet" href="/resources/css/user/board/board.css?reload">
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-<script src="/resources/js/user/board/board.js"></script>
+<script src="/resources/js/user/board/board.js?reload"></script>
 
 <!-- rendering part -->
 <div class="container bootdey">

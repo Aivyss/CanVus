@@ -43,7 +43,7 @@ $(() => {
     $(document).on('click', '#follow-btn-container', function (event) {
         const targetId = event.target.id;
         const $container = $('#follow-btn-container');
-        const isFollowing = false;
+        let isFollowing = false;
         let content = '';
 
         if (targetId == 'follow-btn' || targetId == 'unfollow-btn'){
@@ -83,8 +83,8 @@ $(() => {
             $.ajax({
                 url:'/follow/updateFollowing',
                 type:'post',
-                dataType: 'json',
                 data: JSON.stringify(data),
+                contentType: 'application/json',
                 success : function () {
                     if (isFollowing) {
                         alert("フォローしました！");

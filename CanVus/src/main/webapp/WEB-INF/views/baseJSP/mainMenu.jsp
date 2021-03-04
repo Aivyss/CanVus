@@ -69,7 +69,7 @@
                                 </button>
                                 <!-- 브랜드 로고 -->
                                 <a class="navbar-brand custom_navbar-brand" href="/">
-                                    <img class='navLogo' src="/resources/images/baseJSP/CanVus.png" alt="">
+                                    <img class='navLogo' src="/resources/images/baseJSP/CanVus.png?reload" alt="" style="width: 120px; margin-left: 30px">
                                 </a>
 
                                 <!-- 검색창 파트 -->
