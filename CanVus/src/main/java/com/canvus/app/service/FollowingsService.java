@@ -37,10 +37,10 @@ public class FollowingsService {
      * @param params
      * @return
      */
-    public Map<String, Object> updateFollowing(Map<String, Object> params) {
+    public void updateFollowing(Map<String, Object> params) {
         boolean isFollowing = (Boolean) params.get("isFollowing");
-        String myId = (String) params.get("my_id");
-        String userId = (String) params.get("user_id");
+        String myId = (String) params.get("my_id"); //내 아이디
+        String userId = (String) params.get("user_id"); // 팔로우 할 대상 아이디
         boolean isSuccess = false;
 
         FollowingsVO fVO = new FollowingsVO();
@@ -48,13 +48,9 @@ public class FollowingsService {
         fVO.setFollowing_id(userId);
 
         if (isFollowing) {
-            isSuccess = followingsDAO.deleteFollowing(fVO);
+            followingsDAO.addFollowing(fVO);
         } else {
-            isSuccess = followingsDAO.addFollowing(fVO);
+            followingsDAO.deleteFollowing(fVO);
         }
-
-        params.put("isSuccess", isSuccess);
-
-        return params;
     }
 }

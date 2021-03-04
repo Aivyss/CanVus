@@ -1,15 +1,15 @@
 .thumb {
-    height: 50px;
-    width: 50px;
+    height: 30px;
+    width: 30px;
     border-radius: 50%;
     background-color: white;
-    font-size: 25px;
+    font-size: 15px;
     border: 1px solid #bbb;
-    line-height: 48px;
-    padding-left: 11px;
+    line-height: 37px;
     display: inline-block;
     cursor: pointer;
     transition: all 0.5s;
+    text-align: center;
 }
 
 .fw-500 {
@@ -21,7 +21,7 @@
     background-color: red;
     border: 1px solid red;
 }
+
 #like {
     text-align: center;
-    padding: 5px;
 }

@@ -26,12 +26,11 @@ $(() => {
             return false;
         }
 
-        if (pw == null || pw == undefined || pw.length <= 0) {
-            alert('ルームのタイトルを決めてください。');
-            return false;
-        } else if (pw.length < 3 || pw.length > 6) {
-            alert('パスワードは3文字以上６文字以下にしてください。');
-            return false;
+        if (pw != null && pw != undefined && pw.length > 0) {
+            if (pw.length < 3 || pw.length > 6) {
+                alert('パスワードは3文字以上６文字以下にしてください。');
+                return false;
+            }
         }
 
         if (isNaN(capacity)) {

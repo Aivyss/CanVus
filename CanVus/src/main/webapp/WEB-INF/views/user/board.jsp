@@ -41,7 +41,7 @@
             <div class="col-sm-3 avatar-container">
                 <img src="<spring:url value='/userProfile/${userInfo.profile_photo}'/>"
                      class="img-circle profile-avatar"
-                     onerror="this.src='/resources/iamges/defaults/profileDefault.png'"
+                     onerror="this.src='/resources/images/defaults/profileDefault.png'"
                      style="width: 200px; height: 200px;">
             </div>
             <div class="col-sm-12 profile-actions text-right">
@@ -59,16 +59,40 @@
                         <div class="row" id="follow-btn-container">
                             <c:if test="${not empty sessionScope.userId}">
                                 <c:if test="${userInfo.user_id != sessionScope.userId}">
-                                    <c:if test="${!isFollower}">
-                                        <button id="follow-btn" type="button" class="btn btn-success">
-                                            フォロー
-                                        </button>
-                                    </c:if>
+                                    <c:choose>
+                                        <c:when test="${!isFollower}">
+                                            <input id="follow-btn"
+                                                   type="button"
+                                                   class="btn btn-primary"
+                                                   value="フォロー"
+                                                   style="margin-bottom: 20px;
+                                               background:linear-gradient( to bottom, #0000ff, #0080ff );
+                                               border-radius: 20px 20px 20px 20px;">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input id="unfollow-btn"
+                                                   type="button"
+                                                   class="btn btn-primary"
+                                                   value="リムーブ"
+                                                   style="margin-bottom: 20px;
+                                               background:linear-gradient( to bottom, #ff0000, #cc0000 );
+                                               border-radius: 20px 20px 20px 20px;">
+                                        </c:otherwise>
+                                    </c:choose>
                                 </c:if>
                             </c:if>
                         </div>
 
                         <ul class="list-group">
+                            <!-- 셀프 인트로 -->
+                            <div class="btn-group" style="width:100%;overflow:hidden;height:auto;margin-bottom: 30px;vertical-align: middle;">
+                                <div class="list-group-item text-center" style="width: 100%;overflow:hidden;height:auto;">
+                                    <h4>自己紹介</h4>
+                                    <br>
+                                    ${userInfo.introduction}
+                                </div>
+
+                            </div>
                             <!-- 팔로워 리스트 -->
                             <div class="btn-group" style="width:100%;">
                                 <button class="btn list-group-item dropdown-toggle" type="button"
@@ -133,7 +157,7 @@
                     <div class="row center-block" style="margin-top:50px; margin-bottom:50px;">
                         <c:choose>
                             <c:when test="${totalPageCount > 0}">
-                                <button class="btn btn-info btn-lg btn-block" id="more-btn">もっとみる！</button>
+                                <button type="button" class="btn btn-lg btn-primmary btn-block btn-rounded" id="more-btn" style="height: 50px;">もっとみる！</button>
                             </c:when>
                             <c:otherwise>
                                 <h1>ユーザーが描いた絵がありません。</h1>

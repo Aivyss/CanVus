@@ -1,16 +1,16 @@
 .bookmarkCSS {
-    height: 50px;
-    width: 50px;
+    height: 30px;
+    width: 30px;
     border-radius: 50%;
     background-color: white;
-    font-size: 25px;
+    font-size: 15px;
     border: 1px solid #bbb;
     line-height: 37px;
     display: inline-block;
     cursor: pointer;
     transition: all 0.5s;
     text-align: center;
-    padding: 5px;
+
 }
 
 .bookmarkCSS:hover {
@@ -22,3 +22,4 @@
 .custom-dropdown {
     position: relative;
 }
+

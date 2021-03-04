@@ -42,7 +42,7 @@ $(() => {
 
     $(document).on('click', '#follow-btn-container', function (event) {
         const targetId = event.target.id;
-        const $container = $('##follow-btn-container');
+        const $container = $('#follow-btn-container');
         const isFollowing = false;
         let content = '';
 
@@ -50,43 +50,52 @@ $(() => {
             $container.empty();
             if (targetId == 'follow-btn') {
                 content = `
-                    <button id="unfollow-btn" type="button" class="btn btn-danger">
-                        リムーブ
-                    </button>
+                    <input id="unfollow-btn"
+                        type="button"
+                        class="btn btn-primary"
+                        value="リムーブ"
+                        style="margin-bottom: 20px;
+                        background:linear-gradient( to bottom, #ff0000, #cc0000 );
+                        border-radius: 20px 20px 20px 20px;">
                 `;
 
                 isFollowing = true;
             } else if (targetId == 'unfollow-btn') {
                 content = `
-                    <button id="follow-btn" type="button" class="btn btn-danger">
-                        フォロー
-                    </button>
+                    <input id="follow-btn"
+                        type="button"
+                        class="btn btn-primary"
+                        value="フォロー"
+                        style="margin-bottom: 20px;
+                        background:linear-gradient( to bottom, #0000ff, #0080ff );
+                        border-radius: 20px 20px 20px 20px;">
                 `;
             }
+
             $container.append(content);
+
+            let data = {
+                isFollowing: isFollowing,
+                my_id: my_id,
+                user_id : user_id
+            };
 
             $.ajax({
-                url:''
-            })
-
-        }
-
-        if (targetId == 'follow-btn') {
-
-            content = `
-                <button id="unfollow-btn" type="button" class="btn btn-danger">
-                    リムーブ
-                </button>
-            `;
-            $container.append(content);
-        } else if (targetId == 'unfollow-btn') {
-            $container.empty();
-            content = `
-                <button id="follow-btn" type="button" class="btn btn-danger">
-                    フォロー
-                </button>
-            `;
-            $container.append(content);
+                url:'/follow/updateFollowing',
+                type:'post',
+                dataType: 'json',
+                data: JSON.stringify(data),
+                success : function () {
+                    if (isFollowing) {
+                        alert("フォローしました！");
+                    } else {
+                        alert("リムーブしました！");
+                    }
+                },
+                error: function () {
+                    alert("通信上のエラーが発生しました。");
+                }
+            });
         } else {
             console.log("다른 곳을 누른 경우");
         }

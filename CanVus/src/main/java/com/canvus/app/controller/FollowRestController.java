@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @Slf4j
-@RequestMapping(value="follow")
+@RequestMapping(value="/follow")
 @RestController
 public class FollowRestController {
     @Autowired
@@ -25,8 +25,8 @@ public class FollowRestController {
      * @return
      */
     @RequestMapping(value="updateFollowing", method= RequestMethod.POST)
-    public Map<String, Object> updateFollowing(@RequestBody Map<String, Object> params) {
+    public void updateFollowing(@RequestBody Map<String, Object> params) {
 
-        return followingsService.updateFollowing(params);
+        followingsService.updateFollowing(params);
     }
 }
