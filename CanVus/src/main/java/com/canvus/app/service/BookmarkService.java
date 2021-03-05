@@ -20,7 +20,7 @@ import java.util.Map;
 @Service
 public class BookmarkService {
     // 페이징 처리
-    private final int COUNT_PER_PAGE = 10;
+    private final int COUNT_PER_PAGE = 12;
     private final int PAGE_PER_GROUP = 5;
 
     @Autowired

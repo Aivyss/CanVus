@@ -25,11 +25,14 @@ $(() => {
 
                 for (const oneFeed of bundle) {
                     let content = `
-                        <div class="col-xs-6 col-sm-3 col-sm-offset-1 hover-fade feed-gallary">
-                            <a href="javascript:createModal('/feed/view/?feed_id=${oneFeed['feed_id']}')">
-                                <img src="/userPicture/${oneFeed['pictures'][0]}">
+                        <div class='col-sm-4 col-xs-6 col-md-4 col-lg-4 hover-fade'>
+                            <a class="thumbnail " rel="ligthbox" href="javascript:createModal('/feed/view/?feed_id=${oneFeed['feed_id']}')">
+                                <img class="img-responsive" alt="" src="/userPicture/${oneFeed['feed_id']}--divide--1.png" />
+                                <div class='text-right'>
+                                    <small class='text-muted'>${oneFeed['nickname1']}</small>
+                                </div> <!-- text-right / end -->
                             </a>
-                        </div>
+                        </div> <!-- col-6 / end -->
                     `;
                     container.append(content);
                 }

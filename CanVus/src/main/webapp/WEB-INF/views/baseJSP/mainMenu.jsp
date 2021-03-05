@@ -150,16 +150,26 @@
                                                     <span class="caret"></span>
                                                 </button>
                                                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                                                    <li role="presentation"><a role="menuitem" tabindex="-1"
-                                                                               href="/user/board?user_id=${sessionScope.userVO.user_id}">My
-                                                        board</a></li>
-                                                    <li role="presentation"><a role="menuitem" tabindex="-1"
-                                                                               href="/bookmark">BookMark</a></li>
-                                                    <li role="presentation"><a role="menuitem" tabindex="-1"
-                                                                               href="/user/pixelManagement">pixelManagement</a>
+                                                    <li role="presentation" style="width: 100%;">
+                                                        <a role="menuitem" tabindex="-1" href="/user/board?user_id=${sessionScope.userVO.user_id}">
+                                                            My board
+                                                        </a>
                                                     </li>
-                                                    <li role="presentation"><a role="menuitem" tabindex="-1"
-                                                                               href="/user/logout">Logout</a></li>
+                                                    <li role="presentation" style="width: 100%;">
+                                                        <a role="menuitem" tabindex="-1" href="/bookmark">
+                                                            BookMark
+                                                        </a>
+                                                    </li>
+                                                    <li role="presentation" style="width: 100%;">
+                                                        <a role="menuitem" tabindex="-1" href="/user/pixelManagement">
+                                                            pixelManagement
+                                                        </a>
+                                                    </li>
+                                                    <li role="presentation" style="width: 100%;">
+                                                        <a role="menuitem" tabindex="-1" href="/user/logout">
+                                                            Logout
+                                                        </a>
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </li>

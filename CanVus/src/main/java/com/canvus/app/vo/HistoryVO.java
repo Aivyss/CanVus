@@ -11,4 +11,5 @@ public class HistoryVO {
 
     // 편의성을 위해 추가한 변수
     private String preview;
+    private String nickname;
 }

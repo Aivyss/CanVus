@@ -91,30 +91,41 @@
         <choose>
             <when test='header == "trending"'>
                 SELECT
-                DISTINCT(F.FEED_ID) AS FEED_ID, CONCAT(F.FEED_ID, '--divide--1.png') AS PREVIEW
+                    DISTINCT(F.FEED_ID) AS FEED_ID
+                    ,CONCAT(F.FEED_ID, '--divide--1.png') AS PREVIEW
+                    ,U.NICKNAME AS OWNER
                 FROM
-                FEEDS F,
-                LIKE_TABLE L
+                    FEEDS F
+                    ,LIKE_TABLE L
+                    ,USERS U
                 WHERE
                 F.FEED_ID = L.FEED_ID
+                AND
+                U.USER_ID = F.USER_ID1
                 AND
                 (SYSDATE - F.INPUTDATE) &lt;= 31
                 GROUP BY
                 F.FEED_ID
+                ,U.NICKNAME
                 ORDER BY
                 COUNT(L.FEED_ID) DESC
             </when>
             <otherwise>
                 SELECT
-                DISTINCT(FD.FEED_ID) AS FEED_ID, CONCAT(FD.FEED_ID, '--divide--1.png') AS PREVIEW
+                DISTINCT(FD.FEED_ID) AS FEED_ID
+                , CONCAT(FD.FEED_ID, '--divide--1.png') AS PREVIEW
+                ,U.NICKNAME AS OWNER
                 FROM
-                FEEDS FD,
-                TAGS_IN_FEED T,
-                LIKE_TABLE L
+                FEEDS FD
+                ,TAGS_IN_FEED T
+                ,LIKE_TABLE L
+                ,USERS U
                 WHERE
                 FD.FEED_ID = T.FEED_ID
                 AND
                 FD.FEED_ID = L.FEED_ID
+                AND
+                U.USER_ID = FD.USER_ID1
                 AND
                 T.TAG_NAME = #{tag}
                 AND
@@ -143,6 +154,7 @@
                 )
                 GROUP BY
                 FD.FEED_ID
+                ,U.NICKNAME
                 ORDER BY
                 COUNT(L.LIKE_ID) DESC
             </otherwise>

@@ -174,20 +174,9 @@ public class FeedDAO {
 		RowBounds rb = new RowBounds(startRecord, countPerPage);
 
 		try {
-			FeedsMapper mapper1 = session.getMapper(FeedsMapper.class);
-			FeedDrawingsMapper mapper2 = session.getMapper(FeedDrawingsMapper.class); // 차후 진행
-			bundle = mapper1.selectFeedBundle(rb, user_id);
+			FeedsMapper mapper = session.getMapper(FeedsMapper.class);
+			bundle = mapper.selectFeedBundle(rb, user_id);
 
-			for (FeedComponentVO one : bundle) {
-				List<String> pictureURLs = new ArrayList<>();
-				List<FeedDrawingsVO> pictures = mapper2.selectFeedBundle(one.getFeed_id());
-
-				for (FeedDrawingsVO picture : pictures) {
-					pictureURLs.add(picture.getPage_file_output());
-				}
-
-				one.setPictures(pictureURLs);
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.info("피드 번들 가져오기 sql오류");
