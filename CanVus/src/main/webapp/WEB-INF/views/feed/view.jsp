@@ -196,16 +196,17 @@
                                         </h5>
                                             ${comment.feed_comment}
                                     </div>
-                                    <c:if test="${comment.user_id == sessionScope.userId}"></c:if>
-                                    <div class="col-md-2">
-                                        <input type="button"
-                                               class="btn btn-primary"
-                                               value="リムーブ"
-                                               style="margin-bottom: 20px;
+                                    <c:if test="${comment.user_id == sessionScope.userId}">
+                                        <div class="col-md-2">
+                                            <input type="button"
+                                                   class="btn btn-primary"
+                                                   value="リムーブ"
+                                                   style="margin-bottom: 20px;
                                                         background:linear-gradient( to bottom, #ff0000, #cc0000 );
                                                         border-radius: 20px 20px 20px 20px;"
-                                               onclick="deleteComment('${comment.comment_id}')">
-                                    </div>
+                                                   onclick="deleteComment('${comment.comment_id}')">
+                                        </div>
+                                    </c:if>
                                 </div>
                             </div>
                         </div>

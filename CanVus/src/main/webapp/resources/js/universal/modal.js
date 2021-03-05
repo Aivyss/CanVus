@@ -11,6 +11,7 @@ function createModal(url) {
             $('.container-feed').css({'margin-top': '80px'});
             const feedHeight = $('.container-feed').css('height');
             $('.modal-backdrop').css({"height":`${feedHeight+200}px`});
+            $('.card').addClass('modal-content');
             $('#feed-overlay').modal('show');
 
             imageLength = parseInt($('#imageLengthVal').val());
