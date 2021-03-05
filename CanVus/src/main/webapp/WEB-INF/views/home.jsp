@@ -44,7 +44,8 @@
             </div>
         </c:when>
         <c:otherwise> <!-- 로그인 후 -->
-            <p>로그인 완료. 여기 다시 짤 예정</p>
+            ${previews}
+            ${navi}
         </c:otherwise>
     </c:choose>
 </body>

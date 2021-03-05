@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -19,13 +20,17 @@ public class HomeController {
 	private FeedService feedService;
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Model model, HttpSession session) {
+	public String home(Model model, HttpSession session, @RequestParam(defaultValue = "1")int page) {
 		log.info("call home page");
 		UserVO userVO = (UserVO) session.getAttribute("userVO");
 
 		if (userVO == null) {
 			feedService.homePreview(model);
 		}
+		else{
+			feedService.homePreview(model, userVO, page);
+		}
+
 
 		return "home";
 	}

@@ -1,6 +1,7 @@
 package com.canvus.app.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.canvus.app.dao.mapper.FeedCommentMapper;
@@ -144,6 +145,20 @@ public class FeedDAO {
 
     	return count;
     }
+
+	public int getFeedTotalCountLogin(String user_id) {
+		int count = 0;
+
+		try {
+			FeedsMapper mapper = session.getMapper(FeedsMapper.class);
+			count = mapper.getFeedTotalCountLogin(user_id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.info("피드 갯수 산출 sql오류");
+		}
+
+		return count;
+	}
 
 	/**
 	 * 해당유저의 보드의 n번째 페이지에 해당하는 피드를 가져오는 메소드
@@ -341,6 +356,20 @@ public class FeedDAO {
 
 		return preview;
     }
+
+	public ArrayList<HashMap<String, Object>> homePreviewLogin(RowBounds rb, String userId) {
+		ArrayList<HashMap<String, Object>> preview = null;
+
+		try {
+			FeedsMapper mapper = session.getMapper(FeedsMapper.class);
+			preview = mapper.homePreviewLogin(rb, userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.info("홈 프리뷰 sql 오류");
+		}
+
+		return preview;
+	}
 
 	/**
 	 * 피드 삭제 메소드

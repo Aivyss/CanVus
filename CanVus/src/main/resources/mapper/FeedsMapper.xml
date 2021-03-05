@@ -55,6 +55,20 @@
 		USER_ID1 = #{string}
 </select>
 
+<select id="getFeedTotalCountLogin" resultType="int">
+	SELECT
+		COUNT(DISTINCT FD.FEED_ID) AS COUNT
+	FROM
+		FEEDS FD,
+		FOLLOWINGS FL
+	WHERE
+		FL.FOLLOWING_ID IN (FD.USER_ID1, FD.USER_ID2, FD.USER_ID3, FD.USER_ID4)
+	  AND
+		FL.USER_ID = #{user_id}
+	  AND
+		(SYSDATE - FD.INPUTDATE) &lt;= 31
+</select>
+
 <select id="selectFeedBundle" parameterType="string" resultType="feedComponent">
 	SELECT
 		FEED_ID
@@ -129,6 +143,22 @@
 		)
 		WHERE
 			ROWNUM &lt;= 3 <!-- &lt; 는 <를 의미한다 -->
+	</select>
+
+	<select id="homePreviewLogin" resultType="hashmap">
+		SELECT
+			FD.FEED_ID AS FEED_ID, CONCAT(FD.FEED_ID, '--divide--1.png') AS PREVIEW
+		FROM
+			FEEDS FD,
+			FOLLOWINGS FL
+		WHERE
+			FL.FOLLOWING_ID IN (FD.USER_ID1, FD.USER_ID2, FD.USER_ID3, FD.USER_ID4)
+			AND
+			FL.USER_ID = #{user_id}
+		  	AND
+			(SYSDATE - FD.INPUTDATE) &lt;= 31
+		ORDER BY
+			FD.INPUTDATE DESC
 	</select>
 
 	<delete id="deleteFeedFD" parameterType="feedComponent">

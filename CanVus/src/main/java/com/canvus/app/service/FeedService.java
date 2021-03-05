@@ -1,11 +1,15 @@
 package com.canvus.app.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.canvus.app.dao.*;
 import com.canvus.app.drawing.vo.FeedVO;
+import com.canvus.app.util.PageNavigator;
 import com.canvus.app.vo.*;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -183,8 +187,26 @@ public class FeedService {
 		List<FeedComponentVO> previews = feedDAO.homePreview();
 		
 		model.addAttribute("previews", previews);
+		model.addAttribute("navi", null);
 		log.info(previews.toString());
     }
+
+	public void homePreview(Model model, UserVO userVO, int page) {
+
+		int countPerPage = 3;
+		int pagePerGroup = 5;
+
+		String user_id = (String) userVO.getUser_id();
+
+		int total = feedDAO.getFeedTotalCountLogin(user_id);
+		PageNavigator navi = new PageNavigator(countPerPage, pagePerGroup, page, total);
+		RowBounds rb = new RowBounds(navi.getStartRecord(), navi.getCountPerPage());
+
+		ArrayList<HashMap<String, Object>> previews = feedDAO.homePreviewLogin(rb, user_id);
+
+		model.addAttribute("previews", previews);
+		model.addAttribute("navi", navi);
+	}
 
 	/**
 	 * 피드 삭제 메소드
