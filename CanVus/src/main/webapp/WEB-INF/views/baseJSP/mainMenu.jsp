@@ -45,7 +45,7 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <script src="/resources/js/baseJSP/mainMenu.js?after"></script>
+    <script src="/resources/js/baseJSP/mainMenu.js?reload"></script>
 </head>
 <body data-spy="scroll" data-target="#header" style="padding-bottom: 50px;">
 <!--Start Hedaer Section-->
@@ -74,11 +74,21 @@
 
                                 <!-- 검색창 파트 -->
                                 <div class="input-group navbar-collapse" id="searchbar">
-		                                <span class="input-group-btn">
-		                                    <button class="btn btn-navv btn-default" type="button"
-                                                    id="searchBtn">検索</button>
-		                                </span>
-                                    <input type="text" class="form-control" placeholder="Search for..." id="searchText">
+                                    <input type="text" class="form-control" placeholder="検索..." id="searchText">
+                                    <br>
+                                    <br>
+                                    <div class="row">
+                                        <div class="dropdown" id="image-search-box">
+                                            <div class="dropdown-menu"
+                                                 aria-labelledby="dropdownMenuButton"
+                                                 style="width: 100%;">
+                                                <form class="px-4 py-3 " style="width: 100%;">
+                                                    <h3>イメージでタグを検索できます。</h3>
+                                                    <input type="file" onchange="readURL(this);">
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <!-- 검색창 파트 끝 -->
                             </div>
@@ -170,5 +180,13 @@
     </div>
 </section>
 <!--End of Hedaer Section-->
+
+<!-- 이미지 서칭 파트 -->
+<div style="display: none;">
+    <canvas id="canvas" width="400px" height="400px"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
+    <script src="/resources/js/imageSearch/imageSearch.js"></script>
+</div>
 </body>
 </html>
