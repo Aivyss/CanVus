@@ -36,4 +36,16 @@ public class CommentService {
 
         return params;
     }
+
+    /**
+     * 코멘트 삭제 ajax 메소드
+     * 20210305
+     * 이한결
+     * @param params
+     */
+    public void deleteComment(Map<String, Object> params) {
+        int comment_id = (Integer) params.get("comment_id");
+
+        commentDAO.deleteComment(comment_id);
+    }
 }

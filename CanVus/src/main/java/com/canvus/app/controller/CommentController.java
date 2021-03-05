@@ -4,20 +4,18 @@ import com.canvus.app.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import sun.misc.Request;
 
 import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 @Slf4j
-@Controller
+@RestController
 @RequestMapping(value="/comment")
 public class CommentController {
     @Autowired
-    private CommentService commnentService;
+    private CommentService commentService;
 
     /**
      * 코멘트 작성 ajax 통신 메소드
@@ -27,11 +25,24 @@ public class CommentController {
      * @param session
      * @return
      */
-    @ResponseBody
     @RequestMapping(value="/sendComment", method= RequestMethod.POST)
     public Map<String, Object> sendComment(@RequestBody Map<String, Object> params, HttpSession session) {
         log.info("코멘트 작성 컨트롤러 메소드 진입");
 
-        return commnentService.sendComment(params, session);
+        return commentService.sendComment(params, session);
     }
+
+    /**
+     * 코멘트 삭제 ajax 메소드
+     * 20210305
+     * 이한결
+     * @param params
+     */
+    @RequestMapping(value="/deleteComment", method= RequestMethod.POST)
+    public void deleteComment(@RequestBody Map<String, Object> params) {
+        log.info("코멘트 삭제 컨트롤러 메소드 진입");
+
+        commentService.deleteComment(params);
+    }
+
 }

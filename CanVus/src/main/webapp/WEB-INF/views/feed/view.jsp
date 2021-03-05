@@ -180,7 +180,7 @@
             <div class="row center-block" id="comment-box">
                 <c:if test="${not empty feedComments}">
                     <c:forEach items="${feedComments}" var="comment">
-                        <div class="col-lg-12">
+                        <div class="col-lg-12" id="comment-box-${comment.comment_id}">
                             <div class="media">
                                 <div class="media-left media-middle">
                                     <a href="#">
@@ -190,10 +190,22 @@
                                     </a>
                                 </div>
                                 <div class="media-body">
-                                    <h5 class="media-heading"><a
-                                            href="/user/board/?user_id=${comment.user_id}">${comment.nickname}</a>
-                                    </h5>
-                                        ${comment.feed_comment}
+                                    <div class="col-md-10">
+                                        <h5 class="media-heading">
+                                            <a href="/user/board/?user_id=${comment.user_id}">${comment.nickname}</a>
+                                        </h5>
+                                            ${comment.feed_comment}
+                                    </div>
+                                    <c:if test="${comment.user_id == sessionScope.userId}"></c:if>
+                                    <div class="col-md-2">
+                                        <input type="button"
+                                               class="btn btn-primary"
+                                               value="リムーブ"
+                                               style="margin-bottom: 20px;
+                                                        background:linear-gradient( to bottom, #ff0000, #cc0000 );
+                                                        border-radius: 20px 20px 20px 20px;"
+                                               onclick="deleteComment('${comment.comment_id}')">
+                                    </div>
                                 </div>
                             </div>
                         </div>

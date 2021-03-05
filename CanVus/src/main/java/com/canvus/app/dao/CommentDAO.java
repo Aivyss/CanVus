@@ -29,4 +29,20 @@ public class CommentDAO {
 
         return returnValue ;
     }
+
+    /**
+     * 코멘트 삭제 ajax 메소드
+     * 20210305
+     * 이한결
+     * @param comment_id
+     */
+    public void deleteComment(int comment_id) {
+        try {
+            FeedCommentMapper mapper = session.getMapper(FeedCommentMapper.class);
+            mapper.deleteComment(comment_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("코멘트 삭제 sql 오류");
+        }
+    }
 }

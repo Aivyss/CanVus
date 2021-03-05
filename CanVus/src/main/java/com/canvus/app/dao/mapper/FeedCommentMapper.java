@@ -10,4 +10,6 @@ public interface FeedCommentMapper {
     boolean sendComment(FeedCommentVO commentVO);
 
     FeedCommentVO selectAdditionalCommentInfo(FeedCommentVO commentVO);
+
+    void deleteComment(int comment_id);
 }

@@ -7,7 +7,8 @@
 
     <select id="readFeedComments" parameterType="string" resultType="feedComment">
         SELECT
-            F.USER_ID AS user_id
+            F.COMMENT_ID AS comment_id
+             ,F.USER_ID AS user_id
              ,F.FEED_ID	AS feed_id
              ,F.FEED_COMMENT	AS feed_comment
              ,U.PROFILE_PHOTO	AS profile_photo
@@ -17,8 +18,10 @@
             FEED_COMMENT F, USERS U
         WHERE
             F.FEED_ID = #{string}
-          AND
+            AND
             U.USER_ID = F.USER_ID
+        ORDER BY
+            F.INPUTDATE ASC
     </select>
 
     <insert id="sendComment" parameterType="feedComment">
@@ -53,5 +56,12 @@
             AND
             U.USER_ID = #{user_id}
     </select>
+    <delete id="deleteComment" parameterType="int">
+        DELETE
+            FROM
+                FEED_COMMENT
+            WHERE
+                COMMENT_ID = #{int}
+    </delete>
 
 </mapper>

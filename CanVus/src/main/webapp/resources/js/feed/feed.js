@@ -9,8 +9,32 @@ let previousPage = 1;
 let currentPage = 1;
 let bookmarkSwitch = true;
 
-$(() => {
+// 코멘트를 삭제하는 메소드
+function deleteComment(comment_id) {
+    console.log(comment_id);
 
+    if (confirm("削除われたコメントは取り返せません。削除しますか。")) {
+        const data = {
+            comment_id : parseInt(comment_id)
+        };
+
+        $.ajax({
+            url:'/comment/deleteComment',
+            type:'post',
+            contentType:'application/json',
+            data: JSON.stringify(data),
+            success: function () {
+                $(`#comment-box-${comment_id}`).remove();
+                alert("コメントを消しました。");
+            },
+            error: function () {
+                alert("通信上の問題で、消すことが出来ませんでした。");
+            }
+        });
+    }
+}
+
+$(() => {
     /******************************* 호이스팅 함수 ************************************/
     // 코멘트의 작성이 완성되고 화면단에 결과를 반영하는 메소드
     function successSendCommentProcess(result) {
@@ -25,10 +49,21 @@ $(() => {
                         </a>
                     </div>
                     <div class="media-body">
-                        <h5 class="media-heading"><a
-                                href="/user/board/?user_id=${result['user_id']}">${result['nickname']}</a>
-                        </h5>
+                        <div class="col-md-10">
+                            <h5 class="media-heading">
+                                <a href="/user/board/?user_id=${result['user_id']}">${result['nickname']}</a>
+                            </h5>
                             ${result['comment']}
+                        </div>
+                        <div class="col-md-2">
+                            <input type="button"
+                                   class="btn btn-primary"
+                                   value="リムーブ"
+                                   style="margin-bottom: 20px;
+                                            background:linear-gradient( to bottom, #ff0000, #cc0000 );
+                                            border-radius: 20px 20px 20px 20px;"
+                                   onclick="deleteComment('${result["comment_id"]}')">
+                        </div>
                     </div>
                 </div>
             </div>
