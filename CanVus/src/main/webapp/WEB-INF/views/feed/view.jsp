@@ -25,10 +25,10 @@
     <input type="hidden" value="${fn:length(feedComments)}" id="commentCountVal">
 
     <div class="container container-feed feed-plate height-100 d-flex justify-content-center align-items-center">
-        <div class="card card-border center-block" style="background-color: navajowhite;">
+        <div class="card card-border center-block" style="background-color: #1266f1;">
             <div class="row center-block">
                 <!-- 컨텐츠 포지션 -->
-                <div class="col-xs-9" style="margin-top: 5px;">
+                <div class="col-md-8" style="margin-top: 5px;">
                     <!-- 그림들 -->
                     <c:forEach items="${feedPictures}" var="picture" varStatus="status">
                         <c:choose>
@@ -44,14 +44,15 @@
                     </c:forEach>
 
                     <!-- 텍스트란 -->
-                    <div class="p-3 content">
+                    <div class="p-3 content feed-content">
                         <h2>total ${fn:length(feedPictures)}pages</h2><br>
                         <p id="feed-text">${feedAbstract.context}</p>
                     </div>
                 </div>
 
                 <!-- 사이드 포지션 -->
-                <div class="col-xs-3 height-100 side-plate center-block" style="margin-bottom: 5px; margin-top:5px;">
+                <div class="col-md-3 height-100 side-plate center-block"
+                     style="margin-top: 5px; margin-left: 60px;">
                     <!-- drawer 목록 -->
                     <div class="row" style="text-align:center;">
                         <br>
@@ -194,7 +195,7 @@
                                         <h5 class="media-heading">
                                             <a href="/user/board/?user_id=${comment.user_id}">${comment.nickname}</a>
                                         </h5>
-                                            ${comment.feed_comment}
+                                        <p>${comment.feed_comment}</p>
                                     </div>
                                     <c:if test="${comment.user_id == sessionScope.userId}">
                                         <div class="col-md-2">
@@ -215,7 +216,7 @@
             </div>
         </div>
     </div>
-    <link rel="stylesheet" href="/resources/css/feed/feed.css?reload">
+    <link rel="stylesheet" href="/resources/css/feed/feed.css?after">
     <link rel="stylesheet" href="/resources/css/feed/likeBtn.css">
     <link rel="stylesheet" href="/resources/css/feed/bookmarkshape.css">
     <link rel="stylesheet" href="/resources/css/feed/pictureNav.css">

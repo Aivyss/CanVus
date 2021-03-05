@@ -53,7 +53,7 @@ $(() => {
                             <h5 class="media-heading">
                                 <a href="/user/board/?user_id=${result['user_id']}">${result['nickname']}</a>
                             </h5>
-                            ${result['comment']}
+                            <p>${result['comment']}</p>
                         </div>
                         <div class="col-md-2">
                             <input type="button"
