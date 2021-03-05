@@ -74,7 +74,7 @@
 
                                 <!-- 검색창 파트 -->
                                 <div class="input-group navbar-collapse" id="searchbar">
-                                    <input type="text" class="form-control" placeholder="検索..." id="searchText">
+                                    <input type="text" class="form-control" placeholder="検索..." id="searchText" autocomplete="off">
                                     <br>
                                     <br>
                                     <div class="row">
