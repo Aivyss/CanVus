@@ -5,8 +5,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Discovery</title>
-    <link rel="stylesheet" href="/resources/css/universal/gallarySkeleton.css">
+    <title>Discover</title>
+    <link rel="stylesheet" href="/resources/css/universal/GallerySkeleton.css">
     <link rel="stylesheet" href="/resources/css/discover/pageTab.css">
 </head>
 <body>
@@ -39,11 +39,17 @@
                         <div role="tabpanel"
                              class="tab-pane figure figure_bg figure_bg_light center-block in active"
                              id="pane-trending">
+                            <div class='list-group gallery' id="pane-list-trending">
+                                <!-- 피드 브리뷰 삽입부 -->
+                            </div>
                         </div>
                         <c:forEach items="${tagList}" var="tag">
                             <div role="tabpanel"
                                  class="tab-pane figure figure_bg figure_bg_light center-block"
                                  id="pane-${tag}">
+                                <div class='list-group gallery' id="pane-list-${tag}">
+                                    <!-- 피드 브리뷰 삽입부 -->
+                                </div>
                             </div>
                         </c:forEach>
                     </div>

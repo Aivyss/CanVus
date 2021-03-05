@@ -16,7 +16,7 @@
         // 페이지에서 쓰일 전역변수 셋
         const folder_id = ${folder_id};
     </script>
-    <link rel="stylesheet" href="/resources/css/bookmark/gallarySkeleton.css?reload">
+    <link rel="stylesheet" href="/resources/css/universal/GallerySkeleton.css">
     <link rel="stylesheet" href="/resources/css/universal/overlay.css?reload">
     <style>
         .pagination > li > a {
@@ -37,13 +37,22 @@
     <div class="col-sm-12 center-block" style="margin-top:20px;">
         <!-- 피드 번들 파트-->
         <div class="row center-block">
-            <c:forEach items="${bookmarkedFeedList}" var="oneFeed" varStatus="status">
-                <div class="col-xs-6 col-sm-2 hover-fade feed-gallary">
-                    <a href="javascript:createModal('/feed/view/?feed_id=${oneFeed.feed_id}')">
-                        <img src="<spring:url value='/userPicture/${oneFeed.preview}'/>">
-                    </a>
-                </div>
-            </c:forEach>
+            <div class='list-group gallery'>
+                <c:forEach items="${bookmarkedFeedList}" var="oneFeed" varStatus="status">
+                    <div class='col-sm-4 col-xs-6 col-md-2 col-lg-2 hover-fade'>
+                        <a class="thumbnail" rel="ligthbox"
+                           href="javascript:createModal('/feed/view/?feed_id=${oneFeed.feed_id}')">
+                            <img class="img-responsive" alt=""
+                                 src="<spring:url value='/userPicture/${oneFeed.preview}'/>"
+                                 style="width: 150px; height:150px;"/>
+                            <div class='text-right'>
+                                <small class='text-muted'>${oneFeed.nickname}</small>
+                            </div> <!-- text-right / end -->
+                        </a>
+                    </div>
+                    <!-- col-6 / end -->
+                </c:forEach>
+            </div>
         </div>
 
         <!-- 페이지네이션 파트 -->
@@ -52,7 +61,9 @@
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
                         <li class="page-item">
-                            <a class="page-link" href="javascript:pagenation('${pageNav.currentPage-1}', '${pageNav.totalPageCount}')" aria-label="Previous">
+                            <a class="page-link"
+                               href="javascript:pagenation('${pageNav.currentPage-1}', '${pageNav.totalPageCount}')"
+                               aria-label="Previous">
                                 <span aria-hidden="true">«</span>
                                 <span class="sr-only">Previous</span>
                             </a>
@@ -64,13 +75,16 @@
                                 </c:when>
                                 <c:otherwise>
                                     <li class="page-item">
-                                        <a class="page-link" href="javascript:pagenation('${count}', '${pageNav.totalPageCount}')">${count}</a>
+                                        <a class="page-link"
+                                           href="javascript:pagenation('${count}', '${pageNav.totalPageCount}')">${count}</a>
                                     </li>
                                 </c:otherwise>
                             </c:choose>
                         </c:forEach>
                         <li class="page-item">
-                            <a class="page-link" href="javascript:pagenation('${pageNav.currentPage+1}', '${pageNav.totalPageCount}')" aria-label="Next">
+                            <a class="page-link"
+                               href="javascript:pagenation('${pageNav.currentPage+1}', '${pageNav.totalPageCount}')"
+                               aria-label="Next">
                                 <span aria-hidden="true">»</span>
                                 <span class="sr-only">Next</span>
                             </a>

@@ -11,6 +11,10 @@ public class FeedComponentVO {
     private String user_id2;
     private String user_id3;
     private String user_id4;
+    private String nickname1;
+    private String nickname2;
+    private String nickname3;
+    private String nickname4;
     private String context;
     private String inputdate;
     

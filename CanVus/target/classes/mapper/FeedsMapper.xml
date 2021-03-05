@@ -57,19 +57,16 @@
 
 <select id="selectFeedBundle" parameterType="string" resultType="feedComponent">
 	SELECT
-		FEED_ID
-		,USER_ID1
-		,USER_ID2
-		,USER_ID3
-		,USER_ID4
-		,CONTEXT
-		,INPUTDATE
+		F.FEED_ID	AS feed_id
+		,U.NICKNAME	AS nickname1
 	FROM
-		FEEDS
+		FEEDS F, USERS U
 	WHERE
-		USER_ID1 = #{string}
+		F.USER_ID1 = #{string}
+		AND
+	    U.USER_ID = #{string}
 	ORDER BY
-		INPUTDATE ASC
+		INPUTDATE DESC
 </select>
 
 <select id="getFeedsBundleByIdList" parameterType="java.util.List" resultType="feedComponent">
@@ -109,15 +106,17 @@
 	<!-- 성능 고려해서 오라클 함수를 만들어서 구성 -->
 	<select id="homePreview" resultType="feedComponent">
 		SELECT
-			feed_id
-			,preview
-			,inputdate
+			S.feed_id AS feed_id
+			,S.preview AS preview
+			,S.inputdate AS inputdate
+			,U.NICKNAME AS nickname1
 		FROM
 		(
 			SELECT
 				FD.FEED_ID  AS  feed_id
 				,FD.PAGE_FILE   AS  preview
 				,F.INPUTDATE AS  inputdate
+				,F.USER_ID1 AS user_id
 			FROM
 				FEED_DRAWINGS FD, FEEDS F
 			WHERE
@@ -126,9 +125,12 @@
 				F.FEED_ID = FD.FEED_ID
 			ORDER BY
 				inputdate DESC <!-- 상위 5개를 뽑아내려면 서브쿼리로 전체셀렉을 할 수 밖에 없다 -->
-		)
+		) S
+		,USERS U
 		WHERE
-			ROWNUM &lt;= 3 <!-- &lt; 는 <를 의미한다 -->
+		    U.USER_ID = S.user_id
+		    AND
+			ROWNUM &lt;= 4 <!-- &lt; 는 <를 의미한다 -->
 	</select>
 
 	<delete id="deleteFeedFD" parameterType="feedComponent">

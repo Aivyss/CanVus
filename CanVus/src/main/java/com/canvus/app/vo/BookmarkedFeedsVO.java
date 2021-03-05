@@ -11,4 +11,5 @@ public class BookmarkedFeedsVO {
 
     // 편의성을 위해 추가한 메소드
     private String preview;
+    private String nickname;
 }

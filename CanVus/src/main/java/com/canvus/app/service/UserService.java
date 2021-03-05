@@ -163,9 +163,6 @@ public class UserService {
         // TODO 팔로우 정보를 받아오는 파트
         Map<String, Object> followInfoPack = followingsService.getFollowInfo(user_id);
 
-        // TODO 북마크 정보를 받아오는 파트
-        List<BookmarkVO> bookmarks = bookmarkDAO.getBookmarkList(user_id);
-
         // TODO 내가 팔로우한 대상인지 체크
         List<FollowingsVO> followerList = (List) followInfoPack.get("followerList");
         boolean isFollower = false;
@@ -186,7 +183,6 @@ public class UserService {
         model.addAttribute("userInfo", userInfo);
         model.addAttribute("bundle", bundle);
         model.addAttribute("followInfoPack", followInfoPack);
-        model.addAttribute("bookmarks", bookmarks);
         model.addAttribute("totalPageCount", pNav.getTotalPageCount());
         model.addAttribute("isFollower", isFollower);
         if (bundle != null) {

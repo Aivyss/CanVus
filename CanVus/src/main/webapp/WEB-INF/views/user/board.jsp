@@ -25,7 +25,7 @@
 
 <!-- statics -->
 <link rel="stylesheet" href="/resources/css/user/board/Skeleton.css?reload">
-<link rel="stylesheet" href="/resources/css/universal/gallarySkeleton.css?reload">
+<link rel="stylesheet" href="/resources/css/universal/GallerySkeleton.css">
 <link rel="stylesheet" href="/resources/css/user/board/bookmarkshape.css?reload">
 <link rel="stylesheet" href="/resources/css/user/board/likeBtn.css?reload">
 <link rel="stylesheet" href="/resources/css/user/board/board.css?reload">
@@ -143,14 +143,19 @@
 
                 <div class="col-sm-9 center-block" style="margin-top:20px;">
                     <!-- 피드 번들 파트-->
-                    <div class="row center-block" id="feeds-container">
-                        <c:forEach items="${bundle}" var="oneFeed" varStatus="status">
-                            <div class="col-xs-6 col-sm-3 col-sm-offset-1 hover-fade feed-gallary">
-                                <a href="javascript:createModal('/feed/view/?feed_id=${oneFeed.feed_id}');">
-                                    <img src="<spring:url value='/userPicture/${oneFeed.pictures[0]}'/>">
-                                </a>
-                            </div>
-                        </c:forEach>
+                    <div class="row">
+                        <div class='list-group gallery' id="feeds-container">
+                            <c:forEach items="${bundle}" var="oneFeed" varStatus="status">
+                                <div class='col-sm-4 col-xs-6 col-md-4 col-lg-4 hover-fade'>
+                                    <a class="thumbnail " rel="ligthbox" href="javascript:createModal('/feed/view/?feed_id=${oneFeed.feed_id}');">
+                                        <img class="img-responsive" alt="" src="<spring:url value='/userPicture/${oneFeed.feed_id}--divide--1.png'/>" />
+                                        <div class='text-right'>
+                                            <small class='text-muted'>${oneFeed.nickname1}</small>
+                                        </div> <!-- text-right / end -->
+                                    </a>
+                                </div> <!-- col-6 / end -->
+                            </c:forEach>
+                        </div>
                     </div>
 
                     <!-- See more 파트 -->

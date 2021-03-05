@@ -4,7 +4,7 @@ let pagenation_total = 0;
 let pagination_curr = 0;
 
 function generateContent (result, tag) {
-    $('.tab-pane').empty();
+    $('.gallery').empty();
     // 변수설정
     const pNav = result['pNav'];
     const feedList = result['feedList'];
@@ -16,16 +16,18 @@ function generateContent (result, tag) {
     let content = '';
     for (const feedListElement of feedList) {
         content += `
-                    <div class="col-xs-6 col-sm-2 col-sm-offset-1 hover-fade feed-gallary">
-                        <a href="javascript:createModal('/feed/view/?feed_id=${feedListElement["FEED_ID"]}');">
-                            <img 
-                            src='/userPicture/${feedListElement["PREVIEW"]}'
-                            style="width: 150px; height: 150px;">
-                        </a>
-                    </div>
+            <div class='col-sm-4 col-xs-6 col-md-2 col-lg-2 hover-fade'>
+                <a class="thumbnail" rel="ligthbox" href="javascript:createModal('/feed/view/?feed_id=${feedListElement["FEED_ID"]}');">
+                    <img class="img-responsive" alt="" src="/userPicture/${feedListElement["PREVIEW"]}"
+                        style="width: 150px; height:150px;" />
+                    <div class='text-right'>
+                        <small class='text-muted'>${feedListElement['OWNER']}</small>
+                    </div> <!-- text-right / end -->
+                </a>
+            </div> <!-- col-6 / end -->
                 `;
     }
-    $(`#pane-${tag}`).append(content);
+    $(`#pane-list-${tag}`).append(content);
 
     insertPagenation(pNav, tag);
 }
@@ -120,8 +122,9 @@ function pagenation(curr, totalPage, tag) {
 function pageSwitching(tag) {
     $('#taglist').children().removeClass('active');
     $(`#tab-${tag}`).addClass('active');
-    $('.tab-pane').removeClass('active').addClass('fade').empty();
+    $('.tab-pane').removeClass('active').addClass('fade');
     $(`#pane-${tag}`).addClass('active').removeClass('fade');
+    $('.gallery').empty();
 
     // 변수정의
     let header = tag;

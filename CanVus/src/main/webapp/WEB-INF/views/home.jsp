@@ -15,7 +15,7 @@
     <c:choose>
         <c:when test="${empty userVO}"> <!-- 로그인 전 -->
             <link rel="stylesheet" href="/resources/css/home/loginSkeleton.css">
-            <link rel="stylesheet" href="/resources/css/universal/gallarySkeleton.css">
+            <link rel="stylesheet" href="/resources/css/universal/GallerySkeleton.css">
 
             <!-- 공간 벌려주기 용 -->
             <div class="container" style="margin-top:20px;"></div>
@@ -32,14 +32,18 @@
                 <script src="/resources/js/home/autoLoginBlocker.js?reload"></script>
 
                 <div class="row" style="margin-top: 200px;">
-                    <c:forEach items="${previews}" var="preview">
-                        <div class="col-sm-2 col-sm-offset-1 hover-fade feed-gallary">
-                            <a href="#">
-                                <img src="<spring:url value='/userPicture/${preview.preview}'/>">
-                            </a>
-                        </div>
-                        <div class="col-sm-1"></div>
-                    </c:forEach>
+                    <div class='list-group gallery'>
+                        <c:forEach items="${previews}" var="preview">
+                            <div class='col-sm-4 col-xs-6 col-md-3 col-lg-3 hover-fade'>
+                                <a class="thumbnail " rel="ligthbox" >
+                                    <img class="img-responsive" alt="" src="<spring:url value='/userPicture/${preview.preview}'/>" />
+                                    <div class='text-right'>
+                                        <small class='text-muted'>${preview.nickname1}</small>
+                                    </div> <!-- text-right / end -->
+                                </a>
+                            </div> <!-- col-6 / end -->
+                        </c:forEach>
+                    </div>
                 </div>
             </div>
         </c:when>
