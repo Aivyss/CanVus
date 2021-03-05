@@ -18,6 +18,7 @@
 <div class="container container-feed" style="padding-top: 50px;" id="feed-body">
     <input type="hidden" value="${fn:length(feedPictures)}" id="imageLengthVal">
     <input type="hidden" value="${sessionScope.userId}" id="user_idVal">
+    <input type="hidden" value="${feedAbstract.user_id1}" id="feed-owner-idVal">
     <input type="hidden" value="${feedAbstract.feed_id}" id="feed_idVal">
     <input type="hidden" value="${isLiked}" id="isLikeVal">
     <input type="hidden" value="${likeCount}" id="likeCountVal">
@@ -115,10 +116,6 @@
                                 </ul>
                             </c:if>
                         </div>
-
-                        <script>
-
-                        </script>
                     </div>
 
                     <br><br>
@@ -143,6 +140,15 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- 피드삭제 (어드민 전용)  -->
+                    <c:if test="${sessionScope.userId == feedAbstract.user_id1}">
+                        <div class="row text-center">
+                            <a href="#" id="delete-feed-btn">
+                                <span class="thumb thumbs-up glyphicon glyphicon-trash"></span>
+                            </a>
+                        </div>
+                    </c:if>
                 </div>
                 <br>
             </div>
@@ -160,7 +166,7 @@
                     <div class="about">
                             <span>
                                 <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
-                                <span id="like-count"><small id="like-count">${likeCount}</small></span></span>
+                                <span id="like-count"><small id="like-count-small">${likeCount}</small></span></span>
                         <span class="ml-2">
                                 <span class="glyphicon glyphicon-envelope"></span>
                                 <span id="comment-count"><small
@@ -201,6 +207,6 @@
     <link rel="stylesheet" href="/resources/css/feed/bookmarkshape.css">
     <link rel="stylesheet" href="/resources/css/feed/pictureNav.css">
 </div>
-<script src="/resources/js/feed/feed.js?reload"></script>
+<script src="/resources/js/feed/feed.js?reloadsibaru"></script>
 </body>
 </html>

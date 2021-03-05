@@ -248,4 +248,19 @@ public class BookmarkDAO {
 
         return folder_id;
     }
+
+    /**
+     * 지정한 북마크로부터 저장된 피드를 삭제하는 메소드
+     * 20210305
+     * 이한결
+     */
+    public void deleteFeedFromBookmark(BookmarkedFeedsVO bmfVO) {
+        try {
+            BookmarkMapper mapper = session.getMapper(BookmarkMapper.class);
+            mapper.deleteFeedFromBookmark(bmfVO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("북마크로부터 삭제 sql 오류");
+        }
+    }
 }

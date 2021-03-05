@@ -27,4 +27,13 @@ public interface FeedsMapper {
     List<FeedComponentVO> homePreview();
 
     int getFeedCountAboutSpecificUser(String user_id);
+
+    // 피드삭제
+    void deleteFeedFD(FeedComponentVO feedInfo);
+    void deleteFeedH(FeedComponentVO feedInfo);
+    void deleteFeedBF(FeedComponentVO feedInfo);
+    void deleteFeedTIF(FeedComponentVO feedInfo);
+    void deleteFeedFC(FeedComponentVO feedInfo);
+    void deleteFeedL(FeedComponentVO feedInfo);
+    void deleteFeedF(FeedComponentVO feedInfo);
 }

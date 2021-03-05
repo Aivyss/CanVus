@@ -185,4 +185,28 @@ public class FeedService {
 		model.addAttribute("previews", previews);
 		log.info(previews.toString());
     }
+
+	/**
+	 * 피드 삭제 메소드
+	 * 20210305
+	 * 이한결
+	 * @param feedInfo
+	 * @param session
+	 */
+    public String deleteFeed(FeedComponentVO feedInfo, HttpSession session) {
+    	log.info("피드 삭제 서비스 메소드 진입");
+
+    	String url = "redirect:/";
+    	String userId = (String) session.getAttribute("userId");
+    	String feedOwner = feedInfo.getUser_id1();
+
+    	log.info("feed_id {}", feedInfo.getFeed_id());
+    	
+    	// TODO 유효성 이차검증
+    	if (feedOwner.equals(userId)) {
+    		feedDAO.deleteFeed(feedInfo);
+		}
+
+    	return url;
+    }
 }

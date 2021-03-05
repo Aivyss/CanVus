@@ -130,4 +130,54 @@
 		WHERE
 			ROWNUM &lt;= 3 <!-- &lt; 는 <를 의미한다 -->
 	</select>
+
+	<delete id="deleteFeedFD" parameterType="feedComponent">
+		DELETE
+			FROM
+				FEED_DRAWINGS
+			WHERE
+				FEED_ID = #{feed_id}
+	</delete>
+	<delete id="deleteFeedH" parameterType="feedComponent">
+		DELETE
+			FROM
+				HISTORIES
+			WHERE
+				FEED_ID = #{feed_id}
+	</delete>
+	<delete id="deleteFeedBF" parameterType="feedComponent">
+		DELETE
+			FROM
+				BOOKMARKED_FEEDS
+			WHERE
+				FEED_ID = #{feed_id}
+	</delete>
+	<delete id="deleteFeedTIF" parameterType="feedComponent">
+		DELETE
+			FROM
+				TAGS_IN_FEED
+			WHERE
+				FEED_ID = #{feed_id}
+	</delete>
+	<delete id="deleteFeedFC" parameterType="feedComponent">
+		DELETE
+			FROM
+				FEED_COMMENT
+			WHERE
+				FEED_ID = #{feed_id}
+	</delete>
+	<delete id="deleteFeedL" parameterType="feedComponent">
+		DELETE
+			FROM
+				LIKE_TABLE
+			WHERE
+				FEED_ID = #{feed_id}
+	</delete>
+	<delete id="deleteFeedF" parameterType="feedComponent">
+		DELETE
+			FROM
+				FEEDS
+			WHERE
+				FEED_ID = #{feed_id}
+	</delete>
 </mapper>

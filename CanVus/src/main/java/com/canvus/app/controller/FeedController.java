@@ -2,6 +2,7 @@ package com.canvus.app.controller;
 
 import java.util.Map;
 
+import com.canvus.app.vo.FeedComponentVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -66,6 +67,7 @@ public class FeedController {
 	@RequestMapping(value="/addLike", method= RequestMethod.POST)
 	public void addLike(@RequestBody Map<String, Object> params) {
 		log.info("like 증가 메소드 진입");
+
 		feedService.addLike(params);
 	}
 
@@ -80,6 +82,21 @@ public class FeedController {
 	@RequestMapping(value="/deleteLike", method=RequestMethod.POST)
 	public void deleteLike(@RequestBody Map<String, Object> params) {
 		log.info("like 증가 메소드 진입");
+
 		feedService.deleteLike(params);
+	}
+
+	/**
+	 * 피드 삭제 메소드
+	 * 20210305
+	 * 이한결
+	 * @param feedInfo
+	 * @param session
+	 */
+	@RequestMapping(value= "/deleteFeed", method=RequestMethod.POST)
+	public String deleteFeed(FeedComponentVO feedInfo, HttpSession session) {
+		log.info("피드 삭제 메소드 진입");
+
+		return feedService.deleteFeed(feedInfo, session);
 	}
 }

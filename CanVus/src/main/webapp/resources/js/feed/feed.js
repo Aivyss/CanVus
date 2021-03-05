@@ -165,7 +165,7 @@ $(() => {
         }
 
         const likeContainer = $('#like-container');
-        const likeCountDOM = $('#like-count');
+        const likeCountDOM = $('#like-count-small');
         let content = '';
 
         likeContainer.empty();
@@ -218,9 +218,20 @@ $(() => {
                 dataType: 'json',
                 success: function (result) {
                     if (result['isSuccess']) {
-                        alert("Bookmarked");
+                        alert("ブックマークしました！");
                     } else {
-                        alert("Already Bookmarked");
+                        $.ajax({
+                            url: '/bookmarkRest/deleteFeedFromBookmark',
+                            type: 'post',
+                            contentType: 'application/json',
+                            data:JSON.stringify(data),
+                            success: function () {
+                                alert("このフィードをブックマークから消しました。");
+                            },
+                            error: function () {
+                                alert("通信上のエラーが発生しました。");
+                            }
+                        })
                     }
                 },
                 error: function () {
@@ -243,5 +254,40 @@ $(() => {
             $('#bms').css({'display':"none"});
         }
         bookmarkSwitch = !bookmarkSwitch
+    });
+
+    // 피드 삭제버튼 클릭 이벤트
+    $(document).on('click', '#delete-feed-btn', function() {
+        const feed_owner_id = $('#feed-owner-idVal').val();
+        const my_id = $('#user_idVal').val();
+        const feed_id = $('#feed_idVal').val();
+
+        if (my_id === feed_owner_id) {
+            // 바닐라 자바스크립트를 써보고 싶었다.
+            const form = document.createElement('form');
+            form.method = 'post';
+            form.action = '/feed/deleteFeed';
+            form.target = '_blank';
+
+            const feed_id_form = document.createElement('input');
+            const owner_id_form = document.createElement('input');
+
+            feed_id_form.setAttribute('type', 'text');
+            feed_id_form.setAttribute('name', 'feed_id');
+            feed_id_form.setAttribute('value', feed_id);
+
+            owner_id_form.setAttribute('type', 'text');
+            owner_id_form.setAttribute('name', 'user_id1');
+            owner_id_form.setAttribute('value', feed_owner_id);
+
+            form.appendChild(feed_id_form);
+            form.appendChild(owner_id_form);
+
+            document.getElementById('feed-overlay').appendChild(form);
+
+            form.submit();
+        } else {
+            alert("フィードのオーナーしか消しません。");
+        }
     });
 });

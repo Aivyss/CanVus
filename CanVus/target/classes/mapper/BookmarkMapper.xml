@@ -89,4 +89,14 @@ DELETE
 		)
 	</insert>
 
+	<delete id="deleteFeedFromBookmark" parameterType="bookmark">
+		DELETE
+			FROM
+				BOOKMARK_FOLDER
+			WHERE
+				FOLDER_ID = #{folder_id}
+				AND
+			    FEED_ID = #{feed_id}
+	</delete>
+
 </mapper>

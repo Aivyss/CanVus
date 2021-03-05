@@ -86,4 +86,15 @@ public class BookmarkRestController {
     public Map<String, Object> checkDuplicateAndCreate(@RequestBody Map<String, Object> params) {
         return bookmarkService.checkDuplicateAndCreate(params);
     }
+
+    /**
+     * 지정한 북마크로부터 저장된 피드를 삭제하는 메소드
+     * 20210305
+     * @param params
+     */
+    @RequestMapping(value="/deleteFeedFromBookmark", method=RequestMethod.POST)
+    public void deleteFeedFromBookmark(@RequestBody Map<String, Object> params) {
+        log.info("북마크로부터 피드삭제 컨트롤러 메소드 진입");
+        bookmarkService.deleteFeedFromBookmark(params);
+    }
 }

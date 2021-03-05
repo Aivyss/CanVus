@@ -47,6 +47,22 @@ public class BookmarkService {
         return params;
     }
 
+
+    /**
+     * 지정한 북마크로부터 저장된 피드를 삭제하는 메소드
+     * 20210305
+     * 이한결
+     * @param params
+     */
+    public void deleteFeedFromBookmark(Map<String, Object> params) {
+        BookmarkedFeedsVO bmfVO = new BookmarkedFeedsVO();
+
+        bmfVO.setFolder_id((Integer) params.get("folder_id"));
+        bmfVO.setFeed_id((String) params.get("feed_id"));
+
+        bookmarkDAO.deleteFeedFromBookmark(bmfVO);
+    }
+
     /**
      * 북마크 메인으로 이동하는 서비스 메소드
      * 2021.02.25

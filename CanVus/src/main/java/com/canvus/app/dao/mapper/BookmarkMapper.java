@@ -1,6 +1,7 @@
 package com.canvus.app.dao.mapper;
 
 import com.canvus.app.vo.BookmarkVO;
+import com.canvus.app.vo.BookmarkedFeedsVO;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface BookmarkMapper {
 	List<BookmarkVO> getBookmarkFolderAbstractList(String user_id);
 
     int checkDuplicateAndCreate(BookmarkVO bmVO);
+
+    void deleteFeedFromBookmark(BookmarkedFeedsVO bmfVO);
 }

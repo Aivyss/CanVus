@@ -341,4 +341,29 @@ public class FeedDAO {
 
 		return preview;
     }
+
+	/**
+	 * 피드 삭제 메소드
+	 * 20210305
+	 * 이한결
+	 * @param feedInfo
+	 */
+	@Transactional(rollbackFor = {Exception.class})
+    public void deleteFeed(FeedComponentVO feedInfo) {
+    	log.info("피드삭제 dao 메소드 진입");
+
+    	try {
+    		FeedsMapper mapper = session.getMapper(FeedsMapper.class);
+    		mapper.deleteFeedFD(feedInfo);
+    		mapper.deleteFeedH(feedInfo);
+    		mapper.deleteFeedBF(feedInfo);
+    		mapper.deleteFeedTIF(feedInfo);
+    		mapper.deleteFeedFC(feedInfo);
+    		mapper.deleteFeedL(feedInfo);
+    		mapper.deleteFeedF(feedInfo);
+		} catch (Exception e) {
+    		e.printStackTrace();
+    		log.info("피드 삭제 sql 오류");
+		}
+    }
 }
