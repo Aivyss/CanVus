@@ -45,15 +45,4 @@ public class SearchViewController {
 
 		return "search/noResult";
 	}
-	
-	/**
-	 * 테스트를 위해 만든 메소드로 차후에 지움.
-	 */
-	@RequestMapping(value="/imageSearch", method=RequestMethod.GET)
-	public String imageSearch() {
-		log.info("AI 이미징 서치로 이동");
-		
-		return "search/imageSearch";
-	}
-
 }
