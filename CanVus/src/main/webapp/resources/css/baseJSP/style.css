@@ -268,11 +268,11 @@ body {
 }
 
 #header .header_menu ul.main_menu li a:hover {
-    color: #4DA91C;
+    color: #0C56D0;
 }
 
 #header .header_menu ul.main_menu li.active a {
-    color: #4DA91C;
+    color: #0C56D0;
 }
 
 #header .header_menu ul.main_menu li,
