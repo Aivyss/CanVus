@@ -33,7 +33,7 @@
                         <th>支払い</th>
                         <th>ピックセル</th>
                         <th>日時</th>
-                        <th>児湯番号</th>
+                        <th>固有番号</th>
                     </tr>
                     </thead>
                     <tbody>

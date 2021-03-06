@@ -31,7 +31,6 @@ let authCount = 0;
 // 드로워 리스트
 let drawerNicknameList = [];
 let drawerIdList = [];
-let getPixelList = [0, 0, 0, 0];
 
 // 피드 저장용 전역변수
 let layerArry = [];
@@ -41,7 +40,7 @@ let imageBase64Arry = [];
 // 픽셀선물 인덱싱
 let pixelIndex = 0;
 
-// ********** 소켓 수신부 함수셋 ******************//
+// ********** 소켓 수신부 함수셋(executor) ******************//
 const socketFunctionSet = (function () {
     return {
         commonchat: function (data) {
@@ -185,20 +184,31 @@ const socketFunctionSet = (function () {
             const message = data['message'];
             const sender = message['user_id'];
 
-            if (sender != user_id) {
-                const page_no = message['page_no'];
-                const layer_no = message['layer_no'];
-                const layerId = `p${page_no}l${layer_no}`;
+            const page_no = message['page_no'];
+            const layer_no = message['layer_no'];
+            const layerId = `p${page_no}l${layer_no}`;
 
-                if (layer_no == 1) {
-                    // 페이지 생성 + 1번 레이어 생성
-                    drawingFunctionSet.createPageComponent('receiver');
-                } else {
-                    // 레이어 생성 (초기화용 함수였지만 원하는 기능이 같아서 이용)
-                    drawingFunctionSet.initializeCreateLayer(page_no);
+            if (layer_no == 1) {
+                // TODO 페이지텝에 추가
+                drawingFunctionSet.createPageComponent();
+                // TODO 1번 레이어 생성
+                drawingFunctionSet.createPage();
+
+                // TODO 센더가 자기 자신인 경우 페이지 스위칭
+                if (sender == user_id) {
+                    const maxPage = layerSet.length;
+                    $('#tablist').children().removeClass('active');
+                    $('#tablist').children().last().addClass('active');
+                    drawingFunctionSet.pageSwitching('pli' + maxPage);
                 }
+            } else {
+                // TODO 레이어 생성
+                drawingFunctionSet.createLayer(page_no);
 
-                drawingFunctionSet.changeLayerTarget(layerId);
+                // TODO 센더의 경우 생성한 레이어로 바로 타게팅
+                if (sender == user_id) {
+                    drawingFunctionSet.changeLayerTarget(layerId);
+                }
             }
         },
         deletePageLayer: function (data) {
@@ -208,9 +218,7 @@ const socketFunctionSet = (function () {
             const layerId = `p${message['page_no']}l${message['layer_no']}`;
             $(`#${layerId}-box`).remove();
 
-            if (sender != user_id) {
-                drawingFunctionSet.deleteLayer(layerId, 'receiver');
-            }
+            drawingFunctionSet.deleteLayer(layerId);
         },
         drawing: function (data) {
             const message = data['message'];
@@ -237,7 +245,7 @@ const socketFunctionSet = (function () {
 
             // 드로워 리스트에 해당유저 추가.
             const content = `<button class="btn btn-primary" type="button" id="drawerTop-${targetId}">
-                ${targetNickname} <span class="badge">0</span>
+                ${targetNickname}
             </button>`;
             $('#drawerList').append(content);
 
@@ -296,7 +304,6 @@ const socketSenderFunctionSet = (function () {
 
             socketSenderFunctionSet.sendMessage(message, 'quit');
             location.href = "/";
-            socketClient.disconnect();
         },
         socketEntranceRepeater: function () {
             try {
@@ -363,14 +370,14 @@ const drawingFunctionSet = (function () {
                 console.log("currentLayer가 타게팅 되지 않음");
             }
         },
-        createLayer: function (isReceiver) {
+        createLayer: function (page_no) {
             try {
-                const totalNumOfLayer = layerSet[pageNum - 1].length;
-                let layerId = 'p' + pageNum + 'l' + (totalNumOfLayer + 1);
+                const totalNumOfLayer = layerSet[page_no - 1].length;
+                let layerId = 'p' + page_no + 'l' + (totalNumOfLayer + 1);
 
                 // 이부분에 canvas 태그를 생성하는 구문을 넣어줄 것 아이디는 layerId로 준다.
                 let contents = `<canvas id="${layerId}" width="600px" height="600px"></canvas>`;
-                $(`#p${pageNum}`).append(contents);
+                $(`#p${page_no}`).append(contents);
 
                 ///////////////////////////////////////////////////////////////
                 // TODO fabric 객체를 만들고 객체배열에 추가하는 프로세스
@@ -379,20 +386,20 @@ const drawingFunctionSet = (function () {
                 newLayer.freeDrawingBrush.width = thicknessGlobal;
                 newLayer.freeDrawingBrush.color = hexGlobal;
                 newLayer.freeDrawingBrush.opacity = opacityGlobal;
-                layerSet[pageNum - 1].push(newLayer);
+                layerSet[page_no - 1].push(newLayer);
                 console.log(layerSet);
 
                 // TODO 이벤트객체를 이벤트배열에 추가하는 프로세스.
                 const eventObj = newLayer.on('mouse:up', function () {
                     const message = {
                         user_id: user_id,
-                        page_no: pageNum,
+                        page_no: page_no,
                         layer_no: totalNumOfLayer + 1,
                         stringify: JSON.stringify(newLayer)
                     };
                     socketSenderFunctionSet.sendMessage(message, "drawing"); // 예: 2번 페이지는 1번 인덱스이다.
                 });
-                eventSet[pageNum - 1].push(eventObj);
+                eventSet[page_no - 1].push(eventObj);
                 console.log(eventSet);
 
                 //TODO 부가적으로 생성된 canvas-container를 지우는 프로세스
@@ -412,102 +419,31 @@ const drawingFunctionSet = (function () {
                     }
                 }
 
-                $('#' + layerId).appendTo('#p' + pageNum);
-                $('.' + layerId + 'u').appendTo('#p' + pageNum);
+                $('#' + layerId).appendTo('#p' + page_no);
+                $('.' + layerId + 'u').appendTo('#p' + page_no);
                 $('#removeResidue').remove();
 
                 // TODO z-index CSS 속성을 부여하고 Z-INDEX 배열에 추가하는 프로세스
                 $('#' + layerId).css({'z-index': totalNumOfLayer + 1});
                 $('.' + layerId + 'u').css({'z-index': totalNumOfLayer + 1});
-                zNumSet[pageNum - 1].push(totalNumOfLayer + 1);
+                zNumSet[page_no - 1].push(totalNumOfLayer + 1);
                 console.log(zNumSet);
 
-                // TODO 레이어 리스트에 추가하는 메소드
-                drawingFunctionSet.createlayerList(layerId);
-
-                ///////////////////////////////////////////////////////////////
-
-                // 소켓에 레이어를 생성했다는 정보를 쏴주는 구문 (이니셜라이즈 문제가 있어 isInitialized 도입)
-                if (isInitialized) {
-                    if (isReceiver == undefined) { // 생성한 사람인 경우 소켓으로 전송 및 브러시 체인지
-                        const message = {
-                            user_id: user_id,
-                            page_no: pageNum,
-                            layer_no: totalNumOfLayer + 1
-                        };
-
-                        socketSenderFunctionSet.sendMessage(message, 'CREATEPAGELAYER');
-                        drawingFunctionSet.changeLayerTarget(layerId);
-                    }
+                // TODO 레이어 리스트에 추가하는 프로세스 (타게팅을 바꾸진 않는다)
+                // 조건1: 초기화 되어 있을 것
+                // 조건2: 현재 바라보고 있는 페이지번호가 같을 것
+                if (isInitialized && pageNum == page_no) {
+                    drawingFunctionSet.createlayerList(layerId);
                 }
             } catch (e) {
                 alert("現在ページが選択されていません。まず、ページを選んでください。");
             }
         },
-        initializeCreateLayer: function (pageNo) {
-            const totalNumOfLayer = layerSet[pageNo - 1].length;
-            let layerId = 'p' + pageNo + 'l' + (totalNumOfLayer + 1);
-
-            // 이부분에 canvas 태그를 생성하는 구문을 넣어줄 것 아이디는 layerId로 준다.
-            let contents = `<canvas id="${layerId}" width="600px" height="600px"></canvas>`;
-            $(`#p${pageNo}`).append(contents);
-
-            ///////////////////////////////////////////////////////////////
-            // TODO fabric 객체를 만들고 객체배열에 추가하는 프로세스
-            let newLayer = new fabric.Canvas(layerId);
-            newLayer.isDrawingMode = true;
-            newLayer.freeDrawingBrush.width = thicknessGlobal;
-            newLayer.freeDrawingBrush.color = hexGlobal;
-            newLayer.freeDrawingBrush.opacity = opacityGlobal;
-            layerSet[pageNo - 1].push(newLayer);
-            console.log(layerSet);
-
-            // TODO 이벤트객체를 이벤트배열에 추가하는 프로세스.
-            const eventObj = newLayer.on('mouse:up', function () {
-                const message = {
-                    user_id: user_id,
-                    page_no: pageNo,
-                    layer_no: totalNumOfLayer + 1,
-                    stringify: JSON.stringify(newLayer)
-                };
-                socketSenderFunctionSet.sendMessage(message, "drawing"); // 예: 2번 페이지는 1번 인덱스이다.
-            });
-            eventSet[pageNo - 1].push(eventObj);
-            console.log(eventSet);
-
-            //TODO 부가적으로 생성된 canvas-container를 지우는 프로세스
-            $('.canvas-container').attr('id', 'removeResidue');
-            if (user_id != admin_id) {
-                $('.upper-canvas').attr('class', layerId + 'u');
-                $(`.${layerId}u`).css({'display': 'none'}).addClass('drawReceiver');
-            } else {
-                $('.upper-canvas').attr('class', layerId + 'u');
-                $(`.${layerId}u`).addClass('drawReceiver');
-            }
-            // 드로워에 해당하는 경우 display 숨김 속성을 지운다.
-            if (drawerIdList.length != 0) {
-                for (const drawer_id of drawerIdList) {
-                    if (drawer_id == user_id)
-                        $(`.${layerId}u`).css({'display': ""});
-                }
-            }
-
-            $('#' + layerId).appendTo('#p' + pageNo);
-            $('.' + layerId + 'u').appendTo('#p' + pageNo);
-            $('#removeResidue').remove();
-
-            // TODO z-index CSS 속성을 부여하고 Z-INDEX 배열에 추가하는 프로세스
-            $('#' + layerId).css({'z-index': totalNumOfLayer + 1});
-            $('.' + layerId + 'u').css({'z-index': totalNumOfLayer + 1});
-            zNumSet[pageNo - 1].push(totalNumOfLayer + 1);
-            console.log(zNumSet);
-        },
-        createPage: function (isReceiver) {
+        createPage: function () {
             const totalNumOfPage = layerSet.length;
             const pageId = 'p' + (totalNumOfPage + 1); // 예: length가 1이면 2번 페이지를 만들어야한다
 
-            // 이 부분에 canvas 태그 생성구문을 넣을 것. 아이디는 p만든레이어번호l1로 준다.
-            // 첫 레이어는 자동생성을 하는 편이 좋을 듯 싶다.
+            // TODO 이 부분에 canvas 태그 생성구문을 넣을 것. 아이디는 p만든레이어번호l1로 준다.
             let contents = `<canvas id="${pageId}l1" width="600px" height="600px"></canvas>`;
             $(`#T${pageId}`).append(contents);
 
@@ -530,19 +466,13 @@ const drawingFunctionSet = (function () {
             // TODO canvas-container를 단 1개로 유지하기 위해 ID속성부여 프로세스
             $('.canvas-container').attr('id', pageId).attr('class', 'pageBundle');
             $('.upper-canvas').attr('class', pageId + 'l1u');
-            if (user_id != admin_id) {
-                $('.upper-canvas').attr('class', pageId + 'l1u');
-                $(`.${pageId}l1u`).css({'display': 'none'}).addClass('drawReceiver');
-            } else {
-                $('.upper-canvas').attr('class', pageId + 'l1u');
-                $(`.${pageId}l1u`).addClass('drawReceiver');
-            }
+            $(`.${pageId}l1u`).css({'display': 'none'}).addClass('drawReceiver');
+
             // 드로워에 해당하는 경우 display 숨김 속성을 지운다.
-            if (drawerIdList.length != 0) {
-                for (const drawer_id of drawerIdList) {
-                    if (drawer_id == user_id)
-                        $(`.${pageId}l1u`).css({'display': ""});
-                }
+            const isDrawer = drawingFunctionSet.isDrawerCheck();
+
+            if (isDrawer) {
+                $(`.${pageId}l1u`).css({'display': "block"});
             }
 
             // TODO 생성된 canvas 태그들에 z-index를 부여하고 zNumSet에 반영하는 프로세스
@@ -563,51 +493,43 @@ const drawingFunctionSet = (function () {
             });
             eventSet[totalNumOfPage].push(eventObj);
             console.log(eventSet);
-
-            // 소켓에 페이지를 만들었다는 정보를 쏴주는 구문 (이니셜라이즈 문제가 있어 isInitialized 도입)
-            if (isInitialized) {
-                if (isReceiver == undefined) {
-                    const message = {
-                        user_id: user_id,
-                        page_no: totalNumOfPage + 1,
-                        layer_no: 1
-                    };
-                    socketSenderFunctionSet.sendMessage(message, 'CREATEPAGELAYER');
-                }
-            }
         },
-        deleteLayer: function (layerId, isReceiver) {
+        deleteLayer: function (layerId) {
             let temp = layerId.split("p");
             temp = temp[1].split("l");
             let pageNumber = parseInt(temp[0]);
             let layerNumber = parseInt(temp[1]);
 
-            $('#' + layerId).remove();
-            $('.' + layerId + 'u').remove();
+            try {
+                $(`#p${pageNumber}l${layerNumber}`).remove();
+                $(`.p${pageNumber}l${layerNumber}u`).remove();
+                layerSet[pageNumber - 1][layerNumber - 1] = null;
+                zNumSet[pageNumber - 1][layerNumber - 1] = null;
+                eventSet[pageNumber - 1][layerNumber - 1] = null;
 
-            layerSet[pageNumber - 1][layerNumber - 1] = null;
-            zNumSet[pageNumber - 1][layerNumber - 1] = null;
-            eventSet[pageNumber - 1][layerNumber - 1] = null;
+                let targetIndex = 0;
+                if (pageNum == pageNumber && layerNum == layerNumber) {
+                    const arry = layerSet[pageNum-1];
+                    for(let i=arry.length-1; i<=0; i--) {
+                        if (arry[i] != null) {
+                            targetIndex = i;
+                            break;
+                        }
+                    }
+                }
 
-            // 소켓에 레이어를 지웠다고 전송하는 구문 (추후작성예정)
-            if (isReceiver == undefined) {
-                const message = {
-                    user_id: user_id,
-                    page_no: pageNumber,
-                    layer_no: layerNumber
-                };
-                socketSenderFunctionSet.sendMessage(message, 'DELETEPAGELAYER');
+                drawingFunctionSet.changeLayerTarget(`p${pageNum}l${targetIndex}`);
+            } catch (e) {
+                console.log('이미 지워진 경우');
             }
         },
-        createPageComponent: function (isReceiver) {
+        createPageComponent: function () {
             const totalPage = layerSet.length;
 
             let content = `
                 <div role="tabpanel" class="tab-pane figure figure_bg figure_bg_light center-block fade" id="Tp${totalPage + 1}"></div>
                 `;
             $('#tabPanes').append(content);
-
-            drawingFunctionSet.createPage(isReceiver);
 
             content = `
                 <li role="presentation">
@@ -630,13 +552,7 @@ const drawingFunctionSet = (function () {
             const layerList = layerSet[pageNum - 1];
 
             // drawer인지 확인
-            let isDrawer = false;
-            for (const drawerId of drawerIdList) {
-                if(drawerId == user_id) {
-                    isDrawer = true;
-                    break;
-                }
-            }
+            const isDrawer = drawingFunctionSet.isDrawerCheck();
             
             for (let i = 0; i < layerList.length; i++) {
                 if (layerList[i] != null) {
@@ -683,13 +599,14 @@ const drawingFunctionSet = (function () {
                 const obj = layer['stringify'];
 
                 if (page_no == i || (page_no == 1 && layer_no == 1)) {
-                    drawingFunctionSet.createPageComponent('receiver');
+                    drawingFunctionSet.createPageComponent();
+                    drawingFunctionSet.createPage();
 
                     if (page_no != 1) {
                         i++;
                     }
                 } else {
-                    drawingFunctionSet.initializeCreateLayer(page_no);
+                    drawingFunctionSet.createLayer(page_no);
                 }
                 // 리렌더링
                 const targetObj = layerSet[page_no - 1][layer_no - 1];
@@ -722,6 +639,8 @@ const drawingFunctionSet = (function () {
             const page = parseInt(temp[0].split('p')[1]);
 
             currlayer = layerSet[page - 1][layer - 1];
+            pageNum = page;
+            layerNum = layer;
             // TODO z-index Reset
             for (let i=0; i<layerSet[page-1].length; i++) {
                 $(`.p${page}l${i+1}u`).css({'z-index':i+1});
@@ -758,14 +677,25 @@ const drawingFunctionSet = (function () {
                 console.log("드로워가 없는 경우");
                 $upperlayer.css({'display': "none"});
             } else {
-                $upperlayer.css({'display': "none"});
-                for (const drawerIdListElement of drawerIdList) { // 드로워인 경우
-                    if (drawerIdListElement == user_id) { // 드로워나 admin인 경우
-                        $upperlayer.css({'display': visibility});
-                        break;
-                    }
+                const isDrawer = drawingFunctionSet.isDrawerCheck();
+
+                if (isDrawer) {
+                    $upperlayer.css({'display': visibility});
+                } else {
+                    $upperlayer.css({'display': "none"});
                 }
             }
+        },
+        isDrawerCheck: function () {
+            let check = false;
+            for (const drawerIdListElement of drawerIdList) {
+                if (drawerIdListElement === user_id) {
+                    check = true;
+                    break;
+                }
+            }
+
+            return check;
         },
     }
 })();
@@ -841,8 +771,6 @@ const createFeedController = (function () {
                 data: JSON.stringify(data),
                 success: function () {
                     console.log("전송성공");
-                    $('#content_div').remove();
-                    $('#mask').remove();
 
                     const message = {
                         room_Id: room_Id,
@@ -1063,19 +991,52 @@ $(() => {
     const dynamicEvents = [
         // 레이어 생성
         $('#create-layer-btn').on('click', function () {
-            drawingFunctionSet.createLayer();
+            const isDrawer = drawingFunctionSet.isDrawerCheck();
+
+            if (isDrawer) {
+                try {
+                    const totalNumOfLayer = layerSet[pageNum - 1].length;
+
+                    const message = {
+                        user_id: user_id,
+                        page_no: pageNum,
+                        layer_no: totalNumOfLayer + 1
+                    };
+
+                    socketSenderFunctionSet.sendMessage(message, 'CREATEPAGELAYER');
+                } catch (e) {
+                    alert('まずページを選択して下さい。');
+                }
+
+            } else {
+                alert('Drawer専用の機能です。');
+            }
         }),
         // Layer Explorer를 클릭시 현재 페이지번호, 레이어번호를 업데이트하고 현재 바라보는 레이어를 설정.
-        $(document).on('click', '#list-container', function () {
+        $(document).on('click', '#list-container', function (event) {
             try {
-                let eventId = event.target.id;
+                const eventId = event.target.id;
                 const layerId = eventId.split('-')[0];
                 const action = eventId.split('-')[1];
+                const layerNumber = layerId.split('l')[1];
+                const pageNumber = (layerId.split('l')[0]).split('p')[1];
 
                 if (action == 'box' || action == 'label') {
                     drawingFunctionSet.changeLayerTarget(layerId);
                 } else if (action == 'del') {
-                    drawingFunctionSet.deleteLayer(layerId); // 소켓으로 보내는 쪽이라 isReceiver가 undefined
+                    const isDrawer = drawingFunctionSet.isDrawerCheck();
+
+                    if (isDrawer) {
+                        const message = {
+                            user_id: user_id,
+                            page_no: pageNumber,
+                            layer_no: layerNumber
+                        };
+
+                        socketSenderFunctionSet.sendMessage(message, 'DELETEPAGELAYER');
+                    } else {
+                        alert('Drawer専用の機能です');
+                    }
                 } else if (action == 'visible') {
                     drawingFunctionSet.changeVisibility(layerId);
                 } else {
@@ -1091,22 +1052,17 @@ $(() => {
             let tabId = e.target.id;
 
             if (tabId == 'CreatePage') { // 페이지 생성의 경우
-                let isDrawer = false;
-                for (const drawerId of drawerIdList) {
-                    if (drawerId == user_id){
-                        isDrawer = true;
-                        break;
-                    }
-                }
+                const isDrawer = drawingFunctionSet.isDrawerCheck();
 
                 if (isDrawer) {
-                    drawingFunctionSet.createPageComponent();
-                    const maxPage = layerSet.length;
-                    $('#tablist').children().removeClass('active');
-                    $('#tablist').children().last().addClass('active');
-                    drawingFunctionSet.pageSwitching('pli' + maxPage);
+                    const message = {
+                        user_id: user_id,
+                        page_no: layerSet.length + 1,
+                        layer_no: 1
+                    };
+                    socketSenderFunctionSet.sendMessage(message, 'CREATEPAGELAYER');
                 } else {
-                    alert("許可されたDrawer専用の機能です。");
+                    alert("Drawer専用の機能です。");
                 }
             } else { // 페이지 열람의 경우
                 drawingFunctionSet.pageSwitching(tabId);
@@ -1163,7 +1119,7 @@ $(() => {
 
                 authCount++;
             } else {
-                alert('권한은 최대 4명만 부여 가능합니다.');
+                alert('Drawerの最大の人数は4人です。');
             }
         }),
         // 브러시 변경텝 클릭 이벤트
@@ -1202,10 +1158,9 @@ $(() => {
             }
         }),
         // 피드작성 취소 이벤트
-        $(document).on("click", "#mask", function () {
+        $(document).on("click", ".modal-backdrop", function () {
             console.log("마스크 클릭 감지 및 처리");
-            $('#mask').remove();
-            $('#content_div').remove();
+            $('#buffer').remove();
         }),
         // 픽셀 선물 모달창 띄우기 이벤트
         $(document).on('click', '#drawerList', function (event) {
@@ -1213,7 +1168,12 @@ $(() => {
             targetId = targetId.split('drawerTop-')[1];
             let drawer_nickname = '';
 
-            // TODO 선물하려는 대상의 아이디 추출
+            if (targetId == user_id) {
+                alert('自分にプレゼントはできません！');
+                return false;
+            }
+
+            // TODO 선물하려는 대상의 닉네임 추출
             for (let i = 0; i < drawerIdList.length; i++) {
                 if (targetId == drawerIdList[i]) {
                     drawer_nickname = drawerNicknameList[i];
@@ -1224,7 +1184,7 @@ $(() => {
             // TODO 동적으로 모달 내 텍스트 값을 변경
             $('#target-drawer-id').val(targetId);
             $('#target-drawer-nickname').val(drawer_nickname);
-            $('.modal-title').text(`${drawer_nickname}さんにプレゼントしましょう。`);
+            $('#present-pixel-modal-title').text(`${drawer_nickname}さんにプレゼントしましょう。`);
 
             // TODO 현재 자신이 보유중인 픽셀의 수를 산출하는 메소드
             $.ajax({
@@ -1310,6 +1270,12 @@ $(() => {
             const myPixel = parseInt($('#my-pixel').val());
 
             paymentFunctionSet.entrancePayment(selectedPixelVal, myPixel);
+        }),
+        // 픽셀 선물하기 엔터 키다운 이벤트
+        $('#present-message').on('keydown', function(event) {
+            if (event.keyCode == 13) {
+                $('#execute-present').trigger('click');
+            }
         }),
     ];
     // ******************* 레인지바 초기설정함수 *****************//

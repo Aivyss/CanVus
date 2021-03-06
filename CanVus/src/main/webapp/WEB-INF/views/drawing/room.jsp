@@ -198,7 +198,7 @@
 </c:choose>
 
 <!-- 픽셀선물 모달파트 -->
-<div class="modal fade" tabindex="-1" role="dialog" id="present-pixel-modal">
+<div class="modal fade" tabindex="-1" role="dialog" id="present-pixel-modal" style="z-index: 20000;">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -269,7 +269,7 @@
 </div>
 
 <!-- 픽셀결제 모달파트 -->
-<div class="modal fade" tabindex="-1" role="dialog" id="pixel-product-modal">
+<div class="modal fade" tabindex="-1" role="dialog" id="pixel-product-modal" style="z-index: 20000;">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -329,7 +329,7 @@
 </div>
 
 <!-- 피드작성 모달파트 -->
-<div class="modal fade" tabindex="-1" role="dialog" id="make-feed-modal">
+<div class="modal fade" tabindex="-1" role="dialog" id="make-feed-modal" style="z-index: 20000;">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">

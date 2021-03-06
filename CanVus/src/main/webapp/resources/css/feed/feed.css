@@ -51,11 +51,11 @@ body {
 }
 
 .side-plate {
-    background-color: lightblue
+    background-color: rgba(255, 255, 255, 0.45);
 }
 
 .container-feed {
-    width: 75%;
+    width: 85%;
     height: 1600px;
 }
 
@@ -67,6 +67,19 @@ body {
     background-color: white;
 }
 
-#feed-text {
-    font-size: 25px;
+.card > .row > .col-xs-8 > .content {
+    color: whitesmoke;
+}
+
+.feed-content {
+    color:whitesmoke;
+}
+
+.media-body > .col-md-10 > h5 > a {
+    color:whitesmoke;
+    font-size: 32px;
+}
+.media-body > .col-md-10 > p {
+    color:whitesmoke;
+    font-size: 20px;
 }

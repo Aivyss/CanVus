@@ -149,14 +149,19 @@
 
 	<select id="homePreviewLogin" resultType="hashmap">
 		SELECT
-			FD.FEED_ID AS FEED_ID, CONCAT(FD.FEED_ID, '--divide--1.png') AS PREVIEW
+			FD.FEED_ID AS FEED_ID
+		    ,CONCAT(FD.FEED_ID, '--divide--1.png') AS PREVIEW
+			,U.NICKNAME AS NICKNAME
 		FROM
 			FEEDS FD,
-			FOLLOWINGS FL
+			FOLLOWINGS FL,
+		  	USERS U
 		WHERE
 			FL.FOLLOWING_ID IN (FD.USER_ID1, FD.USER_ID2, FD.USER_ID3, FD.USER_ID4)
 			AND
 			FL.USER_ID = #{user_id}
+		  	AND
+		    U.USER_ID = FD.USER_ID1
 		  	AND
 			(SYSDATE - FD.INPUTDATE) &lt;= 31
 		ORDER BY
