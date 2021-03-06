@@ -34,8 +34,10 @@ let messageController = (function(){
                 message_container.className = "message receive";
             }
 
-            message_container.innerHTML = message;
-            body.insertBefore(message_container, body.firstChild);
+            if (reply != undefined && reply != null && reply.length >0) {
+                message_container.innerHTML = message;
+                body.insertBefore(message_container, body.firstChild);
+            }
         }
     }
 })();

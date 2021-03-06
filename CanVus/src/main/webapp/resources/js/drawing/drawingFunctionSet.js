@@ -31,7 +31,6 @@ let authCount = 0;
 // 드로워 리스트
 let drawerNicknameList = [];
 let drawerIdList = [];
-let getPixelList = [0, 0, 0, 0];
 
 // 피드 저장용 전역변수
 let layerArry = [];
@@ -194,7 +193,8 @@ const socketFunctionSet = (function () {
                 drawingFunctionSet.createPageComponent();
                 // TODO 1번 레이어 생성
                 drawingFunctionSet.createPage();
-                // TODO 센더인 자신이 만들었으니 페이지 스위칭.
+
+                // TODO 센더가 자기 자신인 경우 페이지 스위칭
                 if (sender == user_id) {
                     const maxPage = layerSet.length;
                     $('#tablist').children().removeClass('active');
@@ -245,7 +245,7 @@ const socketFunctionSet = (function () {
 
             // 드로워 리스트에 해당유저 추가.
             const content = `<button class="btn btn-primary" type="button" id="drawerTop-${targetId}">
-                ${targetNickname} <span class="badge">0</span>
+                ${targetNickname}
             </button>`;
             $('#drawerList').append(content);
 
@@ -304,7 +304,6 @@ const socketSenderFunctionSet = (function () {
 
             socketSenderFunctionSet.sendMessage(message, 'quit');
             location.href = "/";
-            socketClient.disconnect();
         },
         socketEntranceRepeater: function () {
             try {
@@ -430,8 +429,12 @@ const drawingFunctionSet = (function () {
                 zNumSet[page_no - 1].push(totalNumOfLayer + 1);
                 console.log(zNumSet);
 
-                // TODO 레이어 리스트에 추가하는 메소드
-                drawingFunctionSet.createlayerList(layerId);
+                // TODO 레이어 리스트에 추가하는 프로세스 (타게팅을 바꾸진 않는다)
+                // 조건1: 초기화 되어 있을 것
+                // 조건2: 현재 바라보고 있는 페이지번호가 같을 것
+                if (isInitialized && pageNum == page_no) {
+                    drawingFunctionSet.createlayerList(layerId);
+                }
             } catch (e) {
                 alert("現在ページが選択されていません。まず、ページを選んでください。");
             }
@@ -519,10 +522,6 @@ const drawingFunctionSet = (function () {
             } catch (e) {
                 console.log('이미 지워진 경우');
             }
-
-
-
-
         },
         createPageComponent: function () {
             const totalPage = layerSet.length;
@@ -1021,6 +1020,8 @@ $(() => {
                 const eventId = event.target.id;
                 const layerId = eventId.split('-')[0];
                 const action = eventId.split('-')[1];
+                const layerNumber = layerId.split('l')[1];
+                const pageNumber = (layerId.split('l')[0]).split('p')[1];
 
                 if (action == 'box' || action == 'label') {
                     drawingFunctionSet.changeLayerTarget(layerId);
@@ -1120,7 +1121,7 @@ $(() => {
 
                 authCount++;
             } else {
-                alert('권한은 최대 4명만 부여 가능합니다.');
+                alert('Drawerの最大の人数は4人です。');
             }
         }),
         // 브러시 변경텝 클릭 이벤트
@@ -1170,7 +1171,12 @@ $(() => {
             targetId = targetId.split('drawerTop-')[1];
             let drawer_nickname = '';
 
-            // TODO 선물하려는 대상의 아이디 추출
+            if (targetId == user_id) {
+                alert('自分にプレゼントはできません！');
+                return false;
+            }
+
+            // TODO 선물하려는 대상의 닉네임 추출
             for (let i = 0; i < drawerIdList.length; i++) {
                 if (targetId == drawerIdList[i]) {
                     drawer_nickname = drawerNicknameList[i];
@@ -1181,7 +1187,7 @@ $(() => {
             // TODO 동적으로 모달 내 텍스트 값을 변경
             $('#target-drawer-id').val(targetId);
             $('#target-drawer-nickname').val(drawer_nickname);
-            $('.modal-title').text(`${drawer_nickname}さんにプレゼントしましょう。`);
+            $('#present-pixel-modal-title').text(`${drawer_nickname}さんにプレゼントしましょう。`);
 
             // TODO 현재 자신이 보유중인 픽셀의 수를 산출하는 메소드
             $.ajax({
@@ -1267,6 +1273,12 @@ $(() => {
             const myPixel = parseInt($('#my-pixel').val());
 
             paymentFunctionSet.entrancePayment(selectedPixelVal, myPixel);
+        }),
+        // 픽셀 선물하기 엔터 키다운 이벤트
+        $('#present-message').on('keydown', function(event) {
+            if (event.keyCode == 13) {
+                $('#execute-present').trigger('click');
+            }
         }),
     ];
     // ******************* 레인지바 초기설정함수 *****************//
