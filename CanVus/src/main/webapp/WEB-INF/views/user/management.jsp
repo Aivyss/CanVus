@@ -128,7 +128,7 @@
             </div>
             <div class="modal-body">
                 <div class="row text-center center-block">
-                    <img src="./testImage.png" class="img-circle profile-avatar" alt="プロフィール"
+                    <img src="/resources/images/defaults/profileDefault.png" class="img-circle profile-avatar" alt="プロフィール"
                          style="margin:10% 0; width:250px; border: #1266f1 solid 3px; height:250px; background-color:white;"
                          id="photo-preview">
                     <form id="profile-form" enctype="multipart/form-data">

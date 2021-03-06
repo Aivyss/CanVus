@@ -28,7 +28,7 @@ public class SearchService {
 	private FeedDAO feedDAO;
 
 	// 페이징 처리
-	private final int COUNT_PER_PAGE = 6;
+	private final int COUNT_PER_PAGE = 12;
 	private final int PAGE_PER_GROUP = 5;
 
 	public void search(int type, String keyword, Model model, int page){
@@ -47,6 +47,7 @@ public class SearchService {
 
 				model.addAttribute("tag", (String) keyword);
 				model.addAttribute("feedBundle", searchDAO.getFeedIdBundleByTag(keyword, rb));
+				model.addAttribute("pNav", navi);
 
 				break;
 
@@ -58,8 +59,16 @@ public class SearchService {
 
 				keyword = keyword.split("keyword=")[1];
 
+				String profile_photo = (String) searchDAO.getUserProfile(keyword);
+				String userId = null;
+
+				if (profile_photo != null) {
+					userId = profile_photo.split("\\.")[0];
+					model.addAttribute("targetId", userId);
+				}
+
 				model.addAttribute("nickname", (String) keyword);
-				model.addAttribute("profile", (String) searchDAO.getUserProfile(keyword));
+				model.addAttribute("profile", profile_photo);
 				model.addAttribute("feedBundle", searchDAO.getFeedBundleByNickname(keyword));
 
 				break;
