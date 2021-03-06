@@ -180,7 +180,7 @@
     <!-- 이곳에 피드를 불러온다. -->
 </div>
 
-<script src="/resources/js/feed/feed.js?reload"></script>
+<script src="/resources/js/universal/feed.js?reload"></script>
 <script src="/resources/js/universal/modal.js?reload"></script>
 </body>
 </html>

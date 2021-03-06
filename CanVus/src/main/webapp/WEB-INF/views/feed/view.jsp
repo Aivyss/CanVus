@@ -11,7 +11,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Feed</title>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/baseJSP/mainMenu.jsp"></jsp:include>
@@ -221,6 +221,6 @@
     <link rel="stylesheet" href="/resources/css/feed/bookmarkshape.css">
     <link rel="stylesheet" href="/resources/css/feed/pictureNav.css">
 </div>
-<script src="/resources/js/feed/feed.js?reloadsibaru"></script>
+<script src="/resources/js/universal/feed.js?reload"></script>
 </body>
 </html>
