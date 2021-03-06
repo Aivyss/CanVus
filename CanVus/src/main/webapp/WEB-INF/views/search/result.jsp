@@ -12,5 +12,16 @@
 </head>
 <body>
     <jsp:include page="/WEB-INF/views/baseJSP/mainMenu.jsp"></jsp:include>
+
+    <!-- 태그 검색 케이스 -->
+    ${tag}
+    ${feedBundle}
+
+    <div></div>
+
+    <!-- 닉네임 검색 케이스 -->
+    ${nickname}
+    ${profile}
+    ${feedBundle}
 </body>
 </html>
