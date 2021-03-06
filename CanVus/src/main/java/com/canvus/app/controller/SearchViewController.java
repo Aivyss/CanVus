@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.canvus.app.service.SearchService;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping(value="/search")
@@ -25,24 +26,15 @@ public class SearchViewController {
 	 * @return
 	 */
 	@RequestMapping(value="/result", method=RequestMethod.GET)
-	public String search(String keyword, int type, Model model) {
+	public String search(String keyword, int type, Model model, @RequestParam(defaultValue = "1")int page) {
+
 		log.info("s-controller 서치 실행메소드");
-		log.info(keyword);
-		String url = "";
-		
-		if (type == 0) {
-			url = searchService.tagSearch("#"+keyword, model);
-		} else {
-			url = searchService.userSearch(keyword, model);
-		}
-		
-		return url;
+		log.info("type : {}", type);
+		log.info("keyword : {}", keyword);
+
+		searchService.search(type, keyword, model, page);
+
+		return "search/result";
 	}
 
-	@RequestMapping(value="/noResult", method = RequestMethod.GET)
-	public String noResult() {
-		log.info("검색결과가 없어서 가는 페이지");
-
-		return "search/noResult";
-	}
 }
