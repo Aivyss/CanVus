@@ -72,13 +72,19 @@
 <select id="selectFeedBundle" parameterType="string" resultType="feedComponent">
 	SELECT
 		F.FEED_ID	AS feed_id
-		,U.NICKNAME	AS nickname1
+		 ,U.NICKNAME	AS nickname1
 	FROM
 		FEEDS F, USERS U
 	WHERE
-		F.USER_ID1 = #{string}
-		AND
-	    U.USER_ID = #{string}
+		(F.USER_ID1 = #{string}
+		OR
+		 F.USER_ID2 = #{string}
+		OR
+		 F.USER_ID3 = #{string}
+		OR
+		 F.USER_ID4 = #{string})
+	  	AND
+		U.USER_ID = F.USER_ID1
 	ORDER BY
 		INPUTDATE DESC
 </select>

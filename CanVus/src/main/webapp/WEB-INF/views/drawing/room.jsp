@@ -67,7 +67,7 @@
                         <p>このルームはパスワードが設定されていますので、パスワードを確認させていただきます。</p>
                         <div class="form-group">
                             <label for="pwCheck"></label>
-                            <input id="pwCheck" type="password" class="form-control" placeholder="フォルダ名">
+                            <input id="pwCheck" type="password" class="form-control" placeholder="パスワード">
                         </div>
                     </div>
                     <div class="modal-footer">

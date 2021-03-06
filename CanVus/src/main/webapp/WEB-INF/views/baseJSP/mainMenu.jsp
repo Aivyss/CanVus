@@ -161,8 +161,8 @@
                                                         </a>
                                                     </li>
                                                     <li role="presentation" style="width: 100%;">
-                                                        <a role="menuitem" tabindex="-1" href="/user/pixelManagement">
-                                                            pixelManagement
+                                                        <a role="menuitem" tabindex="-1" href="/user/management">
+                                                            management
                                                         </a>
                                                     </li>
                                                     <li role="presentation" style="width: 100%;">
