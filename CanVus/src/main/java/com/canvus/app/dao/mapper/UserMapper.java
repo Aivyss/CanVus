@@ -22,4 +22,8 @@ public interface UserMapper {
     int checkDuplicateNickname(String nickname);
 
     boolean updatePaymentPixels(BillVO vo);
+
+    void updateProfile(UserVO userVO);
+
+	void updateIntro(UserVO userVO);
 }

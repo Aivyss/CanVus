@@ -27,6 +27,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 @Slf4j
 @Service
@@ -262,7 +263,7 @@ public class UserService {
      * @param model
      * @return
      */
-    public String pixelManagement(HttpSession session, Model model) {
+    public String management(HttpSession session, Model model) {
         String userId= (String) session.getAttribute("userId");
 
         List<BillVO> billList = paymentDAO.getPaymentHistory(userId);
@@ -275,6 +276,48 @@ public class UserService {
         model.addAttribute("billList", billList);
         model.addAttribute("trnxList", trnxList);
 
-        return "user/pixelManagement";
+        return "user/management";
+    }
+
+
+    /**
+     * 프로필 사진 업데이트
+     * 20210306
+     * 이한결
+     * @param multipartRequest
+     * @param session
+     */
+    public void updateProfile(MultipartHttpServletRequest multipartRequest, HttpSession session) {
+        log.info("프로필 파일 체인지 서비스 메소드 진입");
+
+        MultipartFile photo_upload = multipartRequest.getFile("photo_upload");
+        String userId = (String) session.getAttribute("userId");
+        String saved_file = FileService.saveFile(photo_upload, uploadPath, userId);
+
+        UserVO userVO = new UserVO();
+        userVO.setUser_id(userId);
+        userVO.setProfile_photo(saved_file);
+
+        userDAO.updateProfile(userVO);
+    }
+
+    /**
+     * 자기소개 수정 메소드
+     * 20210306
+     * 이한결
+     * @param params
+     * @param session
+     */
+    public void updateIntro(Map<String, Object> params, HttpSession session) {
+        log.info("자기소개 수정 서비스 메소드 진입");
+
+        String userId = (String) session.getAttribute("userId");
+        String intro = (String) params.get("intro");
+        UserVO userVO = new UserVO();
+
+        userVO.setUser_id(userId);
+        userVO.setIntroduction(intro);
+
+        userDAO.updateIntro(userVO);
     }
 }

@@ -101,9 +101,13 @@
                     <h4 class="modal-title" id="myModalLabel">Terms &amp; Conditions</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam
-                        nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus
-                        ipsa porro delectus quidem dolorem ad.</p>
+                    <p>
+                        描いた絵はフィードを削除しても保存されます。しかし、絵の全ての権利は著者にあります。
+                        複数の人数で描いた絵の権利はフィードを作成した時点の一緒に描いていた全ての人に同じ割合であります。
+                        個人情報は利用者の苗字、名前、メールアドレス、グーグルから利用者を識別事が出来るIDが要求されます。
+                        決済したピックセル(pixel)は払戻すことが出来ません。なので、決済の時ご注意ください。
+                        絵の権利に関する法律的な問題は弊社と関係がありません。
+                    </p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">I Agree</button>

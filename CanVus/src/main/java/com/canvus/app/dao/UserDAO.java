@@ -5,6 +5,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Repository;
 
 import com.canvus.app.dao.mapper.UserMapper;
@@ -104,4 +105,36 @@ public class UserDAO {
 
     	return check;
     }
+
+	/**
+	 * 프로필 파일 변경 DB반영
+	 * 20210306
+	 * 이한결
+	 * @param userVO
+	 */
+	public void updateProfile(UserVO userVO) {
+		try {
+			UserMapper mapper = session.getMapper(UserMapper.class);
+			mapper.updateProfile(userVO);
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.info("프로필 파일 변경 sql 오류");
+		}
+	}
+
+	/**
+	 * 자기소개 수정 db반영
+	 * 20210306
+	 * 이한결
+	 * @param userVO
+	 */
+	public void updateIntro(UserVO userVO) {
+		try {
+			UserMapper mapper = session.getMapper(UserMapper.class);
+			mapper.updateIntro(userVO);
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.info("자기소개 수정 sql 오류");
+		}
+	}
 }

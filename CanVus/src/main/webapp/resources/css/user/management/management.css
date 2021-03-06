@@ -1,0 +1,35 @@
+.btn-primmary {
+    color: #fff;
+    background-color: #1266f1
+}
+
+.btn-primmary.focus,
+.btn-primmary:focus,
+.btn-primmary:hover {
+    color: #fff;
+    background-color: #0c56d0
+}
+
+.btn-check:active + .btn-primmary,
+.btn-check:checked + .btn-primmary,
+.btn-primmary.active,
+.btn-primmary:active,
+.show > .btn-primmary.dropdown-toggle {
+    color: #fff;
+    background-color: #093d94
+}
+
+.btn-check:active + .btn-primmary:focus,
+.btn-check:checked + .btn-primmary:focus,
+.btn-primmary.active:focus,
+.btn-primmary:active:focus,
+.show > .btn-primmary.dropdown-toggle:focus {
+    -webkit-box-shadow: 0 4px 10px 0 rgba(0, 0, 0, .2), 0 4px 20px 0 rgba(0, 0, 0, .1);
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, .2), 0 4px 20px 0 rgba(0, 0, 0, .1)
+}
+
+.btn-primmary.disabled,
+.btn-primmary:disabled {
+    color: #fff;
+    background-color: #1266f1
+}

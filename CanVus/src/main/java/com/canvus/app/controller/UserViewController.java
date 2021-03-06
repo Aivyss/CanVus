@@ -18,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.canvus.app.service.UserService;
 import com.canvus.app.vo.BookmarkVO;
 import com.canvus.app.vo.UserVO;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.MultipartRequest;
 
 @Slf4j
 @Controller
@@ -103,12 +105,12 @@ public class UserViewController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value="/pixelManagement", method=RequestMethod.GET)
-	public String pixelManagement(HttpSession session, Model model) {
-		log.info("pixel management로 이동");
+	@RequestMapping(value="/management", method=RequestMethod.GET)
+	public String management(HttpSession session, Model model) {
+		log.info("management로 이동");
 
 		
-		return userService.pixelManagement(session, model);
+		return userService.management(session, model);
 	}
 
 	/**
@@ -153,5 +155,35 @@ public class UserViewController {
 		params.put("isDuplicate", userService.checkDuplicateNickname(params));
 
 		return params;
+	}
+
+	/**
+	 * 프로필 사진 업데이트
+	 * 20210306
+	 * 이한결
+	 * @param multipartRequest
+	 * @param session
+	 */
+	@ResponseBody
+	@RequestMapping(value="/updateProfile", method=RequestMethod.POST)
+	public void updateProfile(MultipartHttpServletRequest multipartRequest, HttpSession session) {
+		log.info("프로필 업데이트 진입");
+
+		userService.updateProfile(multipartRequest, session);
+	}
+
+	/**
+	 * 자기소개 수정 메소드
+	 * 20210306
+	 * 이한결
+	 * @param params
+	 * @param session
+	 */
+	@ResponseBody
+	@RequestMapping(value="/updateIntro", method=RequestMethod.POST)
+	public void updateIntro(@RequestBody Map<String, Object> params, HttpSession session) {
+		log.info("자기소개란 업데이트 진입");
+		
+		userService.updateIntro(params, session);
 	}
 }

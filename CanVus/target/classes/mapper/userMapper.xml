@@ -101,4 +101,22 @@
 			USER_ID = #{user_id}
 	</update>
 
+	<update id="updateProfile" parameterType="user">
+		UPDATE
+			USERS
+		SET
+			PROFILE_PHOTO = #{profile_photo}
+		WHERE
+			USER_ID = #{user_id}
+	</update>
+
+	<update id="updateIntro" parameterType="user">
+		UPDATE
+			USERS
+		SET
+			INTRODUCTION = #{introduction}
+		WHERE
+			USER_ID = #{user_id}
+	</update>
+
 </mapper>
