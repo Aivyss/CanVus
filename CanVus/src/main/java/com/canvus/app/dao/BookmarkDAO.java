@@ -73,18 +73,18 @@ public class BookmarkDAO {
      * @param
      * @return
      */
-    public boolean deleteFolder(int folder_id) {
+    public void deleteFolder(int folder_id) {
         log.info("북마크 폴더 제거 dao 메소드 진입");
-        boolean check = false;
 
         try {
-            BookmarkMapper mapper = session.getMapper(BookmarkMapper.class);
-            check = mapper.deleteFolder(folder_id);
+            BookmarkMapper mapper1 = session.getMapper(BookmarkMapper.class);
+            BookmarkedFeedMapper mapper2 = session.getMapper(BookmarkedFeedMapper.class);
+
+            mapper2.deleteFolder(folder_id);
+            mapper1.deleteFolder(folder_id);
         } catch (Exception e) {
             log.info("북마크 제거 SQL오류");
         }
-
-        return check;
     }
 
     /**

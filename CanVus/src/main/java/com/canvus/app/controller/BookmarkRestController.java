@@ -51,31 +51,6 @@ public class BookmarkRestController {
     }
 
     /**
-     * 기존에 존재하는 북마크를 제거하는 메소드
-     * 작성일: 2021.01.22 / 완성일: / 버그검증일:
-     * 작성자: 이한결
-     * @param
-     * @param
-     * @return
-     */
-    @RequestMapping(value="/deleteFolder", method=RequestMethod.POST)
-    public Map<String, String> deleteFolder(@RequestBody Map<String, Object> params) {
-        log.info("북마크 폴더삭제 컨트롤러 메소드 진입");
-
-        // TODO 북마크 폴더 제거
-        boolean check = bookmarkService.deleteFolder(params);
-
-        Map<String, String> result = new HashMap<String, String>();
-        if (check) {
-            result.put("result", "success");
-        } else {
-            result.put("result", "fail");
-        }
-
-        return result;
-    }
-
-    /**
      * 폴더 이름 중복체크
      * 20210226
      * 이한결
@@ -90,11 +65,25 @@ public class BookmarkRestController {
     /**
      * 지정한 북마크로부터 저장된 피드를 삭제하는 메소드
      * 20210305
+     * 이한결
      * @param params
      */
     @RequestMapping(value="/deleteFeedFromBookmark", method=RequestMethod.POST)
     public void deleteFeedFromBookmark(@RequestBody Map<String, Object> params) {
         log.info("북마크로부터 피드삭제 컨트롤러 메소드 진입");
         bookmarkService.deleteFeedFromBookmark(params);
+    }
+
+    /**
+     * 북마크를 제거하는 메소드
+     * 20210305
+     * 이한결
+     * @param params
+     */
+    @RequestMapping(value="deleteFolder", method=RequestMethod.POST)
+    public void deleteFolder(@RequestBody Map<String, Object> params) {
+        log.info("북마크를 제거하는 컨트롤러");
+        
+        bookmarkService.deleteFolder(params);
     }
 }

@@ -130,12 +130,10 @@ public class BookmarkService {
      * @param session
      * @return
      */
-    public boolean deleteFolder(Map<String, Object> params) {
+    public void deleteFolder(Map<String, Object> params) {
         log.info("북마크 제거 서비스 메소드 진입");
 
-        // TODO 세션의 아이디 정보를 inputInfo에 넣는 과정
-
-        return bookmarkDAO.deleteFolder((Integer) params.get("folder_id"));
+        bookmarkDAO.deleteFolder((Integer) params.get("folder_id"));
     }
 
     /**

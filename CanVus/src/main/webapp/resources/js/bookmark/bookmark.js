@@ -33,23 +33,23 @@ $(() => {
                     const folder_container = $('#folder-container');
 
                     const content = `
-                        <div class="col-xs-3 bookmark-folders" id="${folder_id}">
+                        <div class="col-xs-3 bookmark-folders" id="folder-container-${folder_id}">
                             <ul class="list-group list-group-bm mt-5 text-white">
-                                <div class="col-lg-8">
-                                    <li class="list-group-item list-group-item-bm d-flex justify-content-between align-content-center">
+                                <div class="col-lg-8 bookmark-folders" id="${folder_id}">
+                                    <li class="list-group-item list-group-item-bm d-flex justify-content-between align-content-center" style="background-color: #ffffff; border: solid black 1px; border-radius: 10px 10px 10px 10px;">
                                         <div class="d-flex flex-row">
                                             <div class="row">
                                                 <div class="col-xs-6">
                                                     <img src="/resources/images/defaults/folderDefault.png" width="80"/>
                                                 </div>
-                                                <div class="col-xs-6">
-                                                    <div class="check"><input type="checkbox" name="a"></div>
+                                                <div class="col-xs-1" style="left: 70px">
+                                                    <a href="#" class="folder-delete" id="del-${folder_id}"><img src="/resources/images/defaults/deleteButtonDefault.png" width="20px" /></a>
                                                 </div>
                                             </div>
                                             <div class="ml-2">
-                                                <h3>${folder_name}</h3>
+                                                <h3 style="color: black">${folder_name}</h3>
                                                 <div class="about about-bm">
-                                                    <h6>NEW!</h6>
+                                                    <h6 style="color: black">NEW!</h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -68,6 +68,33 @@ $(() => {
             },
             error: function(){
                 console.log("통신실패");
+            }
+        });
+    });
+
+    $(document).on('click', '.folder-delete', function(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+
+        let targetId = $(this).attr('id');
+        targetId = parseInt(targetId.split('del-')[1]);
+
+
+        const data = {
+            folder_id : targetId
+        };
+
+        $.ajax({
+            url:'/bookmarkRest/deleteFolder',
+            type:'post',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function () {
+                $(`#folder-container-${targetId}`).remove();
+                alert('フォルダを消しました。');
+            },
+            error: function () {
+                alert('通信上の問題で消せませんでした。');
             }
         });
     });

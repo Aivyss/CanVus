@@ -51,4 +51,12 @@
 		ORDER BY
 			BF.BOOKMARK_INDATE DESC
 	</select>
+
+	<delete id="deleteFolder" parameterType="int">
+		DELETE
+			FROM
+				BOOKMARKED_FEEDS
+			WHERE
+				FOLDER_ID = #{int}
+	</delete>
 </mapper>

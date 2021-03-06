@@ -12,4 +12,6 @@ public interface BookmarkedFeedMapper {
     int getTotalRecordsOnBookmark(int folder_id);
 
     List<BookmarkedFeedsVO> bookMarkDetail(RowBounds rb, int folder_id);
+
+    void deleteFolder(int folder_id);
 }
