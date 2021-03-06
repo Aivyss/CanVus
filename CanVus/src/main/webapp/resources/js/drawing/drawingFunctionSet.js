@@ -484,12 +484,12 @@ const drawingFunctionSet = (function () {
                 $('.upper-canvas').attr('class', layerId + 'u');
                 $(`.${layerId}u`).addClass('drawReceiver');
             }
+
             // 드로워에 해당하는 경우 display 숨김 속성을 지운다.
-            if (drawerIdList.length != 0) {
-                for (const drawer_id of drawerIdList) {
-                    if (drawer_id == user_id)
-                        $(`.${layerId}u`).css({'display': ""});
-                }
+            const isDrawer = drawingFunctionSet.isDrawerCheck();
+
+            if (isDrawer) {
+                $(`.${layerId}u`).css({'display': ""});
             }
 
             $('#' + layerId).appendTo('#p' + pageNo);
@@ -537,12 +537,12 @@ const drawingFunctionSet = (function () {
                 $('.upper-canvas').attr('class', pageId + 'l1u');
                 $(`.${pageId}l1u`).addClass('drawReceiver');
             }
+
             // 드로워에 해당하는 경우 display 숨김 속성을 지운다.
-            if (drawerIdList.length != 0) {
-                for (const drawer_id of drawerIdList) {
-                    if (drawer_id == user_id)
-                        $(`.${pageId}l1u`).css({'display': ""});
-                }
+            const isDrawer = drawingFunctionSet.isDrawerCheck();
+
+            if (isDrawer) {
+                $(`.${pageId}l1u`).css({'display': ""});
             }
 
             // TODO 생성된 canvas 태그들에 z-index를 부여하고 zNumSet에 반영하는 프로세스
@@ -589,6 +589,13 @@ const drawingFunctionSet = (function () {
             zNumSet[pageNumber - 1][layerNumber - 1] = null;
             eventSet[pageNumber - 1][layerNumber - 1] = null;
 
+            try {
+                $(`#p${pageNumber}l${layerNumber}`).remove();
+                $(`.p${pageNumber}l${layerNumber}u`).remove();
+            } catch (e) {
+                console.log('이미 지워진 경우');
+            }
+
             // 소켓에 레이어를 지웠다고 전송하는 구문 (추후작성예정)
             if (isReceiver == undefined) {
                 const message = {
@@ -630,13 +637,7 @@ const drawingFunctionSet = (function () {
             const layerList = layerSet[pageNum - 1];
 
             // drawer인지 확인
-            let isDrawer = false;
-            for (const drawerId of drawerIdList) {
-                if(drawerId == user_id) {
-                    isDrawer = true;
-                    break;
-                }
-            }
+            const isDrawer = drawingFunctionSet.isDrawerCheck();
             
             for (let i = 0; i < layerList.length; i++) {
                 if (layerList[i] != null) {
@@ -758,14 +759,25 @@ const drawingFunctionSet = (function () {
                 console.log("드로워가 없는 경우");
                 $upperlayer.css({'display': "none"});
             } else {
-                $upperlayer.css({'display': "none"});
-                for (const drawerIdListElement of drawerIdList) { // 드로워인 경우
-                    if (drawerIdListElement == user_id) { // 드로워나 admin인 경우
-                        $upperlayer.css({'display': visibility});
-                        break;
-                    }
+                const isDrawer = drawingFunctionSet.isDrawerCheck();
+
+                if (isDrawer) {
+                    $upperlayer.css({'display': visibility});
+                } else {
+                    $upperlayer.css({'display': "none"});
                 }
             }
+        },
+        isDrawerCheck: function () {
+            let check = false;
+            for (const drawerIdListElement of drawerIdList) {
+                if (drawerIdListElement === user_id) {
+                    check = true;
+                    break;
+                }
+            }
+
+            return check;
         },
     }
 })();
@@ -1063,19 +1075,31 @@ $(() => {
     const dynamicEvents = [
         // 레이어 생성
         $('#create-layer-btn').on('click', function () {
-            drawingFunctionSet.createLayer();
+            const isDrawer = drawingFunctionSet.isDrawerCheck();
+
+            if (isDrawer) {
+                drawingFunctionSet.createLayer();
+            } else {
+                alert('Drawer専用の機能です。');
+            }
         }),
         // Layer Explorer를 클릭시 현재 페이지번호, 레이어번호를 업데이트하고 현재 바라보는 레이어를 설정.
-        $(document).on('click', '#list-container', function () {
+        $(document).on('click', '#list-container', function (event) {
             try {
-                let eventId = event.target.id;
+                const eventId = event.target_id;
                 const layerId = eventId.split('-')[0];
                 const action = eventId.split('-')[1];
 
                 if (action == 'box' || action == 'label') {
                     drawingFunctionSet.changeLayerTarget(layerId);
                 } else if (action == 'del') {
-                    drawingFunctionSet.deleteLayer(layerId); // 소켓으로 보내는 쪽이라 isReceiver가 undefined
+                    const isDrawer = drawingFunctionSet.isDrawerCheck();
+
+                    if (isDrawer) {
+                        drawingFunctionSet.deleteLayer(layerId); // 소켓으로 보내는 쪽이라 isReceiver가 undefined
+                    } else {
+                        alert('Drawer専用の機能です');
+                    }
                 } else if (action == 'visible') {
                     drawingFunctionSet.changeVisibility(layerId);
                 } else {
@@ -1091,13 +1115,7 @@ $(() => {
             let tabId = e.target.id;
 
             if (tabId == 'CreatePage') { // 페이지 생성의 경우
-                let isDrawer = false;
-                for (const drawerId of drawerIdList) {
-                    if (drawerId == user_id){
-                        isDrawer = true;
-                        break;
-                    }
-                }
+                const isDrawer = drawingFunctionSet.isDrawerCheck();
 
                 if (isDrawer) {
                     drawingFunctionSet.createPageComponent();
@@ -1106,7 +1124,7 @@ $(() => {
                     $('#tablist').children().last().addClass('active');
                     drawingFunctionSet.pageSwitching('pli' + maxPage);
                 } else {
-                    alert("許可されたDrawer専用の機能です。");
+                    alert("Drawer専用の機能です。");
                 }
             } else { // 페이지 열람의 경우
                 drawingFunctionSet.pageSwitching(tabId);
