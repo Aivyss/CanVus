@@ -65,8 +65,11 @@
 	</update>
 
 	<update id="depositPixel" parameterType="user">
-		UPDATE USERS
-			SET PIXELS = PIXELS + #{pixels}
+		UPDATE
+		    USERS
+		SET
+			PIXELS = PIXELS + #{pixels}
+			,ACCUMULATEDPIXELS = ACCUMULATEDPIXELS + #{pixels}
 		WHERE
 			USER_ID = #{user_id}
 	</update>

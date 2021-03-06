@@ -771,8 +771,6 @@ const createFeedController = (function () {
                 data: JSON.stringify(data),
                 success: function () {
                     console.log("전송성공");
-                    $('#content_div').remove();
-                    $('#mask').remove();
 
                     const message = {
                         room_Id: room_Id,
@@ -1160,10 +1158,9 @@ $(() => {
             }
         }),
         // 피드작성 취소 이벤트
-        $(document).on("click", "#mask", function () {
+        $(document).on("click", ".modal-backdrop", function () {
             console.log("마스크 클릭 감지 및 처리");
-            $('#mask').remove();
-            $('#content_div').remove();
+            $('#buffer').remove();
         }),
         // 픽셀 선물 모달창 띄우기 이벤트
         $(document).on('click', '#drawerList', function (event) {
