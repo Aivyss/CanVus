@@ -1,7 +1,6 @@
 package com.canvus.app.drawing.vo;
 
 import com.canvus.app.vo.CanVusVOs;
-
 import lombok.Data;
 
 @Data

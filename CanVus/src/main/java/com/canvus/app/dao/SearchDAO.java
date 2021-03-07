@@ -1,17 +1,16 @@
 package com.canvus.app.dao;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import com.canvus.app.dao.mapper.*;
-import com.canvus.app.vo.*;
+import com.canvus.app.dao.mapper.TagsInFeedMapper;
+import com.canvus.app.dao.mapper.UserMapper;
+import com.canvus.app.vo.UserVO;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import lombok.extern.slf4j.Slf4j;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 @Repository
 @Slf4j

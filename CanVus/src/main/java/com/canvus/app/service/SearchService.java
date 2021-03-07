@@ -1,27 +1,19 @@
 package com.canvus.app.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.canvus.app.dao.FeedDAO;
+import com.canvus.app.dao.SearchDAO;
 import com.canvus.app.util.PageNavigator;
-import com.canvus.app.vo.FeedComponentVO;
 import com.canvus.app.vo.FollowingsVO;
+import com.canvus.app.vo.UserVO;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.canvus.app.dao.SearchDAO;
-import com.canvus.app.vo.UserVO;
-
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j

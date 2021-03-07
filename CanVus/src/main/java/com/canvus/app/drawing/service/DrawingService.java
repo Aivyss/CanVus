@@ -1,30 +1,25 @@
 package com.canvus.app.drawing.service;
 
-import java.util.*;
-
-import javax.servlet.http.HttpSession;
-
-import com.canvus.app.drawing.vo.FeedVO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
-
 import com.canvus.app.dao.FeedDAO;
 import com.canvus.app.dao.TagDAO;
 import com.canvus.app.drawing.dao.DrawingDAO;
 import com.canvus.app.drawing.vo.DrawingRoomVO;
 import com.canvus.app.drawing.vo.DrawingUserVO;
+import com.canvus.app.drawing.vo.FeedVO;
 import com.canvus.app.drawing.vo.PageVO;
 import com.canvus.app.util.Base64ToImgDecoder;
 import com.canvus.app.util.Helper;
-import com.canvus.app.vo.CanVusVOFactory;
-import com.canvus.app.vo.CanVusVOType;
-import com.canvus.app.vo.FeedDrawingsVO;
-import com.canvus.app.vo.TagsInFeedVO;
-import com.canvus.app.vo.UserVO;
-
+import com.canvus.app.vo.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service

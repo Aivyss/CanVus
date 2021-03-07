@@ -1,19 +1,17 @@
 package com.canvus.app.util;
 
+import com.canvus.app.vo.CanVusVOFactory;
+import com.canvus.app.vo.CanVusVOType;
+import com.canvus.app.vo.TagsInFeedVO;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.RandomStringUtils;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.commons.lang.RandomStringUtils;
-
-import com.canvus.app.vo.CanVusVOFactory;
-import com.canvus.app.vo.CanVusVOType;
-import com.canvus.app.vo.TagsInFeedVO;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class Helper {

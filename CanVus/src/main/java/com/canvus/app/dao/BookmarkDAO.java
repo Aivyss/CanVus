@@ -5,7 +5,6 @@ import com.canvus.app.dao.mapper.BookmarkedFeedMapper;
 import com.canvus.app.dao.mapper.HistoriesMapper;
 import com.canvus.app.vo.BookmarkVO;
 import com.canvus.app.vo.BookmarkedFeedsVO;
-import com.canvus.app.vo.HistoryVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.print.Book;
 import java.util.List;
 
 @Slf4j

@@ -2,7 +2,6 @@ package com.canvus.app.dao;
 
 
 import com.canvus.app.dao.mapper.BrowseMapper;
-import com.canvus.app.drawing.vo.DrawingRoomVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;

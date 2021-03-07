@@ -1,13 +1,13 @@
 package com.canvus.app.dao.mapper;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import com.canvus.app.drawing.vo.FeedVO;
 import com.canvus.app.vo.FeedComponentVO;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public interface FeedsMapper {
 

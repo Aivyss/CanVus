@@ -1,8 +1,8 @@
 package com.canvus.app.controller;
 
-import java.util.Map;
-
+import com.canvus.app.service.FeedService;
 import com.canvus.app.vo.FeedComponentVO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,11 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.canvus.app.service.FeedService;
-
-import lombok.extern.slf4j.Slf4j;
-
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 @Controller
 @Slf4j

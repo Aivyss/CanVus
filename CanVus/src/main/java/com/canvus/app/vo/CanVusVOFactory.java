@@ -1,6 +1,9 @@
 package com.canvus.app.vo;
 
-import com.canvus.app.drawing.vo.*;
+import com.canvus.app.drawing.vo.DrawingRoomVO;
+import com.canvus.app.drawing.vo.DrawingUserVO;
+import com.canvus.app.drawing.vo.FeedVO;
+import com.canvus.app.drawing.vo.PageVO;
 
 public class CanVusVOFactory {
 	

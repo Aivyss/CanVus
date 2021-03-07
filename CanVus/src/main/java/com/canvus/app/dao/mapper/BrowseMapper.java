@@ -1,7 +1,6 @@
 package com.canvus.app.dao.mapper;
 
 
-import com.canvus.app.drawing.vo.DrawingRoomVO;
 import org.apache.ibatis.session.RowBounds;
 
 import java.util.ArrayList;

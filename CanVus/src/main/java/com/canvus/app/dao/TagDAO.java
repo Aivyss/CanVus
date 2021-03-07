@@ -1,14 +1,12 @@
 package com.canvus.app.dao;
 
-import org.apache.ibatis.session.SqlSession;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
 import com.canvus.app.dao.mapper.TagMapper;
 import com.canvus.app.dao.mapper.TagsInFeedMapper;
 import com.canvus.app.vo.TagsInFeedVO;
-
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 @Repository
 @Slf4j

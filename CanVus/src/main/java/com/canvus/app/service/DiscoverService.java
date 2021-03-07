@@ -1,4 +1,5 @@
 package com.canvus.app.service;
+
 import com.canvus.app.dao.DiscoverDAO;
 import com.canvus.app.util.PageNavigator;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +12,6 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Service

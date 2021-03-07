@@ -1,7 +1,6 @@
 package com.canvus.app.dao.mapper;
 
 import com.canvus.app.vo.BookmarkVO;
-import com.canvus.app.vo.BookmarkedFeedsVO;
 
 import java.util.List;
 

@@ -1,12 +1,11 @@
 package com.canvus.app.util;
 
+import javax.imageio.ImageIO;
+import javax.xml.bind.DatatypeConverter;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
-import javax.xml.bind.DatatypeConverter;
 
 public class Base64ToImgDecoder {
 	/**

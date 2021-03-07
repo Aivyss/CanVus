@@ -1,14 +1,9 @@
 package com.canvus.app.drawing.vo;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.IdClass;
-import javax.persistence.Lob;
-import javax.persistence.Table;
-
 import com.canvus.app.vo.CanVusVOs;
-
 import lombok.Data;
+
+import javax.persistence.*;
 
 @Data
 @Entity

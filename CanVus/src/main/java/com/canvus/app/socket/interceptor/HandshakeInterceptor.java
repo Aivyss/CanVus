@@ -1,9 +1,6 @@
 package com.canvus.app.socket.interceptor;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpSession;
-
+import com.canvus.app.dao.UserDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +11,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
 
-import com.canvus.app.dao.UserDAO;
+import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 @Component
 public class HandshakeInterceptor extends HttpSessionHandshakeInterceptor {

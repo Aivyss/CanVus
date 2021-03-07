@@ -1,5 +1,6 @@
 package com.canvus.app.socket.config;
 
+import com.canvus.app.socket.interceptor.HandshakeInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,8 +10,6 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
 import org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean;
-
-import com.canvus.app.socket.interceptor.HandshakeInterceptor;
 
 
 @Configuration
