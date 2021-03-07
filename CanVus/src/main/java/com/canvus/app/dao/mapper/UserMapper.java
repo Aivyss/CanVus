@@ -26,4 +26,6 @@ public interface UserMapper {
     void updateProfile(UserVO userVO);
 
 	void updateIntro(UserVO userVO);
+
+    UserVO getUserProfileByNickname(String keyword);
 }

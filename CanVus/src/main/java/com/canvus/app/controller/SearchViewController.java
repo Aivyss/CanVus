@@ -11,6 +11,8 @@ import com.canvus.app.service.SearchService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping(value="/search")
 @Slf4j
@@ -26,13 +28,13 @@ public class SearchViewController {
 	 * @return
 	 */
 	@RequestMapping(value="/result", method=RequestMethod.GET)
-	public String search(String keyword, int type, Model model, @RequestParam(defaultValue = "1")int page) {
+	public String search(String keyword, int type, Model model, HttpSession session, @RequestParam(defaultValue = "1")int page) {
 
 		log.info("s-controller 서치 실행메소드");
 		log.info("type : {}", type);
 		log.info("keyword : {}", keyword);
 
-		searchService.search(type, keyword, model, page);
+		searchService.search(type, keyword, model, page, session);
 
 		return "search/result";
 	}

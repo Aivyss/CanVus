@@ -69,16 +69,6 @@
 		F.FEED_ID, LIKE_COUNT DESC
 </select>
 
-<select id="getUserProfileByNickname" resultType="string">
-	SELECT
-		U.PROFILE_PHOTO
-	FROM
-		USERS U
-	WHERE
-		U.NICKNAME = #{keyword}
-</select>
-
-
 <select id="getFeedBundleByNickname" resultType="hashmap">
 	SELECT
 	F1.FEED_ID AS FEED_ID, CONCAT(F1.FEED_ID, '--divide--1.png') AS PREVIEW,

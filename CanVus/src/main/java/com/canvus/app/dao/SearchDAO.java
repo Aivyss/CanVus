@@ -49,20 +49,20 @@ public class SearchDAO {
 		return feedBundle;
 	}
 
-	public String getUserProfile(String keyword){
+	public UserVO getUserProfile(String keyword){
 
-		String userProfile = "";
+		UserVO userVO = null;
 
 		try {
-			TagsInFeedMapper mapper = session.getMapper(TagsInFeedMapper.class);
-			userProfile = mapper.getUserProfileByNickname(keyword);
-			log.info(userProfile);
+			UserMapper mapper = session.getMapper(UserMapper.class);
+			userVO = mapper.getUserProfileByNickname(keyword);
 		}
 		catch (Exception e){
 			e.printStackTrace();
+			log.info("닉네임으로 유저찾기 sql오류");
 		}
 
-		return userProfile;
+		return userVO;
 
 	}
 

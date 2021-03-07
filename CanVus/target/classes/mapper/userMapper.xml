@@ -119,4 +119,17 @@
 			USER_ID = #{user_id}
 	</update>
 
+	<select id="getUserProfileByNickname" parameterType="string" resultType="user">
+		SELECT
+			USER_ID
+			 ,NICKNAME
+			 ,PROFILE_PHOTO
+			 ,ACCUMULATEDPIXELS
+			 ,INTRODUCTION
+		FROM
+			USERS
+		WHERE
+			NICKNAME = #{string}
+	</select>
+
 </mapper>

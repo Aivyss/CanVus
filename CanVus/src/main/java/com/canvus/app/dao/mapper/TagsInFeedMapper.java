@@ -22,8 +22,6 @@ public interface TagsInFeedMapper {
 
 	public ArrayList<HashMap<String, Object>> getFeedIdBundleByTag(@Param("keyword") String keyword, @Param("rb") RowBounds rb);
 
-	public String getUserProfileByNickname(@Param("keyword") String keyword);
-
 	public ArrayList<HashMap<String, Object>> getFeedBundleByNickname(@Param("keyword") String keyword);
 
 

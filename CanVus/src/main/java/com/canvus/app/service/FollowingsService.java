@@ -41,7 +41,6 @@ public class FollowingsService {
         boolean isFollowing = (Boolean) params.get("isFollowing");
         String myId = (String) params.get("my_id"); //내 아이디
         String userId = (String) params.get("user_id"); // 팔로우 할 대상 아이디
-        boolean isSuccess = false;
 
         FollowingsVO fVO = new FollowingsVO();
         fVO.setUser_id(myId);

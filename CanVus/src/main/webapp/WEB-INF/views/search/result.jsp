@@ -32,36 +32,88 @@
         <c:choose>
             <c:when test="${empty pNav}">
                 <!-- search user case -->
-                <div class="container">
-                    <div class="jumbotron" style="background-color: white;">
-                        <div class="col-md-3 avatar-container text-center">
-                            <a href="/user/board/?user_id=${targetId}">
-                                <img src="<spring:url value='/userProfile/${profile}'/>"
-                                     class="img-circle profile-avatar"
-                                     alt="プロフィール"
-                                     style="margin:10% 0; width:100px; height:100px; background-color:white;"
-                                     id="photo-preview">
-                            </a>
-                        </div>
-                        <h1>「<a href="/user/board/?user_id=${targetId}">${nickname}</a>」さんを見つけました。</h1>
-                    </div>
+                <script>
+                    let isFollower = ${isFollower};
+                    const my_id = "${sessionScope.userId}";
+                    const user_id = "${searchedUser.user_id}";
+                </script>
 
-                    <!-- search result of preview -->
+                <link rel="stylesheet" href="/resources/css/search/userSearch.css?reload">
+                <div class="container">
                     <div class="row">
-                        <div class="list-group gallery">
-                            <c:forEach items="${feedBundle}" var="feed">
-                                <div class='col-sm-4 col-xs-6 col-md-2 col-lg-2 hover-fade'>
-                                    <a class="thumbnail" rel="ligthbox"
-                                       href="javascript:createModal('/feed/view/?feed_id=${feed.FEED_ID}')">
-                                        <img class="img-responsive" alt=""
-                                             src="<spring:url value='/userPicture/${feed.PREVIEW}'/>"
-                                             style="width: 150px; height:150px;"/>
-                                        <div class='text-right'>
-                                            <small class='text-muted'>${nickname}</small>
-                                        </div>
-                                    </a>
+                        <!-- user preview -->
+                        <div class="col-md-4">
+                            <div id="overlay">
+                                <div class="image" style="
+                                        background:url(<spring:url value='/userProfile/${searchedUser.profile_photo}'/>);
+                                        background-size: contain;">
+                                    <div class="trick">
+
+                                    </div>
                                 </div>
-                            </c:forEach>
+                                <ul class="text">
+                                    <a href="/user/board/?user_id=${searchedUser.user_id}">
+                                            ${searchedUser.nickname}
+                                    </a>
+                                </ul>
+                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading " role="tab" id="headingOne">
+                                            <h4 class="panel-title ">
+                                                <a role="button" href="/user/board/?user_id=${searchedUser.user_id}">
+                                                    <div class="title btn btn-outline btn-lg">ボードに行こう</div>
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title" id="follow-container">
+                                                <a class="" role="button" href="#" id="follow-btn">
+                                                    <c:if test="${not empty sessionScope.userId}">
+                                                        <c:choose>
+                                                            <c:when test="${isFollower}">
+                                                                <div class="title btn btn-outline-unfollow btn-lg">
+                                                                    リムーブ
+                                                                </div>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <div class="title btn btn-outline btn-lg">
+                                                                    フォローアップ
+                                                                </div>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </c:if>
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel"
+                                             aria-labelledby="headingOne">
+                                            <div class="panel-body text-center">
+                                                自己紹介 <br>
+                                                    ${searchedUser.introduction}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- feed preview part -->
+                        <div class="col-md-6 col-md-offset-2" style="margin-top:60px;">
+                            <div class="list-group gallery">
+                                <c:forEach items="${feedBundle}" var="feed">
+                                    <div class='col-sm-4 col-xs-6 col-md-4 col-lg-4 hover-fade'>
+                                        <a class="thumbnail" rel="ligthbox"
+                                           href="javascript:createModal('/feed/view/?feed_id=${feed.FEED_ID}')">
+                                            <img class="img-responsive" alt=""
+                                                 src="<spring:url value='/userPicture/${feed.PREVIEW}'/>"
+                                                 style="width: 150px; height:150px;"/>
+                                            <div class='text-right'>
+                                                <small class='text-muted'>${nickname}</small>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </c:forEach>
+                            </div>
                         </div>
                     </div>
                 </div>

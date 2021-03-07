@@ -3,12 +3,14 @@ package com.canvus.app.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.canvus.app.dao.FeedDAO;
 import com.canvus.app.util.PageNavigator;
 import com.canvus.app.vo.FeedComponentVO;
+import com.canvus.app.vo.FollowingsVO;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,8 @@ import com.canvus.app.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
 
+import javax.servlet.http.HttpSession;
+
 @Service
 @Slf4j
 public class SearchService {
@@ -26,12 +30,14 @@ public class SearchService {
 	private SearchDAO searchDAO;
 	@Autowired
 	private FeedDAO feedDAO;
+	@Autowired
+	private FollowingsService followingsService;
 
 	// 페이징 처리
 	private final int COUNT_PER_PAGE = 12;
 	private final int PAGE_PER_GROUP = 5;
 
-	public void search(int type, String keyword, Model model, int page){
+	public void search(int type, String keyword, Model model, int page, HttpSession session){
 
 		switch (type){
 			case 0:
@@ -59,23 +65,34 @@ public class SearchService {
 
 				keyword = keyword.split("keyword=")[1];
 
-				String profile_photo = (String) searchDAO.getUserProfile(keyword);
-				String userId = null;
+				UserVO userVO = searchDAO.getUserProfile(keyword);
 
-				if (profile_photo != null) {
-					userId = profile_photo.split("\\.")[0];
-					model.addAttribute("targetId", userId);
+				String myId = (String) session.getAttribute("userId");
+
+				if (myId != null) {
+					boolean isFollower = false;
+
+					// TODO 팔로우 정보를 받아오는 파트
+					Map<String, Object> followInfoPack = followingsService.getFollowInfo(userVO.getUser_id());
+
+					// TODO 내가 팔로우한 대상인지 체크
+					List<FollowingsVO> followerList = (List) followInfoPack.get("followerList");
+
+					for (FollowingsVO follower : followerList) {
+						if (myId.equals(follower.getUser_id())) {
+							isFollower = true;
+							break;
+						}
+					}
+
+					model.addAttribute("isFollower", isFollower);
 				}
 
 				model.addAttribute("nickname", (String) keyword);
-				model.addAttribute("profile", profile_photo);
+				model.addAttribute("searchedUser", userVO);
 				model.addAttribute("feedBundle", searchDAO.getFeedBundleByNickname(keyword));
 
 				break;
 		}
 	}
-
-
-
-
 }
