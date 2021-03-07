@@ -1154,7 +1154,8 @@ $(() => {
             if (eventId == 'Edit-feed') {
                 createFeedController.createFeed();
             } else if (eventId == 'Edit-exit') {
-                socketSenderFunctionSet.disconnect(room_Id, user_id);
+                //socketSenderFunctionSet.disconnect(room_Id, user_id);
+                location.href='/';
             }
         }),
         // 피드작성 취소 이벤트

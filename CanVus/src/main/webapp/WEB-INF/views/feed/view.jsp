@@ -201,6 +201,7 @@
                                     <a href="#">
                                         <img class="media-object"
                                              src="<spring:url value='/userProfile/${comment.profile_photo}'/>"
+                                             onerror="this.src='/resources/images/defaults/profileDefault.png'"
                                              style="height:32px; width:32px;">
                                     </a>
                                 </div>

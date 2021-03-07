@@ -45,6 +45,7 @@ $(() => {
                         <a href="#">
                             <img class="media-object"
                                  src='/userProfile/${result["profile_photo"]}'
+                                 onerror="this.src='/resources/images/defaults/profileDefault.png'"
                                  style="height:32px; width:32px;">
                         </a>
                     </div>
