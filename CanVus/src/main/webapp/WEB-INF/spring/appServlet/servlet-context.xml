@@ -40,7 +40,7 @@
 			<mapping path="/follow/**"/>
 			<mapping path="/payment/**"/>
 			<mapping path="/user/management"/>
-			<mapping path="/user/logoutt"/>
+			<mapping path="/user/logout"/>
 			<mapping path="/user/getPixelAmount"/>
 			<mapping path="/user/updateProfile"/>
 			<mapping path="/user/updateIntro"/>

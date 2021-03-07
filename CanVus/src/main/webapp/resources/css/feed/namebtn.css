@@ -1,29 +1,30 @@
 .namebtn {
     color: black;
-    font-family: 'Roboto Condensed', sans-serif;
     font-size: 16px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
     padding: 5px 20px;
-    border: 2px solid #e78584;
-    background-color: #e78584;
-    border-radius: 0;
+    border: 1px solid rgba(255, 254, 0, 0.8);
+    background-color: rgba(255, 254, 0, 0.8);
     overflow: hidden;
     position: relative;
     z-index: 1;
+    margin: 10px;
     transition: all 0.5s;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.6);
 }
 
 .namebtn:hover {
-    color: #fff;
+    color: black;
     animation: swoosh 0.4s ease-out 0.2s;
 }
 
 .namebtn:before,
 .namebtn:after {
     content: "";
-    background-color: #e78584;
+    background-color: rgba(255,255,255,1);
     height: 100%;
     width: 100%;
     opacity: 0.7;

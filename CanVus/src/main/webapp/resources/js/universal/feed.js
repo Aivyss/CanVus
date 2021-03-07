@@ -162,9 +162,9 @@ $(() => {
             // 게이지 업데이트
             $('#picture-bar').css({'min-width': `${(currentPage) * 100 / imageLength}%`});
             // 그림을 다가린다
-            $(`.pictures`).css({'display': 'none'});
+            $(".pictures").fadeOut(600).delay(600);
             // 타게팅된 그림만 보이게 한다
-            $(`#pictureContainer_${currentPage}`).css({'display': ''});
+            $(`#pictureContainer_${currentPage}`).fadeIn(1200);
         }
     });
 
@@ -179,9 +179,9 @@ $(() => {
             // 게이지 업데이트
             $('#picture-bar').css({'min-width': `${(currentPage) * 100 / imageLength}%`});
             // 그림을 다가린다
-            $(`.pictures`).css({'display': 'none'});
+            $(`.pictures`).fadeOut(600).delay(600);
             // 타게팅된 그림만 보이게 한다
-            $(`#pictureContainer_${currentPage}`).css({'display': ''});
+            $(`#pictureContainer_${currentPage}`).fadeIn(1200);
         }
     });
 

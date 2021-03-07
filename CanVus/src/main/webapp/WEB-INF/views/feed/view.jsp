@@ -25,7 +25,7 @@
     <input type="hidden" value="${fn:length(feedComments)}" id="commentCountVal">
 
     <div class="container container-feed feed-plate height-100 d-flex justify-content-center align-items-center">
-        <div class="card card-border center-block" style="background-color: #1266f1;">
+        <div class="card card-border center-block" style="background-color: whitesmoke;">
             <div class="row center-block">
                 <!-- 컨텐츠 포지션 -->
                 <div class="col-md-8" style="margin-top: 5px;">
@@ -52,7 +52,7 @@
 
                 <!-- 사이드 포지션 -->
                 <div class="col-md-3 height-100 side-plate center-block"
-                     style="margin-top: 5px; margin-left: 60px;">
+                     style="margin-left: 45px;">
                     <!-- drawer 목록 -->
                     <div class="row" style="text-align:center;">
                         <br>
@@ -79,7 +79,7 @@
                             <br>
                         </c:if>
                         <br>
-                        <link rel="stylesheet" href="/resources/css/feed/namebtn.css">
+                        <link rel="stylesheet" href="/resources/css/feed/namebtn.css?reload">
                     </div>
 
                     <div class="row text-center">
@@ -230,7 +230,7 @@
             </div>
         </div>
     </div>
-    <link rel="stylesheet" href="/resources/css/feed/feed.css?after">
+    <link rel="stylesheet" href="/resources/css/feed/feed.css">
     <link rel="stylesheet" href="/resources/css/feed/likeBtn.css">
     <link rel="stylesheet" href="/resources/css/feed/bookmarkshape.css">
     <link rel="stylesheet" href="/resources/css/feed/pictureNav.css">
