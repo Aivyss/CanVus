@@ -36,7 +36,7 @@
                 <div class='list-group gallery'>
                     <c:forEach items="${previews}" var="preview">
                         <div class='col-sm-4 col-xs-6 col-md-3 col-lg-3 hover-fade'>
-                            <a class="thumbnail " rel="ligthbox">
+                            <a class="thumbnail " rel="ligthbox" href="javascript:createModal('/feed/view/?feed_id=${preview.feed_id}')">
                                 <img class="img-responsive" alt=""
                                      src="<spring:url value='/userPicture/${preview.preview}'/>"/>
                                 <div class='text-right'>
@@ -134,15 +134,14 @@
                 }
             </style>
         </div>
-
-        <!-- feed view overlay -->
-        <div id="feed-overlay" class="modal fade" tabindex="-1" role="dialog">
-            <!-- 이곳에 피드를 불러온다. -->
-        </div>
-
-        <script src="/resources/js/universal/feed.js?reload"></script>
-        <script src="/resources/js/universal/modal.js?reload"></script>
     </c:otherwise>
 </c:choose>
+<!-- feed view overlay -->
+<div id="feed-overlay" class="modal fade" tabindex="-1" role="dialog">
+    <!-- 이곳에 피드를 불러온다. -->
+</div>
+
+<script src="/resources/js/universal/feed.js?reload"></script>
+<script src="/resources/js/universal/modal.js?reload"></script>
 </body>
 </html>

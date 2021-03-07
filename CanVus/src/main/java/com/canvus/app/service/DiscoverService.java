@@ -28,15 +28,18 @@ public class DiscoverService {
 
         log.info("Service 진입");
 
-        ArrayList<String> tagList = dao.getRecommendationTag((String) session.getAttribute("userId"));
-        List<String> refinedList = new ArrayList<>();
+        String userId = (String) session.getAttribute("userId");
+        if (userId != null) {
+            ArrayList<String> tagList = dao.getRecommendationTag(userId);
+            List<String> refinedList = new ArrayList<>();
 
-        for (String tag : tagList) {
-            // 프론트에서 id에 #을 쓸수가 없다...
-            refinedList.add(tag.replace("#", ""));
+            for (String tag : tagList) {
+                // 프론트에서 id에 #을 쓸수가 없다...
+                refinedList.add(tag.replace("#", ""));
+            }
+
+            model.addAttribute("tagList", refinedList);
         }
-
-        model.addAttribute("tagList", refinedList);
 
         return "discover/main";
     }

@@ -27,5 +27,27 @@
 	
 	<context:component-scan base-package="com.canvus.app" />
 
+	<beans:bean id="loginInterceptor" class="com.canvus.app.interceptor.LoginInterceptor"></beans:bean>
+	<interceptors>
+		<interceptor>
+			<mapping path="/bookmarkRest/**"/>
+			<mapping path="/bookmark/**"/>
+			<mapping path="/comment/**"/>
+			<mapping path="/feed/addLike"/>
+			<mapping path="/feed/deleteLike"/>
+			<mapping path="/feed/deleteFeed"/>
+			<mapping path="/feed/updateFeed"/>
+			<mapping path="/follow/**"/>
+			<mapping path="/payment/**"/>
+			<mapping path="/user/management"/>
+			<mapping path="/user/logoutt"/>
+			<mapping path="/user/getPixelAmount"/>
+			<mapping path="/user/updateProfile"/>
+			<mapping path="/user/updateIntro"/>
+			<beans:ref bean="loginInterceptor"/>
+		</interceptor>
+
+	</interceptors>
+
 
 </beans:beans>

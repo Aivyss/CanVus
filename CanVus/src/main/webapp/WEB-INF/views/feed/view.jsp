@@ -159,10 +159,24 @@
                 <!-- 코멘트 컨테이너-->
                 <div class="col-lg-12">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Comment here..." id="comment-input">
-                        <span class="input-group-btn">
-                                <button class="btn btn-default" type="button" id="comment-btn">comment</button>
-                            </span>
+                        <c:choose>
+                            <c:when test="${not empty sessionScope.userId}"> <!-- 로그인 유저 -->
+                                <input type="text" class="form-control" placeholder="コメントを付けてみましょう。" id="comment-input">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" id="comment-btn">
+                                        コメント
+                                    </button>
+                                </span>
+                            </c:when>
+                            <c:otherwise><!-- 비로그인 유저 -->
+                                <input type="text" class="form-control" placeholder="ログインして下さい。" id="comment-input" readonly="readonly">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" id="comment-btn">
+                                        コメント
+                                    </button>
+                                </span>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                     <div class="about">
                             <span>

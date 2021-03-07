@@ -1,6 +1,6 @@
 /****************************** 전역변수 ******************************************/
 let imageLength = parseInt($('#imageLengthVal').val());
-let user_id_feed = $('#user_idVal').val();
+let user_id_feed = $('#user_idVal').val(); // 피드를 보는 사람의 아이디
 let feed_id = $('#feed_idVal').val();
 let isLiked = $('#isLikeVal').val();
 let likeCount = parseInt($('#likeCountVal').val());
@@ -73,8 +73,13 @@ $(() => {
         console.log('댓글추가 완료');
     }
 
-    // 코멘트 입력이 빈칸인지 아닌지 판단하는 메소드
+    // 비로그인 유저인지 코멘트 입력이 빈칸인지 아닌지 판단하는 메소드
     function checkValidationAndSendComment() {
+        if (user_id_feed == undefined || user_id_feed == null || user_id_feed.length == 0) {
+            alert("ログインしたユーザー専用の機能です。");
+            return;
+        }
+
         const commentContent = $('#comment-input').val();
 
         if (commentContent.length != 0) {

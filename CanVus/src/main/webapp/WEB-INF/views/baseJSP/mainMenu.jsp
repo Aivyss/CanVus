@@ -97,9 +97,9 @@
                             <!-- Collect the nav links, forms, and other content for toggling -->
                             <div class="collapse navbar-collapse zero_mp" id="bs-example-navbar-collapse-1">
                                 <ul class="nav navbar-nav navbar-right main_menu">
+                                    <li><a href="/browse/list">Browse</a></li>
+                                    <li><a href="/discover/" >Discover</a></li>
                                     <c:if test="${not empty sessionScope.userVO}">
-                                        <li><a href="/discover/" >Discover</a></li>
-                                        <li><a href="/browse/list">Browse</a></li>
                                         <li>
                                             <div class="dropdown">
                                                 <button class="btn btn-navv btn-secondary dropdown-toggle dropdown-toggle-nav"
