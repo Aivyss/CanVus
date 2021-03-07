@@ -54,6 +54,7 @@
     <c:otherwise> <!-- 로그인 후 -->
         <!-- 배너파트 -->
         <link rel="stylesheet" href="/resources/css/home/bannerSkeleton.css">
+        <link rel="stylesheet" href="/resources/css/universal/pagination.css">
         <script src="/resources/js/home/pagination.js"></script>
         <div class="banner" style="background-image:url('/resources/images/home/banner.jpg'); margin-bottom: 50px;">
             <div class="container">

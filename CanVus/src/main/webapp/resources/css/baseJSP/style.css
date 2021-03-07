@@ -54,6 +54,10 @@ font-family: 'Roboto', sans-serif;
 @import url('https://fonts.googleapis.com/css2?family=Stick&display=swap');
 /*UNIVERSAL CODE*/
 
+a, li {
+    cursor:pointer;
+}
+
 * {
     margin: 0;
     padding: 0;

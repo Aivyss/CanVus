@@ -8,6 +8,7 @@
     <title>Discover</title>
     <link rel="stylesheet" href="/resources/css/universal/GallerySkeleton.css">
     <link rel="stylesheet" href="/resources/css/discover/pageTab.css">
+    <link rel="stylesheet" href="/resources/css/universal/pagination.css">
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/baseJSP/mainMenu.jsp"></jsp:include>

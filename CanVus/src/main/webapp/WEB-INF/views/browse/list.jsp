@@ -27,6 +27,7 @@
 <!-- 네비 바 -->
 <jsp:include page="/WEB-INF/views/baseJSP/mainMenu.jsp"></jsp:include>
 <script src="/resources/js/browse/browse.js?after"></script>
+<link rel="stylesheet" href="/resources/css/universal/pagination.css">
 
 <!-- hidden values -->
 <input type="hidden" value="${navi.currentPage}" id="pageNo">
@@ -125,7 +126,7 @@
     </div>
 
     <!-- 비밀번호 확인 모달창 -->
-    <div class="modal" tabindex="-1" role="dialog" id="enter-modal" style="margin-top: 120px;">
+    <div class="modal fade" tabindex="-1" role="dialog" id="enter-modal" style="margin-top: 120px;">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <c:choose>
@@ -137,7 +138,7 @@
                             <p id=""></p>
                             <div class="form-group">
                                 <label for="input-room-password"></label>
-                                <input id="input-room-password" type="text" class="form-control" placeholder="パスワード">
+                                <input id="input-room-password" type="password" class="form-control" placeholder="パスワード">
                             </div>
                         </div>
                         <div class="modal-footer">

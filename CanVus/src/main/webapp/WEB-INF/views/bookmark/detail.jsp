@@ -18,13 +18,7 @@
     </script>
     <link rel="stylesheet" href="/resources/css/universal/GallerySkeleton.css">
     <link rel="stylesheet" href="/resources/css/bookmark/bookmarkDetailSkeleton.css">
-    <style>
-        .pagination > li > a {
-            border-radius: 50% !important;
-            margin: 0 5px;
-            background-color: white;
-        }
-    </style>
+    <link rel="stylesheet" href="/resources/css/universal/pagination.css">
 </head>
 <body>
 <!-- 네비파트 -->

@@ -15,6 +15,7 @@
 <body>
 <jsp:include page="/WEB-INF/views/baseJSP/mainMenu.jsp"></jsp:include>
 <link rel="stylesheet" href="/resources/css/universal/GallerySkeleton.css">
+<link rel="stylesheet" href="/resources/css/universal/pagination.css">
 <script src="/resources/js/search/search.js"></script>
 
 <c:choose>
@@ -66,13 +67,6 @@
                 </div>
             </c:when>
             <c:otherwise>
-                <style>
-                    .pagination > li > a {
-                        border-radius: 50% !important;
-                        margin: 0 5px;
-                        background-color: white;
-                    }
-                </style>
                 <!-- search tag case -->
                 <!-- search abstract -->
                 <div class="container center-block">
