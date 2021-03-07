@@ -44,6 +44,7 @@
 			<mapping path="/user/getPixelAmount"/>
 			<mapping path="/user/updateProfile"/>
 			<mapping path="/user/updateIntro"/>
+			<mapping path="/drawing/**"/>
 			<beans:ref bean="loginInterceptor"/>
 		</interceptor>
 

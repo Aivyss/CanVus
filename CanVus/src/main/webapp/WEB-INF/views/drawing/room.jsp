@@ -205,9 +205,6 @@
                 <h1 class="modal-title" id="present-pixel-modal-title">
 
                 </h1>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body">
                 <!-- 픽셀 단위 리스트 -->
@@ -276,9 +273,6 @@
                 <h1 class="modal-title">
                     課金するピックセルの数を選んでください。
                 </h1>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body">
                 <!-- 픽셀 단위 리스트 -->

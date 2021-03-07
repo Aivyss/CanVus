@@ -17,6 +17,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Browse</title>
+    <script>
+        const userId = "${sessionScope.userId}";
+    </script>
 </head>
 
 
@@ -97,7 +100,7 @@
                     </li>
                     <c:forEach begin="${navi.startPageGroup}" end="${navi.endPageGroup}" var="count">
                         <c:choose>
-                            <c:when test="${counter == navi.currentPage}">
+                            <c:when test="${count == navi.currentPage}">
                                 <li class="page-item active"><a class="page-link" href="#">${count}</a></li>
                             </c:when>
                             <c:otherwise>
@@ -125,23 +128,32 @@
     <div class="modal" tabindex="-1" role="dialog" id="enter-modal" style="margin-top: 120px;">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h2 class="modal-title" id="modal-room-title"></h2>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p id=""></p>
-                    <div class="form-group">
-                        <label for="input-room-password"></label>
-                        <input id="input-room-password" type="text" class="form-control" placeholder="パスワード">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">戻る</button>
-                    <button type="button" class="btn btn-primary" id="execute-enter-room">入る</button>
-                </div>
+                <c:choose>
+                    <c:when test="${not empty sessionScope.userId}">
+                        <div class="modal-header">
+                            <h2 class="modal-title" id="modal-room-title"></h2>
+                        </div>
+                        <div class="modal-body">
+                            <p id=""></p>
+                            <div class="form-group">
+                                <label for="input-room-password"></label>
+                                <input id="input-room-password" type="text" class="form-control" placeholder="パスワード">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">戻る</button>
+                            <button type="button" class="btn btn-primary" id="execute-enter-room">入る</button>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="modal-header">
+                            <h2 class="modal-title">ログインしたユーザーの専用の機能です。</h2>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">戻る</button>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
         <input type="hidden" id="room-modal-exact-pw">

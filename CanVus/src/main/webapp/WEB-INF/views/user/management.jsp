@@ -122,9 +122,6 @@
                 <h1 class="modal-title">
                     プロフィールを直しています。
                 </h1>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body">
                 <div class="row text-center center-block">
@@ -154,9 +151,6 @@
                 <h1 class="modal-title">
                     自己紹介を直しています。
                 </h1>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body">
                 <h4>直す内容を入力してください。</h4>

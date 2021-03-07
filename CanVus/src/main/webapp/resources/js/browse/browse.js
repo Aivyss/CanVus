@@ -61,6 +61,11 @@ $(() => {
 
     // 방입장 버튼 클릭 이벤트
     $('.entrance-btn-container').on('click', function(event) {
+        if (userId == undefined || userId == null || userId.length <= 0) {
+            alert("ログインしたユーザーの専用です。");
+            return;
+        }
+
         let targetId = event.target.id;
         targetId = targetId.split('make-bookmark-btn-')[1];
 

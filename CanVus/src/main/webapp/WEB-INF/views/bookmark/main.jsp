@@ -39,9 +39,6 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h2 class="modal-title">あなただけのブックマークを作りましょう。</h2>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
                     </div>
                     <div class="modal-body">
                         <p>ちなみに、既存にあるフォルダーと同じ名前で作れません。</p>
