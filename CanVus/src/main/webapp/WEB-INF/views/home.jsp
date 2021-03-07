@@ -16,15 +16,15 @@
 
 <c:choose>
     <c:when test="${empty userVO}"> <!-- 로그인 전 -->
-        <link rel="stylesheet" href="/resources/css/home/loginSkeleton.css">
+        <link rel="stylesheet" href="/resources/css/home/loginSkeleton.css?reload">
 
         <!-- 공간 벌려주기 용 -->
         <div class="container" style="margin-top:20px;"></div>
 
-        <!-- login panel -->
+        <!-- login panel -->登録
         <div class="container center-block" id="logreg-forms">
             <div class="col-xs-12 form-signin block-center">
-                <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Sign in</h1>
+                <h1 class="h1 mb-3 font-weight-normal" style="text-align: center">ログイン・登録</h1>
                 <div class="social-login">
                     <div id="my-signin2" onclick="ClickLogin();"></div>
                     <script src="https://apis.google.com/js/platform.js?onload=renderButton"></script>
