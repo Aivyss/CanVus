@@ -35,6 +35,29 @@ function deleteComment(comment_id) {
 }
 
 $(() => {
+    try {
+        const $feedText = $('#feed-text');
+        const text = $feedText.text();
+        const regex = /[#][a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣぁ-ゔァ-ヴー々〆〤一-龥]*/g;
+        const tagArry = text.match(regex);
+        const others = text.split(regex);
+        let content = '';
+        let j = 0;
+
+        for (let i=0; i<others.length; i++) {
+            if (others[i].length === 0) {
+                content += `<a href="/search/result/?type=0&keyword=${tagArry[j].split('#')[1]}">${tagArry[j]}</a>`;
+                j++;
+            } else {
+                content += others[i];
+            }
+        }
+
+        $feedText.empty();
+        $feedText.append(content);
+    } catch (e) {
+        console.log('피드뷰 페이지 이외에서 사용하는 경우로 에러가 난다');
+    }
     /******************************* 호이스팅 함수 ************************************/
     // 코멘트의 작성이 완성되고 화면단에 결과를 반영하는 메소드
     function successSendCommentProcess(result) {
