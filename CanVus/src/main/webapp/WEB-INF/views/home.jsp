@@ -21,7 +21,7 @@
         <!-- 공간 벌려주기 용 -->
         <div class="container" style="margin-top:20px;"></div>
 
-        <!-- login panel -->登録
+        <!-- login panel -->
         <div class="container center-block" id="logreg-forms">
             <div class="col-xs-12 form-signin block-center">
                 <h1 class="h1 mb-3 font-weight-normal" style="text-align: center">ログイン・登録</h1>
