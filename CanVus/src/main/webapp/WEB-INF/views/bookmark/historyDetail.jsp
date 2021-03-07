@@ -17,7 +17,7 @@
         const folder_id = "";
     </script>
     <link rel="stylesheet" href="/resources/css/universal/GallerySkeleton.css">
-    <link rel="stylesheet" href="/resources/css/universal/overlay.css?reload">
+    <link rel="stylesheet" href="/resources/css/bookmark/bookmarkDetailSkeleton.css">
     <style>
         .pagination > li > a {
             border-radius: 50% !important;
@@ -37,7 +37,17 @@
 <div class="container-fluid">
     <div class="col-sm-12 center-block" style="margin-top:20px;">
         <!-- 피드 번들 파트-->
-        <div class="row">
+        <div class="row center-block feed-box">
+            <div class="col-xs-8 col-sm-2 bookmark_name">
+                <img class='navLogo' src="/resources/images/defaults/folderDefault.png" alt="">
+                <div class="ml-2">
+                    <h3 style="color: black">History</h3>
+                    <div class="about about-bm">
+                        <h6 style="color: black">${totalFeedCount} Feeds</h6>
+                    </div>
+                </div>
+            </div>
+
             <div class='list-group gallery'>
                 <c:forEach items="${historyFeedList}" var="oneFeed" varStatus="status">
                     <div class='col-sm-4 col-xs-6 col-md-2 col-lg-2 hover-fade'>
@@ -90,7 +100,7 @@
 </div>
 
 <!-- feed view overlay -->
-<div id="feed-overlay" class="text-right" style="display: none;">
+<div id="feed-overlay" class="modal fade" tabindex="-1" role="dialog">
     <!-- 이곳에 피드를 불러온다. -->
 </div>
 <script src="/resources/js/universal/feed.js?reload"></script>

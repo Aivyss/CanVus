@@ -6,6 +6,9 @@
 <html>
 <head>
     <style type="text/css">
+        a {
+            cursor:hand;
+        }
         .navbar-default .navbar-nav > li > div > button {
             color: #777;
         }

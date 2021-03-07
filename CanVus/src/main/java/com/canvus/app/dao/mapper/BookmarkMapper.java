@@ -19,5 +19,5 @@ public interface BookmarkMapper {
 
     int checkDuplicateAndCreate(BookmarkVO bmVO);
 
-    void deleteFeedFromBookmark(BookmarkedFeedsVO bmfVO);
+    String getBookmarkInfo(int folder_id);
 }

@@ -14,4 +14,6 @@ public interface BookmarkedFeedMapper {
     List<BookmarkedFeedsVO> bookMarkDetail(RowBounds rb, int folder_id);
 
     void deleteFolder(int folder_id);
+
+    void deleteFeedFromBookmark(BookmarkedFeedsVO bmfVO);
 }

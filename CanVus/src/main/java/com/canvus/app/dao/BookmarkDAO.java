@@ -256,11 +256,32 @@ public class BookmarkDAO {
      */
     public void deleteFeedFromBookmark(BookmarkedFeedsVO bmfVO) {
         try {
-            BookmarkMapper mapper = session.getMapper(BookmarkMapper.class);
+            BookmarkedFeedMapper mapper = session.getMapper(BookmarkedFeedMapper.class);
             mapper.deleteFeedFromBookmark(bmfVO);
         } catch (Exception e) {
             e.printStackTrace();
             log.info("북마크로부터 삭제 sql 오류");
         }
+    }
+
+    /**
+     * 특정 북마크의 인포메이션 셀렉 메소드
+     * 20210307
+     * 이한결
+     * @param folder_id
+     * @return
+     */
+    public String getBookmarkInfo(int folder_id) {
+        String bookmarkName = null;
+
+        try {
+            BookmarkMapper mapper = session.getMapper(BookmarkMapper.class);
+            bookmarkName = mapper.getBookmarkInfo(folder_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("북마크 정보 셀렉 SQL오류");
+        }
+
+        return bookmarkName;
     }
 }

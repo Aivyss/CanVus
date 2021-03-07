@@ -145,14 +145,19 @@ public class BookmarkService {
      */
     public String bookMarkDetail(Model model, int folder_id, int pageNo) {
         String url = "bookmark/detail";
+        // TODO 피드 토탈 레코드 셀렉트 및 네비게이터 생성
         int totalRecords = bookmarkDAO.getTotalRecordsOnBookmark(folder_id);
         PageNavigator nav = new PageNavigator(COUNT_PER_PAGE, PAGE_PER_GROUP, pageNo, totalRecords);
+        // TODO 북마크 이름 셀렉
+        String bookmarkName = bookmarkDAO.getBookmarkInfo(folder_id);
 
         List<BookmarkedFeedsVO> bookmarkedFeedList = bookmarkDAO.bookMarkDetail(folder_id, nav.getStartRecord(), nav.getCountPerPage());
         log.info(bookmarkedFeedList.toString());
         model.addAttribute("bookmarkedFeedList", bookmarkedFeedList);
         model.addAttribute("pageNav", nav);
         model.addAttribute("folder_id", folder_id);
+        model.addAttribute("totalFeedCount", totalRecords);
+        model.addAttribute("bookmarkName", bookmarkName);
 
         return url;
     }
@@ -176,6 +181,7 @@ public class BookmarkService {
         log.info(historyFeedList.toString());
         model.addAttribute("historyFeedList", historyFeedList);
         model.addAttribute("pageNav", nav);
+        model.addAttribute("totalFeedCount", totalRecords);
 
         return url;
     }

@@ -59,4 +59,14 @@
 			WHERE
 				FOLDER_ID = #{int}
 	</delete>
+
+	<delete id="deleteFeedFromBookmark" parameterType="bmf">
+		DELETE
+		FROM
+			BOOKMARKED_FEEDS
+		WHERE
+			FOLDER_ID = #{folder_id}
+		  AND
+			FEED_ID = #{feed_id}
+	</delete>
 </mapper>
