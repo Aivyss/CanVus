@@ -19,22 +19,16 @@
 <script src="/resources/js/search/search.js"></script>
 
 <c:choose>
-    <c:when test="${empty feedBundle}">
+    <c:when test="${empty searchedUser && empty feedBundle }">
+        <!-- 검색결과가 없는 경우 -->
         <link rel="stylesheet" href="/resources/css/search/tagSearch.css">
-        <!-- search tag case -->
-        <!-- search abstract -->
+
         <div class="container center-block">
             <div class="row">
                 <div class="jumbotron text-center">
                     <h2 class="author">検索の結果がありません。</h2>
-                    <p class="quote">性格に入力して下さい。</p>
+                    <p class="quote">正確に入力して下さい。</p>
                 </div>
-            </div>
-        </div>
-        <!-- 검색결과가 없는 경우 -->
-        <div class="container">
-            <div class="jumbotron" style="background-color: white;">
-                <h1>検索の結果がありません。</h1>
             </div>
         </div>
     </c:when>
@@ -139,7 +133,7 @@
                         <div class="jumbotron text-center">
                             <h2 class="author">「${tag}」の検索の結果です。</h2>
                             <br>
-                            <p class="quote">総${pNav.totalPageCount}件のフィード検索の結果があります。</p>
+                            <p class="quote">総${pNav.totalRecordsCount}件のフィード検索の結果があります。</p>
                         </div>
                     </div>
 

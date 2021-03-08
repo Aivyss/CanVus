@@ -23,16 +23,22 @@
 
 <div class="container">
     <!-- 프로필 수정 및 자기소개 수정 -->
-    <div class="row">
-        <div class="col-md-3 col-md-offset-3">
-            <input id="edit-profile-btn" type="button" class="btn btn-primmary" value="プロフィールの修正" style="margin-bottom: 20px;
+    <link rel="stylesheet" href="/resources/css/search/tagSearch.css">
+
+    <div class="row text-center">
+        <div class="jumbotron">
+            <h2 class="author">個人情報の修正</h2>
+            <p class="quote">プロフィルと自己紹介</p>
+            <div class="col-md-2 col-md-offset-4">
+                <input id="edit-profile-btn" type="button" class="btn btn-primmary" value="プロフィールの修正" style="margin-bottom: 20px;
 
                                                    border-radius: 20px 20px 20px 20px;">
-        </div>
-        <div class="col-md-3 col-md-offset-3">
-            <input id="edit-intro-btn" type="button" class="btn btn-primmary" value="自己紹介の修正" style="margin-bottom: 20px;
+            </div>
+            <div class="col-md-2">
+                <input id="edit-intro-btn" type="button" class="btn btn-primmary" value="自己紹介の修正" style="margin-bottom: 20px;
 
                                                    border-radius: 20px 20px 20px 20px;">
+            </div>
         </div>
     </div>
 
