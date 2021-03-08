@@ -35,7 +35,7 @@
             <div class="row" style="margin-top: 200px;">
                 <div class='list-group gallery'>
                     <c:forEach items="${previews}" var="preview">
-                        <div class='col-sm-4 col-xs-6 col-md-3 col-lg-3 hover-fade'>
+                        <div class='col-sm-4 col-xs-6 col-md-2 col-lg-2 hover-fade'>
                             <a class="thumbnail " rel="ligthbox" href="javascript:createModal('/feed/view/?feed_id=${preview.feed_id}')">
                                 <img class="img-responsive" alt=""
                                      src="<spring:url value='/userPicture/${preview.preview}'/>"/>
@@ -73,11 +73,11 @@
             <div class="row">
                 <div class="list-group gallery">
                     <c:forEach items="${previews}" var="preview">
-                        <div class='col-sm-4 col-xs-6 col-md-3 col-lg-3 hover-fade'>
+                        <div class='col-sm-4 col-xs-6 col-md-2 col-lg-2 hover-fade'>
                             <a class="thumbnail" rel="ligthbox" href="javascript:createModal('/feed/view/?feed_id=${preview.FEED_ID}');">
                                 <img class="img-responsive" alt=""
                                      src="<spring:url value='/userPicture/${preview.PREVIEW}'/>"
-                                     style="width: 250px; height:250px;"/>
+                                     style="width: 150px; height:150px;"/>
                                 <div class='text-right'>
                                     <small class='text-muted'>${preview.NICKNAME}</small>
                                 </div> <!-- text-right / end -->

@@ -35,7 +35,7 @@ public class UserService {
     private final String CLIENT_ID = "1073968802049-evh62jql0f6gblp8din0t6rqv0sobg17.apps.googleusercontent.com";
 
     // 페이징 처리 (board 페이지용)
-    private final int COUNT_PER_PAGE = 6;
+    private final int COUNT_PER_PAGE = 8;
     private final int PAGE_PER_GROUP = 5;
 
     //프로필 업로드 경로

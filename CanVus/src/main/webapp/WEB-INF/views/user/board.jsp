@@ -146,7 +146,7 @@
                     <div class="row">
                         <div class='list-group gallery' id="feeds-container">
                             <c:forEach items="${bundle}" var="oneFeed" varStatus="status">
-                                <div class='col-sm-4 col-xs-6 col-md-4 col-lg-4 hover-fade'>
+                                <div class='col-sm-4 col-xs-6 col-md-3 col-lg-3 hover-fade'>
                                     <a class="thumbnail " rel="ligthbox" href="javascript:createModal('/feed/view/?feed_id=${oneFeed.feed_id}');">
                                         <img class="img-responsive" alt="" src="<spring:url value='/userPicture/${oneFeed.feed_id}--divide--1.png'/>" />
                                         <div class='text-right'>

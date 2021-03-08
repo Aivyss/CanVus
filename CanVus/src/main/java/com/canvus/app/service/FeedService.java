@@ -190,7 +190,7 @@ public class FeedService {
 
 	public void homePreview(Model model, UserVO userVO, int page) {
 
-		int countPerPage = 4;
+		int countPerPage = 12;
 		int pagePerGroup = 5;
 
 		String user_id = (String) userVO.getUser_id();

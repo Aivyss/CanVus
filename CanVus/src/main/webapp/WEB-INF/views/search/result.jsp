@@ -20,6 +20,17 @@
 
 <c:choose>
     <c:when test="${empty feedBundle}">
+        <link rel="stylesheet" href="/resources/css/search/tagSearch.css">
+        <!-- search tag case -->
+        <!-- search abstract -->
+        <div class="container center-block">
+            <div class="row">
+                <div class="jumbotron text-center">
+                    <h2 class="author">検索の結果がありません。</h2>
+                    <p class="quote">性格に入力して下さい。</p>
+                </div>
+            </div>
+        </div>
         <!-- 검색결과가 없는 경우 -->
         <div class="container">
             <div class="jumbotron" style="background-color: white;">
@@ -45,7 +56,8 @@
                         <div class="col-md-4">
                             <div id="overlay">
                                 <div class="image" style="
-                                        background:url(<spring:url value='/userProfile/${searchedUser.profile_photo}'/>);
+                                        background:url(<spring:url
+                                        value='/userProfile/${searchedUser.profile_photo}'/>);
                                         background-size: contain;">
                                     <div class="trick">
 
@@ -119,11 +131,16 @@
                 </div>
             </c:when>
             <c:otherwise>
+                <link rel="stylesheet" href="/resources/css/search/tagSearch.css?reload">
                 <!-- search tag case -->
                 <!-- search abstract -->
                 <div class="container center-block">
-                    <div class="jumbotron" style="background-color:white;">
-                        <h1>「${tag}」の検索の結果です。</h1>
+                    <div class="row">
+                        <div class="jumbotron text-center">
+                            <h2 class="author">「${tag}」の検索の結果です。</h2>
+                            <br>
+                            <p class="quote">総${pNav.totalPageCount}件のフィード検索の結果があります。</p>
+                        </div>
                     </div>
 
                     <!-- search result viewer -->
