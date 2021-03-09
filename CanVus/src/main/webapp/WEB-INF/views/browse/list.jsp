@@ -28,13 +28,14 @@
 <jsp:include page="/WEB-INF/views/baseJSP/mainMenu.jsp"></jsp:include>
 <script src="/resources/js/browse/browse.js?after"></script>
 <link rel="stylesheet" href="/resources/css/universal/pagination.css">
+<link rel="stylesheet" href="/resources/css/browse/card.css">
 
 <!-- hidden values -->
 <input type="hidden" value="${navi.currentPage}" id="pageNo">
 
 <!-- Body part -->
 <div class="container-fluid center-block">
-    <div class="jumbotron">
+    <div class="jumbotron" style="background-color: white; border-radius: 0px 0px 20px 20px">
         <c:choose>
             <c:when test="${empty title}">
                 <h1>一緒に描きましょう。</h1>
@@ -57,24 +58,23 @@
         </div>
     </div>
 
-
     <!-- 룸리스트  6r/1p-->
     <div class="row" style="margin-top:20px;">
         <c:forEach items="${list }" var="room">
             <div class="col-sm-3 col-md-2 col-md-offset-1 text-center">
-                <div class="thumbnail">
+                <div class="thumbnail" style="border-radius: 10px 10px 10px 10px;background-color: white;">
                     <img src="<spring:url value='/roomThumbnail/${room.ROOM_ID}--Thumbnail--.png'/>"
                          onerror="this.src='<spring:url value="/roomThumbnail/defaultRoom.jpg"/>'"
-                         style="width:150px; height:150px; display:block;">
-                    <div class="caption">
+                         style="width:150px; height:150px; display:block; background-color: white;">
+                    <div class="caption" style="background-color: white;border-radius: 10px 10px 10px 10px;margin-top: 10px;background-color: #c8c8c8">
                         <div class="row">
                             <h3 id="room-title-container-${room.ROOM_ID}">${room.TITLE}</h3>
                             <br>
                             <h3>${room.NICKNAME} <span
                                     class="label label-success">${room.USER_COUNT}/${room.USER_NO}名</span></h3>
                         </div>
-                        <div class="row entrance-btn-container" style="margin-top: 15px;">
-                            <button class="btn btn-info btn-default btn-block" id="make-bookmark-btn-${room.ROOM_ID}">
+                        <div class="row entrance-btn-container" style="margin-top: 15px; text-align: center;">
+                            <button class="btn btn-lg btn-primmary btn-block btn-rounded" id="make-bookmark-btn-${room.ROOM_ID}" style="width: 80%;margin: auto;">
                                 入る
                             </button>
                             <input type="hidden" value="${room.PASSWORD}" id="room-pw-container-${room.ROOM_ID}">
@@ -138,7 +138,8 @@
                             <p id=""></p>
                             <div class="form-group">
                                 <label for="input-room-password"></label>
-                                <input id="input-room-password" type="password" class="form-control" placeholder="パスワード">
+                                <input id="input-room-password" type="password" class="form-control"
+                                       placeholder="パスワード">
                             </div>
                         </div>
                         <div class="modal-footer">

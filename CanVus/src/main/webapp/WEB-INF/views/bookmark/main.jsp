@@ -92,7 +92,7 @@
                                     <div class="col-xs-6">
                                         <img src="/resources/images/defaults/folderDefault.png" width="80"/>
                                     </div>
-                                    <div class="col-xs-1" style="left: 70px">
+                                    <div class="col-xs-1">
                                         <a href="#" class="folder-delete" id="del-${oneItem.folder_id}"><img src="/resources/images/defaults/deleteButtonDefault.png" width="20px" /></a>
                                     </div>
                                 </div>

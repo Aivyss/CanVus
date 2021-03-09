@@ -837,14 +837,17 @@ const thumbnailFunctionSet = (function () {
 
             if (layerSet.length != 0) { // 하나도 생성 안한경우 false
                 if (layerSet[0].length != 0) { // 생성은 했으나 레이어 길이가 0인경우(사실 없음)
-                    check = true;
+                    if (admin_id == user_id) {
+                        check = true;
+                    }
                 }
             }
+
 
             return check;
         },
     }
-});
+})();
 
 // ************* 결제 관련 함수셋 ***************** //
 const paymentFunctionSet = (function () {
@@ -972,6 +975,10 @@ document.onkeydown = function (event) {
 }
 
 socketSenderFunctionSet.connect(); // 소켓 커넥트 실시
+
+
+/********************방찾기를 위해서 주기적으로 1page를 파일화하는 메소드 집합 ***********/
+setInterval(thumbnailFunctionSet.sendOnePageIntegrationFunction, 3000) // 5분 간격으로 페이지 1번을 저장한다.
 
 // ********** 소켓 전송과 관련된 이벤트 ********** //
 // 페이지 종료 이벤트 --> 소켓종료
@@ -1278,8 +1285,9 @@ $(() => {
                 $('#execute-present').trigger('click');
             }
         }),
-    ];
-    // ******************* 레인지바 초기설정함수 *****************//
+    ]; // dynamicEventSet end
+
+        // ******************* 레인지바 초기설정함수 *****************//
     (function initAndSetupTheSliders() {
         var inputs = [].slice.call(document.querySelectorAll('.range-slider input'));
         inputs.forEach(function (input) {
