@@ -148,7 +148,7 @@
                                             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                                                 <li role="presentation" style="width: 100%;">
                                                     <a role="menuitem" tabindex="-1"
-                                                       href="../../user/board?user_id=115934958192077040702">
+                                                       href="../../user/board?user_id=${sessionScope.userId}">
                                                         My board
                                                     </a>
                                                 </li>
