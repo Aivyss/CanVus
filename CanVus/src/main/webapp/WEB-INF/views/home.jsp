@@ -19,11 +19,13 @@
         <link rel="stylesheet" href="/resources/css/home/loginSkeleton.css?reload">
 
         <!-- 공간 벌려주기 용 -->
-        <div class="container" style="margin-top:20px;"></div>
+        <div class="container" style="margin-top:1%;"></div>
 
         <!-- login panel -->
-        <div class="container center-block" id="logreg-forms">
-            <div class="col-xs-12 form-signin block-center">
+        <!-- login panel -->
+        <div class="container center-block" id="logreg-forms"
+             style="margin-top: 2%; height: 80%; background-color: #eeeeee;border-radius: 20px 20px 20px 20px;">
+            <div class="col-xs-12 form-signin block-center" style="margin-top:5%;">
                 <h1 class="h1 mb-3 font-weight-normal" style="text-align: center">ログイン・登録</h1>
                 <div class="social-login">
                     <div id="my-signin2" onclick="ClickLogin();"></div>
@@ -32,20 +34,44 @@
             </div>
             <script src="/resources/js/home/autoLoginBlocker.js?reload"></script>
 
-            <div class="row" style="margin-top: 200px;">
-                <div class='list-group gallery'>
-                    <c:forEach items="${previews}" var="preview">
-                        <div class='col-sm-4 col-xs-6 col-md-2 col-lg-2 hover-fade'>
-                            <a class="thumbnail " rel="ligthbox" href="javascript:createModal('/feed/view/?feed_id=${preview.feed_id}')">
-                                <img class="img-responsive" alt=""
-                                     src="<spring:url value='/userPicture/${preview.preview}'/>"/>
-                                <div class='text-right'>
-                                    <small class='text-muted'>${preview.nickname1}</small>
-                                </div> <!-- text-right / end -->
+            <div class="row" style="margin-top: 20%;">
+                <script src="/resources/js/home/beforeLogin.js"></script>
+                <style>
+
+                    .RollDiv {
+                        margin: 0 auto;
+                        width: 75%;
+                        height: 300px;
+                        overflow: hidden;
+                    }
+
+                    .RollDiv > div {
+                        overflow: hidden;
+                        height: 300px;
+                        width: 10000px;
+                    }
+
+                    .RollDiv > div > a {
+                        float: left;
+                        display: block;
+                    }
+
+                    .RollDiv > div > a > img {
+                        width: 150px;
+                        height: 150px;
+                        margin-right: 10px;
+                    }
+                </style>
+                <div class="RollDiv">
+                    <div>
+                        <c:forEach items="${previews}" var="preview">
+                            <a class="hover-fade"
+                               href="javascript:createModal('/feed/view/?feed_id=${preview.feed_id}')">
+                                <img src="<spring:url value='/userPicture/${preview.preview}'/>"
+                                     style="background-color: white;border: solid grey 1px; margin-left: 20px;"/>
                             </a>
-                        </div>
-                        <!-- col-6 / end -->
-                    </c:forEach>
+                        </c:forEach>
+                    </div>
                 </div>
             </div>
         </div>
@@ -60,9 +86,9 @@
             <div class="container">
                 <div class="banner-text">
                     <div class="banner-heading">
-                        フローの最近のフィード
+                        フォローの最近のフィード
                     </div>
-                    <div clasォs="banner-sub-heading">
+                    <div class="banner-sub-heading">
                         一ヶ月間のフィードです。
                     </div>
                 </div>
@@ -74,7 +100,8 @@
                 <div class="list-group gallery">
                     <c:forEach items="${previews}" var="preview">
                         <div class='col-sm-4 col-xs-6 col-md-2 col-lg-2 hover-fade'>
-                            <a class="thumbnail" rel="ligthbox" href="javascript:createModal('/feed/view/?feed_id=${preview.FEED_ID}');">
+                            <a class="thumbnail" rel="ligthbox"
+                               href="javascript:createModal('/feed/view/?feed_id=${preview.FEED_ID}');">
                                 <img class="img-responsive" alt=""
                                      src="<spring:url value='/userPicture/${preview.PREVIEW}'/>"
                                      style="width: 150px; height:150px;"/>

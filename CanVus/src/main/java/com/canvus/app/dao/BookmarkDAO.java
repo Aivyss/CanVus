@@ -232,19 +232,17 @@ public class BookmarkDAO {
      * @param params
      * @return
      */
-    public int checkDuplicateAndCreate(BookmarkVO bmVO) {
-        int folder_id = 0;
-
+    public BookmarkVO checkDuplicateAndCreate(BookmarkVO bmVO) {
         try {
             BookmarkMapper mapper = session.getMapper(BookmarkMapper.class);
-            folder_id = mapper.checkDuplicateAndCreate(bmVO);
+            mapper.checkDuplicateAndCreate(bmVO);
         } catch (Exception e) {
             e.printStackTrace();
             log.info("이름 중복체크 sql 오류");
-            folder_id = -1; // 음수는 절대 나올 수 없으니 이거로 성공여부 판단.
+            bmVO.setFolder_id(-1); // PK는 절대 -1이 나올 수 없으니 이것으로 판단
         }
 
-        return folder_id;
+        return bmVO;
     }
 
     /**

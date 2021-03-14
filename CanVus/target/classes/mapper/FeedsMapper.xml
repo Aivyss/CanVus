@@ -150,7 +150,7 @@
 		WHERE
 		    U.USER_ID = S.user_id
 		    AND
-			ROWNUM &lt;= 4 <!-- &lt; 는 <를 의미한다 -->
+			ROWNUM &lt;= 20 <!-- &lt; 는 <를 의미한다 -->
 	</select>
 
 	<select id="homePreviewLogin" resultType="hashmap">

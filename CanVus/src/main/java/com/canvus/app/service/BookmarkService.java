@@ -199,12 +199,12 @@ public class BookmarkService {
         bmVO.setFolder_name(folder_name);
         bmVO.setUser_id(user_id);
 
-        int folder_id = bookmarkDAO.checkDuplicateAndCreate(bmVO);
+        bmVO = bookmarkDAO.checkDuplicateAndCreate(bmVO);
         boolean isSuccess = false;
 
-        if(folder_id > 0) {
+        if(bmVO.getFolder_id() > 0) {
             isSuccess = true;
-            params.put("folder_id", folder_id);
+            params.put("folder_id", bmVO.getFolder_id());
         }
         params.put("isSuccess", isSuccess);
 
