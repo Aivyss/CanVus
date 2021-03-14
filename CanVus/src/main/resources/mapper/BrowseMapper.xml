@@ -26,7 +26,7 @@
         U.USER_ID = D.ADMIN
         <if test="_parameter != null and !_parameter.equals('')">
         AND
-        D.TITLE LIKE '%' || #{string} || '%'
+        UPPER(D.TITLE) LIKE '%' || UPPER(#{string}) || '%'
         </if>
     ORDER BY
         USER_COUNT DESC

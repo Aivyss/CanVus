@@ -43,17 +43,6 @@
     	LAYER_NO = #{layer_no}
 </update>
 
-<delete id="deletePageLayer" parameterType="page">
-	DELETE FROM
-		PAGE_LAYER
-	WHERE
-		ROOM_ID = #{room_Id}
-		AND
-	    PAGE_NO = #{page_no}
-		AND
-	    LAYER_NO = #{layer_no}
-</delete>
-
 <select id="getAllLayers" parameterType="page" resultType="page">
 	SELECT
 		ROOM_ID

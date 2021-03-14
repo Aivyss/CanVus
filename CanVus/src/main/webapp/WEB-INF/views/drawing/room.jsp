@@ -35,6 +35,7 @@
         const email = "${sessionScope.userVO.email}";
         const given_name = "${sessionScope.userVO.given_name}";
         const family_name = "${sessionScope.userVO.family_name}";
+
     </script>
 
     <!-- Basic CSS -->
@@ -340,7 +341,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">戻る</button>
-                <button type="button" class="btn btn-primary" onclick="createFeedController.makeFeedExecution();">アップロード</button>
+                <button type="button" class="btn btn-primary" onclick="createFeedController.makeFeedExecution();">
+                    アップロード
+                </button>
             </div>
         </div>
     </div>

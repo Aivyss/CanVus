@@ -62,7 +62,7 @@ $(() => {
     // 코멘트의 작성이 완성되고 화면단에 결과를 반영하는 메소드
     function successSendCommentProcess(result) {
         const content = `
-            <div class="col-lg-12">
+            <div class="col-lg-12" id="comment-box-${result["comment_id"]}">
                 <div class="media">
                     <div class="media-left media-middle">
                         <a href="#">

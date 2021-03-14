@@ -239,7 +239,7 @@ public class DrawingDAO {
 
     	try {
     		PageLayerMapper mapper = session.getMapper(PageLayerMapper.class);
-    		mapper.deletePageLayer(page);
+    		mapper.updatePage(page);
 		} catch (Exception e) {
     		log.info("레이어 삭제 sql오류");
     		e.printStackTrace();

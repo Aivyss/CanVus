@@ -22,7 +22,7 @@ public class StompConfig extends AbstractWebSocketMessageBrokerConfigurer {
 	@Override
 	public void configureWebSocketTransport(WebSocketTransportRegistration registration) {
 		registration.setSendTimeLimit(20*10000);
-		registration.setSendBufferSizeLimit(3* 512 * 1024);
+		registration.setSendBufferSizeLimit(512* 512 * 1024);
 		registration.setMessageSizeLimit(160 * 64 * 1024);
 		
 		super.configureWebSocketTransport(registration);
@@ -46,10 +46,10 @@ public class StompConfig extends AbstractWebSocketMessageBrokerConfigurer {
 	@Bean
 	public ServletServerContainerFactoryBean createServletServerContainerFactoryBean() {
 	    ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
-	    container.setMaxTextMessageBufferSize(2048 * 2048);
+	    container.setMaxTextMessageBufferSize(512* 512 * 1024);
 	    container.setMaxSessionIdleTimeout(2048L * 2048L);
 	    container.setAsyncSendTimeout(2048L * 2048L);
-	    container.setMaxBinaryMessageBufferSize(2048 * 2048);
+	    container.setMaxBinaryMessageBufferSize(512* 512 * 1024);
 	    return container;
 	}
 

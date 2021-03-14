@@ -60,9 +60,9 @@
             <div class="container">
                 <div class="banner-text">
                     <div class="banner-heading">
-                        ファローの最近のフィード
+                        フローの最近のフィード
                     </div>
-                    <div class="banner-sub-heading">
+                    <div clasォs="banner-sub-heading">
                         一ヶ月間のフィードです。
                     </div>
                 </div>

@@ -312,7 +312,7 @@ public class DrawingService {
 	public String enterSpliter(String room_Id, HttpSession session, Model model) {
 		log.info("방입장 스플리터 서비스 메소드 진입");
 		// TODO 이동해야하는 URL
-		String url = null;
+		String url = "drawing/room";
 		// TODO room_Id로 방정보를 받아옴
 		DrawingRoomVO roomInfo = getRoomById(room_Id);
 		// TODO room_Id로 현재 방인원수를 산출함
@@ -321,6 +321,13 @@ public class DrawingService {
 		List<DrawingUserVO> userList = getRoomUserList(room_Id);
 		// TODO 입장하려는 유저의 아이디
 		String userId = (String) session.getAttribute("userId");
+		UserVO userVO = (UserVO) session.getAttribute("userVO");
+		// TODO 모델에 기본정보 기입
+		model.addAttribute("room_Id", room_Id);
+		model.addAttribute("adminId", roomInfo.getAdmin());
+		model.addAttribute("user_id", userId);
+		model.addAttribute("userList", userList);
+
 
 		// TODO 해당 유저가 방에 있는지 체크한다.
 		// 있을 시 방에 추가하는 행위는 하지 않아도 되기 때문.
@@ -334,11 +341,18 @@ public class DrawingService {
 
 		// TODO 이미 멤버인지 아닌지 확인
 		if (isMember) {
-			// TODO 기존 방 멤버이다. 기존 방 멤버는 하나의 창만 들어갈 수 있다.
-			url = "redirect:/";
+			// TODO 기존 방 멤버이다. 그냥 들어가게 하자.
+			// 방 비번이 필요 없으니까 통일한다.
+			model.addAttribute("pwWrttenByUser", "None");
+			model.addAttribute("dbPassword", "None");
 		} else {
-			model.addAttribute("room_Id", room_Id);
-			model.addAttribute("adminId", roomInfo.getAdmin());
+			DrawingUserVO myInfo = new DrawingUserVO();
+			myInfo.setRoom_Id(room_Id);
+			myInfo.setUser_id(userId);
+			myInfo.setNickname(userVO.getNickname());
+			myInfo.setUser_type("VISITOR");
+			userList.add(myInfo);
+
 			// 기존 방 멤버가 아니다.
 			if (roomInfo.getUser_no() > userCount) { // TODO 방인원수가 초과했는지 확인
 				// TODO 비밀번호가 필요한지 확인
@@ -352,10 +366,8 @@ public class DrawingService {
 					// 방 비번이 필요 없으니까 통일한다.
 					model.addAttribute("pwWrttenByUser", "None");
 					model.addAttribute("dbPassword", "None");
-					url = "drawing/room";
 				} else {
 					// TODO 비밀번호 검증
-
 					Map<String, String> params = new HashMap<String, String>();
 					params.put("pwWrttenByUser", (String) session.getAttribute("pwWrttenByUser"));
 					params.put("room_Id", room_Id);
@@ -378,14 +390,15 @@ public class DrawingService {
 						session.removeAttribute("pwWrttenByUser");
 						model.addAttribute("dbPassword", roomInfo.getPassword());
 					}
-
-					url = "drawing/room";
 				}
 			} else {
 				// 방인원수를 초과했다. 입장불가.
 				url = "redirect:/";
 			}
 		}
+
+		// 방안의 유저 리스트 반환... (컴퓨터가 너무 느려서 입장이 프론트로 감당이 안됨)
+
 
 		return url;
 	}
@@ -419,6 +432,7 @@ public class DrawingService {
 		page.setRoom_Id(room_Id);
 		page.setPage_no((Integer) message.get("page_no"));
 		page.setLayer_no((Integer) message.get("layer_no"));
+		page.setStringify("");
 
 		drawingDAO.deletePageLayer(page);
 	}

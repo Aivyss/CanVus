@@ -278,6 +278,9 @@ const socketSenderFunctionSet = (function () {
                     console.log(data);
                     socketSenderFunctionSet.parser(data);
                 });
+
+                // 방입장 메세지 전송파트 (소켓 연결은 비동기 이기 때문에 언제 연결될지 모른다)
+                socketSenderFunctionSet.socketEntranceRepeater();
             });
         },
         sendMessage: function (message, type) {
@@ -312,7 +315,7 @@ const socketSenderFunctionSet = (function () {
                     nickname: mynickname,
                     message: mynickname + "さんが入室しました。"
                 };
-                setTimeout(socketSenderFunctionSet.sendMessage, 500, enterData, 'enter');
+                setTimeout(socketSenderFunctionSet.sendMessage, 3000, enterData, 'enter');
             } catch (e) {
                 console.log("소켓 생성전");
                 socketSenderFunctionSet.socketEntranceRepeater();
@@ -610,7 +613,18 @@ const drawingFunctionSet = (function () {
                 }
                 // 리렌더링
                 const targetObj = layerSet[page_no - 1][layer_no - 1];
-                targetObj.loadFromJSON(obj, targetObj.renderAll.bind(targetObj));
+
+                if (obj != null) {
+                    targetObj.loadFromJSON(obj, targetObj.renderAll.bind(targetObj));
+                } else {
+                    const data = {
+                        message: {
+                            page_no: page_no,
+                            layer_no: layer_no
+                        }
+                    };
+                    socketFunctionSet.deletePageLayer(data);
+                }
             } // FOR END
 
             isInitialized = true;
@@ -705,6 +719,7 @@ const createFeedController = (function () {
     return {
         createFeed: function () {
             if (user_id == admin_id) { // 어드민에게만 허용하기 위해 추가한 조건문
+                $('#buffer').remove();
                 const pageNo = layerSet.length;
                 if (pageNo == 0) {
                     alert('何も描きませんでした。ページを作って絵を描いてください。');
@@ -731,7 +746,7 @@ const createFeedController = (function () {
                 for (let i = 0; i < pageNo; i++) {
                     for (let j = 0; j < layerSet[i].length; j++) {
                         if (layerSet[i][j] != null) {
-                            ctxArry[i].drawImage(document.getElementById(`p${i + 1}l${j + 1}`), 0, 0);
+                            ctxArry[i].drawImage(document.getElementById(`p${i + 1}l${j + 1}`), 0, 0, 600, 600);
                         }
                     }
 
@@ -842,8 +857,6 @@ const thumbnailFunctionSet = (function () {
                     }
                 }
             }
-
-
             return check;
         },
     }
@@ -987,9 +1000,6 @@ $(() => {
     // ********** 레이어 이니셜라이저 실행  ***************//
     drawingFunctionSet.initializer();
 
-    // 방입장 메세지 전송파트 (소켓 연결은 비동기 이기 때문에 언제 연결될지 모른다)
-    socketSenderFunctionSet.socketEntranceRepeater();
-
     //***************** 이벤트 등록 리스트 ************************//
     const dynamicEvents = [
         // 레이어 생성
@@ -1021,8 +1031,8 @@ $(() => {
                 const eventId = event.target.id;
                 const layerId = eventId.split('-')[0];
                 const action = eventId.split('-')[1];
-                const layerNumber = layerId.split('l')[1];
-                const pageNumber = (layerId.split('l')[0]).split('p')[1];
+                const layerNumber = parseInt(layerId.split('l')[1]);
+                const pageNumber = parseInt((layerId.split('l')[0]).split('p')[1]);
 
                 if (action == 'box' || action == 'label') {
                     drawingFunctionSet.changeLayerTarget(layerId);
@@ -1282,6 +1292,7 @@ $(() => {
             }
         }),
     ]; // dynamicEventSet end
+
     /********************방찾기를 위해서 주기적으로 1page를 파일화하는 메소드 집합 ***********/
     setInterval(thumbnailFunctionSet.sendOnePageIntegrationFunction, 5*60*1000); // 5분 간격으로 페이지 1번을 저장한다.
 
