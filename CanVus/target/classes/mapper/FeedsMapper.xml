@@ -53,6 +53,12 @@
 		FEEDS
 	WHERE
 		USER_ID1 = #{string}
+		OR
+	    USER_ID2 = #{string}
+		OR
+	    USER_ID3 = #{string}
+	    OR
+		USER_ID4 = #{string}
 </select>
 
 <select id="getFeedTotalCountLogin" resultType="int">
