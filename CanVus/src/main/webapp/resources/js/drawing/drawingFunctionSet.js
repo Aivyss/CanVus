@@ -933,10 +933,10 @@ const paymentFunctionSet = (function () {
                         }
                     });
 
-                    var msg = '결제가 완료되었습니다.';
+                    var msg = '決済ができました。';
                 } else {
-                    var msg = '결제에 실패하였습니다.';
-                    msg += '에러내용 : ' + rsp.error_msg;
+                    var msg = 'カード社のサーバー上の問題で決済ができms円でした。';
+                    msg += 'エラー : ' + rsp.error_msg;
                 }
 
                 alert(msg);
