@@ -53,6 +53,12 @@
 		FEEDS
 	WHERE
 		USER_ID1 = #{string}
+		OR
+	    USER_ID2 = #{string}
+		OR
+	    USER_ID3 = #{string}
+	    OR
+		USER_ID4 = #{string}
 </select>
 
 <select id="getFeedTotalCountLogin" resultType="int">
@@ -150,7 +156,7 @@
 		WHERE
 		    U.USER_ID = S.user_id
 		    AND
-			ROWNUM &lt;= 4 <!-- &lt; 는 <를 의미한다 -->
+			ROWNUM &lt;= 20 <!-- &lt; 는 <를 의미한다 -->
 	</select>
 
 	<select id="homePreviewLogin" resultType="hashmap">
