@@ -87,7 +87,7 @@
                                              style="width: 100%;">
                                             <form class="px-4 py-3 " style="width: 100%;">
                                                 <h3>イメージでタグを検索できます。</h3>
-                                                <input type="file" onchange="readURL(this);">
+                                                <input type="file" id="photo_upload" onchange="readURL(this);">
                                             </form>
                                         </div>
                                     </div>

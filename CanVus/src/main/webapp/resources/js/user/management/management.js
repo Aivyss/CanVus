@@ -1,4 +1,20 @@
-function readURL(input) {
+function getExtensionOfFilename2(filename) {
+    const _fileLen = filename.length;
+    /**
+     * lastIndexOf('.')
+     * 뒤에서부터 '.'의 위치를 찾기위한 함수
+     * 검색 문자의 위치를 반환한다.
+     * 파일 이름에 '.'이 포함되는 경우가 있기 때문에 lastIndexOf() 사용
+     */
+    const _lastDot = filename.lastIndexOf('.');
+
+    // 확장자 명만 추출한 후 소문자로 변경
+    const _fileExt = filename.substring(_lastDot, _fileLen).toLowerCase();
+
+    return _fileExt;
+}
+
+function readURL2(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
 
@@ -9,6 +25,20 @@ function readURL(input) {
 
         reader.readAsDataURL(input.files[0]);
     }
+}
+
+function checkExtension2(extension) {
+    let checker = true;
+
+    if (extension != '.jpg'
+        && extension != '.jpeg'
+        && extension != '.png'
+        && extension != '.gif'
+        && extension != '.jfif') {
+        checker = false;
+    }
+
+    return checker;
 }
 
 $(() => {
@@ -30,6 +60,23 @@ $(() => {
     $('#execute-update-profile').on('click', () => {
         const form = $('#profile-form')[0];
         const formData = new FormData(form);
+
+        // TODO : 파일 확장자 체크
+        const notIsFileNull = $("#photo_upload2").val();
+        if (notIsFileNull) {
+            let fileValue = $("#photo_upload2").val().split("\\");
+            let fileName = fileValue[fileValue.length - 1]; // 파일명
+            const extension = getExtensionOfFilename2(fileName);
+            const checkExt = checkExtension2(extension);
+
+            if (!checkExt) {
+                alert('有効なファイルではありません。(jpg. jpeg, gif, png, jfif)');
+                return false;
+            }
+        } else {
+            alert('アップロードしようとするファイルがありません。');
+            return false;
+        }
 
         $.ajax({
             url:'/user/updateProfile',

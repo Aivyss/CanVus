@@ -137,8 +137,8 @@
                     <form id="profile-form" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="photo_upload">プロフィール</label>
-                            <input type="file" class="form-control-file" id="photo_upload" name="photo_upload"
-                                   onchange="readURL(this);" style="margin: 0 25%;">
+                            <input type="file" class="form-control-file" id="photo_upload2" name="photo_upload"
+                                   onchange="readURL2(this);" style="margin: 0 25%;">
                         </div>
                     </form>
                 </div>

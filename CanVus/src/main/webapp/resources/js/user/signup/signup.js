@@ -30,10 +30,11 @@ function readURL(input) {
 function checkExtension(extension) {
     let checker = true;
 
-    if (extension != 'jpg'
-        && extension != 'jpeg'
-        && extension != 'png'
-        && extension != 'gif') {
+    if (extension != '.jpg'
+        && extension != '.jpeg'
+        && extension != '.png'
+        && extension != '.gif'
+        && extension != '.jfif') {
         checker = false;
     }
 
@@ -104,8 +105,8 @@ $(() => {
             const extension = getExtensionOfFilename(fileName);
             const checkExt = checkExtension(extension);
 
-            if (checkExt) {
-                alert('有効なファイルではありません。(jpg. jpeg, gif, png');
+            if (!checkExt) {
+                alert('有効なファイルではありません。(jpg. jpeg, gif, png, jfif)');
                 return false;
             }
         }
