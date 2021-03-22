@@ -33,7 +33,7 @@ $(() => {
                     const folder_container = $('#folder-container');
 
                     const content = `
-                        <div class="col-xs-3 bookmark-folders" id="folder-container-${folder_id}">
+                        <div class="col-xs-3 id="folder-container-${folder_id}">
                             <ul class="list-group list-group-bm mt-5 text-white">
                                 <div class="col-lg-8 bookmark-folders" id="${folder_id}">
                                     <li class="list-group-item list-group-item-bm d-flex justify-content-between align-content-center" style="background-color: #ffffff; border: solid black 1px; border-radius: 10px 10px 10px 10px;">
