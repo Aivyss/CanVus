@@ -1146,11 +1146,11 @@ $(() => {
                 drawingFunctionSet.changeBrush();
             } else {
                 try {
-                    const modeChecker = layerSet[0][0].isDrawingMode;
-
                     for (let i = 0; i < layerSet.length; i++) {
                         for (let j = 0; j < layerSet[i].length; j++) {
-                            layerSet[i][j].isDrawingMode = !modeChecker;
+                            if (layerSet[i][j] != null) {
+                                layerSet[i][j].isDrawingMode = !layerSet[i][j].isDrawingMode;
+                            }
                         }
                     }
                 } catch (e) {

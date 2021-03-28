@@ -33,9 +33,11 @@ function createModal(url) {
             let j = 0;
 
             for (let i=0; i<others.length; i++) {
-                if (others[i].length === 0) {
-                    content += `<a href="/search/result/?type=0&keyword=${tagArry[j].split('#')[1]}">${tagArry[j]}</a>`;
-                    j++;
+                if ((others[i].trim()).length === 0) {
+                    if (j < tagArry.length){
+                        content += `<a href="/search/result/?type=0&keyword=${tagArry[j].split('#')[1]}">${tagArry[j]}</a>`;
+                        j++;
+                    }
                 } else {
                     content += others[i];
                 }

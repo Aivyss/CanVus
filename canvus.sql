@@ -1,3 +1,6 @@
+-- ERD Builder : Hangyeol Lee
+-- SQL writer : Hangeyol Lee
+
 drop table users;
 drop table feeds;
 drop table tags;
@@ -13,6 +16,7 @@ drop table feed_comment;
 drop table like_table;
 drop table transaction_pixel;
 drop table histories;
+drop table payment_table;
 
 create table USERS (  
     USER_ID varchar2(50) primary key,  
@@ -30,7 +34,6 @@ alter table USERS add constraint users_nickname_uq unique (NICKNAME);
 alter table USERS add constraint users_profile_photo_uq unique (PROFILE_PHOTO);
 alter table USERS add constraint users_email_uq unique (EMAIL);
 
--- ?? ???
 CREATE TABLE FEEDS(
 	FEED_ID VARCHAR2(200) PRIMARY KEY 
 	,USER_ID1 VARCHAR2(50) NOT NULL
@@ -57,7 +60,6 @@ CREATE TABLE TAGS(
     TAG_NAME VARCHAR2(100) PRIMARY KEY
 );
 
--- ??? ?? ???
 CREATE TABLE TAGS_IN_FEED(
     TIF_ID NUMBER PRIMARY KEY
     ,FEED_ID VARCHAR2(200) NOT NULL
@@ -156,7 +158,6 @@ ALTER TABLE BOOKMARKED_FEEDS ADD CONSTRAINT BOOKMARKED_FEEDS_FOLDER_ID_FK FOREIG
 ALTER TABLE BOOKMARKED_FEEDS ADD CONSTRAINT BOOKMARKED_FEEDS_PK PRIMARY KEY(FOLDER_ID, FEED_ID);
 CREATE SEQUENCE BKFS_ID_SEQ;
 
--- ?Š¤?”Œë¦? ?•¨?ˆ˜
 CREATE OR REPLACE FUNCTION FUNC_SPLIT(COLNAME VARCHAR, SEP VARCHAR, NUM NUMBER)
 	RETURN VARCHAR
 IS
@@ -178,7 +179,6 @@ BEGIN
 RETURN STR;
 END func_split;
 
--- HISTORY TABLE
 CREATE TABLE HISTORIES(
     HISTORY_ID NUMBER NOT NULL
     ,USER_ID VARCHAR2(50) NOT NULL
